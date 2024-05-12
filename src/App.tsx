@@ -1,6 +1,11 @@
+import { Route, Routes} from 'react-router-dom'
+import FormLogin from './components/global/templates/FormLogin'
 function App() {
   return <>
-    <div className="h-[2000px] text-red-700">abc</div>
+  <Routes>
+    <Route path='/login' element={<FormLogin/>}></Route>
+  </Routes>
+    
   </>
 }
 
