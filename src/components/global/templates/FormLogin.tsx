@@ -1,47 +1,56 @@
-import React, { useState } from 'react'
-import './FormLogin.css'
+import React from "react";
+import ReactDOM from "react-dom";
+import * as Components from "./Components";
+import "./FormLogin.css";
+
 function FormLogin() {
-  const [addclass, setaddclass] = useState('')
+    const [signIn, toggle] = React.useState(true);
   return (
-    <div className=''>
+    <div>
 
-    <div className={`container ${addclass}`} id='container'>
-      <div className='form-container sign-up-container'>
-        <form>
-          <h1>Create Account</h1>
-          <input type='text' placeholder='NAME' />
-          <input type='email' placeholder='EMAIL' />
-          <input type='password' placeholder='PASSWORD' autoComplete='on' />
-          <button type='submit'>REGISTER</button>
-        </form>
-      </div>
-      <div className='form-container sign-in-container'>
-        <form>
-          <h1>Login</h1>
-          <input type='email' placeholder='EMAIL' className='w-full' />
-          <input type='password' placeholder='PASSWORD' autoComplete='on' />
-          <button type='submit'>LOGIN</button>
-        </form>
-      </div>
-      <div className='overlay-container'>
-        <div className='overlay'>
-          <div className='overlay-panel overlay-left'>
-            {addclass &&<button className='ghost' id='signIn' onClick={() => setaddclass('')}>
-              GO TO LOGIN
-            </button>}
-            
-          </div>
-          <div className='overlay-panel overlay-right'>
-            {!addclass && <button className='ghost' id='signUp' onClick={() => setaddclass('right-panel-active')}>
-              GO TO REGISTER
-            </button>}
-            
-          </div>
-        </div>
-      </div>
+    <Components.Container>
+      <Components.SignUpContainer signingIn={signIn}>
+        <Components.Form>
+          <Components.Title>Create Account</Components.Title>
+          <Components.Input type="text" placeholder="Name" />
+          <Components.Input type="email" placeholder="Email" />
+          <Components.Input type="password" placeholder="Password" />
+          <Components.Button>Sign Up</Components.Button>
+        </Components.Form>
+      </Components.SignUpContainer>
+      <Components.SignInContainer signingIn={signIn}>
+        <Components.Form>
+          <Components.Title>Sign in</Components.Title>
+          <Components.Input type="email" placeholder="Email" />
+          <Components.Input type="password" placeholder="Password" />
+          <Components.Anchor href="#">Forgot your password?</Components.Anchor>
+          <Components.Button>Sign In</Components.Button>
+        </Components.Form>
+      </Components.SignInContainer>
+      <Components.OverlayContainer signingIn={signIn}>
+        <Components.Overlay signingIn={signIn}>
+          <Components.LeftOverlayPanel signingIn={signIn}>
+            <Components.Title>Welcome Back!</Components.Title>
+            <Components.Paragraph>
+              To keep connected with us please login with your personal info
+            </Components.Paragraph>
+            <Components.GhostButton onClick={() => toggle(true)}>
+              Sign In
+            </Components.GhostButton>
+          </Components.LeftOverlayPanel>
+          <Components.RightOverlayPanel signingIn={signIn}>
+            <Components.Title>Hello, Friend!</Components.Title>
+            <Components.Paragraph>
+              Enter your personal details and start journey with us
+            </Components.Paragraph>
+            <Components.GhostButton onClick={() => toggle(false)}>
+              Sign Up
+            </Components.GhostButton>
+          </Components.RightOverlayPanel>
+        </Components.Overlay>
+      </Components.OverlayContainer>
+    </Components.Container>
     </div>
-    </div>
-
   )
 }
 
