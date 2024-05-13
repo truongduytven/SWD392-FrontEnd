@@ -1,6 +1,12 @@
+import { Route, Routes} from 'react-router-dom'
+import SignInSignUp from './components/global/templates/SignIn_SignUp' 
 function App() {
   return <>
-    <div className="h-[2000px] text-red-700">abc</div>
+  <Routes>
+    <Route path='/login' element={<SignInSignUp/>}></Route>
+    <Route path='/register' element={<SignInSignUp/>}></Route>
+  </Routes>
+    
   </>
 }
 
