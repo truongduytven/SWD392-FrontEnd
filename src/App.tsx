@@ -1,9 +1,10 @@
 import { Route, Routes} from 'react-router-dom'
-import FormLogin from './components/global/templates/FormLogin'
+import SignInSignUp from './components/global/templates/SignIn_SignUp' 
 function App() {
   return <>
   <Routes>
-    <Route path='/login' element={<FormLogin/>}></Route>
+    <Route path='/login' element={<SignInSignUp/>}></Route>
+    <Route path='/register' element={<SignInSignUp/>}></Route>
   </Routes>
     
   </>
