@@ -1,5 +1,5 @@
 import { Input } from '@/components/global/atoms/input'
-import { loginSchema } from '@/lib/schemas'
+import { loginSchema } from '@/lib/schemas/Signin_Signup'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Button } from '../atoms/button'

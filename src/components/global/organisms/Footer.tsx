@@ -12,7 +12,7 @@ function Footer() {
             <div className='flex flex-col flex-1 gap-1'>
               <div className='text-2xl font-bold text-primary '>Thông tin nền tảng</div>
               <p className='text-xs sm:text-base'>
-                Nền tảng bán vé xe SeatRider là dịch vụ giúp người dùng dễ dàng tìm và đặt mua vé xe khách. Với tính
+                Nền tảng bán vé xe The Bus Journey là dịch vụ giúp người dùng dễ dàng tìm và đặt mua vé xe khách. Với tính
                 năng tìm kiếm thông minh và thông tin chi tiết về chuyến đi, nền tảng cho phép thanh toán an toàn và
                 nhiều lựa chọn, giúp tiết kiệm thời gian và đảm bảo chỗ ngồi.
               </p>
@@ -22,16 +22,16 @@ function Footer() {
               <div className='text-2xl font-bold text-primary'>Thông tin liên hệ</div>
               <div className='flex flex-col'>
                 <div className='text-xs sm:text-base'>
-                  <strong>Địa chỉ:</strong> Trụ sở SeatRider 999 Hùng Vương, Phường 11, Quận Tân Phú, TP. Hồ Chí Minh
+                  <strong>Địa chỉ:</strong> Trụ sở The Bus Journey 999 Hùng Vương, Phường 11, Quận Tân Phú, TP. Hồ Chí Minh
                 </div>
                 <div className='text-xs sm:text-base'>
                   <strong>Hotline:</strong> 0332333005
                 </div>
                 <div className='text-xs sm:text-base'>
-                  <strong>Email:</strong> seatrider71@gmail.com
+                  <strong>Email:</strong> thebusjourney71@gmail.com
                 </div>
                 <div className='text-xs sm:text-base'>
-                  <strong>Website:</strong> <a href='/'>https://seat-rider.vercel.app/</a>
+                  <strong>Website:</strong> <a href='/'>https://the-bus-journey.vercel.app/</a>
                 </div>
               </div>
             </div>
@@ -48,9 +48,11 @@ function Footer() {
               </div>
             </div>
           </div>
-          <div className='flex justify-center pb-10 mt-10'>© 2024 | Bản quyền thuộc về SEATRIDER.</div>
         </div>
       </Container>
+      <div className='flex justify-center items-center h-10 mt-10 bg-primary text-sm font-bold text-secondary'>
+        © 2024 | Bản quyền thuộc về THE BUS JOURNEY.
+      </div>
     </footer>
   )
 }

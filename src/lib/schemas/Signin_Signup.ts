@@ -33,7 +33,7 @@ export const signUpSchema = z
 				},
 			),
 		confirmpassword: z.string(),
-	})
+	})	
 	.refine((data) => data.password === data.confirmpassword, {
 		message: "Mật khẩu không khớp, vui lòng kiểm tra lại!",
 		path: ['confirmpassword'], // path of error

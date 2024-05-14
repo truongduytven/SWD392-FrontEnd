@@ -31,6 +31,7 @@
     "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.1",
     "sonner": "^1.4.41",
     "styled-components": "^6.1.11",
     "tailwind-merge": "^2.3.0",
