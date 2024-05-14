@@ -13,6 +13,7 @@
     "prettier:fix": "prettier --write \"**/(*.tsx|*.ts|*.css|*.scss)\""
   },
   "dependencies": {
+    "@radix-ui/react-navigation-menu": "^1.1.4",
     "@radix-ui/react-slot": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",

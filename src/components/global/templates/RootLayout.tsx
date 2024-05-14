@@ -4,9 +4,9 @@ import Footer from '@/components/global/organisms/Footer'
 
 function RootLayout() {
   return (
-    <div className="h-screen">
+    <div className="h-screen relative">
       <Header />
-      <div className="flex min-h-full px-4 pb-12 pt-28">
+      <div className="flex min-h-full pb-12">
         <Outlet />
       </div>
       <Footer />
