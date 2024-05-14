@@ -13,6 +13,8 @@
     "prettier:fix": "prettier --write \"**/(*.tsx|*.ts|*.css|*.scss)\""
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-navigation-menu": "^1.1.4",
     "@radix-ui/react-slot": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
@@ -25,13 +27,15 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-tailwindcss": "^3.15.1",
     "lucide-react": "^0.376.0",
+    "next-themes": "^0.3.0",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.23.1",
     "sonner": "^1.4.41",
+    "styled-components": "^6.1.11",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
