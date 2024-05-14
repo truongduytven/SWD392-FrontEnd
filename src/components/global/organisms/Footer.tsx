@@ -5,12 +5,12 @@ import { Button } from '@/components/global/atoms/button'
 
 function Footer() {
   return (
-    <footer className='border-t'>
+    <footer className='border-t border-primary'>
       <Container>
         <div className='w-full h-full pt-5'>
           <div className='flex mt-6 gap-14'>
             <div className='flex flex-col flex-1 gap-1'>
-              <div className='text-2xl font-bold text-primary'>Thông tin nền tảng</div>
+              <div className='text-2xl font-bold text-primary '>Thông tin nền tảng</div>
               <p className='text-xs sm:text-base'>
                 Nền tảng bán vé xe SeatRider là dịch vụ giúp người dùng dễ dàng tìm và đặt mua vé xe khách. Với tính
                 năng tìm kiếm thông minh và thông tin chi tiết về chuyến đi, nền tảng cho phép thanh toán an toàn và
