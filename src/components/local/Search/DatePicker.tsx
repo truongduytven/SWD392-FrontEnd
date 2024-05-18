@@ -19,7 +19,8 @@ interface DatePickerProps {
 }
  
 export function DatePicker({ initialDate, onChange }: DatePickerProps) {
-  const [date, setDate] = React.useState<Date | undefined>(initialDate || new Date())
+  
+  const [date, setDate] = React.useState<Date | undefined>(initialDate)
 
   const handleSelect = (selectedDate: Date | undefined) => {
     if (!selectedDate) return
@@ -49,6 +50,7 @@ export function DatePicker({ initialDate, onChange }: DatePickerProps) {
           selected={date}
           onSelect={handleSelect}       
           initialFocus
+          fromDate={new Date()}
         />
       </PopoverContent>
     </Popover>

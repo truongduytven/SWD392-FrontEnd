@@ -18,9 +18,6 @@ function Header() {
     >
       <Container>
         <div className='w-full h-full flex justify-between items-center'>
-          <div className='flex justify-center items-center w-1/5 bg-secondary rounded-bl-full rounded-br-full shadow-lg'>
-            <img src={LogoFull} alt='Logo' className='scale-75' />
-          </div>
           <div className='w-1/4'>
             <NavigationMenu>
               <NavigationMenuList>
@@ -42,9 +39,12 @@ function Header() {
               </NavigationMenuList>
             </NavigationMenu>
           </div>
+          <div className='flex justify-center items-center w-1/5 bg-secondary rounded-bl-full rounded-br-full shadow-lg'>
+            <img src={LogoFull} alt='Logo' className='scale-75' />
+          </div>
           <div className='w-1/4 text-right'>
             <Link to='/login'>
-              <Button className='bg-transparent text-secondary font-bold text-md hover:bg-secondary hover:text-tertiary'>
+              <Button className='bg-transparent text-secondary font-bold text-md hover:bg-secondary hover:text-primary'>
                 Đăng ký/Đăng nhập
               </Button>
             </Link>
