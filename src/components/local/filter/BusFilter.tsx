@@ -59,7 +59,7 @@ function BusFilter() {
   }
 
   return (
-    <div className='w-full border rounded-md shadow-lg'>
+    <div className='w-full border-t '>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <FormField
@@ -72,7 +72,7 @@ function BusFilter() {
                     variant='ghost'
                     role='combobox'
                     className={cn(
-                      'w-[210px] justify-between text-lg font-bold',
+                      'w-full justify-between text-lg font-bold',
                       !field.value && 'text-muted-foreground'
                     )}
                     onClick={(event) => {

@@ -13,7 +13,7 @@ function Arrange() {
     console.log(data)
   }
   return (
-    <div className='border px-4 py-6 rounded-lg shadow-md w-full'>
+    <div className='px-4 py-6 w-full border-t'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='w-full space-y-6'>
           <FormField

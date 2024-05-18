@@ -41,7 +41,7 @@ function TypeFilter() {
   }
   const [showModal, setShowModal] = useState<Boolean>(false)
   return (
-    <div className='border rounded-lg shadow-md px-4 py-2'>
+    <div className=' px-4 py-2 border-t'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <FormField
@@ -89,6 +89,19 @@ function TypeFilter() {
                     ))}
                   </div>
                 )}
+                  <div className='mt-4 flex flex-wrap'>
+                  {form.getValues('items')?.map((itemId) => {
+                    const item = items.find((i) => i.id === itemId)
+                    return (
+                      <span
+                        key={itemId}
+                        className='inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 mr-2 mb-2'
+                      >
+                        {item?.label}
+                      </span>
+                    )
+                  })}
+                </div>
               </FormItem>
             )}
           />
