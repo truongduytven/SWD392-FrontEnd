@@ -8,8 +8,8 @@ import { DatePicker } from './DatePicker'
 import { Button } from '@/components/global/atoms/button'
 import { formatDate } from 'date-fns'
 import { CircleDot, MapPin, Clock } from 'lucide-react'
-
-export function SearchForm() {
+import { useNavigate } from 'react-router-dom';
+export function SearchForm({ top }: any) {
   const form = useForm<z.infer<typeof SearchSchema>>({
     resolver: zodResolver(SearchSchema),
     defaultValues: {
@@ -18,13 +18,17 @@ export function SearchForm() {
       startDate: new Date()
     }
   })
+  console.log("cach tren la nhieu day ne", top)
+  const navigate = useNavigate();
   function onSubmit(values: z.infer<typeof SearchSchema>) {
+    
     const postData = { ...values, startDate: formatDate(values.startDate, 'yyyy-MM-dd') }
     console.log(postData)
+    navigate("/search")
   }
   return (
-    <div className='w-full flex justify-center absolute top-[300px]'>
-      <div className='h-full py-5 rounded-lg bg-secondary w-2/3'>
+    <div className={`w-full shadow-lg flex justify-center absolute top-[${top}]`}>
+      <div className='h-full py-5 rounded-lg bg-white w-2/3'>
         <Form {...form}>
           <form className='w-full h-full' onSubmit={form.handleSubmit(onSubmit)}>
             <div className='w-full h-1/2 flex justify-around items-end'>
@@ -94,12 +98,14 @@ export function SearchForm() {
                   </FormItem>
                 )}
               />
-              <Button
-                type='submit'
-                className='px-8 font-bold bg-yellow-400 hover:bg-yellow-300 hover:scale-110 hover:duration-700'
-              >
-                Tìm kiếm
-              </Button>
+              {/* <Link to='/search'> */}
+                <Button
+                  type='submit'
+                  className='px-8 font-bold bg-yellow-400 hover:bg-yellow-300 hover:scale-110 hover:duration-700'
+                >
+                  Tìm kiếm
+                </Button>
+              {/* </Link> */}
             </div>
           </form>
         </Form>

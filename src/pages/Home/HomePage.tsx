@@ -5,7 +5,7 @@ function HomePage() {
   return (
     <div >
       <img className='h-3/5 w-screen' src={Banner} alt='banner' />
-      <SearchForm />
+      <SearchForm top="300px"/>
     </div>
   )
 }
