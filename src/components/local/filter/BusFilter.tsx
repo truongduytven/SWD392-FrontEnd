@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/global/atoms/button'
 import {
   Command,
@@ -16,16 +15,13 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from '@/components/global/atoms/form'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/global/atoms/popover'
+import { cn } from '@/lib/utils'
 import { CheckIcon, ChevronsUpDown } from 'lucide-react'
-import { PopoverClose } from '@radix-ui/react-popover'
-
+import { BusFilterSchema } from '@/lib/schemas/BusFilterSchema'
 const languages = [
   { label: 'English', value: 'en' },
   { label: 'French', value: 'fr' },
@@ -37,25 +33,33 @@ const languages = [
   { label: 'Korean', value: 'ko' },
   { label: 'Chinese', value: 'zh' }
 ] as const
-const FormSchema = z.object({
-  language: z.string({
-    required_error: 'Please select a language.'
-  })
-})
+
+
 function BusFilter() {
   const [showModal, setShowModal] = useState<Boolean>(false)
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof BusFilterSchema>>({
+    resolver: zodResolver(BusFilterSchema),
     defaultValues: {
-      language: 'es'
+      language: []
     }
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof BusFilterSchema>) {
     console.log(data)
   }
+
+  const toggleLanguage = (value: string) => {
+    const currentLanguages = form.getValues('language') || [] // Ensure it's an array
+    const newLanguages = currentLanguages.includes(value)
+      ? currentLanguages.filter((lang) => lang !== value)
+      : [...currentLanguages, value]
+    form.setValue('language', newLanguages)
+
+    onSubmit({ language: newLanguages })
+  }
+
   return (
-    <div className='w-full'>
+    <div className='w-full border rounded-md shadow-lg'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <FormField
@@ -67,7 +71,10 @@ function BusFilter() {
                   <Button
                     variant='ghost'
                     role='combobox'
-                    className={cn('w-[210px] justify-between', !field.value && 'text-muted-foreground')}
+                    className={cn(
+                      'w-[210px] justify-between text-lg font-bold',
+                      !field.value && 'text-muted-foreground'
+                    )}
                     onClick={(event) => {
                       event.stopPropagation()
                       event.preventDefault()
@@ -91,15 +98,15 @@ function BusFilter() {
                             value={language.label}
                             key={language.value}
                             onSelect={() => {
-                              form.setValue('language', language.value)
-                              form.handleSubmit(onSubmit)() // Auto submit on change
+                              toggleLanguage(language.value)
                             }}
                           >
                             {language.label}
                             <CheckIcon
+                              strokeWidth={3}
                               className={cn(
-                                'ml-auto h-4 w-4',
-                                language.value === field.value ? 'opacity-100' : 'opacity-0'
+                                'ml-auto h-4 w-4 text-primary ',
+                                field.value?.includes(language.value) ? 'opacity-100' : 'opacity-0'
                               )}
                             />
                           </CommandItem>
