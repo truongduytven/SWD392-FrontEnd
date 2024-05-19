@@ -82,10 +82,10 @@ function CardTrip() {
         </div>
 
         <div className='h-[1px] bg-stone-300 mx-3'></div>
-        <AccordionContent className=''>
+        <AccordionContent className='bg-white'>
           <Tabs defaultValue='hinhanh' className=''>
-            <TabsList className='w-full  px-4'>
-              <Carousel className='ml-20'>
+            <TabsList className='w-full  px-4 bg-white'>
+              <Carousel className='ml-20 bg-secondary p-1'>
                 <CarouselContent>
                   <CarouselItem  className="md:basis-1/2 lg:basis-1/4 mr-4 ">
                       <TabsTrigger value='hinhanh' className=''>Hình ảnh</TabsTrigger>
