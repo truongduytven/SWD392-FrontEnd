@@ -18,7 +18,6 @@ export function SearchForm({ top }: any) {
       startDate: new Date()
     }
   })
-  console.log("cach tren la nhieu day ne", top)
   const navigate = useNavigate();
   function onSubmit(values: z.infer<typeof SearchSchema>) {
     

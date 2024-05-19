@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -12,16 +12,10 @@ import {
   CommandItem,
   CommandList
 } from '@/components/global/atoms/command'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage
-} from '@/components/global/atoms/form'
-import { cn } from '@/lib/utils'
-import { CheckIcon, ChevronsUpDown, XIcon } from 'lucide-react'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/global/atoms/form'
 import { BusFilterSchema } from '@/lib/schemas/BusFilterSchema'
+import { cn } from '@/lib/utils'
+import { CheckIcon, ChevronsUpDown } from 'lucide-react'
 const languages = [
   { label: 'English', value: 'en' },
   { label: 'French', value: 'fr' },
@@ -34,18 +28,25 @@ const languages = [
   { label: 'Chinese', value: 'zh' }
 ] as const
 
-
-function BusFilter() {
+interface BusFilterProps {
+  selectedItems: string[]
+  onItemsChange: (items: string[]) => void
+}
+function BusFilter({ selectedItems, onItemsChange }: BusFilterProps) {
   const [showModal, setShowModal] = useState<Boolean>(false)
   const form = useForm<z.infer<typeof BusFilterSchema>>({
     resolver: zodResolver(BusFilterSchema),
     defaultValues: {
-      language: []
+      language: selectedItems
     }
   })
+  useEffect(() => {
+    form.setValue('language', selectedItems)
+  }, [selectedItems, form])
 
   function onSubmit(data: z.infer<typeof BusFilterSchema>) {
-    console.log(data)
+    onItemsChange(data.language || [])
+
   }
 
   const toggleLanguage = (value: string) => {
@@ -55,12 +56,6 @@ function BusFilter() {
       : [...currentLanguages, value]
     form.setValue('language', newLanguages)
 
-    onSubmit({ language: newLanguages })
-  }
-  const handleBadgeDelete = (value: string) => {
-    const currentLanguages = form.getValues('language') || []
-    const newLanguages = currentLanguages.filter((lang) => lang !== value)
-    form.setValue('language', newLanguages)
     onSubmit({ language: newLanguages })
   }
 
@@ -77,10 +72,7 @@ function BusFilter() {
                   <Button
                     variant='ghost'
                     role='combobox'
-                    className={cn(
-                      'w-full justify-between text-lg font-bold',
-                      !field.value && 'text-muted-foreground'
-                    )}
+                    className={cn('w-full justify-between text-lg font-bold', !field.value && 'text-muted-foreground')}
                     onClick={(event) => {
                       event.stopPropagation()
                       event.preventDefault()
@@ -122,23 +114,6 @@ function BusFilter() {
                   </Command>
                 )}
                 <FormMessage />
-                <div className='mt-4 flex flex-wrap'>
-                  {field.value?.map((languageValue) => {
-                    const language = languages.find((lang) => lang.value === languageValue)
-                    return (
-                      <span
-                        key={languageValue}
-                        className='inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 mr-2 mb-2'
-                      >
-                        {language?.label}
-                        <XIcon
-                          className='ml-2 h-4 w-4 cursor-pointer'
-                          onClick={() => handleBadgeDelete(languageValue)}
-                        />
-                      </span>
-                    )
-                  })}
-                </div>
               </FormItem>
             )}
           />

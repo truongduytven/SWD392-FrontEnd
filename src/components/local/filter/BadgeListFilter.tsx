@@ -12,9 +12,8 @@ const BadgeList: React.FC<BadgeListProps> = ({ items, selectedItems, onItemsChan
     const updatedItems = selectedItems.filter(item => item !== id)
     onItemsChange(updatedItems)
   }
-
   return (
-    <div className='mt-4 flex flex-wrap'>
+    <div className='flex flex-wrap'>
       {selectedItems.map((itemId) => {
         const item = items.find((i) => i.id === itemId)
         return (

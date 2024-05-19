@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -12,8 +12,8 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/global/atoms/form'
-import { ChevronsUpDown } from 'lucide-react'
 import { TypeSchema } from '@/lib/schemas/TypeSchema'
+import { ChevronsUpDown } from 'lucide-react'
 
 const items = [
   {
@@ -27,7 +27,8 @@ const items = [
   {
     id: 'giuongnamdoi',
     label: 'Giường nằm đôi'
-  }
+  },
+  
 ] as const
 
 interface TypeFilterProps {
@@ -82,7 +83,7 @@ function TypeFilter({ selectedItems, onItemsChange }: TypeFilterProps) {
                         control={form.control}
                         name='items'
                         render={({ field }) => (
-                          <FormItem key={item.id} className='flex flex-row items-start space-x-3 space-y-0'>
+                          <FormItem key={item.id} className='flex flex-row items-start space-x-3 space-y-0 mb-2'>
                             <FormControl>
                               <Checkbox
                                 checked={field.value?.includes(item.id)}
