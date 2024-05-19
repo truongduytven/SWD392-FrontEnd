@@ -20,7 +20,7 @@ import {
   FormMessage
 } from '@/components/global/atoms/form'
 import { cn } from '@/lib/utils'
-import { CheckIcon, ChevronsUpDown } from 'lucide-react'
+import { CheckIcon, ChevronsUpDown, XIcon } from 'lucide-react'
 import { BusFilterSchema } from '@/lib/schemas/BusFilterSchema'
 const languages = [
   { label: 'English', value: 'en' },
@@ -55,6 +55,12 @@ function BusFilter() {
       : [...currentLanguages, value]
     form.setValue('language', newLanguages)
 
+    onSubmit({ language: newLanguages })
+  }
+  const handleBadgeDelete = (value: string) => {
+    const currentLanguages = form.getValues('language') || []
+    const newLanguages = currentLanguages.filter((lang) => lang !== value)
+    form.setValue('language', newLanguages)
     onSubmit({ language: newLanguages })
   }
 
@@ -116,6 +122,23 @@ function BusFilter() {
                   </Command>
                 )}
                 <FormMessage />
+                <div className='mt-4 flex flex-wrap'>
+                  {field.value?.map((languageValue) => {
+                    const language = languages.find((lang) => lang.value === languageValue)
+                    return (
+                      <span
+                        key={languageValue}
+                        className='inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 mr-2 mb-2'
+                      >
+                        {language?.label}
+                        <XIcon
+                          className='ml-2 h-4 w-4 cursor-pointer'
+                          onClick={() => handleBadgeDelete(languageValue)}
+                        />
+                      </span>
+                    )
+                  })}
+                </div>
               </FormItem>
             )}
           />

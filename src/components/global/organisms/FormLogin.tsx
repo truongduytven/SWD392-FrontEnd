@@ -51,7 +51,7 @@ function FormLogin({ reset }: FormLoginProps) {
           name='password'
           render={({ field }) => (
             <FormItem className='w-2/3 flex flex-col justify-center '>
-              <FormLabel className='text-left'>Username</FormLabel>
+              <FormLabel className='text-left'>Mật khẩu</FormLabel>
               <FormControl className=''>
                 <PasswordInput className='' placeholder='Nhập mật khẩu của bạn' {...field} />
               </FormControl>
