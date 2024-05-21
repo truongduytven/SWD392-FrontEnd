@@ -27,7 +27,7 @@ function Header() {
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to='/searchTicket'>
+                  <Link to='/search'>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>Tra cứu vé</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -40,7 +40,9 @@ function Header() {
             </NavigationMenu>
           </div>
           <div className='flex justify-center items-center w-1/5 bg-secondary rounded-bl-full rounded-br-full shadow-lg'>
-            <img src={LogoFull} alt='Logo' className='scale-75' />
+            <Link to='/'>
+              <img src={LogoFull} alt='Logo' className='scale-75' />
+            </Link>
           </div>
           <div className='w-1/4 text-right'>
             <Link to='/login'>
