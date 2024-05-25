@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
-import { SearchForm } from '@/components/local/Search/SearchForm'
+import CardTrip from '@/components/global/organisms/CardTrip'
 import Arrange from '@/components/local/filter/Arrange'
+import BadgeList from '@/components/local/filter/BadgeListFilter'
 import BusFilter from '@/components/local/filter/BusFilter'
 import TypeFilter from '@/components/local/filter/TypeFilter'
-import BadgeList from '@/components/local/filter/BadgeListFilter'
-import { Trash2 } from 'lucide-react'
-import CardTrip from '@/components/global/organisms/CardTrip'
+import { ArrowBigUpDash, Trash2 } from 'lucide-react'
+import React, { useState } from 'react'
 const items = [
   {
     id: 'ghengoi',
@@ -58,6 +57,12 @@ function SearchPage() {
   const handleClearFilters = () => {
     setFilterState(initialState)
   }
+
+  const handleScrollToTop = (e: React.MouseEvent) => {
+    e.preventDefault()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   console.log('filter ne', filterState)
   const cardTrips = []
   for (let i = 0; i < 10; i++) {
@@ -70,8 +75,8 @@ function SearchPage() {
       <div className='flex flex-col justify-center  items-center w-fit '>
         <h1 className='mt-60 mb-4 text-4xl font-bold'>Hồ Chí Minh - Bến Tre</h1>
 
-        <div className='flex gap-10 w-2/3 '>
-          <div className='flex flex-col shadow-md border rounded-lg bg-white w-1/4 h-fit'>
+        <div className='flex gap-10 w-2/3 main '>
+          <div className='sticky top-10  slidebar flex flex-col shadow-md border rounded-lg bg-white w-1/4 h-fit'>
             <div className='flex justify-between items-center gap-5 px-4 py-2 text-lg font-bold'>
               <p className='m-0'>Bộ lọc tìm kiếm</p>
               <span
@@ -86,8 +91,9 @@ function SearchPage() {
             <BusFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
             <TypeFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
           </div>
-          <div className='w-2/3'>
+          <div className='w-2/3 tripcard flex flex-col'>
             <BadgeList items={items} selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
+
             <CardTrip />
             {cardTrips.map((card, index) => (
               <div key={index}>{card}</div>
@@ -95,6 +101,7 @@ function SearchPage() {
           </div>
         </div>
       </div>
+      <a href='#' onClick={handleScrollToTop} className='sticky top-3/4 right-28 bg-primary rounded-full text-white flex justify-center items-center p-2 mb-4' ><ArrowBigUpDash size={30} fill='white'/></a>
       
     </div>
   )

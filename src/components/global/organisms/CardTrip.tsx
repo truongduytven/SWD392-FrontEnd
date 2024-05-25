@@ -1,23 +1,12 @@
-import { Star } from 'lucide-react'
-import React, { useState } from 'react'
-import { Button } from '../atoms/button'
-import { ChevronDown, ChevronUp } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/global/atoms/accordion'
-import { ScrollArea, ScrollBar } from '../atoms/scroll-area'
+import { Star } from 'lucide-react'
+import { Button } from '../atoms/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
-import { Card, CardContent } from '@/components/global/atoms/card'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
-} from '@/components/global/atoms/carousel'
 function CardTrip() {
   return (
     <Accordion type='single' collapsible>
       <AccordionItem value='item-1'>
-        <div className='flex bg-white p-3 gap-3 border mt-4 border-gray-200 rounded-md transition duration-300 ease-in-out w-full hover:shadow-md hover:shadow-orange-400 hover:border-orange-500 '>
+        <div className='flex bg-white p-3 gap-3 border border-gray-200 rounded-md transition duration-300 ease-in-out w-full hover:shadow-md hover:shadow-orange-400 hover:border-orange-500 hover:transform transform  hover:translate-x-[-10px]'>
           <div className='w-1/5 min-w-48 relative  overflow-hidden bg-cover bg-no-repeat'>
             <img
               className='h-full rounded-sm transition duration-300 ease-in-out hover:scale-110 '
@@ -83,30 +72,15 @@ function CardTrip() {
 
         <div className='h-[1px] bg-stone-300 mx-3'></div>
         <AccordionContent className='bg-white'>
-          <Tabs defaultValue='hinhanh' className=''>
-            <TabsList className='w-full  px-4 bg-white'>
-              <Carousel className='ml-20 bg-secondary p-1'>
-                <CarouselContent>
-                  <CarouselItem  className="md:basis-1/2 lg:basis-1/4 mr-4 ">
-                      <TabsTrigger value='hinhanh' className=''>Hình ảnh</TabsTrigger>
-                  </CarouselItem>
-                  <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-                      <TabsTrigger value='tienich'>Tiện ích</TabsTrigger>
-                  </CarouselItem>
-                  <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-                      <TabsTrigger value='diemdon'>Điểm đón</TabsTrigger>
-                  </CarouselItem>
-                  <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-                      <TabsTrigger value='diemtra'>Điểm trả</TabsTrigger>
-                  </CarouselItem>
-                  <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-                      <TabsTrigger value='danhgia'>Đánh giá</TabsTrigger>
-                  </CarouselItem>
-                 
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
+          <Tabs defaultValue='hinhanh' className='px-2'>
+            <TabsList className=' px-4 flex  '>
+              <TabsTrigger value='hinhanh' className=''>
+                Hình ảnh
+              </TabsTrigger>
+              <TabsTrigger value='tienich'>Tiện ích</TabsTrigger>
+              <TabsTrigger value='diemdon'>Điểm đón</TabsTrigger>
+              <TabsTrigger value='diemtra'>Điểm trả</TabsTrigger>
+              <TabsTrigger value='danhgia'>Đánh giá</TabsTrigger>
             </TabsList>
             <TabsContent value='hinhanh'>Ảnh nè.</TabsContent>
             <TabsContent value='tienich'>Tiện ích đâu.</TabsContent>
