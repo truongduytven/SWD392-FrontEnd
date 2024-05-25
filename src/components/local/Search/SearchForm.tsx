@@ -28,7 +28,7 @@ export function SearchForm() {
     navigate('/search')
   }
   return (
-    <div className='h-full py-5 rounded-lg bg-secondary w-2/3 shadow-md'>
+    <div className='h-full py-5 rounded-lg bg-secondary w-2/3 drop-shadow-lg'>
       <Form {...form}>
         <form className='w-full h-full' onSubmit={form.handleSubmit(onSubmit)}>
           <div className='w-full h-1/2 flex justify-around items-end'>
