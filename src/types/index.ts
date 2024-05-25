@@ -1,11 +1,5 @@
-export enum Gender {
-  Male,
-  Female,
-  Other
-}
-
-export type User = {
-  name: string
-  address?: string
-  gender: Gender
+export type ISearch = {
+  startLocation: string
+  endLocation: string
+  startDate: string
 }
