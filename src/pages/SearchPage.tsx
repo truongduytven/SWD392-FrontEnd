@@ -1,5 +1,4 @@
 import CardTrip from '@/components/global/organisms/CardTrip'
-import { SearchForm } from '@/components/local/Search/SearchForm'
 import Arrange from '@/components/local/filter/Arrange'
 import BadgeList from '@/components/local/filter/BadgeListFilter'
 import BusFilter from '@/components/local/filter/BusFilter'
@@ -72,7 +71,6 @@ function SearchPage() {
 
   return (
     <div className='w-full flex justify-center items-center bg-muted'>
-      <SearchForm/>
       <div className='flex flex-col justify-center  items-center w-fit '>
         <h1 className='mt-60 mb-4 text-4xl font-bold'>Hồ Chí Minh - Bến Tre</h1>
 
@@ -102,8 +100,13 @@ function SearchPage() {
           </div>
         </div>
       </div>
-      <a href='#' onClick={handleScrollToTop} className='sticky top-3/4 right-28 bg-primary rounded-full text-white flex justify-center items-center p-2 mb-4' ><ArrowBigUpDash size={30} fill='white'/></a>
-      
+      <a
+        href='#'
+        onClick={handleScrollToTop}
+        className='sticky top-3/4 right-28 bg-primary rounded-full text-white flex justify-center items-center p-2 mb-4'
+      >
+        <ArrowBigUpDash size={30} fill='white' />
+      </a>
     </div>
   )
 }

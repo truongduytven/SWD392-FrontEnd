@@ -21,7 +21,6 @@ export function SearchForm() {
       startDate: new Date()
     }
   })
-  const navigate = useNavigate();
   function onSubmit(values: z.infer<typeof SearchSchema>) {
     
     const postData = { ...values, startDate: formatDate(values.startDate, 'yyyy-MM-dd') }
