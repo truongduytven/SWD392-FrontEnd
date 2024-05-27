@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/global/atoms/card'
 import { Button } from '@/components/global/atoms/button'
+import { Search } from 'lucide-react'
 
 interface props {
   data: {
@@ -22,8 +23,8 @@ function PopularTrip(data: props) {
           <span>Loại <span className='text-tertiary font-semibold'>{data.data.type}</span></span>
           <span>Giá chỉ từ <span className='text-tertiary font-semibold'>{data.data.price}</span></span>
         </div>
-        <div className='flex justify-end w-full'>
-            <Button>Tra cứu ngay</Button>
+        <div className='flex justify-end w-full '>
+            <Button><Search className='h-fit mr-1'/> Tra cứu ngay</Button>
         </div>
       </CardContent>
     </Card>
