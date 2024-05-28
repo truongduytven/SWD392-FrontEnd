@@ -71,28 +71,29 @@ function SearchPage() {
   }
 
   return (
-    <div className='w-full flex justify-center items-center bg-secondary'>
+    <div className='w-full flex justify-center items-center bg-secondary pb-12'>
       <div className='flex flex-col justify-center items-center w-fit '>
-      <div className='w-full flex justify-center absolute top-[100px]'>
-        <SearchForm />
-      </div>
+        <div className='w-full flex justify-center absolute top-[100px]'>
+          <SearchForm />
+        </div>
         <h1 className='mt-60 mb-4 text-4xl font-bold'>Hồ Chí Minh - Bến Tre</h1>
         <div className='flex gap-10 w-3/4 main '>
-          <div className='overflow-y-scroll sticky top-10  slidebar flex flex-col shadow-md border rounded-lg bg-white w-2/5 h-fit'>
-            <div className='flex justify-between items-center gap-5 px-4 py-2 text-lg font-bold'>
-              <p className='m-0'>Bộ lọc tìm kiếm</p>
-              <span
-                className='flex text-red-500 cursor-pointer justify-center items-center gap-2 px-2 py-1 rounded-md hover:bg-secondary'
-                onClick={handleClearFilters}
-              >
-                Bỏ lọc
-                <Trash2 />
-              </span>
-            </div>
-            <Arrange selectedValue={filterState.arrangeValue} onValueChange={handleArrangeChange} />
-            <BusFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
-            <TypeFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
+          <div className='sticky top-10  slidebar flex flex-col shadow-md border rounded-lg bg-white w-2/5 h-fit'>
+              <div className='flex justify-between items-center gap-5 px-4 py-2 text-lg font-bold'>
+                <p className='m-0'>Bộ lọc tìm kiếm</p>
+                <span
+                  className='flex text-red-500 cursor-pointer justify-center items-center gap-2 px-2 py-1 rounded-md hover:bg-secondary'
+                  onClick={handleClearFilters}
+                >
+                  Bỏ lọc
+                  <Trash2 />
+                </span>
+              </div>
+              <Arrange selectedValue={filterState.arrangeValue} onValueChange={handleArrangeChange} />
+              <BusFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
+              <TypeFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
           </div>
+
           <div className='w-full flex flex-col'>
             <BadgeList items={items} selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
 
