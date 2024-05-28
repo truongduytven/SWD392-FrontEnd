@@ -60,7 +60,7 @@ function BusFilter({ selectedItems, onItemsChange }: BusFilterProps) {
   }
 
   return (
-    <div className='w-full border-t '>
+    <div className='w-full border-t  '>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <FormField
@@ -86,9 +86,9 @@ function BusFilter({ selectedItems, onItemsChange }: BusFilterProps) {
 
                 {showModal && (
                   <Command className='w-full'>
-                    <CommandInput placeholder='Search framework...' className='h-9' />
-                    <CommandEmpty>No framework found.</CommandEmpty>
-                    <CommandList>
+                    <CommandInput placeholder='Tìm nhà xe...' className='h-9' />
+                    <CommandEmpty>Không tìm thấy nhà xe</CommandEmpty>
+                    <CommandList className='h-40 overflow-y-auto'>
                       {/* <PopoverClose className='w-full'> */}
                       <CommandGroup>
                         {languages.map((language) => (

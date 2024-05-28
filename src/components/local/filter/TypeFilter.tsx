@@ -70,7 +70,7 @@ function TypeFilter({ selectedItems, onItemsChange }: TypeFilterProps) {
                     setShowModal((prev) => !prev)
                   }}
                 >
-                  <FormLabel className='text-lg font-bold flex items-center justify-between'>
+                  <FormLabel className='cursor-pointer text-lg font-bold flex items-center justify-between'>
                     Loại ghế/Giường
                     <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                   </FormLabel>
