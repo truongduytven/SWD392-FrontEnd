@@ -1,18 +1,14 @@
-"use client"
- 
-import * as React from "react"
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
- 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/global/atoms/button"
-import { Calendar } from "@/components/global/atoms/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/global/atoms/popover"
-import { PopoverClose } from "@radix-ui/react-popover"
+'use client'
+
+import * as React from 'react'
+import { format } from 'date-fns'
+import { Calendar as CalendarIcon } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/global/atoms/button'
+import { Calendar } from '@/components/global/atoms/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/global/atoms/popover'
+import { PopoverClose } from '@radix-ui/react-popover'
 
 interface DatePickerProps {
   initialDate?: Date
@@ -41,17 +37,8 @@ export function DatePicker({ initialDate, onChange }: DatePickerProps) {
           {date ? format(date, 'PPP') : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <PopoverClose>
-
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={handleSelect}       
-          initialFocus
-          fromDate={new Date()}
-          />
-          </PopoverClose>
+      <PopoverContent className='w-auto p-0'>
+        <Calendar mode='single' selected={date} onSelect={handleSelect} initialFocus fromDate={new Date()} />
       </PopoverContent>
     </Popover>
   )
