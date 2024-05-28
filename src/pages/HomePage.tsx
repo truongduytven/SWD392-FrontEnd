@@ -7,7 +7,7 @@ import {
   CarouselPrevious
 } from '@/components/global/atoms/carousel'
 import { SearchForm } from '@/components/local/Search/SearchForm'
-import PopularTrip from './PopularTrip'
+import PopularTrip from '../components/local/Home/PopularTrip'
 import { Bus, CircleCheckBig, HandPlatter, TicketCheck } from 'lucide-react'
 import { popularTripData } from '@/constants/PopularTrip'
 function HomePage() {

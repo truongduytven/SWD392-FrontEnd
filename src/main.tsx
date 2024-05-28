@@ -4,12 +4,14 @@ import App from './App.tsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'sonner'
-
+import { SearchProvider } from './contexts/SearchContext.tsx'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <React.StrictMode>
-      <Toaster richColors />
-      <App />
+      <SearchProvider>
+        <Toaster richColors />
+        <App />
+      </SearchProvider>
     </React.StrictMode>
   </BrowserRouter>
 )
