@@ -2,7 +2,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Star } from 'lucide-react'
 import { Button } from '../atoms/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
+import { useNavigate } from 'react-router-dom'
 function CardTrip() {
+  const navigate = useNavigate()
+  const handleSubmit = () => {
+    navigate('/selectTicket')
+  }
   return (
     <Accordion type='single' collapsible>
       <AccordionItem value='item-1'>
@@ -64,7 +69,7 @@ function CardTrip() {
               </div>
               <div className='flex flex-col justify-end items-center gap-3'>
                 <p>Còn trống 26 chỗ</p>
-                <Button>Chọn chuyến</Button>
+                <Button onClick={handleSubmit}>Chọn chuyến</Button>
               </div>
             </div>
           </div>
