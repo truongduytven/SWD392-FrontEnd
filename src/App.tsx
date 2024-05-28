@@ -10,6 +10,7 @@ function App() {
       <Route element={<RootLayout />}>
         <Route path='/' element={<HomePage />} />
         <Route path='/Loading' element={<Loading />} />
+        <Route path='/search' element={<SearchPage />} />
       </Route>
       <Route path='/login' element={<SignInSignUp />} />
       <Route path='/register' element={<SignInSignUp />} />
