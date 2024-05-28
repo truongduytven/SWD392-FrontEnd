@@ -14,7 +14,7 @@ function Header() {
   const location = useLocation()
   return (
     <div
-      className={`w-full h-20 absolute border-white ${location.pathname === '/' ? 'bg-black bg-opacity-30' : 'bg-tertiary'}`}
+      className={`w-full h-20 border-white ${location.pathname === '/' ? 'bg-black bg-opacity-30 absolute' : 'bg-tertiary relative'}`}
     >
       <Container>
         <div className='w-full h-full flex justify-between items-center'>

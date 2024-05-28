@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage'
 import SignInSignUp from './components/global/templates/SignIn_SignUp'
 import Loading from './components/global/molecules/Loading'
 import SearchPage from './pages/SearchPage'
+import SelectTicket from './pages/SelectTicket'
 function App() {
   return (
     <Routes>
@@ -11,7 +12,7 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/Loading' element={<Loading />} />
           <Route path='/search' element={<SearchPage />} />
-          <Route path='/selectTicket' element={<SignInSignUp />} />
+          <Route path='/selectTicket' element={<SelectTicket />} />
         </Route>
       <Route path='/login' element={<SignInSignUp />} />
       <Route path='/register' element={<SignInSignUp />} />
