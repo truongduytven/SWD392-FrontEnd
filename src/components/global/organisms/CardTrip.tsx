@@ -9,7 +9,7 @@ function CardTrip() {
     navigate('/selectTicket')
   }
   return (
-    <Accordion type='single' collapsible>
+    <Accordion type='single' collapsible className='mb-3'>
       <AccordionItem value='item-1'>
         <div className='flex bg-white p-3 gap-3 border border-gray-200 rounded-md transition duration-300 ease-in-out w-full hover:shadow-md hover:shadow-orange-400 hover:border-orange-500 hover:transform transform  hover:translate-x-[-10px]'>
           <div className='w-1/5 min-w-48 relative  overflow-hidden bg-cover bg-no-repeat'>
