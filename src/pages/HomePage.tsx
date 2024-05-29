@@ -1,4 +1,4 @@
-import Banner from '@/assets/banner.jpeg'
+import Banner from '@/assets/anhdepvietnam.jpg'
 import {
   Carousel,
   CarouselContent,
