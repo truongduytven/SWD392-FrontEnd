@@ -27,7 +27,7 @@ function Header() {
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to='/search'>
+                  <Link to='/ticketInfo'>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>Tra cứu vé</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
