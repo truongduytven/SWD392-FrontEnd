@@ -11,7 +11,7 @@ function SelectTicket() {
     <Container>
       <div className='h-full flex flex-col my-5 space-y-8'>
         <div className='flex justify-start items-center'>
-          <Button onClick={() => navigate(-1)} className='bg-transparent hover:bg-transparent hover:underline'>
+          <Button onClick={() => navigate(-1)} className='text-base bg-transparent hover:bg-transparent hover:underline hover:text-primary hover:font-bold'>
             <ArrowLeft className='scale-75' />
             Quay lại
           </Button>
