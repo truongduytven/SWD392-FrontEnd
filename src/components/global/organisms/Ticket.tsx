@@ -1,10 +1,10 @@
 
 function Ticket() {
   return (
-    <div className='flex flex-col items-center justify-center text-sm'>
+    <div className='flex flex-col items-center justify-center text-sm '>
             <h1 className="text-lg font-bold mb-4">Tra cứu vé thành công</h1>
 
-      <div className='flex bg-white shadow-lg rounded-lg'>
+      <div className='flex bg-white shadow-lg rounded-lg border'>
         <div className='flex '>
           <div className='flex flex-col justify-between bg-cover border-r border-dashed border-gray-700 p-5 opacity-85'>
             <div className='flex flex-col gap-2 items-center'>
@@ -55,7 +55,7 @@ function Ticket() {
             <span>The bus journey</span>
             <span>The bus journey</span>
           </p>
-          <div className='flex flex-col items-center justify-around h-full bg-yellow-400 py-4'>
+          <div className='flex flex-col items-center justify-around h-full bg-yellow-400 py-4 rounded-tr-md rounded-br-md'>
             <div>
               <h1 className='text-lg'>Tổng hóa đơn</h1>
             </div>
