@@ -102,7 +102,7 @@ export function SearchForm() {
             />
             <Button
               type='submit'
-              className='px-8 font-bold bg-yellow-400 hover:bg-yellow-300 hover:scale-110 hover:duration-700'
+              className='px-8 font-bold bg-yellow-400 hover:bg-yellow-300 hover:scale-110 transform scale-100 transition duration-200'
             >
               Tìm kiếm
             </Button>

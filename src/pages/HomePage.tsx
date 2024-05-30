@@ -34,7 +34,7 @@ function HomePage() {
           <CarouselContent>
             {popularTripData &&
               popularTripData.map((item, index) => (
-                <CarouselItem key={index} className='md:basis-1/2 lg:basis-1/3 hover:scale-110'>
+                <CarouselItem key={index} className='md:basis-1/2 lg:basis-1/3 hover:scale-110 transform scale-100 transition duration-200'>
                   <div className='p-10'>
                     <PopularTrip data={item} />
                   </div>

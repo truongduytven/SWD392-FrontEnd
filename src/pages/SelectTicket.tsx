@@ -1,5 +1,6 @@
 import { Button } from '@/components/global/atoms/button'
 import Container from '@/components/global/atoms/container'
+import ChooseSeatCode from '@/components/local/ChooseSeatCode'
 import InvoiceDetail from '@/components/local/InvoiceDetail'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
@@ -19,8 +20,8 @@ function SelectTicket() {
             chọn mua vé
         </div>
         <div className='flex justify-evenly'>
-            <div className='border w-7/12'>
-                
+            <div className='border w-7/12 rounded-xl shadow-md'>
+                <ChooseSeatCode />
             </div>
             <div className='flex flex-col space-y-10 w-4/12'>
                 <InvoiceDetail />
