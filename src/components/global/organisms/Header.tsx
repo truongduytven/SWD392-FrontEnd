@@ -14,7 +14,7 @@ function Header() {
   const location = useLocation()
   return (
     <header
-      className='w-full border-white'
+      className='w-full border shadow-md fixed top-0 z-50 bg-white'
     >
       <Container>
         <div className='w-full h-20 flex justify-between items-center'>
@@ -46,7 +46,7 @@ function Header() {
           </div>
           <div className='w-1/4 text-right'>
             <Link to='/login'>
-              <Button className='bg-transparent text-primary font-bold text-md hover:bg-secondary hover:text-primary'>
+              <Button className='bg-transparent text-primary font-bold text-md hover:bg-primary hover:text-secondary'>
                 Đăng ký/Đăng nhập
               </Button>
             </Link>
