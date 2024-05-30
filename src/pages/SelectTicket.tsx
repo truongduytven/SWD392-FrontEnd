@@ -9,7 +9,7 @@ function SelectTicket() {
   const navigate = useNavigate()
   return (
     <Container>
-      <div className='h-full flex flex-col my-5 space-y-8'>
+      <div className='h-full flex flex-col my-5 space-y-8 mb-16'>
         <div className='flex justify-start items-center'>
           <Button
             onClick={() => navigate(-1)}

@@ -11,7 +11,6 @@ import {
 import { Link, useLocation } from 'react-router-dom'
 
 function Header() {
-  const location = useLocation()
   return (
     <header
       className='w-full shadow-md fixed top-0 z-50 bg-white'
