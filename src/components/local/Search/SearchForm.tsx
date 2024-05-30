@@ -9,22 +9,24 @@ import { Button } from '@/components/global/atoms/button'
 import { formatDate } from 'date-fns'
 import { CircleDot, MapPin, Clock } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useSearch } from '@/contexts/SearchContext'
 
 export function SearchForm() {
   const navigate = useNavigate()
-
+  const { searchData, setSearchData } = useSearch();
   const form = useForm<z.infer<typeof SearchSchema>>({
     resolver: zodResolver(SearchSchema),
     defaultValues: {
-      startLocation: 'TPHCM',
-      endLocation: 'Đà Lạt',
-      startDate: new Date()
+      startLocation: searchData.startLocation,
+      endLocation: searchData.endLocation,
+      startDate: searchData.startDate,
     }
   })
   function onSubmit(values: z.infer<typeof SearchSchema>) {
     
     const postData = { ...values, startDate: formatDate(values.startDate, 'yyyy-MM-dd') }
     console.log(postData)
+    setSearchData(values)
     navigate('/search')
   }
   return (
@@ -100,7 +102,7 @@ export function SearchForm() {
             />
             <Button
               type='submit'
-              className='px-8 font-bold bg-yellow-400 hover:bg-yellow-300 hover:scale-110 hover:duration-700'
+              className='px-8 font-bold bg-yellow-400 hover:bg-yellow-300 hover:scale-110 transform scale-100 transition duration-200'
             >
               Tìm kiếm
             </Button>

@@ -76,7 +76,7 @@ function SearchPage() {
         <div className='w-full flex justify-center absolute top-[100px]'>
           <SearchForm />
         </div>
-        <h1 className='mt-60 mb-4 text-4xl font-bold'>Hồ Chí Minh - Bến Tre</h1>
+        <h1 className='mt-40 mb-4 text-4xl font-bold'>Hồ Chí Minh - Bến Tre</h1>
         <div className='flex gap-10 w-3/4 main '>
           <div className='sticky top-10  slidebar flex flex-col shadow-md border rounded-lg bg-white w-2/5 h-fit'>
               <div className='flex justify-between items-center gap-5 px-4 py-2 text-lg font-bold'>
