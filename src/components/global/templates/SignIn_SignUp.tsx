@@ -14,7 +14,7 @@ function SignInSignUp() {
       <div className='absolute top-10 left-10 hover:font-bold hover:underline'>
         <Link to='/' className='flex space-x-2'>
           <ArrowLeft className='scale-75' />
-          Back to home
+          Về trang chủ
         </Link>
       </div>
       <div className={`container ${addclass}`} id='container'>
