@@ -59,7 +59,7 @@ function FormLogin({ reset }: FormLoginProps) {
             </FormItem>
           )}
         />
-        <Button type='submit'>Đăng nhập</Button>
+        <Button type='submit' className='w-2/3'>Đăng nhập</Button>
       </form>
     </Form>
   )

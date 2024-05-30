@@ -14,7 +14,7 @@ function Header() {
   const location = useLocation()
   return (
     <header
-      className='w-full border shadow-md fixed top-0 z-50 bg-white'
+      className='w-full shadow-md fixed top-0 z-50 bg-white'
     >
       <Container>
         <div className='w-full h-20 flex justify-between items-center'>

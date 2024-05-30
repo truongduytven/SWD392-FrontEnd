@@ -11,7 +11,7 @@ function SignInSignUp() {
   const [resetFormSignUp, setResetSignUp] = useState(false)
   return (
     <div className='h-screen flex justify-center items-center  '>
-      <div className='absolute top-10 left-10 hover:font-bold hover:underline'>
+      <div className='absolute top-10 left-10 hover:font-bold hover:underline hover:text-primary'>
         <Link to='/' className='flex space-x-2'>
           <ArrowLeft className='scale-75' />
           Về trang chủ

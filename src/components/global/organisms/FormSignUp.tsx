@@ -86,7 +86,7 @@ function FormSignUp({ reset }: FormSignUpProps) {
             </FormItem>
           )}
         />
-        <Button type='submit'>Đăng kí</Button>
+        <Button type='submit' className='w-2/3'>Đăng kí</Button>
       </form>
     </Form>
   )
