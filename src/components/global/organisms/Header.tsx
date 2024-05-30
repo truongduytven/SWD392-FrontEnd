@@ -1,4 +1,4 @@
-import LogoFull from '@/assets/LogoFull2.png'
+import LogoFull from '@/assets/LogoFull23.png'
 import { Button } from '../atoms/button'
 import Container from '../atoms/container'
 import {
@@ -13,11 +13,11 @@ import { Link, useLocation } from 'react-router-dom'
 function Header() {
   const location = useLocation()
   return (
-    <div
-      className={`w-full h-20 border-white ${location.pathname === '/' ? 'bg-black bg-opacity-30 absolute' : 'bg-tertiary relative'}`}
+    <header
+      className='w-full border-white'
     >
       <Container>
-        <div className='w-full h-full flex justify-between items-center'>
+        <div className='w-full h-20 flex justify-between items-center'>
           <div className='w-1/4'>
             <NavigationMenu>
               <NavigationMenuList>
@@ -39,21 +39,21 @@ function Header() {
               </NavigationMenuList>
             </NavigationMenu>
           </div>
-          <div className='flex justify-center items-center w-1/5 bg-secondary rounded-bl-full rounded-br-full shadow-lg'>
+          <div className='flex justify-center items-center h-full'>
             <Link to='/'>
-              <img src={LogoFull} alt='Logo' className='scale-75' />
+              <img src={LogoFull} alt='Logo' className='h-full' />
             </Link>
           </div>
           <div className='w-1/4 text-right'>
             <Link to='/login'>
-              <Button className='bg-transparent text-secondary font-bold text-md hover:bg-secondary hover:text-primary'>
+              <Button className='bg-transparent text-primary font-bold text-md hover:bg-secondary hover:text-primary'>
                 Đăng ký/Đăng nhập
               </Button>
             </Link>
           </div>
         </div>
       </Container>
-    </div>
+    </header>
   )
 }
 
