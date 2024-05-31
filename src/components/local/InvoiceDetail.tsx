@@ -1,33 +1,40 @@
+import { useInvoice } from "@/contexts/InvoiceContext";
+import { formatDate, formatPrice } from "@/lib/utils";
+
 function InvoiceDetail() {
+  const { invoiceData } = useInvoice()
+  const { startLocation, endLocation, timeStart, tickets, service } = invoiceData;
+  const totalTicketPrice = tickets.reduce((sum, ticket) => sum + ticket.price, 0);
+  const totalServicePrice = service.reduce((sum, srv) => sum + srv.price * srv.quantity, 0);
   return (
     <div className='shadow-lg border rounded-xl p-3'>
       <span className='font-bold text-xl'>Chi tiết hóa đơn</span>
       <div className='flex flex-col space-y-3 mt-3'>
         <div className='flex justify-between'>
           <span>Tuyến xe: </span>
-          <span>Bx.Miền Tây - Bến Tre - Trà Vinh</span>
+          <span>{startLocation} - {endLocation}</span>
         </div>
         <div className='flex justify-between'>
           <span>Thời gian xuất bến: </span>
-          <span>07:00 23/05/2023</span>
+          <span>{formatDate(timeStart)}</span>
         </div>
         <div className='flex justify-between'>
           <span>Mã số ghế đã chọn: </span>
-          <span>B01, B02, B03</span>
+          <span>{tickets.map(ticket => ticket.seatCode).join(', ')}</span>
         </div>
         <hr />
         <div className='flex justify-between'>
           <span>Tiền vé: </span>
-          <span>400.000đ</span>
+          <span>{formatPrice(totalTicketPrice)}</span>
         </div>
         <div className='flex justify-between'>
           <span>Tiền dịch vụ: </span>
-          <span>0đ</span>
+          <span>{formatPrice(totalServicePrice)}</span>
         </div>
         <hr />
         <div className='flex justify-between font-bold'>
           <span>Tổng tiền</span>
-          <span>400.000đ</span>
+          <span>{formatPrice(totalTicketPrice + totalServicePrice)}</span>
         </div>
       </div>
     </div>
