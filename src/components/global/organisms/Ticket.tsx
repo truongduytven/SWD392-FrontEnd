@@ -2,15 +2,15 @@
 function Ticket() {
   return (
     <div className='flex flex-col items-center justify-center text-sm '>
-            <h1 className="text-lg font-bold mb-4">Tra cứu vé thành công</h1>
+            <h1 className="text-3xl font-bold mb-4">Tra cứu vé thành công</h1>
 
       <div className='flex bg-white shadow-lg rounded-lg border'>
         <div className='flex '>
           <div className='flex flex-col justify-between bg-cover border-r border-dashed border-gray-700 p-5 opacity-85'>
             <div className='flex flex-col gap-2 items-center'>
               <p className='text-lg font-semibold'>
-                Giá vé:
-                <span className='text-xl font-bold text-orange-500'>170.000đ</span>
+                Giá vé: 
+                <span className='text-xl font-bold text-orange-500 ml-1'>170.000đ</span>
               </p>
               <p className='text-md font-semibold'>Giá dịch vụ:</p>
             </div>
