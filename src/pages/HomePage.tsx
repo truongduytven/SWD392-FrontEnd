@@ -14,7 +14,9 @@ function HomePage() {
   return (
     <div>
       <div className='h-[600px]'>
-        <img className='h-full w-screen' src={Banner} alt='banner' />
+        {/* <div className='fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'></div> */}
+        <img className='h-full object-cover' src="https://gst-contracts.s3.amazonaws.com/uploads/bcc/cms/asset/avatar/282847/banner_banner2.png" alt='banner' />
+        <div className="absolute h-[640px] inset-0 bg-black opacity-40"></div>
       </div>
       <div className='w-full flex justify-center absolute top-[300px]'>
         <SearchForm />
