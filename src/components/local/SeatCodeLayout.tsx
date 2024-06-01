@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Seat from './Seat';
 import { useInvoice } from '@/contexts/InvoiceContext';
 import { defaultSeats } from '@/constants/SeatData';
+import { ticket } from '@/types/invoiceData';
 
 const SeatLayout: React.FC = () => {
   const { invoiceData, updateTickets } = useInvoice();
@@ -16,7 +17,11 @@ const SeatLayout: React.FC = () => {
       } else {
         newSelected = [...prevSelected, seatCode];
       }
-      updateTickets(newSelected.map(code => defaultSeats.find(seat => seat.seatCode === code)!));
+      const newTicket = newSelected.map((code) => {
+        const seat = defaultSeats.find(seat => seat.seatCode === code)!;
+        return { seatCode: seat.seatCode, price: seat.price, services: [] } as ticket
+      })
+      updateTickets(newTicket);
       return newSelected;
     });
   };

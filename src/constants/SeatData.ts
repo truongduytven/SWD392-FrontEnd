@@ -1,19 +1,20 @@
 // defaultSeatData.ts
-interface Seat {
+export interface Seat {
     seatCode: string;
     price: number;
+    status: string;
   }
   
   export const defaultSeats: Seat[] = [
-    { seatCode: 'B01', price: 400000 },
-    { seatCode: 'B02', price: 400000 },
-    { seatCode: 'B03', price: 400000 },
-    { seatCode: 'B04', price: 400000 },
-    { seatCode: 'B05', price: 400000 },
-    { seatCode: 'B06', price: 400000 },
-    { seatCode: 'B07', price: 400000 },
-    { seatCode: 'B08', price: 400000 },
-    { seatCode: 'B09', price: 400000 },
-    { seatCode: 'B10', price: 400000 },
+    { seatCode: 'B01', price: 400000, status: 'bought' },
+    { seatCode: 'B02', price: 400000, status: 'bought' },
+    { seatCode: 'B03', price: 400000, status: 'bought' },
+    { seatCode: 'B04', price: 400000, status: 'notsold' },
+    { seatCode: 'B05', price: 400000, status: 'notsold' },
+    { seatCode: 'B06', price: 400000, status: 'notsold' },
+    { seatCode: 'B07', price: 400000, status: 'notsold' },
+    { seatCode: 'B08', price: 400000, status: 'notsold' },
+    { seatCode: 'B09', price: 400000, status: 'notsold' },
+    { seatCode: 'B10', price: 400000, status: 'notsold' },
   ];
   
