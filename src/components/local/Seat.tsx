@@ -1,8 +1,11 @@
-import { Seat as SeatType } from '@/constants/SeatData';
 import React from 'react';
+import { Seat as SeatType } from '@/constants/SeatData';
+import SeatIcon from '@/assets/selectedSeat.svg';
+import BoughtSeatIcon from '@/assets/boughtseat.svg';
+import NotSoldSeatIcon from '@/assets/notsoldseat.svg';
 
 interface SeatProps {
-  seat: SeatType
+  seat: SeatType;
   onClick: (seatCode: string) => void;
   selected: boolean;
 }
@@ -10,15 +13,28 @@ interface SeatProps {
 const Seat: React.FC<SeatProps> = ({ seat, onClick, selected }) => {
   const { seatCode, status } = seat;
 
+  let SeatSvg;
+  if (status === 'bought') {
+    SeatSvg = BoughtSeatIcon;
+  } else if (status === 'notsold' && !selected) {
+    SeatSvg = NotSoldSeatIcon;
+  } else {
+    SeatSvg = SeatIcon;
+  }
+
   return (
     <button
-      className={`w-11 h-11 m-2 flex items-center justify-center rounded-md border ${selected ? 'bg-red-500 text-white' : (status === 'bought' ? 'bg-gray-200 cursor-not-allowed' : 'bg-green-500')}`}
+      className='relative w-12 h-12 m-2 flex items-center justify-center rounded-md'
       onClick={() => onClick(seatCode)}
       disabled={status === 'bought'}
     >
-      {seatCode}
+      <img src={SeatSvg} className="w-full h-full" alt={seatCode} />
+      <span className="absolute inset-0 flex items-center justify-center text-sm text-white font-bold">
+        {seatCode}
+      </span>
     </button>
   );
 };
 
 export default Seat;
+

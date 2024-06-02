@@ -4,10 +4,7 @@ function ChooseSeatCode() {
   return (
     <div className='flex flex-col justify-between p-4 h-full'>
       <div className="flex justify-evenly text-center h-full mb-4 space-x-3">
-        <div className='w-1/4 border'>
-          <SeatLayout />
-        </div>
-        <div className='w-1/4 border'>tầng dưới</div>
+        <SeatLayout />
       </div>
       <div className='flex items-center justify-evenly'>
         <div className='flex items-center space-x-3 text-sm'>
@@ -19,7 +16,7 @@ function ChooseSeatCode() {
           <span>Đang chọn</span>
         </div>
         <div className='flex items-center space-x-3 text-sm'>
-          <div className='h-5 w-5 rounded-sm bg-green-500' />
+          <div className='h-5 w-5 rounded-sm bg-tertiary' />
           <span>Ghế hàng đầu - 140.000đ</span>
         </div>
         <div className='flex items-center space-x-3 text-sm'>

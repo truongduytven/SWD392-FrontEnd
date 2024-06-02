@@ -46,5 +46,5 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }))
   }
 
-  return <InvoiceContext.Provider value={{ invoiceData, updateTickets }}>{children}</InvoiceContext.Provider>
+  return <InvoiceContext.Provider value={{ invoiceData, updateTickets , }}>{children}</InvoiceContext.Provider>
 }
