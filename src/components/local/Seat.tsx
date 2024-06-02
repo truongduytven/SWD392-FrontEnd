@@ -24,12 +24,12 @@ const Seat: React.FC<SeatProps> = ({ seat, onClick, selected }) => {
 
   return (
     <button
-      className='relative w-12 h-12 m-2 flex items-center justify-center rounded-md'
+      className='relative w-10 h-10 m-2 flex items-center justify-center rounded-md'
       onClick={() => onClick(seatCode)}
       disabled={status === 'bought'}
     >
       <img src={SeatSvg} className="w-full h-full" alt={seatCode} />
-      <span className="absolute inset-0 flex items-center justify-center text-sm text-white font-bold">
+      <span className="absolute inset-0 flex items-center justify-center text-xs text-white font-bold">
         {seatCode}
       </span>
     </button>
@@ -37,4 +37,3 @@ const Seat: React.FC<SeatProps> = ({ seat, onClick, selected }) => {
 };
 
 export default Seat;
-

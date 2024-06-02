@@ -17,12 +17,12 @@ function ChooseSeatCode() {
         </div>
         <div className='flex items-center space-x-3 text-sm'>
           <div className='h-5 w-5 rounded-sm bg-tertiary' />
-          <span>Ghế hàng đầu - 140.000đ</span>
+          <span>Ghế còn trống - 400.000đ</span>
         </div>
-        <div className='flex items-center space-x-3 text-sm'>
+        {/* <div className='flex items-center space-x-3 text-sm'>
           <div className='h-5 w-5 rounded-sm bg-pink-500' />
           <span>Ghế hàng cuối - 120.000đ</span>
-        </div>
+        </div> */}
       </div>
     </div>
   )
