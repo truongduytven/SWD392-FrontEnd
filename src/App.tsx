@@ -9,6 +9,7 @@ import SearchTicket from './pages/SearchTicket'
 import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailure from './pages/PaymentFailure'
 import NotFoundPage from './pages/NotFoundPage'
+import OtpForm from './components/global/organisms/OtpForm'
 function App() {
   return (
     <Routes>
@@ -24,6 +25,7 @@ function App() {
         </Route>
       <Route path='/login' element={<SignInSignUp />} />
       <Route path='/register' element={<SignInSignUp />} />
+      <Route path='/otp-verified' element={<OtpForm />} />
       <Route path='*' element={<NotFoundPage />} />
       
     </Routes>

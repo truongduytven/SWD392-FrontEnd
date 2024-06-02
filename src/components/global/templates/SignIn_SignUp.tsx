@@ -10,7 +10,7 @@ function SignInSignUp() {
   const [resetFormLogin, setResetFormLogin] = useState(false)
   const [resetFormSignUp, setResetSignUp] = useState(false)
   const [showSignupText, setShowSignupText] = useState(true)
-  const [showSigninText, setShowSigninText] = useState(true)
+  const [showSigninText, setShowSigninText] = useState(false)
 
   // useEffect(() => {
   //   setShowWelcomeText(true)

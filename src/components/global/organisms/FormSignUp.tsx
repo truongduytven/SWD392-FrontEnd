@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { PasswordInput } from '../atoms/password-input'
 import { useEffect } from 'react'
 import LogoIcon from '@/assets/LogoIcon.png';
+import { Link } from 'react-router-dom'
 
 type FormSignUpProps = {
   reset: boolean
@@ -89,7 +90,9 @@ function FormSignUp({ reset }: FormSignUpProps) {
             </FormItem>
           )}
         />
+        <Link to ="/otp-verified" className='w-full'>
         <Button type='submit' className='w-2/3'>Đăng kí</Button>
+        </Link>
       </form>
     </Form>
   )
