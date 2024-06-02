@@ -87,3 +87,62 @@
     background-color: #333;
   }
 }
+
+.img-block {
+  display: inline-block;
+  width: 104px;
+  height: 104px;
+  margin: 0 8px 8px 0;
+  vertical-align: top;
+}
+
+.img-fluid2 {
+  position: static;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.bg-gray {
+  background-color: bisque;
+  border: 2px solid #f8f8f8;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  background-color: bisque;
+  padding: 25px;
+  width: 104px;
+  height: 104px;
+  text-align: center;
+}
+
+.image-btn {
+  border: 2px solid transparent;
+  background-color: transparent;
+  padding: 2px 15px;
+  font-size: 25px !important;
+}
+
+.upload-btn-wrapper input[type="file"] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.remove_img {
+  background-color: bisque;
+  border-radius: 69%;
+  border: 1px solid #7a7a7a;
+  position: relative;
+  top: -106px;
+  right: -78px;
+  padding: 4px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
