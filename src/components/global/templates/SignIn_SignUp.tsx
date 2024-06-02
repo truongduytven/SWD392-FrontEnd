@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../atoms/button'
 import FormLogin from '../organisms/FormLogin'
 import FormSignUp from '../organisms/FormSignUp'
@@ -9,8 +9,15 @@ function SignInSignUp() {
   const [addclass, setaddclass] = useState('')
   const [resetFormLogin, setResetFormLogin] = useState(false)
   const [resetFormSignUp, setResetSignUp] = useState(false)
+  const [showSignupText, setShowSignupText] = useState(true)
+  const [showSigninText, setShowSigninText] = useState(true)
+
+  // useEffect(() => {
+  //   setShowWelcomeText(true)
+  // }, [])
+
   return (
-    <div className='h-screen flex justify-center items-center  '>
+    <div className='h-screen  flex justify-center items-center  '>
       <div className='absolute top-10 left-10 hover:font-bold hover:underline hover:text-primary'>
         <Link to='/' className='flex space-x-2'>
           <ArrowLeft className='scale-75' />
@@ -24,35 +31,50 @@ function SignInSignUp() {
         <div className='form-container sign-in-container'>
           <FormLogin reset={resetFormLogin} />
         </div>
-        <div className='overlay-container '>
-          <div className='overlay'>
-            <div className='overlay-panel overlay-left'>
-              <Link to='/login'>
+        <div className='overlay-container  '>
+          <div className='overlay group relative'>
+            <div className='overlay-panel overlay-left '>
+              <Link to='/login' className='flex justify-center items-center flex-col gap-16'>
+              {showSigninText && (
+                <p className=' slide-up-text tracking-wide text-primary text-3xl text-center font-bold'>
+                  Bạn đã có tài khoản của <span className='text-white bg-primary mr-1'>The Bus Journey</span>?
+                </p>
+              )}
                 <Button
-                  className='ghost bg-transparent hover:bg-transparent border-2 border-white'
+                  className='px-8 py-2 rounded-md hover:bg-primary hover:text-white font-bold transition duration-200 bg-amber-50 text-primary border-2 hover:border-transparent border-primary'
                   id='signIn'
                   onClick={() => {
                     setaddclass('')
                     setResetSignUp((prev) => !prev)
+                    setShowSignupText(true)
+                    setShowSigninText(false)
                   }}
                 >
-                  GO TO LOGIN
+                  Đăng nhập
                 </Button>
               </Link>
             </div>
             <div className='overlay-panel overlay-right'>
+            {showSignupText && (
+                <p className=' slide-up-text text-3xl text-center font-bold tracking-wide'>
+                  Bạn chưa có tài khoản của <span className='text-primary mr-1 '>The Bus Journey</span>?
+                </p>
+              )}
               <Link to='/register'>
-                <Button
-                  className='ghost bg-transparent hover:bg-transparent border-2 border-white'
+                <button
+                  className='slide-up-text px-8 mt-16 py-2 rounded-md hover:bg-primary hover:text-white font-bold transition bg-amber-50 text-primary border-2 hover:border-transparent border-primary'
                   id='signUp'
                   onClick={() => {
                     setaddclass('right-panel-active')
                     setResetFormLogin((prev) => !prev)
+                    setShowSignupText(false)
+                    setShowSigninText(true)
                   }}
                 >
-                  GO TO REGISTER
-                </Button>
+                  Đăng kí
+                </button>
               </Link>
+             
             </div>
           </div>
         </div>

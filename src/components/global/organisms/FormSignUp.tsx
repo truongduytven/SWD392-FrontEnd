@@ -7,6 +7,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { z } from 'zod'
 import { PasswordInput } from '../atoms/password-input'
 import { useEffect } from 'react'
+import LogoIcon from '@/assets/LogoIcon.png';
+
 type FormSignUpProps = {
   reset: boolean
 }
@@ -33,7 +35,8 @@ function FormSignUp({ reset }: FormSignUpProps) {
         onSubmit={formSignUp.handleSubmit(onSubmitSignUp)}
         className='flex items-center px-10 justify-center gap-5 flex-col h-full text-center shadow-xl mr-20 '
       >
-        <h1 className='font-bold'>Đăng kí</h1>
+        <p className='font-medium text-2xl'>Tạo tài khoản</p>
+        <p className='flex items-center text-muted-foreground'>để tiếp tục với <img src={LogoIcon} className='mx-1' width={20}/>The Bus Journey</p>
         <FormField
           control={formSignUp.control}
           name='name'
