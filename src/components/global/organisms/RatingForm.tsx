@@ -117,6 +117,8 @@ import { Input } from '../atoms/input'
 import IterateUplaod from './IterateUplaod'
 import MultipleImageUpload from './MultipleImageUpload'
 import SingleImageUpload from './SingleImageUpload'
+import cry from "@/assets/cry1.png"
+import love from "@/assets/in-love.png"
 // const FormSchema = z.object({
 //   bio: z
 //     .string()
@@ -174,9 +176,9 @@ function RatingForm() {
                                   </FormControl>
                                   <FormLabel>
                                     {rateValue > index ? (
-                                      <img className='w-8 h-8 cursor-pointer' src={starFillIcon} />
+                                      <img className='w-8 h-8 cursor-pointer' src={love} />
                                     ) : (
-                                      <img className='w-8 h-8 cursor-pointer' src={starIcon} />
+                                      <img className='w-8 h-8 cursor-pointer text-gray-500' src={cry} />
                                     )}
                                   </FormLabel>
                                 </FormItem>
