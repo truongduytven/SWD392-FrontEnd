@@ -59,7 +59,7 @@ function Header() {
           </div>
           <div className='flex-1 text-right'>
             <Link to='/login'>
-              <button className='text-black font-medium hover:before:bg-redborder-red-500 relative h-fit py-2 w-fit overflow-hidden bg-white px-3 transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-orange-500 before:transition-all before:duration-500 hover:text-white hover:before:left-0 hover:before:w-full'>
+              <button className='text-black rounded-md font-medium hover:before:bg-redborder-red-500 relative h-fit py-2 w-fit overflow-hidden bg-white px-3 transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-orange-500 before:transition-all before:duration-500 hover:text-white hover:before:left-0 hover:before:w-full'>
                 <p className='relative z-10'> Đăng ký/Đăng nhập</p>
               </button>
             </Link>
