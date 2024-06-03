@@ -7,7 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { z } from 'zod'
 import { PasswordInput } from '../atoms/password-input'
 import { useEffect } from 'react'
-import LogoIcon from '@/assets/LogoIcon.png';
+import LogoIcon from '@/assets/LogoMini.png';
 import { Link } from 'react-router-dom'
 
 type FormSignUpProps = {

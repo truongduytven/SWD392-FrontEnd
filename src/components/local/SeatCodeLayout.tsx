@@ -32,7 +32,7 @@ const SeatLayout: React.FC = () => {
   return (
     <div className='flex items-center mt-2 space-x-10'>
       <div>
-        <div>Tầng trên</div>
+        <div className='text-lg font-semibold'>Tầng trên</div>
         <div className='grid grid-cols-2 gap-4 p-4'>
           {upperDeckSeats.map((seat) => (
             <Seat
@@ -45,7 +45,7 @@ const SeatLayout: React.FC = () => {
         </div>
       </div>
       <div>
-        <div>Tầng dưới</div>
+        <div className='text-lg font-semibold'>Tầng dưới</div>
         <div className='grid grid-cols-2 gap-4 p-4'>
           {lowerDeckSeats.map((seat) => (
             <Seat

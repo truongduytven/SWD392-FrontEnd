@@ -1,4 +1,4 @@
-import LogoFull from '@/assets/LogoFull2.png';
+import LogoFull from '@/assets/LogoFull.png';
 import { Link } from 'react-router-dom';
 import Container from '../atoms/container';
 import {
@@ -6,7 +6,6 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle
 } from '../atoms/navigation-menu'
 
 function Header() {
