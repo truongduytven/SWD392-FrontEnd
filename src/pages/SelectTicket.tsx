@@ -9,7 +9,7 @@ function SelectTicket() {
   const navigate = useNavigate()
   return (
     <Container>
-      <div className='h-full flex flex-col my-5 space-y-8'>
+      <div className='h-full flex flex-col mt-10 mb-12  '>
         <div className='flex justify-start items-center'>
           <Button
             onClick={() => navigate(-1)}
@@ -19,7 +19,7 @@ function SelectTicket() {
             Quay lại
           </Button>
         </div>
-        <div className='flex justify-center uppercase font-bold text-4xl'>chọn mua vé</div>
+        <div className='flex justify-center items-center uppercase font-bold text-4xl mb-12'>chọn mua vé</div>
         <div className='flex justify-evenly'>
           <div className='border w-7/12 rounded-xl shadow-md'>
             <ChooseSeatCode />
@@ -28,7 +28,7 @@ function SelectTicket() {
             <InvoiceDetail />
             <div className='flex justify-end'>
               <Button className='bg-primary text-secondary hover:translate-x-2 hover:scale-105'>
-                Tiếp tục chọn dịch vụ <ArrowRight className='ml-1 scale-75' />
+                Tiếp tục<ArrowRight className='ml-1 scale-75' />
               </Button>
             </div>
           </div>

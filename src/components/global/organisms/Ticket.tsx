@@ -2,15 +2,15 @@
 function Ticket() {
   return (
     <div className='flex flex-col items-center justify-center text-sm '>
-            <h1 className="text-lg font-bold mb-4">Tra cứu vé thành công</h1>
+            <h1 className="text-3xl font-bold mb-4">Tra cứu vé thành công</h1>
 
       <div className='flex bg-white shadow-lg rounded-lg border'>
         <div className='flex '>
           <div className='flex flex-col justify-between bg-cover border-r border-dashed border-gray-700 p-5 opacity-85'>
             <div className='flex flex-col gap-2 items-center'>
               <p className='text-lg font-semibold'>
-                Giá vé:
-                <span className='text-xl font-bold text-orange-500'>170.000đ</span>
+                Giá vé: 
+                <span className='text-xl font-bold text-orange-500 ml-1'>170.000đ</span>
               </p>
               <p className='text-md font-semibold'>Giá dịch vụ:</p>
             </div>
@@ -36,6 +36,9 @@ function Ticket() {
             <h4 className='text-md'>
               Chặng đi: <span className='font-bold'>Hà Nội - Bến Tre</span>
             </h4>
+            <h4 className='text-md'>
+              Nhà xe: <span className='font-bold'>Minh Tiên</span>
+            </h4>
             <p>
               Khởi hành:
               <span className='text-base font-bold ml-2'>15:30</span>
@@ -51,10 +54,10 @@ function Ticket() {
           </div>
         </div>
         <div className='w-64 border-l border-dashed border-gray-700 relative'>
-          <p className='absolute ml-20 lg:ml-7  w-full text-orange-600 h-full flex items-end justify-center gap-6 transform rotate-90'>
+          {/* <p className='absolute ml-20 lg:ml-7  w-full text-orange-600 h-full flex items-end justify-center gap-6 transform rotate-90'>
             <span>The bus journey</span>
             <span>The bus journey</span>
-          </p>
+          </p> */}
           <div className='flex flex-col items-center justify-around h-full bg-yellow-400 py-4 rounded-tr-md rounded-br-md'>
             <div>
               <h1 className='text-lg'>Tổng hóa đơn</h1>
