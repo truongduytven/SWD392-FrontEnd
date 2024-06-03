@@ -1,4 +1,4 @@
-import { InvoiceData, ticket } from '@/types/invoiceData'
+import { InvoiceData, Service, ticket } from '@/types/invoiceData'
 import { createContext, useContext, useState } from 'react'
 
 const defaultInvoiceData: InvoiceData = {
@@ -12,6 +12,7 @@ const defaultInvoiceData: InvoiceData = {
 interface InvoiceContextType {
   invoiceData: InvoiceData
   updateTickets: (tickets: ticket[]) => void
+  updateService: (seatCode: string, services: Service[]) => void
 }
 
 const InvoiceContext = createContext<InvoiceContextType | undefined>(undefined)
@@ -45,6 +46,12 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
       totalPrice
     }))
   }
+  const updateService = (seatCode: string, services: Service[]) => {
+    const updatedTickets = invoiceData.tickets.map((ticket) =>
+      ticket.seatCode === seatCode ? { ...ticket, services } : ticket
+    )
+    updateTickets(updatedTickets)
+  }
 
-  return <InvoiceContext.Provider value={{ invoiceData, updateTickets , }}>{children}</InvoiceContext.Provider>
+  return <InvoiceContext.Provider value={{ invoiceData, updateTickets, updateService }}>{children}</InvoiceContext.Provider>
 }

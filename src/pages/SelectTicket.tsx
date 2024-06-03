@@ -1,7 +1,7 @@
 import { Button } from '@/components/global/atoms/button'
 import Container from '@/components/global/atoms/container'
-import ChooseSeatCode from '@/components/local/ChooseSeatCode'
-import InvoiceDetail from '@/components/local/InvoiceDetail'
+import ChooseSeatCode from '@/components/local/SelectTicket/ChooseSeatCode'
+import InvoiceDetail from '@/components/local/SelectTicket/InvoiceDetail'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 
