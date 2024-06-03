@@ -24,7 +24,7 @@ const Seat: React.FC<SeatProps> = ({ seat, onClick, selected }) => {
 
   return (
     <button
-      className='relative w-10 h-10 m-2 flex items-center justify-center rounded-md'
+      className={`relative w-10 h-10 m-2 flex items-center justify-center rounded-md ${status === 'bought' && 'cursor-not-allowed'}`}
       onClick={() => onClick(seatCode)}
       disabled={status === 'bought'}
     >
