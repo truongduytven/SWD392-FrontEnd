@@ -8,6 +8,7 @@ import { ratingSchema } from '@/lib/schemas/ratingSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 const rateValueToText = ['Tệ', 'Không hài lòng', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
@@ -145,7 +146,9 @@ const RatingForm: React.FC = () => {
               </div>
 
               <div className='flex justify-end items-center gap-3'>
-                <div onClick={() => {}}>Trở lại</div>
+                <Link to="/">
+                <Button variant="outline">Trở lại</Button>
+                </Link>
                 <Button type='submit'>Đánh giá</Button>
               </div>
             </form>
