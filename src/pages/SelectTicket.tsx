@@ -28,7 +28,7 @@ function SelectTicket() {
             <InvoiceDetail />
             <div className='flex justify-end'>
               <Button className='bg-primary text-secondary hover:translate-x-2 hover:scale-105'>
-                Tiếp tục chọn dịch vụ <ArrowRight className='ml-1 scale-75' />
+                Tiếp tục<ArrowRight className='ml-1 scale-75' />
               </Button>
             </div>
           </div>

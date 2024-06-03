@@ -3,12 +3,16 @@ import { formatDate, formatPrice } from "@/lib/utils";
 
 function InvoiceDetail() {
   const { invoiceData } = useInvoice()
-  const { startLocation, endLocation, timeStart, tickets, service } = invoiceData;
-  const totalTicketPrice = tickets.reduce((sum, ticket) => sum + ticket.price, 0);
-  const totalServicePrice = service.reduce((sum, srv) => sum + srv.price * srv.quantity, 0);
+  const { startLocation, endLocation, timeStart, tickets } = invoiceData;
+  const totalTicketPrice = tickets?.reduce((sum, ticket) => sum + ticket.price, 0);
+  const totalServicePrice = tickets?.reduce(
+    (total, ticket) =>
+      total + ticket.services.reduce((serviceTotal, service) => serviceTotal + service.price * service.quantity, 0),
+    0
+  )
   return (
     <div className='shadow-lg border rounded-xl p-3'>
-      <span className='font-bold text-xl'>Chi tiết hóa đơn</span>
+      <span className='font-bold text-xl uppercase'>Chi tiết hóa đơn</span>
       <div className='flex flex-col space-y-3 mt-3'>
         <div className='flex justify-between'>
           <span>Tuyến xe: </span>

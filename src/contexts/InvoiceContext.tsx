@@ -1,45 +1,17 @@
+import { InvoiceData, ticket } from '@/types/invoiceData'
 import { createContext, useContext, useState } from 'react'
-
-interface InvoiceData {
-  startLocation: string
-  endLocation: string
-  timeStart: Date
-  tickets: {
-    seatCode: string
-    price: number
-  }[]
-  service: {
-    name: string
-    price: number
-    quantity: number
-  }[]
-  totalPrice: number
-}
-
-interface Seat {
-  seatCode: string
-  price: number
-}
 
 const defaultInvoiceData: InvoiceData = {
   startLocation: 'Bx.Miền Tây',
   endLocation: 'Bến Tre - Trà Vinh',
   timeStart: new Date('2023-05-23T07:00:00'),
-  tickets: [
-    { seatCode: 'B01', price: 400000 },
-    { seatCode: 'B02', price: 400000 },
-    { seatCode: 'B03', price: 400000 }
-  ],
-  service: [
-    { name: 'Service A', price: 50000, quantity: 1 },
-    { name: 'Service B', price: 100000, quantity: 2 }
-  ],
-  totalPrice: 1300000
+  tickets: [],
+  totalPrice: 0
 }
 
 interface InvoiceContextType {
   invoiceData: InvoiceData
-  updateTickets: (tickets: Seat[]) => void
+  updateTickets: (tickets: ticket[]) => void
 }
 
 const InvoiceContext = createContext<InvoiceContextType | undefined>(undefined)
@@ -57,14 +29,22 @@ export const useInvoice = () => {
 export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [invoiceData, setInvoiceData] = useState<InvoiceData>(defaultInvoiceData)
 
-  const updateTickets = (tickets: Seat[]) => {
+  const updateTickets = (tickets: ticket[]) => {
+    console.log(tickets)
+    const totalTicketPrice = tickets?.reduce((total, ticket) => total + ticket.price, 0)
+    const totalServicePrice = tickets?.reduce(
+      (total, ticket) =>
+        total + ticket.services.reduce((serviceTotal, service) => serviceTotal + service.price * service.quantity, 0),
+      0
+    )
+    const totalPrice = totalTicketPrice + totalServicePrice
+
     setInvoiceData((prevData) => ({
       ...prevData,
       tickets,
-      totalPrice: tickets.reduce((total, seat) => total + seat.price, 0) +
-        prevData.service.reduce((total, service) => total + service.price * service.quantity, 0),
-    }));
-  };
+      totalPrice
+    }))
+  }
 
-  return <InvoiceContext.Provider value={{ invoiceData, updateTickets }}>{children}</InvoiceContext.Provider>
+  return <InvoiceContext.Provider value={{ invoiceData, updateTickets , }}>{children}</InvoiceContext.Provider>
 }
