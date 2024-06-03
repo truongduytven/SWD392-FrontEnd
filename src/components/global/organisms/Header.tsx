@@ -5,8 +5,9 @@ import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuList
-} from '../atoms/navigation-menu';
+  NavigationMenuList,
+  navigationMenuTriggerStyle
+} from '../atoms/navigation-menu'
 
 function Header() {
   return (
