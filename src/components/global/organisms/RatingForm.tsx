@@ -12,16 +12,21 @@ import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 const rateValueToText = ['Tệ', 'Không hài lòng', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
-
+const suggestedContents = [
+  'Rất hài lòng với dịch vụ',
+  'Chất lượng chuyến đi không tốt',
+  'Nhân viên chu đáo',
+  'An toàn, tiện nghi',
+]
 const RatingForm: React.FC = () => {
   const [files, setFiles] = useState<File[]>([])
-
+  const [suggestedContent, setSuggestedContent] = useState<string>('')
   const form = useForm<z.infer<typeof ratingSchema>>({
     resolver: zodResolver(ratingSchema),
     defaultValues: { value: 5, content: '', imageUrls: [] }
   })
 
-  const { handleSubmit, control, setValue } = form
+  const { handleSubmit, control, setValue,reset } = form
 
   const onSubmit = (data: z.infer<typeof ratingSchema>) => {
     console.log('Form Data:', data)
@@ -33,6 +38,10 @@ const RatingForm: React.FC = () => {
     files.forEach((file, index) => {
       formData.append(`files`, file, file.name)
     })
+
+    reset({ value: 5, content: '', imageUrls: [] })
+    setFiles([])
+    setSuggestedContent('')
   }
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +56,10 @@ const RatingForm: React.FC = () => {
     setFiles(newFiles)
     setValue('imageUrls', newFiles)
   }
-
+  const handleSuggestedContentClick = (content: string) => {
+    setValue('content', content)
+    setSuggestedContent(content)
+  }
   return (
     <div className='flex h-screen items-center justify-center py-40'>
       <div className='fixed inset-0 z-[1000] flex flex-col justify-center items-center'>
@@ -106,6 +118,20 @@ const RatingForm: React.FC = () => {
                     <FormControl>
                       <Textarea rows={5} placeholder='Nhập đánh giá...' {...field} />
                     </FormControl>
+                    <div className='mt-2 flex flex-wrap gap-2'>
+                      {suggestedContents.map((suggestion, index) => (
+                        <button
+                        type='button'
+                          key={index}
+                          className={`bg-gray-200 px-3 py-1 text-sm rounded-md ${
+                            suggestedContent === suggestion ? 'bg-primary text-white' : ''
+                          }`}
+                          onClick={() => handleSuggestedContentClick(suggestion)}
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

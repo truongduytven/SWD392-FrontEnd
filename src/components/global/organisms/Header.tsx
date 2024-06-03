@@ -39,7 +39,7 @@ function Header() {
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to='/discount'>
+                  <Link to='/rating'>
                     <NavigationMenuLink
                       className='relative text-black font-medium hover:text-primary cursor-pointer transition-all ease-in-out 
   before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-primary before:origin-center before:h-[2px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%]
