@@ -21,6 +21,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/global/atoms
 
 import { OtpShema } from '@/lib/schemas/OtpSchema'
 import { Badge } from '../atoms/badge'
+import { useEffect, useRef } from 'react';
 
 function OtpForm() {
   const form = useForm<z.infer<typeof OtpShema>>({
@@ -33,7 +34,13 @@ function OtpForm() {
   function onSubmit(data: z.infer<typeof OtpShema>) {
     console.log(data)
   }
+  const firstInputRef = useRef<HTMLInputElement>(null)
 
+  useEffect(() => {
+    if (firstInputRef.current) {
+      firstInputRef.current.focus()
+    }
+  }, [])
   return (
       <div className='flex h-screen items-center justify-center py-40 '>
         <div className='flex w-[1000px] items-center justify-between gap-4  rounded-md shadow-content shadow-xl' >
@@ -62,7 +69,7 @@ function OtpForm() {
                       <p className='mt-1 mb-4'>Mã xác thực đã được gửi qua Email của bạn!</p>
                       </FormLabel>
                       <FormControl>
-                        <InputOTP maxLength={6} {...field}>
+                        <InputOTP maxLength={6} {...field}  ref={firstInputRef}>
                           <InputOTPGroup>
                             <InputOTPSlot index={0} />
                             <InputOTPSlot index={1} />
@@ -79,7 +86,7 @@ function OtpForm() {
                   )}
                 />
 
-                <Button type='submit'>Submit</Button>
+                <Button type='submit'>Xác nhận</Button>
               </form>
             </Form>
           </div>

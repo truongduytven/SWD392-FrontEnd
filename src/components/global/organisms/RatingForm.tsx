@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
-const rateValueToText = ['Tệ', 'Không hài lòng', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
+const rateValueToText = ['Rất tệ', 'Tệ', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
 const suggestedContents = [
   'Rất hài lòng với dịch vụ',
   'Chất lượng chuyến đi không tốt',
@@ -62,7 +62,7 @@ const RatingForm: React.FC = () => {
   }
   return (
     <div className='flex h-screen items-center justify-center py-40'>
-      <div className='fixed inset-0 z-[1000] flex flex-col justify-center items-center'>
+      <div className='fixed inset-0 z-[1000]  flex flex-col justify-center items-center'>
         <div className='text-2xl font-medium'>Đánh giá chuyến đi</div>
         <div className='w-[500px] bg-background rounded-md p-6'>
           <Form {...form}>
