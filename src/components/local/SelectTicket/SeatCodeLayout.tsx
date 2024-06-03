@@ -4,6 +4,7 @@ import Seat from './Seat'
 import { useInvoice } from '@/contexts/InvoiceContext'
 import { defaultSeats } from '@/constants/SeatData'
 import { ticket } from '@/types/invoiceData'
+import { toast } from 'sonner'
 
 const SeatLayout: React.FC = () => {
   const { invoiceData, updateTickets } = useInvoice()
@@ -14,8 +15,12 @@ const SeatLayout: React.FC = () => {
       let newSelected
       if (prevSelected.includes(seatCode)) {
         newSelected = prevSelected.filter((code) => code !== seatCode)
-      } else {
+      } else if(prevSelected.length < 5) {
         newSelected = [...prevSelected, seatCode]
+      } else {
+        toast.warning('Chỉ được chọn tối đa 5 ghế')
+        console.log("hehe")
+        return prevSelected
       }
       const newTickets = newSelected.map((code) => {
         const seat = defaultSeats.find((seat) => seat.seatCode === code)!
