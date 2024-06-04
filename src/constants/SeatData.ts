@@ -5,7 +5,14 @@ export interface Seat {
     status: string;
   }
   
-  export const defaultSeats: Seat[] = [
+export interface Service {
+  name: string;
+  imageUrl: string
+  price: number;
+  type: string;
+}
+
+export const defaultSeats: Seat[] = [
     { seatCode: 'A01', price: 400000, status: 'bought' },
     { seatCode: 'A02', price: 400000, status: 'bought' },
     { seatCode: 'A03', price: 400000, status: 'bought' },
@@ -27,4 +34,61 @@ export interface Seat {
     { seatCode: 'B09', price: 400000, status: 'notsold' },
     { seatCode: 'B10', price: 400000, status: 'notsold' },
   ];
+
+export const ServiceData: Service[] = [
+  {
+    name: 'Harmburger',
+    price: 400000,
+    imageUrl: 'https://biteswithbri.com/wp-content/uploads/2021/02/HamburgerPattyRecipe04.jpg',
+    type: 'food',
+  },
+  {
+    name: 'Harmburger',
+    price: 400000,
+    imageUrl: 'https://biteswithbri.com/wp-content/uploads/2021/02/HamburgerPattyRecipe04.jpg',
+    type: 'food',
+  },
+  {
+    name: 'Harmburger',
+    price: 400000,
+    imageUrl: 'https://biteswithbri.com/wp-content/uploads/2021/02/HamburgerPattyRecipe04.jpg',
+    type: 'food',
+  },
+  {
+    name: 'Harmburger',
+    price: 400000,
+    imageUrl: 'https://biteswithbri.com/wp-content/uploads/2021/02/HamburgerPattyRecipe04.jpg',
+    type: 'food',
+  },
+  {
+    name: 'Harmburger',
+    price: 400000,
+    imageUrl: 'https://biteswithbri.com/wp-content/uploads/2021/02/HamburgerPattyRecipe04.jpg',
+    type: 'food',
+  },
+  {
+    name: 'Harmburger',
+    price: 400000,
+    imageUrl: 'https://biteswithbri.com/wp-content/uploads/2021/02/HamburgerPattyRecipe04.jpg',
+    type: 'food',
+  },
+  {
+    name: 'Harmburger',
+    price: 400000,
+    imageUrl: 'https://biteswithbri.com/wp-content/uploads/2021/02/HamburgerPattyRecipe04.jpg',
+    type: 'food',
+  },
+  {
+    name: 'Harmburger',
+    price: 400000,
+    imageUrl: 'https://biteswithbri.com/wp-content/uploads/2021/02/HamburgerPattyRecipe04.jpg',
+    type: 'food',
+  },
+  {
+    name: 'Harmburger',
+    price: 400000,
+    imageUrl: 'https://biteswithbri.com/wp-content/uploads/2021/02/HamburgerPattyRecipe04.jpg',
+    type: 'food',
+  }
+]
   

@@ -10,6 +10,8 @@ export interface Service {
   name: string
   price: number
   quantity: number
+  type: string
+  imageUrl: string
 }
 
 export interface ticket {

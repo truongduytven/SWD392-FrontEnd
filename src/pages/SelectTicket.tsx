@@ -2,11 +2,17 @@ import { Button } from '@/components/global/atoms/button'
 import Container from '@/components/global/atoms/container'
 import ChooseSeatCode from '@/components/local/SelectTicket/ChooseSeatCode'
 import InvoiceDetail from '@/components/local/SelectTicket/InvoiceDetail'
+import { useInvoice } from '@/contexts/InvoiceContext'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 function SelectTicket() {
+  const { invoiceData } = useInvoice()
   const navigate = useNavigate()
+  const handleGoToService = () => {
+    navigate('/selectService')
+  }
   return (
     <Container>
       <div className='h-full flex flex-col my-5 space-y-8 mb-16'>
@@ -27,12 +33,10 @@ function SelectTicket() {
           <div className='flex flex-col space-y-10 w-4/12'>
             <InvoiceDetail />
             <div className='flex justify-end'>
-              <Link to='/selectService'>
-                <Button className='bg-primary text-secondary hover:translate-x-2 hover:scale-105'>
+                <Button onClick={handleGoToService} className='bg-primary text-secondary hover:translate-x-2 hover:scale-10' disabled={invoiceData.tickets.length === 0}>
                   Tiếp tục
                   <ArrowRight className='ml-1 scale-75' />
                 </Button>
-              </Link>
             </div>
           </div>
         </div>
