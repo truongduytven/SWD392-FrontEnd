@@ -76,8 +76,8 @@ function CardTrip() {
         </div>
 
         <div className='h-[1px] bg-stone-300 mx-3'></div>
-        <AccordionContent className='bg-white'>
-          <Tabs defaultValue='hinhanh' className='px-2'>
+        <AccordionContent className='bg-white rounded-md'>
+          <Tabs defaultValue='hinhanh' className='px-2 py-2'>
             <TabsList className=' px-4 flex  '>
               <TabsTrigger value='hinhanh' className=''>
                 Hình ảnh
