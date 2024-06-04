@@ -23,10 +23,10 @@ function CardTrip() {
               <p>Minh Tiên Limousine</p>
               <p className='text-tertiary text-xl'>940.000đ</p>
             </div>
-            <p className='text-muted-foreground'>Limousine 24 phòng đôi</p>
+            {/* <p className='text-muted-foreground'>Limousine 24 phòng đôi</p> */}
             <p className='flex item-center justify-start gap-1'>
               4.6
-              <Star className='w-5 text-primary' fill='orange' />
+              <Star className='w-5 text-yellow-500' fill='orange' />
               (78 đánh giá)
             </p>
             <div className='flex justify-between items-end '>
