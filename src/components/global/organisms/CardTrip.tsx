@@ -3,6 +3,7 @@ import { Star } from 'lucide-react'
 import { Button } from '../atoms/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
 import { useNavigate } from 'react-router-dom'
+import RatingDetailLayout from '../molecules/RatingDetailLayout'
 function CardTrip() {
   const navigate = useNavigate()
   const handleSubmit = () => {
@@ -23,10 +24,10 @@ function CardTrip() {
               <p>Minh Tiên Limousine</p>
               <p className='text-tertiary text-xl'>940.000đ</p>
             </div>
-            <p className='text-muted-foreground'>Limousine 24 phòng đôi</p>
+            {/* <p className='text-muted-foreground'>Limousine 24 phòng đôi</p> */}
             <p className='flex item-center justify-start gap-1'>
               4.6
-              <Star className='w-5 text-primary' fill='orange' />
+              <Star className='w-5 text-yellow-500' fill='orange' />
               (78 đánh giá)
             </p>
             <div className='flex justify-between items-end '>
@@ -76,9 +77,9 @@ function CardTrip() {
         </div>
 
         <div className='h-[1px] bg-stone-300 mx-3'></div>
-        <AccordionContent className='bg-white'>
-          <Tabs defaultValue='hinhanh' className='px-2'>
-            <TabsList className=' px-4 flex  '>
+        <AccordionContent className='bg-white rounded-md h-[400px] overflow-y-auto'>
+          <Tabs defaultValue='hinhanh' className='px-2 py-2'>
+            <TabsList className=' px-4 flex sticky top-0 shadow-md '>
               <TabsTrigger value='hinhanh' className=''>
                 Hình ảnh
               </TabsTrigger>
@@ -91,7 +92,9 @@ function CardTrip() {
             <TabsContent value='tienich'>Tiện ích đâu.</TabsContent>
             <TabsContent value='diemdon'>Em chờ.</TabsContent>
             <TabsContent value='diemtra'>Em chờ.</TabsContent>
-            <TabsContent value='danhgia'>Cho mấy sao.</TabsContent>
+            <TabsContent value='danhgia'>
+              <RatingDetailLayout/>
+            </TabsContent>
           </Tabs>
         </AccordionContent>
       </AccordionItem>

@@ -14,9 +14,10 @@ import { z } from 'zod'
 const rateValueToText = ['Rất tệ', 'Tệ', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
 const suggestedContents = [
   'Rất hài lòng với dịch vụ',
-  'Chất lượng chuyến đi không tốt',
+  'Chất lượng chuyến đi tốt',
   'Nhân viên chu đáo',
-  'An toàn, tiện nghi'
+  'An toàn, tiện nghi',
+  "Nhà vệ sinh sạch sẽ"
 ]
 const RatingForm: React.FC = () => {
   const [files, setFiles] = useState<File[]>([])
@@ -104,7 +105,7 @@ const RatingForm: React.FC = () => {
                     </FormItem>
                   )}
                 />
-                <p className='text-center text-[#eab308]' id='rating-text'>
+                <p className='text-center text-[#eab308] font-medium' id='rating-text'>
                   {rateValueToText[form.watch('value') - 1]}
                 </p>
               </div>
