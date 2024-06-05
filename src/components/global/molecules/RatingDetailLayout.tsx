@@ -18,7 +18,7 @@ function RatingDetailLayout() {
 
   return (
     <div className=''>
-      <div className='flex items-cente justify-start p-4 mb-4 rounded-sm bg-muted'>
+      <div className='flex items-center justify-center p-4 mb-4 rounded-sm bg-muted'>
         <div className='mx-10'>
           <span className='mx-1 text-2xl font-medium'>{averageRatings?.toFixed(1) || 0}</span>
           <span className='text-base font-medium'>/ 5</span>
