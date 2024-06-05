@@ -57,27 +57,27 @@ function RatingDetail() {
             {' '}
             <img
               className='object-cover w-24 rounded cursor-pointer aspect-square'
-              src='https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg'
+              src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Sgrz4c57LGlVsnMKrtZUVo-hJKuK3TK44Q&usqp=CAU'
               alt='rating'
             />
             <img
               className='object-cover w-24 rounded cursor-pointer aspect-square'
-              src='https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg'
+              src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Sgrz4c57LGlVsnMKrtZUVo-hJKuK3TK44Q&usqp=CAU'
               alt='rating'
             />
             <img
               className='object-cover w-24 rounded cursor-pointer aspect-square'
-              src='https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg'
+              src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Sgrz4c57LGlVsnMKrtZUVo-hJKuK3TK44Q&usqp=CAU'
               alt='rating'
             />
             <img
               className='object-cover w-24 rounded cursor-pointer aspect-square'
-              src='https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg'
+              src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Sgrz4c57LGlVsnMKrtZUVo-hJKuK3TK44Q&usqp=CAU'
               alt='rating'
             />
             <img
               className='object-cover w-24 rounded cursor-pointer aspect-square'
-              src='https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg'
+              src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Sgrz4c57LGlVsnMKrtZUVo-hJKuK3TK44Q&usqp=CAU'
               alt='rating'
             />
           </DialogTrigger>
@@ -90,10 +90,10 @@ function RatingDetail() {
                       <CarouselItem key={index}>
                         <div className='p-1'>
                           <Card>
-                            <CardContent className='flex aspect-square items-center justify-center p-6'>
+                            <CardContent className='flex aspect-square items-center justify-center'>
                               <img
-                                className='object-cover w-24 rounded cursor-pointer aspect-square'
-                                src='https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg'
+                                className='object-cotain h-full rounded cursor-pointer '
+                                src='https://i.pinimg.com/474x/df/cb/71/dfcb71381f423fd8973af381c42c500f.jpg'
                                 alt='rating'
                               />
                             </CardContent>

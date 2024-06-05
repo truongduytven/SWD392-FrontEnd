@@ -20,8 +20,8 @@ function RatingDetailLayout() {
     <div className=''>
       <div className='flex items-cente justify-start p-4 mb-4 rounded-sm bg-muted'>
         <div className='mx-10'>
-          <span className='mx-1 text-base font-medium'>{averageRatings?.toFixed(1) || 0}</span>
-          <span className='text-2xl font-medium'>/ 5</span>
+          <span className='mx-1 text-2xl font-medium'>{averageRatings?.toFixed(1) || 0}</span>
+          <span className='text-base font-medium'>/ 5</span>
           <div className='flex my-2'>
             <svg viewBox='0 0 1000 200' className='mb-0'>
               <defs>
