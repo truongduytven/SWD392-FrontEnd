@@ -13,6 +13,17 @@ export interface Service {
   type: string;
 }
 
+export interface station {
+  name: string;
+  stationId: number;
+}
+
+export const stationData: string[] = [
+  'Bến Tre',
+  'TP Hồ Chí Minh',
+  'Long An',
+]
+
 export const defaultSeats: Seat[] = [
     { seatCode: 'A01', price: 400000, status: 'bought' },
     { seatCode: 'A02', price: 400000, status: 'bought' },

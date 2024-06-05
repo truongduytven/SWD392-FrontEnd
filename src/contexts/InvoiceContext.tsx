@@ -5,39 +5,14 @@ const defaultInvoiceData: InvoiceData = {
   startLocation: 'Bx.Miền Tây',
   endLocation: 'Bến Tre - Trà Vinh',
   timeStart: new Date('2023-05-23T07:00:00'),
-  tickets: [
-    {
-      seatCode: 'A4',
-      price: 150000,
-      services: [
-        {
-          id: 11,
-          name: 'Coca Cola',
-          price: 20000,
-          quantity: 1,
-          type: 'drink',
-          imageUrl: 'https://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg',
-          station: 'Bến Tre'
-        },
-        {
-          id: 11,
-          name: 'Coca Cola',
-          price: 20000,
-          quantity: 1,
-          type: 'drink',
-          imageUrl: 'https://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg',
-          station: 'Trà Vinh'
-        }
-      ]
-    },
-  ],
+  tickets: [],
   totalPrice: 0
 }
 
 interface InvoiceContextType {
   invoiceData: InvoiceData
   updateTickets: (tickets: ticket[]) => void
-  updateService: (seatCode: string, services: Service[]) => void
+  addService: (seatCode: string, newService: Service) => void
 }
 
 const InvoiceContext = createContext<InvoiceContextType | undefined>(undefined)
@@ -71,12 +46,20 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
       totalPrice
     }))
   }
-  const updateService = (seatCode: string, services: Service[]) => {
-    const updatedTickets = invoiceData.tickets.map((ticket) =>
-      ticket.seatCode === seatCode ? { ...ticket, services } : ticket
-    )
+  const addService = (seatCode: string, newService: Service) => {
+    const updatedTickets = invoiceData.tickets.map((ticket) => {
+      if (ticket.seatCode === seatCode) {
+        return {
+          ...ticket,
+          services: [...ticket.services, newService]
+        }
+      }
+      return ticket
+    })
     updateTickets(updatedTickets)
   }
 
-  return <InvoiceContext.Provider value={{ invoiceData, updateTickets, updateService }}>{children}</InvoiceContext.Provider>
+  return (
+    <InvoiceContext.Provider value={{ invoiceData, updateTickets, addService }}>{children}</InvoiceContext.Provider>
+  )
 }

@@ -15,9 +15,13 @@ import { HandPlatter } from 'lucide-react'
 import { ServiceData } from '@/constants/SeatData'
 import { useState } from 'react'
 import { formatPrice } from '@/lib/utils'
-
-function TicketService({ services }: ticket) {
+function TicketService({ services, seatCode }: ticket) {
   const [isServiceSelected, setIsServiceSelected] = useState(false)
+  const [selectedStation, setSelectedStation] = useState<string | null>(null)
+  const handleClickSelectService = (station: string) => {
+    setIsServiceSelected(true)
+    setSelectedStation(station)
+  }
   return (
     <>
       <Dialog>
@@ -29,7 +33,7 @@ function TicketService({ services }: ticket) {
             </Button>
           </div>
         </DialogTrigger>
-        <DialogContent className='sm:max-w-screen-lg flex justify-evenly'>
+        <DialogContent className='sm:max-w-screen-lg flex justify-between space-x-4'>
           <div className='w-7/12'>
             <DialogHeader>
               <DialogTitle className='flex justify-between items-center mb-6'>
@@ -37,7 +41,7 @@ function TicketService({ services }: ticket) {
                 <span className='text-xs text-red-500'>* Vui lòng chọn trạm trước khi lựa chọn dịch vụ</span>
               </DialogTitle>
             </DialogHeader>
-            <ServiceAction onSelectService={() => setIsServiceSelected(true)} />
+            <ServiceAction onStationSelect={handleClickSelectService} />
             {isServiceSelected && (
               <Tabs defaultValue='food' className='w-full mt-4'>
                 <TabsList>
@@ -46,30 +50,30 @@ function TicketService({ services }: ticket) {
                   <TabsTrigger value='other'>Khác</TabsTrigger>
                 </TabsList>
                 <TabsContent value='food'>
-                  <ServiceLayout props={ServiceData} />
+                  <ServiceLayout props={ServiceData} seatCode={seatCode} selectedStation={selectedStation}/>
                 </TabsContent>
                 <TabsContent value='drink'>
-                  <ServiceLayout props={ServiceData} />
+                  <ServiceLayout props={ServiceData} seatCode={seatCode} selectedStation={selectedStation}/>
                 </TabsContent>
                 <TabsContent value='other'>
-                  <ServiceLayout props={ServiceData} />
+                  <ServiceLayout props={ServiceData} seatCode={seatCode} selectedStation={selectedStation}/>
                 </TabsContent>
               </Tabs>
             )}
           </div>
-          <div className='w-4/12 flex flex-col border-l-2 p-2'>
+          <div className='w-5/12 flex flex-col border-l-2 p-2'>
             <div className='h-full'>
               <DialogHeader>
                 <DialogTitle className='flex justify-between items-center mb-6'>Đã chọn</DialogTitle>
               </DialogHeader>
-              <div className='flex flex-col space-y-2 my-2'>
+              <div className='flex flex-col space-y-2 my-2 p-2 overflow-y-auto max-h-[500px]'>
                 {services &&
                   services.map((service) => (
                     <div className='border flex rounded-md items-center'>
-                      <img className='max-h-20 max-w-32 rounded-md' src={service.imageUrl} alt='ảnh dịch vụ' />
+                      <img className='max-h-14 max-w-20 rounded-md' src={service.imageUrl} alt='ảnh dịch vụ' />
                       <div className='w-full flex flex-col text-sm p-2'>
                         <span>{service.name}</span>
-                        <span>Trạm Bến Tre</span>
+                        <span>Trạm {service.station}</span>
                         <span className='text-right'>Giá: {formatPrice(service.price)}</span>
                         <span className='text-right'>Số lượng: {service.quantity}</span>
                       </div>

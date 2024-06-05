@@ -68,11 +68,11 @@ function SelectService() {
 
                             <div className='flex flex-col items-start justify-between gap-1'>
                               <p className='m-0 p-0'>
-                                <span className='font-bold mr-2 text-lg'>6:00</span>• Tp Hồ Chí Minh
+                                <span className='font-bold mr-2 text-lg'>6:00</span>{invoiceData.startLocation}
                               </p>
                               <p className='text-muted-foreground'>2 giờ</p>
                               <p>
-                                <span className='font-bold mr-2 text-lg'>8:30</span>• Bến Tre
+                                <span className='font-bold mr-2 text-lg'>8:30</span>{invoiceData.endLocation}
                               </p>
                             </div>
                           </div>
@@ -95,7 +95,7 @@ function SelectService() {
               {/* <Link to='/selectService'> */}
               <Button className='bg-primary text-secondary hover:translate-x-2 hover:scale-105'>
                 Tiếp tục
-                <ArrowRight className='ml-1 scale-75' />
+                <ArrowRight className='ml-1 scale-75'/>
               </Button>
               {/* </Link> */}
             </div>

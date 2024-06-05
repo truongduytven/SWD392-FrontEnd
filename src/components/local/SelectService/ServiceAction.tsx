@@ -7,13 +7,13 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/global/atoms/select'
+import { stationData } from '@/constants/SeatData'
 import { Search } from 'lucide-react'
-
 interface ServiceActionProps {
-  onSelectService: (value: string) => void;
+  onStationSelect: (station: string) => void
 }
 
-function ServiceAction({onSelectService} : ServiceActionProps) {
+function ServiceAction({ onStationSelect }: ServiceActionProps) {
   return (
     <div className='flex space-x-4'>
       <div className='relative w-full'>
@@ -28,16 +28,19 @@ function ServiceAction({onSelectService} : ServiceActionProps) {
         />
       </div>
       <div className='w-full'>
-        <Select onValueChange={onSelectService}>
+        <Select onValueChange={onStationSelect}>
           <SelectTrigger>
             <SelectValue placeholder='Chọn trạm sử dụng dịch vụ *' />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Danh sách trạm</SelectLabel>
-              <SelectItem value='Bến Tre'>Bến Tre</SelectItem>
-              <SelectItem value='TP Hồ Chí Minh'>TP Hồ Chí Minh</SelectItem>
-              <SelectItem value='Long An'>Long An</SelectItem>
+              {stationData &&
+                stationData.map((station) => (
+                  <SelectItem key={station} value={station}>
+                    {station}
+                  </SelectItem>
+                ))}
             </SelectGroup>
           </SelectContent>
         </Select>
