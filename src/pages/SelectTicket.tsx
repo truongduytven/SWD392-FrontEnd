@@ -4,8 +4,7 @@ import ChooseSeatCode from '@/components/local/SelectTicket/ChooseSeatCode'
 import InvoiceDetail from '@/components/local/SelectTicket/InvoiceDetail'
 import { useInvoice } from '@/contexts/InvoiceContext'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
 
 function SelectTicket() {
   const { invoiceData } = useInvoice()

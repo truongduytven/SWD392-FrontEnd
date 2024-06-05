@@ -8,16 +8,12 @@ import {
   SelectValue
 } from '@/components/global/atoms/select'
 import { Search } from 'lucide-react'
-import { useEffect, useRef } from 'react'
 
-function ServiceAction() {
-  const firstSelectRef = useRef<HTMLSelectElement>(null)
+interface ServiceActionProps {
+  onSelectService: (value: string) => void;
+}
 
-  useEffect(() => {
-    if (firstSelectRef.current) {
-      firstSelectRef.current.focus()
-    }
-  }, [])
+function ServiceAction({onSelectService} : ServiceActionProps) {
   return (
     <div className='flex space-x-4'>
       <div className='relative w-full'>
@@ -32,7 +28,7 @@ function ServiceAction() {
         />
       </div>
       <div className='w-full'>
-        <Select>
+        <Select onValueChange={onSelectService}>
           <SelectTrigger>
             <SelectValue placeholder='Chọn trạm sử dụng dịch vụ *' />
           </SelectTrigger>

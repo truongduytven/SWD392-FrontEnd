@@ -5,7 +5,32 @@ const defaultInvoiceData: InvoiceData = {
   startLocation: 'Bx.Miền Tây',
   endLocation: 'Bến Tre - Trà Vinh',
   timeStart: new Date('2023-05-23T07:00:00'),
-  tickets: [],
+  tickets: [
+    {
+      seatCode: 'A4',
+      price: 150000,
+      services: [
+        {
+          id: 11,
+          name: 'Coca Cola',
+          price: 20000,
+          quantity: 1,
+          type: 'drink',
+          imageUrl: 'https://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg',
+          station: 'Bến Tre'
+        },
+        {
+          id: 11,
+          name: 'Coca Cola',
+          price: 20000,
+          quantity: 1,
+          type: 'drink',
+          imageUrl: 'https://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/master/pass/the-ultimate-hamburger.jpg',
+          station: 'Trà Vinh'
+        }
+      ]
+    },
+  ],
   totalPrice: 0
 }
 
