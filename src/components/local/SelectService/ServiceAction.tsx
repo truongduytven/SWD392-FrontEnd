@@ -15,7 +15,7 @@ interface ServiceActionProps {
 
 function ServiceAction({ onStationSelect }: ServiceActionProps) {
   return (
-    <div className='flex space-x-4'>
+    <div className='flex space-x-4 justify-end'>
       <div className='relative w-full'>
         <div className='pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3'>
           <Search className='h-4 w-4 text-gray-400' />

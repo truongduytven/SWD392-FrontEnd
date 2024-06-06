@@ -4,7 +4,18 @@ import QuantityInput from '@/components/local/SelectService/quantityInput'
 import { useInvoice } from '@/contexts/InvoiceContext'
 import { Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/global/atoms/alert-dialog'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from '@/components/global/atoms/alert-dialog'
+import { useState } from 'react'
 
 interface ServiceItemProps {
   service: Service
@@ -13,9 +24,14 @@ interface ServiceItemProps {
 
 function ServiceItem({ service, seatCode }: ServiceItemProps) {
   const { updateService, deleteService } = useInvoice()
+  const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false)
 
   const handleQuantityUpdate = (newQuantity: number) => {
-    updateService(seatCode, service.id, { ...service, quantity: newQuantity })
+    if (newQuantity <= 0) {
+      setIsAlertDialogOpen(true)
+    } else {
+      updateService(seatCode, service.id, { ...service, quantity: newQuantity })
+    }
   }
 
   const handleDeleteService = () => {
@@ -42,9 +58,7 @@ function ServiceItem({ service, seatCode }: ServiceItemProps) {
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Xác nhận xóa</AlertDialogTitle>
-              <AlertDialogDescription>
-                Bạn có chắc chắn rằng muốn xóa {service.name} không ?
-              </AlertDialogDescription>
+              <AlertDialogDescription>Bạn có chắc chắn rằng muốn xóa {service.name} không ?</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Hủy</AlertDialogCancel>
@@ -56,8 +70,27 @@ function ServiceItem({ service, seatCode }: ServiceItemProps) {
       <div className='w-full relative flex flex-col text-sm p-2'>
         <span>{service.name}</span>
         <span>{formatPrice(service.price)}</span>
-        <QuantityInput initialValue={service.quantity} onUpdate={handleQuantityUpdate} />
+        <QuantityInput initialValue={service.quantity} onUpdate={handleQuantityUpdate} onDelete={handleDeleteService} />
       </div>
+      <AlertDialog open={isAlertDialogOpen} onOpenChange={setIsAlertDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Xác nhận xóa</AlertDialogTitle>
+            <AlertDialogDescription>Bạn có chắc chắn rằng muốn xóa {service.name} không?</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setIsAlertDialogOpen(false)}>Hủy</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                handleDeleteService()
+                setIsAlertDialogOpen(false)
+              }}
+            >
+              Xác Nhận
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

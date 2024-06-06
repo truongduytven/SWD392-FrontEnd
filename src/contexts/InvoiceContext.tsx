@@ -51,9 +51,20 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const addService = (seatCode: string, newService: Service) => {
     const updatedTickets = invoiceData.tickets.map((ticket) => {
       if (ticket.seatCode === seatCode) {
-        return {
-          ...ticket,
-          services: [...ticket.services, newService]
+        const filterServices = ticket.services.filter((service) => service.id === newService.id)
+        if (filterServices.length > 0) {
+          const updatedServices = ticket.services.map((service) => {
+            if (service.id === newService.id) {
+              return { ...service, quantity: service.quantity + 1 }
+            }
+            return service
+          })
+          return { ...ticket, services: updatedServices }
+        } else {
+          return {
+            ...ticket,
+            services: [...ticket.services, newService]
+          }
         }
       }
       return ticket
