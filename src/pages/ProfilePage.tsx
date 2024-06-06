@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/global/atoms/avatar'
 // import { RootState } from '@/store'
 import { Button, Form, Input, Select, ConfigProvider } from 'antd'
-import { Key } from 'lucide-react'
+import { Key,PiggyBank } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 // import { useDispatch, useSelector } from 'react-redux'
@@ -90,7 +90,7 @@ function ProfilePage() {
 
   return (
     <div className='w-full'>
-      <div className='flex flex-col items-center justify-center  '>
+      <div className='flex mt-4 flex-col items-center justify-center  '>
       <ConfigProvider
               theme={{
                 token: {
@@ -161,6 +161,9 @@ function ProfilePage() {
                 <h4 className='text-navy-700 text-xl font-bold dark:text-white'>ThuongMinhLsr</h4>
                 <p className='flex items-center gap-2 text-base font-normal text-gray-600'>
                   <Key size={16} /> Khách hàng
+                </p>
+                <p className='flex items-center gap-2 text-lg text-primary font-medium  text-gray-600'>
+                  <PiggyBank size={16} /> 1.000.234đ
                 </p>
               </div>
 

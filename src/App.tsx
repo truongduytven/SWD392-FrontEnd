@@ -12,6 +12,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import OtpForm from './components/global/organisms/OtpForm'
 import RatingForm from './components/global/organisms/RatingForm'
 import ProfilePage from './pages/ProfilePage'
+import MyTicketPage from './pages/MyTicketPage'
 function App() {
   return (
     <Routes>
@@ -24,6 +25,7 @@ function App() {
           <Route path='/payment-success' element={<PaymentSuccess />} />
           <Route path='/payment-failure' element={<PaymentFailure />} />
           <Route path='/profile' element={<ProfilePage />} />
+          <Route path='/myticket' element={<MyTicketPage />} />
 
         </Route>
       <Route path='/login' element={<SignInSignUp />} />
