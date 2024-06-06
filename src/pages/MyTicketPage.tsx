@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Ticket from '@/components/local/myticket/Ticket'
 const tabs = [
   { id: 1, label: 'Tất cả' },
   { id: 2, label: 'Chưa sử dụng' },
@@ -12,7 +13,7 @@ type TabContentProps = {
 }
 
 const TabContent: React.FC<TabContentProps> = ({ content, isActive }) => (
-  <div className={`w-full bg-muted border-md min-h-80 p-4 ${isActive ? 'block' : 'hidden'} absolute`}>
+  <div className={`w-full  border-md p-4 ${isActive ? 'block' : 'hidden'}`}>
     <p>{content}</p>
   </div>
 )
@@ -39,11 +40,14 @@ function MyTicketPage() {
           style={{ width: `calc(100% / ${tabs.length})`, transform: `translateX(${(activeTab - 1) * 100}%)` }}
         />
       </div>
-      <div className='relative mt-4 '>
+      
+      <div className='mt-4 bg-muted '>
         {tabs.map((tab) => (
           <TabContent key={tab.id} content={`Nội dung cho ${tab.label}`} isActive={activeTab === tab.id} />
         ))}
+        <Ticket/>
       </div>
+
     </div>
   )
 }
