@@ -44,6 +44,10 @@ function ProfilePage() {
     if (acceptedFiles.length > 0) {
       formData.append('file', acceptedFiles[0])
     }
+    console.log('hehe', formData)
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`)
+    }
     // dispatch({
     // 	type: 'users/updateUser',
     // 	payload: {
@@ -60,21 +64,29 @@ function ProfilePage() {
   const handleValuesChange = () => {
     setHasChanges(true)
   }
-  const validateConfirmPassword = (_rule: RuleObject, value: any, callback: (error?: string) => void) => {
+ 
+  const validateConfirmPassword = (_rule: RuleObject, value: any) => {
     const passFieldValue = form.getFieldValue('pass')
-    if (value && value !== passFieldValue) {
-      callback('Mật khẩu xác nhận không khớp')
-    } else {
-      callback()
+    if (!value) {
+      return Promise.reject('Vui lòng xác nhận mật khẩu')
     }
+    if (value !== passFieldValue) {
+      return Promise.reject('Mật khẩu xác nhận không khớp')
+    }
+    return Promise.resolve()
+  }
+  const validatePassword = (_rule: RuleObject, value: any) => {
+    const oldPassword = form.getFieldValue('passe')
+    if (value && value === oldPassword) {
+      return Promise.reject('Vui lòng nhập mật khẩu mới')
+    }
+    return Promise.resolve()
   }
   const [showPasswordFields, setShowPasswordFields] = useState(false)
-  const handleShowPasswordFields = () => {
-    setShowPasswordFields(true);
-};
-const handleTogglePasswordFields = () => {
-    setShowPasswordFields((prevShowPasswordFields) => !prevShowPasswordFields);
-};
+
+  const handleTogglePasswordFields = () => {
+    setShowPasswordFields((prevShowPasswordFields) => !prevShowPasswordFields)
+  }
 
   return (
     <div className='w-full'>
@@ -88,7 +100,9 @@ const handleTogglePasswordFields = () => {
           layout='vertical'
           initialValues={{
             userName: 'Thuongminhlsr',
-            email: 'tjjgjlk'
+            email: 'tjjgjlk',
+            passe: 'abc',
+            avatar: 'anh ne'
             // ...profile,
             // role: profile?.role ? profile?.role.roleName : undefined,
           }}
@@ -134,69 +148,70 @@ const handleTogglePasswordFields = () => {
 
               <Form.Item
                 name='userName'
-                label='Tên người dùng'
-                rules={[{ required: true, message: 'Không được bỏ trống' }]}
+                label={<span className="font-medium">Tên người dùng</span>}
+                rules={[{ required: true, message: 'Tên người dùng không được bỏ trống' }]}
               >
-                <Input placeholder='Your user name' />
+                <Input placeholder='Tên người dùng' />
               </Form.Item>
-              <Form.Item name='fullName' label='Họ và tên' rules={[{ required: true, message: 'Không được bỏ trống' }]}>
-                <Input placeholder='Your full name' />
-              </Form.Item>
-              <Form.Item name='address' label='Địa chỉ' rules={[{ required: true }]}>
-                <Input placeholder='Your address' />
-              </Form.Item>
-              <Form.Item className='hidden' name='avatar' label='Name' />
-
-              {/* <Form.Item name="birthday" label="Birthday" rules={[{ required: true }]}>
-							<Input type="date" />
-						</Form.Item> */}
-              <Form.Item name='phone' label='Phone' rules={[{ required: true }]}>
-                <Input />
-              </Form.Item>
-              <Form.Item name='email' label='Email' rules={[{ required: true }]}>
-                <Input className='cursor-not-allowed' disabled />
-              </Form.Item>
-              <Form.Item name='passe' label='Mật khẩu' rules={[{ required: true }]}>
-                <Input className='cursor-not-allowed' disabled />
-              </Form.Item>
-              <Button type='link' onClick={handleTogglePasswordFields}>
-                                {showPasswordFields ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
-                            </Button>
               <Form.Item
+                name='fullName'
+                label={<span className="font-medium">Họ và tên</span>}
+                rules={[{ required: true, message: 'Họ và tên không được bỏ trống' }]}
+              >
+                <Input placeholder='Họ và tên' />
+              </Form.Item>
+              <Form.Item
+                name='address'
+                label={<span className="font-medium">Địa chỉ</span>}
+                rules={[{ required: true, message: 'Địa chỉ không được bỏ trống' }]}
+              >
+                <Input placeholder='Địa chỉ' />
+              </Form.Item>
+              <Form.Item className='hidden' name='avatar' label='Avatar' />
+
+              <Form.Item
+                name='phone'
+                label={<span className="font-medium">Phone</span>}
+                rules={[{ required: true, message: 'Số điện thoại không được bỏ trống' }]}
+              >
+                <Input placeholder='Số điện thoại' />
+              </Form.Item>
+              <Form.Item name='email' label={<span className="font-medium">Email</span>} rules={[{ required: true }]}>
+                <Input className='cursor-not-allowed' disabled />
+              </Form.Item>
+              <Form.Item name='passe' label={<span className="font-medium">Mật khẩu</span>} rules={[{ required: true }]}>
+                <Input className='cursor-not-allowed' disabled />
+              </Form.Item>
+              <Button type='link' className='m-0 p-0 text-tertiary' onClick={handleTogglePasswordFields}>
+                {showPasswordFields ? 'Ẩn đổi mật khẩu' : 'Đổi mật khẩu'}
+              </Button>
+              <Form.Item
+               className={`transition-max-h duration-500 ease-in-out overflow-hidden ${
+                showPasswordFields ? 'max-h-32' : 'max-h-0'
+              }`}
                 name='pass'
-                label='Mật khẩu'
-                rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
+                label={<span className="font-medium">Mật khẩu mới</span>}
+                rules={[{ validator: validatePassword }]}
                 hidden={!showPasswordFields}
               >
-                <Input.Password />
+                <Input.Password placeholder='Nhập mật khẩu mới' />
               </Form.Item>
 
               <Form.Item
+              className={`transition-max-h duration-500 ease-in-out overflow-hidden ${
+                showPasswordFields ? 'max-h-32' : 'max-h-0'
+              }`}
+
                 name='confirm'
-                label='Xác nhận mật khẩu'
-                rules={[
-                  { required: true, message: 'Vui lòng xác nhận mật khẩu' },
-                  { validator: validateConfirmPassword }
-                ]}
+                label={<span className="font-medium">Xác nhận mật khẩu</span>}
+                rules={[{ validator: validateConfirmPassword }]}
                 hidden={!showPasswordFields}
               >
-                <Input.Password />
-              </Form.Item>
-              {/* <Form.Item name="gender" label="Gender" rules={[{ required: true }]}>
-							<Select>
-								<Select.Option value="Male">Male</Select.Option>
-								<Select.Option value="Female">Female</Select.Option>
-							</Select>
-						</Form.Item> */}
-              <Form.Item className='hidden' name='role' label='Role'>
-                <Select>
-                  <Select.Option value='SUPERADMIN'>SUPERADMIN</Select.Option>
-                  <Select.Option value='ADMIN'>Admin</Select.Option>
-                  <Select.Option value='TRAINER'>Trainer</Select.Option>
-                </Select>
+                <Input.Password placeholder='Xác nhận mật khẩu'/>
               </Form.Item>
               <Form.Item className='-mb-2 flex justify-center'>
                 <Button
+                  className='hover:text-primary hover:bg-black'
                   //  loading={loading}
                   type='dashed'
                   htmlType='submit'
