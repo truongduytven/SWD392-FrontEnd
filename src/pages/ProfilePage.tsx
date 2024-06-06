@@ -182,7 +182,7 @@ function ProfilePage() {
               <Form.Item name='passe' label={<span className="font-medium">Mật khẩu</span>} rules={[{ required: true }]}>
                 <Input className='cursor-not-allowed' disabled />
               </Form.Item>
-              <Button type='link' className='m-0 p-0 text-tertiary' onClick={handleTogglePasswordFields}>
+              <Button type='link' className='mb-2 p-0 text-tertiary' onClick={handleTogglePasswordFields}>
                 {showPasswordFields ? 'Ẩn đổi mật khẩu' : 'Đổi mật khẩu'}
               </Button>
               <Form.Item
