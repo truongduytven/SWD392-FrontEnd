@@ -30,14 +30,14 @@ function SearchTicket() {
   }
   return (
     <Container>
-      <div className='my-5 hover:font-bold hover:underline hover:text-primary'>
+      <div className='my-10 hover:font-bold hover:underline hover:text-primary'>
         <Link to='/' className='flex space-x-2'>
           <ArrowLeft className='scale-75' />
           Về trang chủ
         </Link>
       </div>
-      <div className='relative flex gap-8 justify-start flex-col items-center h-fit w-full mt-16'>
-        <h1 className='font-bold text-xl'>Tra cứu thông tin vé</h1>
+      <div className='relative flex gap-8 justify-start flex-col items-center h-fit w-full my-16'>
+        <h1 className='font-bold text-3xl'>Tra cứu thông tin vé</h1>
         <Form {...searchTicketForm}>
           <form
             onSubmit={searchTicketForm.handleSubmit(onSubmitLogin)}

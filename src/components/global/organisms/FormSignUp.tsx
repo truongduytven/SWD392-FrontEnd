@@ -7,6 +7,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { z } from 'zod'
 import { PasswordInput } from '../atoms/password-input'
 import { useEffect } from 'react'
+import LogoIcon from '@/assets/LogoMini.png';
+import { Link } from 'react-router-dom'
+
 type FormSignUpProps = {
   reset: boolean
 }
@@ -33,7 +36,8 @@ function FormSignUp({ reset }: FormSignUpProps) {
         onSubmit={formSignUp.handleSubmit(onSubmitSignUp)}
         className='flex items-center px-10 justify-center gap-5 flex-col h-full text-center shadow-xl mr-20 '
       >
-        <h1 className='font-bold'>Đăng kí</h1>
+        <p className='font-medium text-2xl'>Tạo tài khoản</p>
+        <p className='flex items-center text-muted-foreground'>để tiếp tục với <img src={LogoIcon} className='mx-1' width={20}/>The Bus Journey</p>
         <FormField
           control={formSignUp.control}
           name='name'
@@ -86,7 +90,9 @@ function FormSignUp({ reset }: FormSignUpProps) {
             </FormItem>
           )}
         />
+        <Link to ="/otp-verified" className='w-full'>
         <Button type='submit' className='w-2/3'>Đăng kí</Button>
+        </Link>
       </form>
     </Form>
   )

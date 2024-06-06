@@ -10,6 +10,8 @@ import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailure from './pages/PaymentFailure'
 import NotFoundPage from './pages/NotFoundPage'
 import SelectService from './pages/SelectService'
+import OtpForm from './components/global/organisms/OtpForm'
+import RatingForm from './components/global/organisms/RatingForm'
 function App() {
   return (
     <Routes>
@@ -26,6 +28,8 @@ function App() {
         </Route>
       <Route path='/login' element={<SignInSignUp />} />
       <Route path='/register' element={<SignInSignUp />} />
+      <Route path='/otp-verified' element={<OtpForm />} />
+          <Route path='/rating' element={<RatingForm />} />
       <Route path='*' element={<NotFoundPage />} />
       
     </Routes>

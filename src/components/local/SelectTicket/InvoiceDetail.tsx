@@ -16,15 +16,15 @@ function InvoiceDetail() {
       <div className='flex flex-col space-y-3 mt-3'>
         <div className='flex justify-between'>
           <span>Tuyến xe: </span>
-          <span>{startLocation} - {endLocation}</span>
+          <span className="font-semibold">{startLocation} - {endLocation}</span>
         </div>
         <div className='flex justify-between'>
           <span>Thời gian xuất bến: </span>
-          <span>{formatDate(timeStart)}</span>
+          <span className="font-semibold">{formatDate(timeStart)}</span>
         </div>
         <div className='flex justify-between'>
           <span>Mã số ghế đã chọn: </span>
-          <span>{tickets.map(ticket => ticket.seatCode).join(', ')}</span>
+          <span className="font-semibold" >{tickets.map(ticket => ticket.seatCode).join(', ')}</span>
         </div>
         <hr />
         <div className='flex justify-between'>

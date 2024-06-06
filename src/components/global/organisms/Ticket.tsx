@@ -36,6 +36,9 @@ function Ticket() {
             <h4 className='text-md'>
               Chặng đi: <span className='font-bold'>Hà Nội - Bến Tre</span>
             </h4>
+            <h4 className='text-md'>
+              Nhà xe: <span className='font-bold'>Minh Tiên</span>
+            </h4>
             <p>
               Khởi hành:
               <span className='text-base font-bold ml-2'>15:30</span>
@@ -51,10 +54,10 @@ function Ticket() {
           </div>
         </div>
         <div className='w-64 border-l border-dashed border-gray-700 relative'>
-          <p className='absolute ml-20 lg:ml-7  w-full text-orange-600 h-full flex items-end justify-center gap-6 transform rotate-90'>
+          {/* <p className='absolute ml-20 lg:ml-7  w-full text-orange-600 h-full flex items-end justify-center gap-6 transform rotate-90'>
             <span>The bus journey</span>
             <span>The bus journey</span>
-          </p>
+          </p> */}
           <div className='flex flex-col items-center justify-around h-full bg-yellow-400 py-4 rounded-tr-md rounded-br-md'>
             <div>
               <h1 className='text-lg'>Tổng hóa đơn</h1>
