@@ -64,10 +64,10 @@ function ProfilePage() {
   const handleValuesChange = () => {
     setHasChanges(true)
   }
- 
+
   const validateConfirmPassword = (_rule: RuleObject, value: any) => {
     const passFieldValue = form.getFieldValue('pass')
-    if (!value) {
+    if (passFieldValue &&!value) {
       return Promise.reject('Vui lòng xác nhận mật khẩu')
     }
     if (value !== passFieldValue) {
@@ -100,9 +100,12 @@ function ProfilePage() {
           layout='vertical'
           initialValues={{
             userName: 'Thuongminhlsr',
-            email: 'tjjgjlk',
+            email: 'admin@gmail.com',
             passe: 'abc',
-            avatar: 'anh ne'
+            fullName:"Võ Thị Mỹ Tiên",
+            avatar: 'anh ne',
+            phone:"012345679",
+            address:"Bình Thuận",
             // ...profile,
             // role: profile?.role ? profile?.role.roleName : undefined,
           }}
@@ -148,49 +151,53 @@ function ProfilePage() {
 
               <Form.Item
                 name='userName'
-                label={<span className="font-medium">Tên người dùng</span>}
+                label={<span className='font-medium'>Tên người dùng</span>}
                 rules={[{ required: true, message: 'Tên người dùng không được bỏ trống' }]}
               >
                 <Input placeholder='Tên người dùng' />
               </Form.Item>
               <Form.Item
                 name='fullName'
-                label={<span className="font-medium">Họ và tên</span>}
+                label={<span className='font-medium'>Họ và tên</span>}
                 rules={[{ required: true, message: 'Họ và tên không được bỏ trống' }]}
               >
                 <Input placeholder='Họ và tên' />
               </Form.Item>
               <Form.Item
                 name='address'
-                label={<span className="font-medium">Địa chỉ</span>}
+                label={<span className='font-medium'>Địa chỉ</span>}
                 rules={[{ required: true, message: 'Địa chỉ không được bỏ trống' }]}
               >
                 <Input placeholder='Địa chỉ' />
               </Form.Item>
               <Form.Item className='hidden' name='avatar' label='Avatar' />
+              {/* <Form.Item className="hidden">
+                <Input type="hidden" name="avatar" />
+              </Form.Item> */}
 
               <Form.Item
                 name='phone'
-                label={<span className="font-medium">Phone</span>}
+                label={<span className='font-medium'>Phone</span>}
                 rules={[{ required: true, message: 'Số điện thoại không được bỏ trống' }]}
               >
                 <Input placeholder='Số điện thoại' />
               </Form.Item>
-              <Form.Item name='email' label={<span className="font-medium">Email</span>} rules={[{ required: true }]}>
+              <Form.Item name='email' label={<span className='font-medium'>Email</span>} rules={[{ required: true }]}>
                 <Input className='cursor-not-allowed' disabled />
               </Form.Item>
-              <Form.Item name='passe' label={<span className="font-medium">Mật khẩu</span>} rules={[{ required: true }]}>
+              <Form.Item
+                name='passe'
+                label={<span className='font-medium'>Mật khẩu</span>}
+                rules={[{ required: true }]}
+              >
                 <Input className='cursor-not-allowed' disabled />
               </Form.Item>
               <Button type='link' className='mb-2 p-0 text-tertiary' onClick={handleTogglePasswordFields}>
                 {showPasswordFields ? 'Ẩn đổi mật khẩu' : 'Đổi mật khẩu'}
               </Button>
               <Form.Item
-               className={`transition-max-h duration-500 ease-in-out overflow-hidden ${
-                showPasswordFields ? 'max-h-32' : 'max-h-0'
-              }`}
                 name='pass'
-                label={<span className="font-medium">Mật khẩu mới</span>}
+                label={<span className='font-medium'>Mật khẩu mới</span>}
                 rules={[{ validator: validatePassword }]}
                 hidden={!showPasswordFields}
               >
@@ -198,16 +205,12 @@ function ProfilePage() {
               </Form.Item>
 
               <Form.Item
-              className={`transition-max-h duration-500 ease-in-out overflow-hidden ${
-                showPasswordFields ? 'max-h-32' : 'max-h-0'
-              }`}
-
                 name='confirm'
-                label={<span className="font-medium">Xác nhận mật khẩu</span>}
+                label={<span className='font-medium'>Xác nhận mật khẩu</span>}
                 rules={[{ validator: validateConfirmPassword }]}
                 hidden={!showPasswordFields}
               >
-                <Input.Password placeholder='Xác nhận mật khẩu'/>
+                <Input.Password placeholder='Xác nhận mật khẩu' />
               </Form.Item>
               <Form.Item className='-mb-2 flex justify-center'>
                 <Button

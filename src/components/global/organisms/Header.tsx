@@ -1,13 +1,16 @@
-import LogoFull from '@/assets/LogoFull.png';
-import { Link } from 'react-router-dom';
-import Container from '../atoms/container';
+import LogoFull from '@/assets/LogoFull.png'
+import { Link } from 'react-router-dom'
+import Container from '../atoms/container'
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '../atoms/navigation-menu'
 import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from '../atoms/navigation-menu'
-
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/global/atoms/dropdown-menu'
+import { BookUser, LogOut } from 'lucide-react'
 function Header() {
   return (
     <header className='w-full shadow-md fixed top-0 z-50 bg-white'>
@@ -63,11 +66,38 @@ function Header() {
                 <p className='relative z-10'> Đăng ký/Đăng nhập</p>
               </button>
             </Link>
+           
           </div>
+          <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <img
+                  className='h-10 w-10 cursor-pointer rounded-full object-cover border-2 border-primary hover:border-tertiary'
+                  src='https://symbols.vn/wp-content/uploads/2022/02/Hinh-Canh-Cut-Cute-Chibi-dang-yeu.png'
+                  alt='avatar'
+                />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className='w-fit'>
+                <DropdownMenuLabel className='py-0'>ThuongMinhlsr</DropdownMenuLabel>
+                <DropdownMenuItem className='py-0 text-xs' disabled>
+                  thuongminhlsr@gmail.com
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                  <Link to="/profile" >
+                <DropdownMenuItem className='flex justify-start items-center gap-1 cursor-pointer'>
+                  <BookUser className='w-4' />
+                  Hồ sơ người dùng
+                </DropdownMenuItem>
+                  </Link>
+                <DropdownMenuItem className='flex justify-start items-center gap-1 cursor-pointer'>
+                  <LogOut className='w-4' />
+                  Đăng xuất
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
         </div>
       </Container>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header
