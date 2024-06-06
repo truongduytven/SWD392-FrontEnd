@@ -10,8 +10,7 @@ import { useNavigate } from 'react-router-dom'
 
 function SelectService() {
   const navigate = useNavigate()
-  let totalPriceService = 0
-  const { invoiceData, updateTickets } = useInvoice()
+  const { invoiceData } = useInvoice()
   return (
     <Container>
       <div className='h-full flex flex-col my-5 space-y-8 mb-16'>
@@ -93,7 +92,7 @@ function SelectService() {
             <InvoiceDetail />
             <div className='flex justify-end'>
               {/* <Link to='/selectService'> */}
-              <Button className='bg-primary text-secondary hover:translate-x-2 hover:scale-105'>
+              <Button className='bg-primary text-secondary hover:scale-110 transform scale-100 transition duration-200'>
                 Tiếp tục
                 <ArrowRight className='ml-1 scale-75'/>
               </Button>

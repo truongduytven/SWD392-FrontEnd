@@ -1,5 +1,6 @@
 import { Button } from '@/components/global/atoms/button'
 import { Input } from '@/components/global/atoms/input'
+import { cn } from '@/lib/utils'
 import { Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
 
@@ -37,11 +38,11 @@ function QuantityInput({ initialValue, onUpdate }: QuantityInputProps) {
 
   return (
     <div className='flex items-center space-x-2 justify-end'>
-      <Button size={'icon'} className='rounded-full h-fit w-fit' onClick={handleDecrease} disabled={quantity === 1}>
+      <Button size={'icon'} className='rounded-full h-fit w-fit opacity-80' onClick={handleDecrease} disabled={quantity === 1}>
         <Minus />
       </Button>
       <Input className='w-1/5 h-8' type='tel' value={quantity} onChange={handleChange} min={1} />
-      <Button size={'icon'} className='rounded-full h-fit w-fit' onClick={handleIncrease}>
+      <Button size={'icon'} className='rounded-full h-fit w-fit opacity-80' onClick={handleIncrease}>
         <Plus />
       </Button>
     </div>

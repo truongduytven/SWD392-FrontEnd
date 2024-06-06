@@ -25,7 +25,7 @@ const ServiceLayout = ({ props, seatCode, selectedStation }: ServiceLayoutProps)
     <div className="w-full grid grid-cols-3 gap-5 p-2 overflow-y-auto max-h-[500px]">
       {Array.isArray(props) && props.map((service) => (
         <div className="w-full">
-          <Card onClick={() => handleCardclick(service)}>
+          <Card onClick={() => handleCardclick(service)} className="cursor-text">
             <CardContent>
               <img className="max-w-32 max-h-20 rounded-md" src={service.imageUrl} alt="ảnh thức ăn" />
             </CardContent>

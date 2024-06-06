@@ -14,6 +14,7 @@ interface InvoiceContextType {
   updateTickets: (tickets: ticket[]) => void
   addService: (seatCode: string, newService: Service) => void
   updateService: (seatCode: string, serviceId: number, updatedService: Service) => void
+  deleteService: (seatCode: string, serviceId: number) => void
 }
 
 const InvoiceContext = createContext<InvoiceContextType | undefined>(undefined)
@@ -77,8 +78,22 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
       tickets: updatedTickets
     }))
   }
+  const deleteService = (seatCode: string, serviceId: number) => {
+    const updatedTickets = invoiceData.tickets.map((ticket) => {
+      if (ticket.seatCode === seatCode) {
+        return {
+          ...ticket,
+          services: ticket.services.filter((service) => service.id !== serviceId)
+        }
+      }
+      return ticket
+    })
+    updateTickets(updatedTickets)
+  }
 
   return (
-    <InvoiceContext.Provider value={{ invoiceData, updateTickets, addService, updateService }}>{children}</InvoiceContext.Provider>
+    <InvoiceContext.Provider value={{ invoiceData, updateTickets, addService, updateService, deleteService }}>
+      {children}
+    </InvoiceContext.Provider>
   )
 }

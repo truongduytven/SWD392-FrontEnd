@@ -32,7 +32,7 @@ function SelectTicket() {
           <div className='flex flex-col space-y-10 w-4/12'>
             <InvoiceDetail />
             <div className='flex justify-end'>
-                <Button onClick={handleGoToService} className='bg-primary text-secondary hover:translate-x-2 hover:scale-10' disabled={invoiceData.tickets.length === 0}>
+                <Button onClick={handleGoToService} className='bg-primary text-secondary hover:scale-110 transform scale-100 transition duration-200' disabled={invoiceData.tickets.length === 0}>
                   Tiếp tục
                   <ArrowRight className='ml-1 scale-75' />
                 </Button>

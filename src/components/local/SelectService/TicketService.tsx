@@ -2,7 +2,6 @@ import { Button } from '@/components/global/atoms/button'
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
@@ -14,15 +13,12 @@ import { ticket } from '@/types/invoiceData'
 import { HandPlatter } from 'lucide-react'
 import { ServiceData, stationData } from '@/constants/SeatData'
 import { useState } from 'react'
-import { formatPrice } from '@/lib/utils'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger
 } from '@/components/local/SelectService/accordionService'
-import QuantityInput from './quantityInput'
-import { useInvoice } from '@/contexts/InvoiceContext'
 import ServiceItem from './ServiceItem'
 function TicketService({ services, seatCode }: ticket) {
   const [isServiceSelected, setIsServiceSelected] = useState(false)
@@ -31,23 +27,20 @@ function TicketService({ services, seatCode }: ticket) {
     setIsServiceSelected(true)
     setSelectedStation(station)
   }
-  const { updateService } = useInvoice()
-  // const handleQuantityUpdate = (newQuantity: number) => {
-  //   updateService(service.id)
-  // }
+
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <div className='w-full flex justify-end p-2'>
-            <Button onClick={() => setIsServiceSelected(false)} className='hover:scale-105'>
-              Chọn dịch vụ
+          <div className='w-full flex justify-end p-3'>
+            <Button onClick={() => setIsServiceSelected(false)} className='hover:scale-105 transform scale-100 transition duration-200'>
+              {services.length > 0 ? 'Chi tiết dịch vụ' : 'Chọn dịch vụ'}
               <HandPlatter className='ml-1' />
             </Button>
           </div>
         </DialogTrigger>
         <DialogContent className='sm:max-w-screen-lg flex justify-between space-x-4'>
-          <div className='w-7/12'>
+          <div className='w-3/5'>
             <DialogHeader>
               <DialogTitle className='flex justify-between items-center mb-6'>
                 Chọn dịch vụ
