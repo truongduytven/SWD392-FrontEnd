@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/global/atoms/avatar'
 // import { RootState } from '@/store'
-import { Button, Form, Input, Select } from 'antd'
+import { Button, Form, Input, Select, ConfigProvider } from 'antd'
 import { Key } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
@@ -67,7 +67,7 @@ function ProfilePage() {
 
   const validateConfirmPassword = (_rule: RuleObject, value: any) => {
     const passFieldValue = form.getFieldValue('pass')
-    if (passFieldValue &&!value) {
+    if (passFieldValue && !value) {
       return Promise.reject('Vui lòng xác nhận mật khẩu')
     }
     if (value !== passFieldValue) {
@@ -91,6 +91,20 @@ function ProfilePage() {
   return (
     <div className='w-full'>
       <div className='flex flex-col items-center justify-center  '>
+      <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: '#F97316'
+                },
+                components: {
+                  // How to change primary type button text color
+                  // at theme level?
+                  Button: {
+                    colorTextLightSolid: '#000000'
+                  }
+                }
+              }}
+            >
         <Form
           form={form}
           variant='filled'
@@ -102,16 +116,17 @@ function ProfilePage() {
             userName: 'Thuongminhlsr',
             email: 'admin@gmail.com',
             passe: 'abc',
-            fullName:"Võ Thị Mỹ Tiên",
+            fullName: 'Võ Thị Mỹ Tiên',
             avatar: 'anh ne',
-            phone:"012345679",
-            address:"Bình Thuận",
+            phone: '012345679',
+            address: 'Bình Thuận'
             // ...profile,
             // role: profile?.role ? profile?.role.roleName : undefined,
           }}
         >
+
           <div className='flex flex-col items-center justify-center '>
-            <div className='shadow-3xl shadow-shadow-500 dark:!bg-navy-800 relative mx-auto w-full rounded-[20px] bg-white bg-clip-border p-4 dark:text-white dark:!shadow-none'>
+            <div className='shadow-3xl shadow-shadow-500 dark:!bg-navy-800 relative mx-auto w-full rounded-[20px] drop-shadow-md bg-white bg-clip-border p-4 dark:text-white dark:!shadow-none'>
               <div className='relative flex h-36 w-full justify-center rounded-xl bg-cover'>
                 <img
                   alt='banner'
@@ -166,7 +181,7 @@ function ProfilePage() {
               <Form.Item
                 name='address'
                 label={<span className='font-medium'>Địa chỉ</span>}
-                rules={[{ required: true, message: 'Địa chỉ không được bỏ trống' }]}
+                // rules={[{ required: true, message: 'Địa chỉ không được bỏ trống' }]}
               >
                 <Input placeholder='Địa chỉ' />
               </Form.Item>
@@ -212,9 +227,8 @@ function ProfilePage() {
               >
                 <Input.Password placeholder='Xác nhận mật khẩu' />
               </Form.Item>
-              <Form.Item className='-mb-2 flex justify-center'>
+              <Form.Item className='mb-2 flex justify-center'>
                 <Button
-                  className='hover:text-primary hover:bg-black'
                   //  loading={loading}
                   type='dashed'
                   htmlType='submit'
@@ -224,8 +238,10 @@ function ProfilePage() {
                 </Button>
               </Form.Item>
             </div>
+            
           </div>
         </Form>
+            </ConfigProvider>
       </div>
     </div>
   )
