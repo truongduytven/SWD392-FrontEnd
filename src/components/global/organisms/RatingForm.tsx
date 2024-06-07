@@ -14,9 +14,10 @@ import { z } from 'zod'
 const rateValueToText = ['Rất tệ', 'Tệ', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
 const suggestedContents = [
   'Rất hài lòng với dịch vụ',
-  'Chất lượng chuyến đi không tốt',
+  'Chất lượng chuyến đi tốt',
   'Nhân viên chu đáo',
   'An toàn, tiện nghi',
+  "Nhà vệ sinh sạch sẽ"
 ]
 const RatingForm: React.FC = () => {
   const [files, setFiles] = useState<File[]>([])
@@ -26,7 +27,7 @@ const RatingForm: React.FC = () => {
     defaultValues: { value: 5, content: '', imageUrls: [] }
   })
 
-  const { handleSubmit, control, setValue,reset } = form
+  const { handleSubmit, control, setValue, reset } = form
 
   const onSubmit = (data: z.infer<typeof ratingSchema>) => {
     console.log('Form Data:', data)
@@ -62,9 +63,9 @@ const RatingForm: React.FC = () => {
   }
   return (
     <div className='flex h-screen items-center justify-center py-40'>
-      <div className='fixed inset-0 z-[1000]  flex flex-col justify-center items-center'>
-        <div className='text-2xl font-medium'>Đánh giá chuyến đi</div>
-        <div className='w-[500px] bg-background rounded-md p-6'>
+      <div className='fixed inset-0 z-[1000] bg-orange-300/30  flex flex-col justify-center items-center '>
+        <div className='w-[500px] bg-background rounded-md p-6 shadow-lg'>
+          <div className='text-2xl font-medium text-center mb-4'>Đánh giá chuyến đi</div>
           <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
               <div className='flex items-center gap-2'>
@@ -104,7 +105,7 @@ const RatingForm: React.FC = () => {
                     </FormItem>
                   )}
                 />
-                <p className='text-center text-[#eab308]' id='rating-text'>
+                <p className='text-center text-[#eab308] font-medium' id='rating-text'>
                   {rateValueToText[form.watch('value') - 1]}
                 </p>
               </div>
@@ -121,7 +122,7 @@ const RatingForm: React.FC = () => {
                     <div className='mt-2 flex flex-wrap gap-2'>
                       {suggestedContents.map((suggestion, index) => (
                         <button
-                        type='button'
+                          type='button'
                           key={index}
                           className={`bg-gray-200 px-3 py-1 text-sm rounded-md ${
                             suggestedContent === suggestion ? 'bg-primary text-white' : ''
@@ -142,6 +143,7 @@ const RatingForm: React.FC = () => {
                   <div key={index} className='m-2 relative'>
                     <img className='w-32 h-32 object-cover rounded-2xl' src={URL.createObjectURL(file)} alt='...' />
                     <button
+                      type='button'
                       className='absolute -top-3 -right-3 font-medium  text-white bg-primary rounded-full px-2 py-1 text-xs'
                       onClick={() => removeFile(index)}
                     >
@@ -172,8 +174,8 @@ const RatingForm: React.FC = () => {
               </div>
 
               <div className='flex justify-end items-center gap-3'>
-                <Link to="/">
-                <Button variant="outline">Trở lại</Button>
+                <Link to='/'>
+                  <Button variant='outline'>Trở lại</Button>
                 </Link>
                 <Button type='submit'>Đánh giá</Button>
               </div>

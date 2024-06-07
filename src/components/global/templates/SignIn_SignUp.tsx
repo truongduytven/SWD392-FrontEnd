@@ -37,7 +37,7 @@ function SignInSignUp() {
               <Link to='/login' className='flex justify-center items-center flex-col gap-16'>
               {showSigninText && (
                 <p className=' slide-up-text tracking-wide text-primary text-3xl text-center font-bold'>
-                  Bạn đã có tài khoản của <span className='text-white bg-primary mr-1'>The Bus Journey</span>?
+                  Bạn đã có tài khoản của <span className=' font-bold mr-1'>The Bus Journey</span>?
                 </p>
               )}
                 <Button
@@ -61,7 +61,7 @@ function SignInSignUp() {
                 </p>
               )}
               <Link to='/register'>
-                <button
+                <Button
                   className='slide-up-text px-8 mt-16 py-2 rounded-md hover:bg-primary hover:text-white font-bold transition bg-amber-50 text-primary border-2 hover:border-transparent border-primary'
                   id='signUp'
                   onClick={() => {
@@ -72,7 +72,7 @@ function SignInSignUp() {
                   }}
                 >
                   Đăng kí
-                </button>
+                </Button>
               </Link>
              
             </div>

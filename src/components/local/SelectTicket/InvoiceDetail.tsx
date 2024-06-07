@@ -1,10 +1,10 @@
-import { useInvoice } from "@/contexts/InvoiceContext";
-import { formatDate, formatPrice } from "@/lib/utils";
+import { useInvoice } from '@/contexts/InvoiceContext'
+import { formatDate, formatPrice } from '@/lib/utils'
 
 function InvoiceDetail() {
   const { invoiceData } = useInvoice()
-  const { startLocation, endLocation, timeStart, tickets } = invoiceData;
-  const totalTicketPrice = tickets?.reduce((sum, ticket) => sum + ticket.price, 0);
+  const { startLocation, endLocation, timeStart, tickets } = invoiceData
+  const totalTicketPrice = tickets?.reduce((sum, ticket) => sum + ticket.price, 0)
   const totalServicePrice = tickets?.reduce(
     (total, ticket) =>
       total + ticket.services.reduce((serviceTotal, service) => serviceTotal + service.price * service.quantity, 0),
@@ -15,25 +15,31 @@ function InvoiceDetail() {
       <span className='font-bold text-xl uppercase'>Chi tiết hóa đơn</span>
       <div className='flex flex-col space-y-3 mt-3'>
         <div className='flex justify-between'>
+          <span>Nhà xe: </span>
+          <span className='font-semibold'>Minh Tiên Limousine</span>
+        </div>
+        <div className='flex justify-between'>
           <span>Tuyến xe: </span>
-          <span className="font-semibold">{startLocation} - {endLocation}</span>
+          <span className='font-semibold'>
+            {startLocation} - {endLocation}
+          </span>
         </div>
         <div className='flex justify-between'>
           <span>Thời gian xuất bến: </span>
-          <span className="font-semibold">{formatDate(timeStart)}</span>
+          <span className='font-semibold'>{formatDate(timeStart)}</span>
         </div>
         <div className='flex justify-between'>
           <span>Mã số ghế đã chọn: </span>
-          <span className="font-semibold" >{tickets.map(ticket => ticket.seatCode).join(', ')}</span>
+          <span className='font-semibold'>{tickets.map((ticket) => ticket.seatCode).join(', ')}</span>
         </div>
         <hr />
         <div className='flex justify-between'>
           <span>Tiền vé: </span>
-          <span>{formatPrice(totalTicketPrice)}</span>
+          <span className='font-semibold'>{formatPrice(totalTicketPrice)}</span>
         </div>
         <div className='flex justify-between'>
           <span>Tiền dịch vụ: </span>
-          <span>{formatPrice(totalServicePrice)}</span>
+          <span className='font-semibold'>{formatPrice(totalServicePrice)}</span>
         </div>
         <hr />
         <div className='flex justify-between font-bold'>
