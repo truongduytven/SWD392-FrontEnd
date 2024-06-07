@@ -6,14 +6,16 @@ import { useInvoice } from '@/contexts/InvoiceContext'
 import { formatPrice } from '@/lib/utils'
 import { format } from 'date-fns'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import OOPS from '@/assets/oops.jpg'
 
 function SelectService() {
   const navigate = useNavigate()
   const { invoiceData } = useInvoice()
-  return (
+  console.log(invoiceData)
+  return invoiceData.tickets.length > 0 ? (
     <Container>
-      <div className='h-full flex flex-col my-5 space-y-8 mb-16'>
+      <div className='h-full flex flex-col mt-10 mb-12'>
         <div className='flex justify-start items-center'>
           <Button
             onClick={() => navigate(-1)}
@@ -23,7 +25,7 @@ function SelectService() {
             Quay lại
           </Button>
         </div>
-        <div className='flex justify-center uppercase font-bold text-4xl'>chọn dịch vụ</div>
+        <div className='flex justify-center uppercase font-bold text-4xl mb-12 '>chọn dịch vụ</div>
         <div className='flex justify-evenly'>
           <div className='w-1/2 flex flex-col space-y-3'>
             {invoiceData &&
@@ -67,11 +69,13 @@ function SelectService() {
 
                             <div className='flex flex-col items-start justify-between gap-1'>
                               <p className='m-0 p-0'>
-                                <span className='font-bold mr-2 text-lg'>6:00</span>{invoiceData.startLocation}
+                                <span className='font-bold mr-2 text-lg'>6:00</span>
+                                {invoiceData.startLocation}
                               </p>
                               <p className='text-muted-foreground'>2 giờ</p>
                               <p>
-                                <span className='font-bold mr-2 text-lg'>8:30</span>{invoiceData.endLocation}
+                                <span className='font-bold mr-2 text-lg'>8:30</span>
+                                {invoiceData.endLocation}
                               </p>
                             </div>
                           </div>
@@ -91,14 +95,30 @@ function SelectService() {
           <div className='flex flex-col space-y-10 w-4/12'>
             <InvoiceDetail />
             <div className='flex justify-end'>
-              {/* <Link to='/selectService'> */}
-              <Button className='bg-primary text-secondary hover:scale-110 transform scale-100 transition duration-200'>
-                Tiếp tục
-                <ArrowRight className='ml-1 scale-75'/>
-              </Button>
-              {/* </Link> */}
+              <Link to='/infopayment'>
+                <Button className='bg-primary text-secondary hover:scale-110 transform scale-100 transition duration-200'>
+                  Tiếp tục
+                  <ArrowRight className='ml-1 scale-75' />
+                </Button>
+              </Link>
             </div>
           </div>
+        </div>
+      </div>
+    </Container>
+  ) : (
+    <Container>
+      <div className='w-full flex justify-center items-center mb-8'>
+        <div className='flex flex-col items-center'>
+          <img src={OOPS} className='w-[450px] h-[450px]' />
+          <div className='text-2xl font-medium'>Dường như bạn chưa chọn ghế</div>
+          <p className='text-lg mt-4'>
+            Vui lòng chọn vé trước khi muốn chọn dịch vụ
+          </p>
+
+          <Link to='/selectTicket' className='underline hover:text-primary font-medium text-xl mt-8'>
+            Quay lại trang chọn vé
+          </Link>
         </div>
       </div>
     </Container>
