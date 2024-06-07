@@ -24,6 +24,7 @@ import {
   AlertDialogTrigger
 } from '@/components/global/atoms/alert-dialog'
 import { useInvoice } from '@/contexts/InvoiceContext'
+import { formatPrice } from '@/lib/utils'
 
 function TicketService({ services, seatCode }: ticket) {
   const { updateTicketServices } = useInvoice()
@@ -31,6 +32,7 @@ function TicketService({ services, seatCode }: ticket) {
   const [selectedStation, setSelectedStation] = useState<string | null>(null)
   const [localServices, setLocalServices] = useState<Service[]>(services)
   const [keySearch, setKeySearch] = useState<string>('')
+  const [priceStation, setpriceStation] = useState(0)
 
   const handleClickSelectService = (station: string) => {
     setIsServiceSelected(true)
@@ -50,6 +52,7 @@ function TicketService({ services, seatCode }: ticket) {
       return
     }
     setLocalServices([...localServices, service])
+    calcPriceStation()
   }
 
   const handleUpdateService = (updatedService: Service) => {
@@ -58,6 +61,7 @@ function TicketService({ services, seatCode }: ticket) {
         service.id === updatedService.id && service.station === updatedService.station ? updatedService : service
       )
     )
+    calcPriceStation()
   }
 
   const handleDeleteService = (serviceId: number, selectedStation: string) => {
@@ -65,6 +69,7 @@ function TicketService({ services, seatCode }: ticket) {
       (localServices) => localServices.id === serviceId && localServices.station === selectedStation
     )
     setLocalServices(localServices.filter((service) => service !== findService))
+    calcPriceStation()
   }
 
   const handleConfirm = () => {
@@ -75,11 +80,19 @@ function TicketService({ services, seatCode }: ticket) {
     setLocalServices(services)
     setSelectedStation(null)
     setIsServiceSelected(false)
-    setKeySearch("")
+    setKeySearch('')
   }
 
   const handleKeyChange = (keySearch: string) => {
     setKeySearch(keySearch)
+  }
+
+  const calcPriceStation = () => {
+    let priceStation = 0
+    localServices.map((service) => {
+      priceStation += service.price * service.quantity
+    })
+    setpriceStation(priceStation)
   }
 
   return (
@@ -142,13 +155,15 @@ function TicketService({ services, seatCode }: ticket) {
           <div className='w-4/12 flex flex-col border-l-2 p-2'>
             <div className='h-full'>
               <AlertDialogHeader>
-                <AlertDialogTitle className='flex justify-between items-center mb-6'>Đã chọn</AlertDialogTitle>
+                <AlertDialogTitle className='flex justify-between items-center mb-6'>Dịch vụ đã chọn</AlertDialogTitle>
               </AlertDialogHeader>
               <div className='flex flex-col space-y-2 my-2 p-2 overflow-y-auto max-h-[500px]'>
-                <Accordion type='single' collapsible className='w-full'>
+                <Accordion type='multiple' className='w-full' defaultValue={stationData}>
                   {stationData.map((station) => (
-                    <AccordionItem value={station}>
-                      <AccordionTrigger>Dịch vụ ở Trạm {station}</AccordionTrigger>
+                    <AccordionItem value={station} defaultValue={station}>
+                      <AccordionTrigger>
+                        <span>Trạm {station}</span>
+                      </AccordionTrigger>
                       <AccordionContent>
                         <div className='flex flex-col space-y-3'>
                           {localServices &&
@@ -164,7 +179,7 @@ function TicketService({ services, seatCode }: ticket) {
                                 />
                               ))
                           ) : (
-                            <div className='text-center text-gray-500'>
+                            <div className='text-center text-wrap text-gray-500'>
                               Không có danh sách dịch vụ đã chọn tại trạm này
                             </div>
                           )}
@@ -175,6 +190,7 @@ function TicketService({ services, seatCode }: ticket) {
                 </Accordion>
               </div>
             </div>
+            <span className='flex justify-end my-2 font-bold'>Tổng tiền: {formatPrice(priceStation)}</span>
             <AlertDialogFooter>
               <AlertDialogCancel onClick={handleCancel}>Hủy</AlertDialogCancel>
               <AlertDialogAction onClick={handleConfirm}>Xác nhận</AlertDialogAction>

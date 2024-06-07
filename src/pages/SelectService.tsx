@@ -12,7 +12,6 @@ import OOPS from '@/assets/oops.jpg'
 function SelectService() {
   const navigate = useNavigate()
   const { invoiceData } = useInvoice()
-  console.log(invoiceData)
   return invoiceData.tickets.length > 0 ? (
     <Container>
       <div className='h-full flex flex-col mt-10 mb-12'>
@@ -46,6 +45,7 @@ function SelectService() {
                       <div className='p-2'>
                         <div className='flex gap-3 justify-between items-center'>
                           <div className='flex gap-3 justify-start items-center'>
+                            <div></div>
                             <div className=' h-full flex justify-between items-center'>
                               <svg xmlns='http://www.w3.org/2000/svg' width='14' height='74' viewBox='0 0 14 74'>
                                 <path
@@ -80,9 +80,11 @@ function SelectService() {
                             </div>
                           </div>
                           <div className='flex flex-col items-end space-y-2'>
-                            <span>Số ghế: {ticket.seatCode}</span>
-                            <span>Giá vé: {formatPrice(ticket.price)}</span>
-                            {ticket.services && <span>Giá dịch vụ: {formatPrice(servicePrice)}</span>}
+                            <span>
+                              Số ghế: <span className='font-bold'>{ticket.seatCode}</span>
+                            </span>
+                            <span>Giá vé: <span className='font-bold'>{formatPrice(ticket.price)}</span></span>
+                            {ticket.services && <span>Giá dịch vụ: <span className='font-bold'>{formatPrice(servicePrice)}</span></span>}
                           </div>
                         </div>
                       </div>
@@ -112,9 +114,7 @@ function SelectService() {
         <div className='flex flex-col items-center'>
           <img src={OOPS} className='w-[450px] h-[450px]' />
           <div className='text-2xl font-medium'>Dường như bạn chưa chọn ghế</div>
-          <p className='text-lg mt-4'>
-            Vui lòng chọn vé trước khi muốn chọn dịch vụ
-          </p>
+          <p className='text-lg mt-4'>Vui lòng chọn vé trước khi muốn chọn dịch vụ</p>
 
           <Link to='/selectTicket' className='underline hover:text-primary font-medium text-xl mt-8'>
             Quay lại trang chọn vé

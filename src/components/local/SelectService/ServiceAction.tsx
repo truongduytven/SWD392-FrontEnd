@@ -9,7 +9,7 @@ import {
 } from '@/components/global/atoms/select'
 import { stationData } from '@/constants/SeatData'
 import { Search } from 'lucide-react'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 interface ServiceActionProps {
   onStationSelect: (station: string) => void
   onKeyChange: (key: string) => void
