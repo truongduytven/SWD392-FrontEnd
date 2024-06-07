@@ -1,5 +1,19 @@
 import React, { useState } from 'react'
-import { Sprout } from 'lucide-react';
+import { Sprout } from 'lucide-react'
+import { Button } from '@/components/global/atoms/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/global/atoms/dialog'
+import { Input } from '@/components/global/atoms/input'
+import { Label } from '@/components/global/atoms/label'
+import ModalDetail from './ModalDetail'
 interface TicketProps {
   date: string
   startTime: string
@@ -11,6 +25,21 @@ interface TicketProps {
   priceService: string
   status: string
 }
+const ticketInfo = {
+  username: "John Doe",
+  operator: "Example Bus Co.",
+  departureTime: "10:00 AM",
+  arrivalTime: "1:00 PM",
+  from: "City A",
+  to: "City B",
+  seatCode: "A12",
+  fare: 25,
+  serviceFee: 5,
+  serviceDetails: [
+    { name: "WiFi", station: "Any", price: 2 },
+    { name: "Refreshment", station: "Any", price: 3 }
+  ]
+};
 function Ticket({
   date,
   startTime,
@@ -26,7 +55,7 @@ function Ticket({
 
   return (
     <div
-      className='mx-auto overflow-hidden flex justify-center items-center'
+      className='mx-auto w-fit overflow-hidden flex justify-center items-center'
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -42,7 +71,8 @@ function Ticket({
           <span className='absolute -top-6 right-0 transform translate-x-1/2 -translate-y-1/2 bg-muted rounded-full p-4'></span>
           <span className='absolute -bottom-6 right-0 transform translate-x-1/2 translate-y-1/2 bg-muted rounded-full p-4'></span>
         </div>
-        <div className='flex flex-col justify-center items-center  ml-3 mr-4'>
+        <div className='flex flex-col justify-center items-center gap-2 ml-3 mr-4 '>
+          <p className='text-lg font-bold text-primary'>Nhà xe: Những con ong</p>
           <div className='flex justify-between items-center gap-10'>
             <div className='flex '>
               <div className='flex justify-center items-center'>
@@ -101,11 +131,35 @@ function Ticket({
         </div>
 
         {isHovered && (
-          <div className={`absolute inset-0 flex justify-center items-center backdrop-blur-sm bg-opacity-30 text-primary font-bold text-lg transition-opacity duration-300 ${
-            isHovered ? 'opacity-100' : 'opacity-0'
-          }`}>
-            <Sprout/>
-            Xem chi tiết
+          <div
+            className={`absolute inset-0 flex justify-center items-center backdrop-blur-sm bg-opacity-30 text-primary  text-lg transition-opacity duration-300 ${
+              isHovered ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className='flex justify-center items-center gap-1 hover:font-bold'> <Sprout />Xem chi tiết</div>
+              </DialogTrigger>
+              <DialogContent className='sm:max-w-md'>
+                <DialogHeader>
+                  <DialogTitle>Thông tin chi tiết vé</DialogTitle>
+                  <DialogDescription>Thông tin chi tiết bao gồm thông tin về vé và dịch vụ (nếu có).</DialogDescription>
+                </DialogHeader>
+                <div className='flex items-start justify-center space-x-2 h-[400px] overflow-y-scroll'>
+                   
+                  <ModalDetail />
+                 
+                </div>
+                <DialogFooter className='sm:justify-end'>
+                  <DialogClose asChild>
+                    <Button type='button' variant='outline'>
+                      Đóng
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          
           </div>
         )}
       </div>

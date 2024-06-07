@@ -63,8 +63,8 @@ const RatingForm: React.FC = () => {
   }
   return (
     <div className='flex h-screen items-center justify-center py-40'>
-      <div className='fixed inset-0 z-[1000] bg-orange-300/30  flex flex-col justify-center items-center '>
-        <div className='w-[500px] bg-background rounded-md p-6 shadow-lg'>
+      <div className='fixed inset-0 z-[1000]  flex flex-col justify-center items-center '>
+        <div className='w-[500px] bg-background rounded-md p-6 drop-shadow-lg'>
           <div className='text-2xl font-medium text-center mb-4'>Đánh giá chuyến đi</div>
           <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
