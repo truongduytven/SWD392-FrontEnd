@@ -1,18 +1,27 @@
 import React from 'react'
-
-function Ticket() {
+interface TicketProps {
+  date: string;
+  startTime: string;
+  endTime:string;
+  locationTo: string;
+  locationFrom: string;
+  seatCode: string;
+  priceTicket: string;
+  priceService: string;
+}
+function Ticket({ date, startTime, endTime, locationTo, locationFrom, seatCode, priceTicket, priceService }:TicketProps) {
   return (
-    <div className=' mx-auto overflow-hidden flex justify-center items-center'>
-      <div className='flex bg-white w-fit p-5 mx-2 my-4'>
+    <div className='mx-auto overflow-hidden flex justify-center items-center'>
+      <div className='flex box relative bg-white shadow-sm w-fit p-5 mx-2 my-4'>
         <div className='relative flex flex-col  justify-center items-center p-2 pr-4  border-r-2 border-dashed  border-gray-300'>
-          <h2 className='text-center text-gray-900'>Giờ xuất bến</h2>
-          <p className='text-center  text-gray-700'>9:00</p>
-          <p className='text-center  text-gray-700'>Ngày: 23-03-2024</p>
-          <span className='absolute -top-4 right-0 transform translate-x-1/2 -translate-y-1/2 bg-muted rounded-full p-4'></span>
-          <span className='absolute -bottom-4 right-0 transform translate-x-1/2 translate-y-1/2 bg-muted rounded-full p-4'></span>
+          <h2 className='text-center text-md  '>Giờ xuất bến</h2>
+          <p className='text-center  text-lg font-semibold  text-gray-700'>{startTime}</p>
+          <p className='text-center  text-md font-bold  '>{date}</p>
+          <span className='absolute -top-6 right-0 transform translate-x-1/2 -translate-y-1/2 bg-muted rounded-full p-4'></span>
+          <span className='absolute -bottom-6 right-0 transform translate-x-1/2 translate-y-1/2 bg-muted rounded-full p-4'></span>
         </div>
-        <div className='flex flex-col justify-center items-center  ml-3'>
-          <div className='flex justify-between items-center'>
+        <div className='flex flex-col justify-center items-center  ml-3 mr-4'>
+          <div className='flex justify-between items-center gap-10'>
             <div className='flex  '>
               <div className='flex gap-3 justify-center items-center'>
                 <div className=' h-full flex justify-between items-center'>
@@ -38,26 +47,29 @@ function Ticket() {
 
                 <div className='flex flex-col items-start justify-between gap-1'>
                   <p className='m-0 p-0'>
-                    <span className='font-bold mr-2 text-lg'>6:00</span>• Tp Hồ Chí Minh
+                    <span className='font-bold mr-2 text-lg'>{startTime}</span>• {locationTo}
                   </p>
                   <p className='text-muted-foreground'>2 giờ</p>
                   <p>
-                    <span className='font-bold mr-2 text-lg'>8:30</span>• Bến Tre
+                    <span className='font-bold mr-2 text-lg'>{endTime}</span>• {locationFrom}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className='flex flex-col items-end justify-between gap-1'>
-              <p>Số ghế: B01</p>
-              <p>Giá vé: 400.000đ</p>
-              <p>Giá dịch vụ: 230.000đ</p>
+            <div className='flex flex-col items-end justify-between gap-1 h-full'>
+              <p>Số ghế: <span className='font-medium'>{seatCode}</span> </p>
+              <p>Giá vé: <span className='font-medium'>{priceTicket}</span></p>
+              <p>Giá dịch vụ: <span className='font-medium'>{priceService}</span></p>
             </div>
           </div>
           {/* <button className='bg-gray-600 text-white float-right py-2 px-4 rounded'>Tickets</button> */}
 
         </div>
+      <div className="ribbon absolute right-[-5px] top-[-5px] z-[1] overflow-hidden w-[75px] h-[75px] text-right"><span>Đã sử dụng</span></div>
       </div>
+
+
     </div>
   )
 }

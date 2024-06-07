@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import Ticket from '@/components/local/myticket/Ticket'
 type TicketData = {
   date: string;
-  event: string;
-  title: string;
-  schedule: string;
-  location: string;
+  startTime:string
+  locationTo: string;
+  locationFrom: string;
+  seatCode: string;
+  priceTicket: string;
+  priceService: string;
+  endTime: string;
 };
 
 const tabs = [
@@ -16,23 +19,25 @@ const tabs = [
 ];
 
 const allTickets: TicketData[] = [
-  { date: '23 Feb', event: 'Music Event', title: 'Live In Sydney', schedule: 'Monday 15th 2016 <br> 15:20 PM & 11:00 AM', location: 'North, South, United State, Amre <br> Party Number 16, 20' },
-  { date: '12 Mar', event: 'Art Exhibition', title: 'Art in New York', schedule: 'Wednesday 20th 2017 <br> 10:00 AM & 2:00 PM', location: 'East, West, United State, Amre <br> Gallery Number 5, 8' },
+  { date: '23 Feb', startTime:"9:00",endTime:"13:00", locationTo: 'Music Event', locationFrom: 'United State',seatCode:"A01", priceTicket:"600.000",priceService:"120.000" },
+  { date: '24 Mar', startTime:"2:00",endTime:"7:00", locationTo: 'Bến Tre', locationFrom: 'United State',seatCode:"B01", priceTicket:"6.000.000",priceService:"1.200.000" },
+
   // More ticket data
 ];
 
 const unusedTickets: TicketData[] = [
-  { date: '05 Apr', event: 'Theater Play', title: 'Drama in Paris', schedule: 'Friday 25th 2018 <br> 6:00 PM & 9:00 PM', location: 'Central, South, France <br> Theater Number 3, 6' },
+  { date: '01 Feb', startTime:"3:00",endTime:"13:00", locationTo: 'Hà Nội', locationFrom: 'Bình Thuận',seatCode:"A09", priceTicket:"300.000",priceService:"210.000" },
+
   // More ticket data
 ];
 
 const usedTickets: TicketData[] = [
-  { date: '30 May', event: 'Dance Show', title: 'Dance in Tokyo', schedule: 'Sunday 10th 2019 <br> 1:00 PM & 4:00 PM', location: 'North, South, Japan <br> Hall Number 7, 9' },
+  { date: '01 Feb', startTime:"12:00",endTime:"21:00", locationTo: 'Hà Nội', locationFrom: 'Lâm Đồng',seatCode:"A09", priceTicket:"300.000",priceService:"210.000" },
   // More ticket data
 ];
 
 const canceledTickets: TicketData[] = [
-  { date: '18 Jun', event: 'Comedy Night', title: 'Laugh in London', schedule: 'Saturday 12th 2020 <br> 8:00 PM & 10:00 PM', location: 'Central, East, UK <br> Club Number 12, 15' },
+  { date: '01 Feb', startTime:"21:00",endTime:"3:00", locationTo: 'Lâm Đồng', locationFrom: 'Bình Thuận',seatCode:"A09", priceTicket:"300.000",priceService:"210.000" },
   // More ticket data
 ];
 
@@ -47,8 +52,8 @@ function MyTicketPage() {
   const activeData = dataMapping[activeTab];
 
   return (
-    <div className='w-full max-w-5xl mx-auto mt-10'>
-    <div className='relative flex border-b py-1 border-gray-200 bg-muted rounded-md'>
+    <div className='w-full max-w-4xl mx-auto mt-10 '>
+    <div className='relative flex  border-b py-1 border-gray-200 bg-muted rounded-md'>
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -67,15 +72,18 @@ function MyTicketPage() {
       />
     </div>
 
-    <div className='mt-4 bg-muted'>
+    <div className='mt-4 bg-muted rounded-md'>
         {activeData.map((ticket, index) => (
           <Ticket
             key={index}
             date={ticket.date}
-            event={ticket.event}
-            title={ticket.title}
-            schedule={ticket.schedule}
-            location={ticket.location}
+            startTime={ticket.startTime}
+            endTime={ticket.endTime}
+            locationTo={ticket.locationTo}
+            locationFrom={ticket.locationFrom}
+            seatCode={ticket.seatCode}
+            priceTicket={ticket.priceTicket}
+            priceService={ticket.priceService}
           />
         ))}
       </div>
