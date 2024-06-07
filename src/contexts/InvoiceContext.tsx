@@ -5,13 +5,7 @@ const defaultInvoiceData: InvoiceData = {
   startLocation: 'Bx.Miền Tây',
   endLocation: 'Bến Tre - Trà Vinh',
   timeStart: new Date('2023-05-23T07:00:00'),
-  tickets: [
-    {
-      seatCode: 'A01',
-      price: 200000,
-      services: [],
-    }
-  ],
+  tickets: [],
   totalPrice: 0
 }
 

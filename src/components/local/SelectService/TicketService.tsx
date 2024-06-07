@@ -5,7 +5,7 @@ import ServiceAction from '@/components/local/SelectService/ServiceAction'
 import { Service, ticket } from '@/types/invoiceData'
 import { HandPlatter } from 'lucide-react'
 import { ServiceData, stationData } from '@/constants/SeatData'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Accordion,
   AccordionContent,
@@ -32,7 +32,16 @@ function TicketService({ services, seatCode }: ticket) {
   const [selectedStation, setSelectedStation] = useState<string | null>(null)
   const [localServices, setLocalServices] = useState<Service[]>(services)
   const [keySearch, setKeySearch] = useState<string>('')
-  const [priceStation, setpriceStation] = useState(0)
+  const [priceStation, setPriceStation] = useState(0)
+
+  useEffect(() => {
+    // Recalculate price whenever localServices changes
+    let totalPrice = 0;
+    localServices.forEach(service => {
+      totalPrice += service.price * service.quantity;
+    });
+    setPriceStation(totalPrice);
+  }, [localServices]);
 
   const handleClickSelectService = (station: string) => {
     setIsServiceSelected(true)
@@ -52,7 +61,6 @@ function TicketService({ services, seatCode }: ticket) {
       return
     }
     setLocalServices([...localServices, service])
-    calcPriceStation()
   }
 
   const handleUpdateService = (updatedService: Service) => {
@@ -61,7 +69,6 @@ function TicketService({ services, seatCode }: ticket) {
         service.id === updatedService.id && service.station === updatedService.station ? updatedService : service
       )
     )
-    calcPriceStation()
   }
 
   const handleDeleteService = (serviceId: number, selectedStation: string) => {
@@ -69,7 +76,6 @@ function TicketService({ services, seatCode }: ticket) {
       (localServices) => localServices.id === serviceId && localServices.station === selectedStation
     )
     setLocalServices(localServices.filter((service) => service !== findService))
-    calcPriceStation()
   }
 
   const handleConfirm = () => {
@@ -85,14 +91,6 @@ function TicketService({ services, seatCode }: ticket) {
 
   const handleKeyChange = (keySearch: string) => {
     setKeySearch(keySearch)
-  }
-
-  const calcPriceStation = () => {
-    let priceStation = 0
-    localServices.map((service) => {
-      priceStation += service.price * service.quantity
-    })
-    setpriceStation(priceStation)
   }
 
   return (
