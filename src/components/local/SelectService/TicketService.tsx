@@ -1,15 +1,8 @@
 import { Button } from '@/components/global/atoms/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/local/SelectService/dialogService'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/local/SelectService/tabsService'
 import ServiceLayout from '@/components/local/SelectService/ServiceLayout'
 import ServiceAction from '@/components/local/SelectService/ServiceAction'
-import { ticket } from '@/types/invoiceData'
+import { Service, ticket } from '@/types/invoiceData'
 import { HandPlatter } from 'lucide-react'
 import { ServiceData, stationData } from '@/constants/SeatData'
 import { useState } from 'react'
@@ -20,34 +13,111 @@ import {
   AccordionTrigger
 } from '@/components/local/SelectService/accordionService'
 import ServiceItem from './ServiceItem'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from '@/components/global/atoms/alert-dialog'
+import { useInvoice } from '@/contexts/InvoiceContext'
+import { formatPrice } from '@/lib/utils'
+
 function TicketService({ services, seatCode }: ticket) {
+  const { updateTicketServices } = useInvoice()
   const [isServiceSelected, setIsServiceSelected] = useState(false)
   const [selectedStation, setSelectedStation] = useState<string | null>(null)
+  const [localServices, setLocalServices] = useState<Service[]>(services)
+  const [keySearch, setKeySearch] = useState<string>('')
+  const [priceStation, setpriceStation] = useState(0)
+
   const handleClickSelectService = (station: string) => {
     setIsServiceSelected(true)
     setSelectedStation(station)
   }
 
+  const handleAddService = (service: Service) => {
+    const findService = localServices.find(
+      (localServices) => localServices.id === service.id && localServices.station === service.station
+    )
+    if (findService) {
+      setLocalServices(
+        localServices.map((service) =>
+          service === findService ? { ...service, quantity: service.quantity + 1 } : service
+        )
+      )
+      return
+    }
+    setLocalServices([...localServices, service])
+    calcPriceStation()
+  }
+
+  const handleUpdateService = (updatedService: Service) => {
+    setLocalServices(
+      localServices.map((service) =>
+        service.id === updatedService.id && service.station === updatedService.station ? updatedService : service
+      )
+    )
+    calcPriceStation()
+  }
+
+  const handleDeleteService = (serviceId: number, selectedStation: string) => {
+    const findService = localServices.find(
+      (localServices) => localServices.id === serviceId && localServices.station === selectedStation
+    )
+    setLocalServices(localServices.filter((service) => service !== findService))
+    calcPriceStation()
+  }
+
+  const handleConfirm = () => {
+    updateTicketServices(seatCode, localServices)
+  }
+
+  const handleCancel = () => {
+    setLocalServices(services)
+    setSelectedStation(null)
+    setIsServiceSelected(false)
+    setKeySearch('')
+  }
+
+  const handleKeyChange = (keySearch: string) => {
+    setKeySearch(keySearch)
+  }
+
+  const calcPriceStation = () => {
+    let priceStation = 0
+    localServices.map((service) => {
+      priceStation += service.price * service.quantity
+    })
+    setpriceStation(priceStation)
+  }
+
   return (
     <>
-      <Dialog>
-        <DialogTrigger asChild>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
           <div className='w-full flex justify-end p-3'>
-            <Button onClick={() => setIsServiceSelected(false)} className='hover:scale-105 transform scale-100 transition duration-200'>
+            <Button
+              onClick={() => setIsServiceSelected(false)}
+              className='hover:scale-105 transform scale-100 transition duration-200'
+            >
               {services.length > 0 ? 'Chi tiết dịch vụ' : 'Chọn dịch vụ'}
               <HandPlatter className='ml-1' />
             </Button>
           </div>
-        </DialogTrigger>
-        <DialogContent className='sm:max-w-screen-lg flex justify-between space-x-4'>
+        </AlertDialogTrigger>
+        <AlertDialogContent className='sm:max-w-screen-lg h-[700px] flex justify-between space-x-4'>
           <div className='w-3/5'>
-            <DialogHeader>
-              <DialogTitle className='flex justify-between items-center mb-6'>
+            <AlertDialogHeader>
+              <AlertDialogTitle className='flex justify-between items-center mb-6'>
                 Chọn dịch vụ
                 <span className='text-xs text-red-500'>* Vui lòng chọn trạm trước khi lựa chọn dịch vụ</span>
-              </DialogTitle>
-            </DialogHeader>
-            <ServiceAction onStationSelect={handleClickSelectService} />
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+            <ServiceAction onKeyChange={handleKeyChange} onStationSelect={handleClickSelectService} />
             {isServiceSelected && (
               <Tabs defaultValue='food' className='w-full mt-4'>
                 <TabsList>
@@ -56,37 +126,62 @@ function TicketService({ services, seatCode }: ticket) {
                   <TabsTrigger value='other'>Khác</TabsTrigger>
                 </TabsList>
                 <TabsContent value='food'>
-                  <ServiceLayout props={ServiceData} seatCode={seatCode} selectedStation={selectedStation} />
+                  <ServiceLayout
+                    keySearch={keySearch}
+                    props={ServiceData}
+                    selectedStation={selectedStation}
+                    onAddService={handleAddService}
+                  />
                 </TabsContent>
                 <TabsContent value='drink'>
-                  <ServiceLayout props={ServiceData} seatCode={seatCode} selectedStation={selectedStation} />
+                  <ServiceLayout
+                    keySearch={keySearch}
+                    props={ServiceData}
+                    selectedStation={selectedStation}
+                    onAddService={handleAddService}
+                  />
                 </TabsContent>
                 <TabsContent value='other'>
-                  <ServiceLayout props={ServiceData} seatCode={seatCode} selectedStation={selectedStation} />
+                  <ServiceLayout
+                    keySearch={keySearch}
+                    props={ServiceData}
+                    selectedStation={selectedStation}
+                    onAddService={handleAddService}
+                  />
                 </TabsContent>
               </Tabs>
             )}
           </div>
           <div className='w-4/12 flex flex-col border-l-2 p-2'>
             <div className='h-full'>
-              <DialogHeader>
-                <DialogTitle className='flex justify-between items-center mb-6'>Đã chọn</DialogTitle>
-              </DialogHeader>
+              <AlertDialogHeader>
+                <AlertDialogTitle className='flex justify-between items-center mb-6'>Dịch vụ đã chọn</AlertDialogTitle>
+              </AlertDialogHeader>
               <div className='flex flex-col space-y-2 my-2 p-2 overflow-y-auto max-h-[500px]'>
-                <Accordion type='single' collapsible className='w-full'>
+                <Accordion type='multiple' className='w-full' defaultValue={stationData}>
                   {stationData.map((station) => (
-                    <AccordionItem value={station}>
-                      <AccordionTrigger>Dịch vụ ở Trạm {station}</AccordionTrigger>
+                    <AccordionItem value={station} defaultValue={station}>
+                      <AccordionTrigger>
+                        <span>Trạm {station}</span>
+                      </AccordionTrigger>
                       <AccordionContent>
                         <div className='flex flex-col space-y-3'>
-                          {services && services.filter((service) => service.station === station).length > 0 ? (
-                            services
+                          {localServices &&
+                          localServices.filter((service) => service.station === station).length > 0 ? (
+                            localServices
                               .filter((service) => service.station === station)
                               .map((service) => (
-                                <ServiceItem service={service} seatCode={seatCode}/>
+                                <ServiceItem
+                                  service={service}
+                                  seatCode={seatCode}
+                                  onUpdateService={handleUpdateService}
+                                  onDeleteService={handleDeleteService}
+                                />
                               ))
                           ) : (
-                            <div className='text-center text-gray-500'>Không có danh sách dịch vụ đã chọn tại trạm này</div>
+                            <div className='text-center text-wrap text-gray-500'>
+                              Không có danh sách dịch vụ đã chọn tại trạm này
+                            </div>
                           )}
                         </div>
                       </AccordionContent>
@@ -95,12 +190,14 @@ function TicketService({ services, seatCode }: ticket) {
                 </Accordion>
               </div>
             </div>
-            {/* <DialogFooter>
-              <Button type='submit'>Xác nhận</Button>
-            </DialogFooter> */}
+            <span className='flex justify-end my-2 font-bold'>Tổng tiền: {formatPrice(priceStation)}</span>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={handleCancel}>Hủy</AlertDialogCancel>
+              <AlertDialogAction onClick={handleConfirm}>Xác nhận</AlertDialogAction>
+            </AlertDialogFooter>
           </div>
-        </DialogContent>
-      </Dialog>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   )
 }

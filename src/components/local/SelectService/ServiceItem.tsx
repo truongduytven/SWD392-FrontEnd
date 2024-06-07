@@ -1,7 +1,6 @@
 import { formatPrice } from '@/lib/utils'
 import { Service } from '@/types/invoiceData'
 import QuantityInput from '@/components/local/SelectService/quantityInput'
-import { useInvoice } from '@/contexts/InvoiceContext'
 import { Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
@@ -20,22 +19,23 @@ import { useState } from 'react'
 interface ServiceItemProps {
   service: Service
   seatCode: string
+  onUpdateService: (service: Service) => void
+  onDeleteService: (serviceId: number, selectedStation: string) => void
 }
 
-function ServiceItem({ service, seatCode }: ServiceItemProps) {
-  const { updateService, deleteService } = useInvoice()
+function ServiceItem({ service, onDeleteService, onUpdateService }: ServiceItemProps) {
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false)
 
   const handleQuantityUpdate = (newQuantity: number) => {
     if (newQuantity <= 0) {
       setIsAlertDialogOpen(true)
     } else {
-      updateService(seatCode, service.id, { ...service, quantity: newQuantity })
+      onUpdateService({ ...service, quantity: newQuantity })
     }
   }
 
   const handleDeleteService = () => {
-    deleteService(seatCode, service.id)
+    onDeleteService(service.id, service.station)
     toast.success(`Xoá ${service.name} thành công`)
   }
   return (
@@ -70,7 +70,7 @@ function ServiceItem({ service, seatCode }: ServiceItemProps) {
       <div className='w-full relative flex flex-col text-sm p-2'>
         <span>{service.name}</span>
         <span>{formatPrice(service.price)}</span>
-        <QuantityInput initialValue={service.quantity} onUpdate={handleQuantityUpdate} onDelete={handleDeleteService} />
+        <QuantityInput initialValue={service.quantity} onUpdate={handleQuantityUpdate} />
       </div>
       <AlertDialog open={isAlertDialogOpen} onOpenChange={setIsAlertDialogOpen}>
         <AlertDialogContent>

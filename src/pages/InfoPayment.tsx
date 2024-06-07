@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 
 function InfoPayment() {
   const navigate = useNavigate()
+  const [errors, setErrors] = useState({ username: '', phoneNumber: '', email: '' })
   const [infoData, setInfoData] = useState<infoPaymentData>({ username: '', phoneNumber: '', email: '' })
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target
@@ -18,9 +19,45 @@ function InfoPayment() {
       ...prevData,
       [id]: value
     }))
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [id]: '' // Clear any previous error message when the user starts typing
+    }))
   }
+
+  const validateFields = () => {
+    let valid = true
+    const newErrors = { username: '', phoneNumber: '', email: '' }
+
+    if (!infoData.username.trim()) {
+      newErrors.username = 'Tên người đi là bắt buộc.'
+      valid = false
+    }
+
+    if (!infoData.phoneNumber.trim()) {
+      newErrors.phoneNumber = 'Số điện thoại là bắt buộc.'
+      valid = false
+    } else if (!/^\d+$/.test(infoData.phoneNumber)) {
+      newErrors.phoneNumber = 'Số điện thoại chỉ chứa các ký tự số.'
+      valid = false
+    }
+
+    if (!infoData.email?.trim()) {
+      newErrors.email = 'Email là bắt buộc.'
+      valid = false
+    } else if (!/\S+@\S+\.\S+/.test(infoData.email)) {
+      newErrors.email = 'Email không hợp lệ.'
+      valid = false
+    }
+
+    setErrors(newErrors)
+    return valid
+  }
+
   const onSubmit = () => {
-    console.log(infoData)
+    if (validateFields()) {
+      console.log(infoData)
+    }
   }
   return (
     <Container>
@@ -34,22 +71,25 @@ function InfoPayment() {
             Quay lại
           </Button>
         </div>
-        <div className='flex justify-center items-center uppercase font-bold text-4xl mb-12'>thông tin thanh toán</div>
+        <div className='flex justify-center items-center uppercase text-primary font-bold text-4xl mb-12'>thông tin thanh toán</div>
         <div className='flex justify-center space-x-10'>
           <div className='border w-4/12 h-fit rounded-xl shadow-md p-5 flex flex-col space-y-4'>
             <div className='grid w-full max-w-sm items-center gap-1.5'>
               <Label htmlFor='name'>Tên người đi</Label>
               <Input value={infoData.username} onChange={handleChange} type='text' id='username' placeholder='Nhập tên người đi*' required />
+              {errors.username && <span className="text-red-500 text-sm">{errors.username}</span>}
             </div>
             <div className='grid w-full max-w-sm items-center gap-1.5'>
               <Label htmlFor='phoneNumber'>Số điện thoại</Label>
               <Input value={infoData.phoneNumber} onChange={handleChange} type='tel' id='phoneNumber' placeholder='Nhập số điện thoại*' required />
+              {errors.phoneNumber && <span className="text-red-500 text-sm">{errors.phoneNumber}</span>}
             </div>
             <div className='grid w-full max-w-sm items-center gap-1.5'>
               <Label htmlFor='email'>Tên người đi</Label>
               <Input value={infoData.email} onChange={handleChange} type='email' id='email' placeholder='Nhập email nhận thông tin vé*' required />
+              {errors.email && <span className="text-red-500 text-sm">{errors.email}</span>}
             </div>
-            <div className='flex h-fit w-full items-center rounded-md border-2 border-tertiary bg-green-200 text-tertiary py-2 text-xs'>
+            <div className='flex h-fit w-full items-center rounded-md border-2 border-tertiary bg-green-200 text-tertiary py-2 text-xs font-semibold'>
               <ShieldCheck className='w-1/6' /> Số điện thoại và email được sử dụng để gửi thông tin đơn hàng và liên hệ
               khi cần thiết.
             </div>
