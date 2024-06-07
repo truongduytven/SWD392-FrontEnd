@@ -1,18 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Sprout } from 'lucide-react';
 interface TicketProps {
-  date: string;
-  startTime: string;
-  endTime:string;
-  locationTo: string;
-  locationFrom: string;
-  seatCode: string;
-  priceTicket: string;
-  priceService: string;
+  date: string
+  startTime: string
+  endTime: string
+  locationTo: string
+  locationFrom: string
+  seatCode: string
+  priceTicket: string
+  priceService: string
+  status: string
 }
-function Ticket({ date, startTime, endTime, locationTo, locationFrom, seatCode, priceTicket, priceService }:TicketProps) {
+function Ticket({
+  date,
+  startTime,
+  endTime,
+  locationTo,
+  locationFrom,
+  seatCode,
+  priceTicket,
+  priceService,
+  status
+}: TicketProps) {
+  const [isHovered, setIsHovered] = useState(false)
+
   return (
-    <div className='mx-auto overflow-hidden flex justify-center items-center'>
-      <div className='flex box relative bg-white shadow-sm w-fit p-5 mx-2 my-4'>
+    <div
+      className='mx-auto overflow-hidden flex justify-center items-center'
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div
+        className={`flex box relative bg-white shadow-sm w-fit p-5 mx-2 my-4 cursor-pointer transition-transform duration-300 ${
+          isHovered ? 'transform scale-105' : ''
+        }`}
+      >
         <div className='relative flex flex-col  justify-center items-center p-2 pr-4  border-r-2 border-dashed  border-gray-300'>
           <h2 className='text-center text-md  '>Giờ xuất bến</h2>
           <p className='text-center  text-lg font-semibold  text-gray-700'>{startTime}</p>
@@ -22,9 +44,9 @@ function Ticket({ date, startTime, endTime, locationTo, locationFrom, seatCode, 
         </div>
         <div className='flex flex-col justify-center items-center  ml-3 mr-4'>
           <div className='flex justify-between items-center gap-10'>
-            <div className='flex  '>
-              <div className='flex gap-3 justify-center items-center'>
-                <div className=' h-full flex justify-between items-center'>
+            <div className='flex '>
+              <div className='flex justify-center items-center'>
+                <div className=' h-full flex justify-between items-center mr-3 '>
                   <svg xmlns='http://www.w3.org/2000/svg' width='14' height='74' viewBox='0 0 14 74'>
                     <path
                       fill='none'
@@ -45,31 +67,48 @@ function Ticket({ date, startTime, endTime, locationTo, locationFrom, seatCode, 
                   </svg>
                 </div>
 
-                <div className='flex flex-col items-start justify-between gap-1'>
+                <div className='flex flex-col items-start justify-between gap-1 '>
                   <p className='m-0 p-0'>
-                    <span className='font-bold mr-2 text-lg'>{startTime}</span>• {locationTo}
+                    <span className='font-bold mr-2 text-lg'>{startTime}</span>
                   </p>
                   <p className='text-muted-foreground'>2 giờ</p>
                   <p>
-                    <span className='font-bold mr-2 text-lg'>{endTime}</span>• {locationFrom}
+                    <span className='font-bold mr-2 text-lg'>{endTime}</span>
                   </p>
+                </div>
+                <div className='flex flex-col h-full justify-between py-0.5'>
+                  <span>• {locationTo}</span>
+                  <span>• {locationFrom}</span>
                 </div>
               </div>
             </div>
 
             <div className='flex flex-col items-end justify-between gap-1 h-full'>
-              <p>Số ghế: <span className='font-medium'>{seatCode}</span> </p>
-              <p>Giá vé: <span className='font-medium'>{priceTicket}</span></p>
-              <p>Giá dịch vụ: <span className='font-medium'>{priceService}</span></p>
+              <p>
+                Số ghế: <span className='font-medium'>{seatCode}</span>{' '}
+              </p>
+              <p>
+                Giá vé: <span className='font-medium'>{priceTicket}</span>
+              </p>
+              <p>
+                Giá dịch vụ: <span className='font-medium'>{priceService}</span>
+              </p>
             </div>
           </div>
-          {/* <button className='bg-gray-600 text-white float-right py-2 px-4 rounded'>Tickets</button> */}
-
         </div>
-      <div className="ribbon absolute right-[-5px] top-[-5px] z-[1] overflow-hidden w-[75px] h-[75px] text-right"><span>Đã sử dụng</span></div>
+        <div className='ribbon absolute right-[-5px] top-[-5px] z-[1] overflow-hidden w-[75px] h-[75px] text-right'>
+          <span>{status}</span>
+        </div>
+
+        {isHovered && (
+          <div className={`absolute inset-0 flex justify-center items-center backdrop-blur-sm bg-opacity-30 text-primary font-bold text-lg transition-opacity duration-300 ${
+            isHovered ? 'opacity-100' : 'opacity-0'
+          }`}>
+            <Sprout/>
+            Xem chi tiết
+          </div>
+        )}
       </div>
-
-
     </div>
   )
 }

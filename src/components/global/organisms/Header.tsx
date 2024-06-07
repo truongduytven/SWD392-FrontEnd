@@ -93,6 +93,8 @@ function Header() {
                   Vé của tôi
                 </DropdownMenuItem>
               </Link>
+              <DropdownMenuSeparator />
+
               <Link to='/'>
                 <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
                   <LogOut className='w-5' />

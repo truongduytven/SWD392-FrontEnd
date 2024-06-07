@@ -9,6 +9,7 @@ type TicketData = {
   priceTicket: string;
   priceService: string;
   endTime: string;
+  status:string
 };
 
 const tabs = [
@@ -19,25 +20,27 @@ const tabs = [
 ];
 
 const allTickets: TicketData[] = [
-  { date: '23 Feb', startTime:"9:00",endTime:"13:00", locationTo: 'Music Event', locationFrom: 'United State',seatCode:"A01", priceTicket:"600.000",priceService:"120.000" },
-  { date: '24 Mar', startTime:"2:00",endTime:"7:00", locationTo: 'Bến Tre', locationFrom: 'United State',seatCode:"B01", priceTicket:"6.000.000",priceService:"1.200.000" },
+  { date: '23-01-2023', startTime:"9:00",endTime:"13:00", locationTo: 'Music Event', locationFrom: 'United State',seatCode:"A01", priceTicket:"600.000",priceService:"120.000",status:"Đã sử dụng" },
+  { date: '24-02-2023', startTime:"2:00",endTime:"7:00", locationTo: 'Bến Tre', locationFrom: 'United State',seatCode:"B01", priceTicket:"6.000.000",priceService:"1.200.000",status:"Đã hủy" },
+  { date: '01-01-2024', startTime:"3:00",endTime:"13:00", locationTo: 'Hà Nội', locationFrom: 'Bình Thuận',seatCode:"A09", priceTicket:"300.000",priceService:"210.000",status:"Chưa sử dụng" },
+
 
   // More ticket data
 ];
 
 const unusedTickets: TicketData[] = [
-  { date: '01 Feb', startTime:"3:00",endTime:"13:00", locationTo: 'Hà Nội', locationFrom: 'Bình Thuận',seatCode:"A09", priceTicket:"300.000",priceService:"210.000" },
+  { date: '01-01-2024', startTime:"3:00",endTime:"13:00", locationTo: 'Hà Nội', locationFrom: 'Bình Thuận',seatCode:"A09", priceTicket:"300.000",priceService:"210.000",status:"Chưa sử dụng" },
 
   // More ticket data
 ];
 
 const usedTickets: TicketData[] = [
-  { date: '01 Feb', startTime:"12:00",endTime:"21:00", locationTo: 'Hà Nội', locationFrom: 'Lâm Đồng',seatCode:"A09", priceTicket:"300.000",priceService:"210.000" },
+  { date: '01-07-2029', startTime:"12:00",endTime:"21:00", locationTo: 'Hà Nội', locationFrom: 'Lâm Đồng',seatCode:"A09", priceTicket:"300.000",priceService:"210.000",status:"Đã sử dụng" },
   // More ticket data
 ];
 
 const canceledTickets: TicketData[] = [
-  { date: '01 Feb', startTime:"21:00",endTime:"3:00", locationTo: 'Lâm Đồng', locationFrom: 'Bình Thuận',seatCode:"A09", priceTicket:"300.000",priceService:"210.000" },
+  { date: '04-08-2025', startTime:"21:00",endTime:"3:00", locationTo: 'Lâm Đồng', locationFrom: 'Bình Thuận',seatCode:"A09", priceTicket:"300.000",priceService:"210.000",status:"Đã hủy" },
   // More ticket data
 ];
 
@@ -84,6 +87,7 @@ function MyTicketPage() {
             seatCode={ticket.seatCode}
             priceTicket={ticket.priceTicket}
             priceService={ticket.priceService}
+            status={ticket.status}
           />
         ))}
       </div>
