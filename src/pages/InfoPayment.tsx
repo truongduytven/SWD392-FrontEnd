@@ -34,7 +34,7 @@ function InfoPayment() {
             Quay lại
           </Button>
         </div>
-        <div className='flex justify-center items-center uppercase font-bold text-4xl mb-12'>thông tin thanh toán</div>
+        <div className='flex justify-center items-center uppercase text-primary font-bold text-4xl mb-12'>thông tin thanh toán</div>
         <div className='flex justify-center space-x-10'>
           <div className='border w-4/12 h-fit rounded-xl shadow-md p-5 flex flex-col space-y-4'>
             <div className='grid w-full max-w-sm items-center gap-1.5'>
@@ -49,7 +49,7 @@ function InfoPayment() {
               <Label htmlFor='email'>Tên người đi</Label>
               <Input value={infoData.email} onChange={handleChange} type='email' id='email' placeholder='Nhập email nhận thông tin vé*' required />
             </div>
-            <div className='flex h-fit w-full items-center rounded-md border-2 border-tertiary bg-green-200 text-tertiary py-2 text-xs'>
+            <div className='flex h-fit w-full items-center rounded-md border-2 border-tertiary bg-green-200 text-tertiary py-2 text-xs font-semibold'>
               <ShieldCheck className='w-1/6' /> Số điện thoại và email được sử dụng để gửi thông tin đơn hàng và liên hệ
               khi cần thiết.
             </div>

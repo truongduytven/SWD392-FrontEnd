@@ -9,11 +9,24 @@ import {
 } from '@/components/global/atoms/select'
 import { stationData } from '@/constants/SeatData'
 import { Search } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 interface ServiceActionProps {
   onStationSelect: (station: string) => void
+  onKeyChange: (key: string) => void
 }
 
-function ServiceAction({ onStationSelect }: ServiceActionProps) {
+function ServiceAction({ onStationSelect, onKeyChange }: ServiceActionProps) {
+  
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  const handleKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onKeyChange(event.target.value)
+    if (searchInputRef.current) {
+      searchInputRef.current.focus()
+    }
+  }
+
+
   return (
     <div className='flex space-x-4 justify-end'>
       <div className='relative w-full'>
@@ -22,6 +35,8 @@ function ServiceAction({ onStationSelect }: ServiceActionProps) {
         </div>
         <input
           type='text'
+          ref={searchInputRef}
+          onChange={handleKeyChange}
           id='simple-search'
           className='block w-[300px] rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-primary focus:ring-0'
           placeholder='Tìm kiếm....'

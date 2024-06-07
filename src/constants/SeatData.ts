@@ -5,7 +5,7 @@ export interface Seat {
     status: string;
   }
   
-export interface Service {
+export interface ServiceDefault {
   id: number;
   name: string;
   imageUrl: string
@@ -47,7 +47,7 @@ export const defaultSeats: Seat[] = [
     { seatCode: 'B10', price: 400000, status: 'notsold' },
   ];
 
-  export const ServiceData: Service[] = [
+  export const ServiceData: ServiceDefault[] = [
     {
       id: 1,
       name: 'Hamburger',

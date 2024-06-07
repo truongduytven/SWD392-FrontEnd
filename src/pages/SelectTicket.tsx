@@ -24,7 +24,7 @@ function SelectTicket() {
             Quay lại
           </Button>
         </div>
-        <div className='flex justify-center items-center uppercase font-bold text-4xl mb-12'>chọn mua vé</div>
+        <div className='flex justify-center items-center uppercase font-bold text-4xl mb-12 text-primary'>chọn mua vé</div>
         <div className='flex justify-evenly'>
           <div className='border w-7/12 rounded-xl shadow-md'>
             <ChooseSeatCode />

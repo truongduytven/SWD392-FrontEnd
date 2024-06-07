@@ -25,7 +25,7 @@ function SelectService() {
             Quay lại
           </Button>
         </div>
-        <div className='flex justify-center uppercase font-bold text-4xl mb-12 '>chọn dịch vụ</div>
+        <div className='flex justify-center uppercase font-bold text-4xl mb-12 text-primary'>chọn dịch vụ</div>
         <div className='flex justify-evenly'>
           <div className='w-1/2 flex flex-col space-y-3'>
             {invoiceData &&

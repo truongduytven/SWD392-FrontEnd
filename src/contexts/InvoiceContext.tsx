@@ -5,16 +5,20 @@ const defaultInvoiceData: InvoiceData = {
   startLocation: 'Bx.Miền Tây',
   endLocation: 'Bến Tre - Trà Vinh',
   timeStart: new Date('2023-05-23T07:00:00'),
-  tickets: [],
+  tickets: [
+    {
+      seatCode: 'A01',
+      price: 200000,
+      services: [],
+    }
+  ],
   totalPrice: 0
 }
 
 interface InvoiceContextType {
   invoiceData: InvoiceData
   updateTickets: (tickets: ticket[]) => void
-  addService: (seatCode: string, newService: Service) => void
-  updateService: (seatCode: string, serviceId: number, updatedService: Service) => void
-  deleteService: (seatCode: string, serviceId: number) => void
+  updateTicketServices: (seatCode: string, updatedServices: Service[]) => void
 }
 
 const InvoiceContext = createContext<InvoiceContextType | undefined>(undefined)
@@ -48,62 +52,73 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
       totalPrice
     }))
   }
-  const addService = (seatCode: string, newService: Service) => {
+  // const addService = (seatCode: string, newService: Service) => {
+  //   const updatedTickets = invoiceData.tickets.map((ticket) => {
+  //     if (ticket.seatCode === seatCode) {
+  //       const filterServices = ticket.services.filter((service) => service.id === newService.id)
+  //       if (filterServices.length > 0) {
+  //         const updatedServices = ticket.services.map((service) => {
+  //           if (service.id === newService.id) {
+  //             return { ...service, quantity: service.quantity + 1 }
+  //           }
+  //           return service
+  //         })
+  //         return { ...ticket, services: updatedServices }
+  //       } else {
+  //         return {
+  //           ...ticket,
+  //           services: [...ticket.services, newService]
+  //         }
+  //       }
+  //     }
+  //     return ticket
+  //   })
+  //   updateTickets(updatedTickets)
+  // }
+  // const updateService = (seatCode: string, serviceId: number, updatedService: Service) => {
+  //   const updatedTickets = invoiceData.tickets.map((ticket) => {
+  //     if (ticket.seatCode === seatCode) {
+  //       const updatedServices = ticket.services.map((service) => {
+  //         if (service.id === serviceId) {
+  //           return { ...service, ...updatedService }
+  //         }
+  //         return service
+  //       })
+  //       return { ...ticket, services: updatedServices }
+  //     }
+  //     return ticket
+  //   })
+  //   setInvoiceData((prevData) => ({
+  //     ...prevData,
+  //     tickets: updatedTickets
+  //   }))
+  // }
+  // const deleteService = (seatCode: string, serviceId: number) => {
+  //   const updatedTickets = invoiceData.tickets.map((ticket) => {
+  //     if (ticket.seatCode === seatCode) {
+  //       return {
+  //         ...ticket,
+  //         services: ticket.services.filter((service) => service.id !== serviceId)
+  //       }
+  //     }
+  //     return ticket
+  //   })
+  //   updateTickets(updatedTickets)
+  // }
+
+  const updateTicketServices = (seatCode: string, updatedServices: Service[]) => {
     const updatedTickets = invoiceData.tickets.map((ticket) => {
       if (ticket.seatCode === seatCode) {
-        const filterServices = ticket.services.filter((service) => service.id === newService.id)
-        if (filterServices.length > 0) {
-          const updatedServices = ticket.services.map((service) => {
-            if (service.id === newService.id) {
-              return { ...service, quantity: service.quantity + 1 }
-            }
-            return service
-          })
-          return { ...ticket, services: updatedServices }
-        } else {
-          return {
-            ...ticket,
-            services: [...ticket.services, newService]
-          }
-        }
-      }
-      return ticket
-    })
-    updateTickets(updatedTickets)
-  }
-  const updateService = (seatCode: string, serviceId: number, updatedService: Service) => {
-    const updatedTickets = invoiceData.tickets.map((ticket) => {
-      if (ticket.seatCode === seatCode) {
-        const updatedServices = ticket.services.map((service) => {
-          if (service.id === serviceId) {
-            return { ...service, ...updatedService }
-          }
-          return service
-        })
         return { ...ticket, services: updatedServices }
-      }
-      return ticket
-    })
-    setInvoiceData((prevData) => ({
-      ...prevData,
-      tickets: updatedTickets
-    }))
-  }
-  const deleteService = (seatCode: string, serviceId: number) => {
-    const updatedTickets = invoiceData.tickets.map((ticket) => {
-      if (ticket.seatCode === seatCode) {
-        return {
-          ...ticket,
-          services: ticket.services.filter((service) => service.id !== serviceId)
-        }
       }
       return ticket
     })
     updateTickets(updatedTickets)
   }
 
+
   return (
-    <InvoiceContext.Provider value={{ invoiceData, updateTickets, addService, updateService, deleteService }}>
+    <InvoiceContext.Provider value={{ invoiceData, updateTickets, updateTicketServices }}>
       {children}
     </InvoiceContext.Provider>
   )
