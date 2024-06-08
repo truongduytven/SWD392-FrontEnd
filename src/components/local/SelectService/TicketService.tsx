@@ -157,8 +157,8 @@ function TicketService({ services, seatCode }: ticket) {
               </AlertDialogHeader>
               <div className='flex flex-col space-y-2 my-2 p-2 overflow-y-auto max-h-[500px]'>
                 <Accordion type='multiple' className='w-full' defaultValue={stationData}>
-                  {stationData.map((station) => (
-                    <AccordionItem value={station} defaultValue={station}>
+                  {stationData.map((station, index) => (
+                    <AccordionItem key={index} value={station} defaultValue={station}>
                       <AccordionTrigger>
                         <span>Trạm {station}</span>
                       </AccordionTrigger>

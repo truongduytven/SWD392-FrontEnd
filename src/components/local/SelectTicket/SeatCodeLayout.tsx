@@ -15,7 +15,8 @@ const SeatLayout: React.FC = () => {
       let newSelected = selectedSeats.filter((code) => code !== seatCode)
       const newTickets = newSelected.map((code) => {
         const seat = defaultSeats.find((seat) => seat.seatCode === code)!
-        return { seatCode: seat.seatCode, price: seat.price, services: [] } as ticket
+        const seatService = invoiceData.tickets.find((ticket) => ticket.seatCode === code)!
+        return { seatCode: seat.seatCode, price: seat.price, services: (seatService ? seatService.services : []) } as ticket
       })
       updateTickets(newTickets)
       setSelectedSeats(newSelected)
@@ -26,7 +27,8 @@ const SeatLayout: React.FC = () => {
       let newSelected = [...selectedSeats, seatCode]
       const newTickets = newSelected.map((code) => {
         const seat = defaultSeats.find((seat) => seat.seatCode === code)!
-        return { seatCode: seat.seatCode, price: seat.price, services: [] } as ticket
+        const seatService = invoiceData.tickets.find((ticket) => ticket.seatCode === code)!
+        return { seatCode: seat.seatCode, price: seat.price, services: (seatService ? seatService.services : []) } as ticket
       })
       updateTickets(newTickets)
       setSelectedSeats(newSelected)
