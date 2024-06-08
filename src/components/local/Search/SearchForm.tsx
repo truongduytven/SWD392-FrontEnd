@@ -11,25 +11,36 @@ import { CircleDot, MapPin, Clock } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useSearch } from '@/contexts/SearchContext'
 import { useGetCitySearchForm } from '@/apis/tripAPI'
+import { useEffect } from 'react'
 
 export function SearchForm() {
   const navigate = useNavigate()
   const { searchData, setSearchData } = useSearch()
+
+
   const { data } = useGetCitySearchForm()
+
   const form = useForm<z.infer<typeof SearchSchema>>({
     resolver: zodResolver(SearchSchema),
     defaultValues: {
-      startLocation: searchData.startLocation === '' ? data?.fromCities[0].cityID.toString() : searchData.startLocation,
-      endLocation: searchData.endLocation === '' ? data?.toCities[0].cityID.toString() : searchData.endLocation,
+      startLocation: '',
+      endLocation: '',
       startDate: searchData.startDate
     }
   })
+  useEffect(() => {
+    if (data) {
+      form.reset({
+        startLocation: searchData.startLocation || data?.fromCities[0]?.cityID.toString(),
+        endLocation: searchData.endLocation || data?.toCities[0]?.cityID.toString(),
+        startDate: searchData.startDate
+      })
+    }
+  }, [searchData])
   function onSubmit(values: z.infer<typeof SearchSchema>) {
-    const startLocaionId = data?.fromCities.find((city) => city.cityID.toString() === values.startLocation)?.cityID
-    const endLocaionId = data?.fromCities.find((city) => city.cityID.toString() === values.endLocation)?.cityID
     const postData = {
-      startLocaion: startLocaionId,
-      endLocaion: endLocaionId,
+      startLocaion: parseInt(values.startLocation),
+      endLocaion: parseInt(values.endLocation),
       startDate: formatDate(values.startDate, 'yyyy-MM-dd')
     }
     console.log(postData)

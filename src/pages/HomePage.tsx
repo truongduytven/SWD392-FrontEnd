@@ -11,9 +11,10 @@ import PopularTrip from '../components/local/Home/PopularTrip'
 import { popularTripData } from '@/constants/PopularTrip'
 import CriteriaTags from '@/components/local/Home/CriteriaTags'
 import { useGetCitySearchForm } from '@/apis/tripAPI'
+import Loading from '@/components/global/molecules/Loading'
 function HomePage() {
-  const { data } = useGetCitySearchForm()
-  console.log(data)
+  const { isPending } = useGetCitySearchForm()
+  if (isPending) return <Loading />
   return (
     <div>
       <div className='h-[600px]'>
