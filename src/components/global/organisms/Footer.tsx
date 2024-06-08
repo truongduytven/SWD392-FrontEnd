@@ -5,7 +5,7 @@ import { Button } from '@/components/global/atoms/button'
 
 function Footer() {
   return (
-    <footer className='border-t border-primary'>
+    <footer className='border-t-2 border-primary'>
       <Container>
         <div className='w-full h-full pt-5'>
           <div className='flex mt-6 gap-14'>
