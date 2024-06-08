@@ -12,6 +12,8 @@ import NotFoundPage from './pages/NotFoundPage'
 import SelectService from './pages/SelectService'
 import OtpForm from './components/global/organisms/OtpForm'
 import RatingForm from './components/global/organisms/RatingForm'
+import ProfilePage from './pages/ProfilePage'
+import MyTicketPage from './pages/MyTicketPage'
 import InfoPayment from './pages/InfoPayment'
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           <Route path='/ticketInfo' element={<SearchTicket />} />
           <Route path='/payment-success' element={<PaymentSuccess />} />
           <Route path='/payment-failure' element={<PaymentFailure />} />
+          <Route path='/profile' element={<ProfilePage />} />
+          <Route path='/myticket' element={<MyTicketPage />} />
 
 
         </Route>

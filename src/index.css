@@ -87,4 +87,115 @@
     background-color: #333;
   }
 }
+.expandable {
+  background: #fff;
+  overflow: hidden;
+  color: #000;   
+  line-height: 50px;
 
+  transition: all .5s ease-in-out;
+  height: 0;
+ }
+ 
+ .expandable:target {
+  height: auto;
+}
+/* .box {
+  position: relative;
+} */
+/* .ribbon {
+  position: absolute;
+  right: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+} */
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#07af04 0%, #16a34a 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; right: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+
+
+.ribbondetail {
+  position: relative;
+  /* background-size: cover; */
+  /* text-transform: uppercase; */
+}
+.ribbondetail1 {
+  position: absolute;
+  top: -8px;
+  right: 10px;
+}
+.ribbondetail1:after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 39px solid transparent;
+  border-right: 55px solid transparent;
+  border-top: 10px solid #F97316;
+}
+.ribbondetail1 span {
+  position: relative;
+  display: block;
+  text-align: center;
+  background: #F97316;
+  /* font-size: 14px; */
+  color: white;
+  line-height: 1;
+  padding: 10px 6px 8px;
+  border-top-right-radius: 8px;
+  width: 90px;
+}
+.ribbondetail1 span:before, .ribbon1 span:after {
+  position: absolute;
+  content: "";
+}
+.ribbondetail1 span:before {
+ height: 6px;
+ width: 6px;
+ left: -6px;
+ top: 0;
+ border-top-left-radius: 3px;
+ background: #b14201;
+}
+.ribbondetail1 span:after {
+ height: 6px;
+ width: 8px;
+ left: -8px;
+ top: 0;
+ border-radius: 8px 8px 0 0;
+ background: #C02031;
+}
