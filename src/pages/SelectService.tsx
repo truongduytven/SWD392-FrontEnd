@@ -34,7 +34,7 @@ function SelectService() {
                   0
                 )
                 return (
-                  <div className='flex text-sm border shadow-md'>
+                  <div className='flex text-sm border shadow-md' key={index}>
                     <div className='w-5/12 flex flex-col justify-center border-r-2 border-dashed p-2 items-center space-y-2'>
                       <span>Giờ xuất bến</span>
                       <span className='font-bold text-lg'>{format(invoiceData.timeStart, 'p')}</span>
@@ -51,12 +51,12 @@ function SelectService() {
                                 <path
                                   fill='none'
                                   stroke='#484848'
-                                  stroke-linecap='round'
-                                  stroke-width='2'
-                                  stroke-dasharray='0 7'
+                                  strokeLinecap='round'
+                                  strokeWidth='2'
+                                  strokeDasharray='0 7'
                                   d='M7 13.5v46'
                                 ></path>
-                                <g fill='none' stroke='#DC2910' stroke-width='3'>
+                                <g fill='none' stroke='#DC2910' strokeWidth='3'>
                                   <circle cx='7' cy='7' r='7' stroke='none'></circle>
                                   <circle cx='7' cy='7' r='5.5'></circle>
                                 </g>

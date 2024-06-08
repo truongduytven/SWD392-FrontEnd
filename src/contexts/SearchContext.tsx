@@ -1,5 +1,4 @@
 // src/context/SearchContext.tsx
-import { useGetCitySearchForm } from '@/apis/tripAPI';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 
 interface SearchData {
