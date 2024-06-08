@@ -1,4 +1,5 @@
 // src/context/SearchContext.tsx
+import { useGetCitySearchForm } from '@/apis/tripAPI';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 
 interface SearchData {
@@ -13,8 +14,8 @@ interface SearchContextProps {
 }
 
 const defaultSearchData: SearchData = {
-  startLocation: 'TPHCM',
-  endLocation: 'Đà Lạt',
+  startLocation: "",
+  endLocation: "",
   startDate: new Date(),
 };
 

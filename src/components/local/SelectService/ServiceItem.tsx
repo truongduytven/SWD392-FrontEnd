@@ -51,8 +51,8 @@ function ServiceItem({ service, onDeleteService, onUpdateService }: ServiceItemP
       >
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <button className='absolute w-full h-full flex justify-center items-center opacity-0 hover:opacity-100 hover:bg-gray-400 hover:bg-opacity-70'>
-              <Trash2 />
+            <button className='absolute w-full h-full flex justify-center items-center opacity-0 hover:opacity-100 hover:backdrop-blur-sm '>
+              <Trash2 color='white'/>
             </button>
           </AlertDialogTrigger>
           <AlertDialogContent>
