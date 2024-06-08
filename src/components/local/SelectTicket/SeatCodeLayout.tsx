@@ -4,26 +4,33 @@ import Seat from './Seat'
 import { useInvoice } from '@/contexts/InvoiceContext'
 import { defaultSeats } from '@/constants/SeatData'
 import { ticket } from '@/types/invoiceData'
+import { toast } from 'sonner'
 
 const SeatLayout: React.FC = () => {
   const { invoiceData, updateTickets } = useInvoice()
   const [selectedSeats, setSelectedSeats] = useState<string[]>(invoiceData.tickets.map((ticket) => ticket.seatCode))
 
   const handleSeatClick = (seatCode: string) => {
-    setSelectedSeats((prevSelected) => {
-      let newSelected
-      if (prevSelected.includes(seatCode)) {
-        newSelected = prevSelected.filter((code) => code !== seatCode)
-      } else {
-        newSelected = [...prevSelected, seatCode]
-      }
+    if (selectedSeats.includes(seatCode)) {
+      let newSelected = selectedSeats.filter((code) => code !== seatCode)
       const newTickets = newSelected.map((code) => {
         const seat = defaultSeats.find((seat) => seat.seatCode === code)!
         return { seatCode: seat.seatCode, price: seat.price, services: [] } as ticket
       })
       updateTickets(newTickets)
-      return newSelected
-    })
+      setSelectedSeats(newSelected)
+    } else if (selectedSeats.length === 5) {
+      toast.warning('Chỉ được chọn tối đa 5 ghế')
+      return
+    } else {
+      let newSelected = [...selectedSeats, seatCode]
+      const newTickets = newSelected.map((code) => {
+        const seat = defaultSeats.find((seat) => seat.seatCode === code)!
+        return { seatCode: seat.seatCode, price: seat.price, services: [] } as ticket
+      })
+      updateTickets(newTickets)
+      setSelectedSeats(newSelected)
+    }
   }
 
   const upperDeckSeats = defaultSeats.filter((seat) => seat.seatCode.startsWith('A'))

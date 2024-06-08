@@ -1,4 +1,4 @@
-import SeatLayout from "./SeatCodeLayout"
+import SeatLayout from "@/components/local/SelectTicket/SeatCodeLayout"
 
 function ChooseSeatCode() {
   return (

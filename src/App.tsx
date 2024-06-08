@@ -9,10 +9,12 @@ import SearchTicket from './pages/SearchTicket'
 import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailure from './pages/PaymentFailure'
 import NotFoundPage from './pages/NotFoundPage'
+import SelectService from './pages/SelectService'
 import OtpForm from './components/global/organisms/OtpForm'
 import RatingForm from './components/global/organisms/RatingForm'
 import ProfilePage from './pages/ProfilePage'
 import MyTicketPage from './pages/MyTicketPage'
+import InfoPayment from './pages/InfoPayment'
 function App() {
   return (
     <Routes>
@@ -21,11 +23,14 @@ function App() {
           <Route path='/Loading' element={<Loading />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/selectTicket' element={<SelectTicket />} />
+          <Route path='/selectService' element={<SelectService />} />
+          <Route path='/infopayment' element={<InfoPayment />} />
           <Route path='/ticketInfo' element={<SearchTicket />} />
           <Route path='/payment-success' element={<PaymentSuccess />} />
           <Route path='/payment-failure' element={<PaymentFailure />} />
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/myticket' element={<MyTicketPage />} />
+
 
         </Route>
       <Route path='/login' element={<SignInSignUp />} />

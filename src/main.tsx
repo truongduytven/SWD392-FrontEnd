@@ -11,7 +11,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <SearchProvider>
         <InvoiceProvider>
-          <Toaster richColors />
+          <Toaster richColors 
+            position='top-right'
+          />
           <App />
         </InvoiceProvider>
       </SearchProvider>
