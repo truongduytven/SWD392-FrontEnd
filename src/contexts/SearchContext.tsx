@@ -13,8 +13,8 @@ interface SearchContextProps {
 }
 
 const defaultSearchData: SearchData = {
-  startLocation: 'TPHCM',
-  endLocation: 'Đà Lạt',
+  startLocation: "",
+  endLocation: "",
   startDate: new Date(),
 };
 

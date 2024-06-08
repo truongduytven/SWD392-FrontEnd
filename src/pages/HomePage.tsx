@@ -10,7 +10,11 @@ import { SearchForm } from '@/components/local/Search/SearchForm'
 import PopularTrip from '../components/local/Home/PopularTrip'
 import { popularTripData } from '@/constants/PopularTrip'
 import CriteriaTags from '@/components/local/Home/CriteriaTags'
+import { useGetCitySearchForm } from '@/apis/tripAPI'
+import Loading from '@/components/global/molecules/Loading'
 function HomePage() {
+  const { isPending } = useGetCitySearchForm()
+  if (isPending) return <Loading />
   return (
     <div>
       <div className='h-[600px]'>
@@ -36,7 +40,10 @@ function HomePage() {
           <CarouselContent>
             {popularTripData &&
               popularTripData.map((item, index) => (
-                <CarouselItem key={index} className='md:basis-1/2 lg:basis-1/3 hover:scale-110 transform scale-100 transition duration-200'>
+                <CarouselItem
+                  key={index}
+                  className='md:basis-1/2 lg:basis-1/3 hover:scale-110 transform scale-100 transition duration-200'
+                >
                   <div className='p-10'>
                     <PopularTrip data={item} />
                   </div>

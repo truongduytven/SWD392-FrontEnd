@@ -3,13 +3,10 @@
 import * as React from 'react'
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon } from 'lucide-react'
-
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/global/atoms/button'
 import { Calendar } from '@/components/global/atoms/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/global/atoms/popover'
-import { PopoverClose } from '@radix-ui/react-popover'
-
 interface DatePickerProps {
   initialDate?: Date
   onChange?: (date: Date) => void
@@ -34,7 +31,7 @@ export function DatePicker({ initialDate, onChange }: DatePickerProps) {
           className={cn('w-[280px] justify-start text-left font-normal', !date && 'text-muted-foreground')}
         >
           <CalendarIcon className='mr-2 h-4 w-4' />
-          {date ? format(date, 'P') : <span>Pick a date</span>}
+          {date ? format(date, 'dd-MM-yyyy') : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0'>

@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/global/atoms/dropdown-menu'
-import { BookUser, LogOut,Ticket  } from 'lucide-react'
+import { BookUser, LogOut, Ticket } from 'lucide-react'
 function Header() {
   return (
     <header className='w-full shadow-md fixed top-0 z-50 bg-white'>
@@ -20,37 +20,34 @@ function Header() {
             <NavigationMenu>
               <NavigationMenuList className='flex gap-6 lg:gap-10 justify-center items-center'>
                 <NavigationMenuItem>
-                  <Link to='/'>
-                    <NavigationMenuLink
-                      className='relative text-black font-medium hover:text-primary cursor-pointer transition-all ease-in-out 
+                  <NavigationMenuLink
+                    href='/'
+                    className='relative text-black font-medium hover:text-primary cursor-pointer transition-all ease-in-out 
                       before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-primary before:origin-center before:h-[2px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%]
                       after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-primary after:origin-center after:h-[2px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]'
-                    >
-                      Trang chủ
-                    </NavigationMenuLink>
-                  </Link>
+                  >
+                    Trang chủ
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to='/ticketInfo'>
-                    <NavigationMenuLink
-                      className='relative text-black font-medium hover:text-primary cursor-pointer transition-all ease-in-out 
+                  <NavigationMenuLink
+                    href='/ticketInfo'
+                    className='relative text-black font-medium hover:text-primary cursor-pointer transition-all ease-in-out 
   before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-primary before:origin-center before:h-[2px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%]
   after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-primary after:origin-center after:h-[2px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]'
-                    >
-                      Tra cứu vé
-                    </NavigationMenuLink>
-                  </Link>
+                  >
+                    Tra cứu vé
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to='/rating'>
-                    <NavigationMenuLink
-                      className='relative text-black font-medium hover:text-primary cursor-pointer transition-all ease-in-out 
+                  <NavigationMenuLink
+                    href='/rating'
+                    className='relative text-black font-medium hover:text-primary cursor-pointer transition-all ease-in-out 
   before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-primary before:origin-center before:h-[2px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%]
   after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-primary after:origin-center after:h-[2px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]'
-                    >
-                      Ưu đãi
-                    </NavigationMenuLink>
-                  </Link>
+                  >
+                    Ưu đãi
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
