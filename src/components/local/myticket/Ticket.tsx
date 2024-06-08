@@ -64,7 +64,7 @@ function Ticket({
           isHovered ? 'transform scale-105' : ''
         }`}
       >
-        <div className='relative flex flex-col  justify-center items-center p-2 pr-4  border-r-2 border-dashed  border-gray-300'>
+        <div className='relative flex flex-col justify-center items-center p-2 pr-6  border-r-2 border-dashed  border-gray-300'>
           <h2 className='text-center text-md  '>Giờ xuất bến</h2>
           <p className='text-center  text-lg font-semibold  text-gray-700'>{startTime}</p>
           <p className='text-center  text-md font-bold  '>{date}</p>
@@ -73,7 +73,7 @@ function Ticket({
         </div>
         <div className='flex flex-col justify-center items-center gap-2 ml-3 mr-4 '>
           <p className='text-lg font-bold text-primary'>Nhà xe: Những con ong</p>
-          <div className='flex justify-between items-center gap-10'>
+          <div className='flex justify-between items-center gap-16'>
             <div className='flex '>
               <div className='flex justify-center items-center'>
                 <div className=' h-full flex justify-between items-center mr-3 '>
@@ -97,7 +97,7 @@ function Ticket({
                   </svg>
                 </div>
 
-                <div className='flex flex-col items-start justify-between gap-1 '>
+                <div className='flex flex-col items-center justify-end gap-1'>
                   <p className='m-0 p-0'>
                     <span className='font-bold mr-2 text-lg'>{startTime}</span>
                   </p>
@@ -113,7 +113,7 @@ function Ticket({
               </div>
             </div>
 
-            <div className='flex flex-col items-end justify-between gap-1 h-full'>
+            <div className='flex flex-col items-end justify-end gap-1 h-full py-0.5'>
               <p>
                 Số ghế: <span className='font-medium'>{seatCode}</span>{' '}
               </p>

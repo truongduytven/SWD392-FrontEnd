@@ -2,7 +2,7 @@ import React from 'react'
 
 function ModalDetail() {
   return (
-    <div className='ribbondetail my-4 p-6 shadow-md rounded-md ring-1 ring-black ring-opacity-5 w-80'>
+    <div className='ribbondetail my-4 p-6 shadow-md rounded-md ring-1 ring-black ring-opacity-5 w-[350px]'>
       <div className='flex justify-between items-center mb-4'>
         <h1 className='text-lg font-bold text-primary'>Phương Trang</h1>
         <div className='text-lg font-bold'>123456</div>
@@ -77,7 +77,7 @@ function ModalDetail() {
       <hr className='my-3 border-t-2 border-orange-200' />
       <div className='text-sm text-center'>
         <p>
-          Cảm ơn quý khách đã tin tưởng <span className='font-bold ml-1'>The Bus Journey</span>
+          Cảm ơn quý khách đã tin tưởng <span className='font-bold ml-1 text-primary'>The Bus Journey</span>
         </p>
       </div>
       {/* <div className="ribbondetail"> */}
