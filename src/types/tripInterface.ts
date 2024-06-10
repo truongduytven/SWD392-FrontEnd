@@ -21,8 +21,8 @@ export interface ITripData {
     quantityRating: number,
     startLocation: string,
     endLocation:  string,
-    startTime: Date,
-    endTime: Date,
+    startTime: string,
+    endTime: string,
     emptySeat: number,
     price: number,
 }

@@ -4,7 +4,13 @@ import { Button } from '../atoms/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
 import { useNavigate } from 'react-router-dom'
 import RatingDetailLayout from '../molecules/RatingDetailLayout'
-function CardTrip() {
+import {ITripData} from '@/types/tripInterface'
+import { calculateDuration, formatPrice } from '@/lib/utils'
+interface ITripDataProps{
+  data:ITripData
+}
+function CardTrip({data}:ITripDataProps) {
+  console.log("hdfj",data)
   const navigate = useNavigate()
   const handleSubmit = () => {
     navigate('/selectTicket')
@@ -16,19 +22,19 @@ function CardTrip() {
           <div className='w-1/5 min-w-48 relative  overflow-hidden bg-cover bg-no-repeat'>
             <img
               className='h-full rounded-sm transition duration-300 ease-in-out hover:scale-110 '
-              src='https://mia.vn/media/uploads/blog-du-lich/top-8-xe-phong-nam-di-da-lat-tu-sai-gon-dam-bao-chat-luong-va-an-toan-nhat-1634463769.jpg'
+              src={data.imageUrl}
             />
           </div>
           <div className=' w-full flex flex-col gap-1'>
             <div className='text-lg font-bold flex justify-between'>
-              <p>Minh Tiên Limousine</p>
-              <p className='text-tertiary text-xl'>940.000đ</p>
+              <p>{data.companyName}</p>
+              <p className='text-tertiary text-xl'>Từ {formatPrice(data.price)}</p>
             </div>
             {/* <p className='text-muted-foreground'>Limousine 24 phòng đôi</p> */}
             <p className='flex item-center justify-start gap-1'>
-              4.6
+              {data.averageRating}/5
               <Star className='w-5 text-yellow-500' fill='orange' />
-              (78 đánh giá)
+              ({data.quantityRating} đánh giá)
             </p>
             <div className='flex justify-between items-end '>
               <div className='flex gap-3 justify-center items-center'>
@@ -53,13 +59,13 @@ function CardTrip() {
                   </svg>
                 </div>
 
-                <div className='flex flex-col items-start justify-between gap-1'>
-                  <p className='m-0 p-0'>
-                    <span className='font-bold mr-2 text-lg'>6:00</span>• Tp Hồ Chí Minh
+                <div className='flex flex-col items-start justify-between gap-1 '>
+                  <p className='m-0 p-0 '>
+                    <span className='font-bold mr-2 text-lg'>{data.startTime}</span>• {data.startLocation}
                   </p>
-                  <p className='text-muted-foreground'>2 giờ</p>
+                  <p className='text-muted-foreground'>{calculateDuration(data.endTime,data.startTime)}</p>
                   <p>
-                    <span className='font-bold mr-2 text-lg'>8:30</span>• Bến Tre
+                    <span className='font-bold mr-2 text-lg'>{data.endTime}</span>• {data.endLocation}
                   </p>
                 </div>
               </div>
@@ -69,7 +75,7 @@ function CardTrip() {
                 </AccordionTrigger>
               </div>
               <div className='flex flex-col justify-end items-center gap-3'>
-                <p>Còn trống 26 chỗ</p>
+                <p>Còn trống {data.emptySeat} chỗ</p>
                 <Button onClick={handleSubmit}>Chọn chuyến</Button>
               </div>
             </div>
