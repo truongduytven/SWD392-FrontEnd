@@ -12,8 +12,10 @@ import { popularTripData } from '@/constants/PopularTrip'
 import CriteriaTags from '@/components/local/Home/CriteriaTags'
 import { useGetCitySearchForm } from '@/apis/tripAPI'
 import Loading from '@/components/global/molecules/Loading'
+import { useNavigate } from 'react-router-dom'
 function HomePage() {
   const { isPending } = useGetCitySearchForm()
+  const navigate = useNavigate()
   if (isPending) return <Loading />
   return (
     <div>
@@ -23,7 +25,7 @@ function HomePage() {
         {/* <div className="absolute h-[640px] inset-0 bg-black opacity-40"></div> */}
       </div>
       <div className='w-full flex justify-center absolute top-[300px]'>
-        <SearchForm />
+        <SearchForm onsubmitSearch={() => navigate('/search')}/>
       </div>
       <div className='w-full flex flex-col mt-20 items-center space-y-14'>
         <div className='uppercase text-3xl font-bold text-primary'>Nền tảng kết nối người dùng và nhà xe</div>
