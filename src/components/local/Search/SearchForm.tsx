@@ -95,7 +95,7 @@ export function SearchForm() {
                           <SelectValue placeholder='Chọn địa điểm' />
                         </SelectTrigger>
                         <SelectContent>
-                          {data?.fromCities.map((city, index) => (
+                          {data?.toCities.map((city, index) => (
                             <SelectItem key={index} value={city.cityID.toString()}>
                               {city.cityName}
                             </SelectItem>

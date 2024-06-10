@@ -159,7 +159,7 @@ function TicketService({ services, seatCode }: ticket) {
                 <Accordion type='multiple' className='w-full' defaultValue={stationData}>
                   {stationData.map((station, index) => (
                     <AccordionItem key={index} value={station} defaultValue={station}>
-                      <AccordionTrigger>
+                      <AccordionTrigger className='hover:text-tertiary'>
                         <span>Trạm {station}</span>
                       </AccordionTrigger>
                       <AccordionContent>
