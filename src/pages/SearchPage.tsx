@@ -1,9 +1,12 @@
+import { useGetTripSearchForm } from '@/apis/tripAPI'
+import Loading from '@/components/global/molecules/Loading'
 import CardTrip from '@/components/global/organisms/CardTrip'
 import { SearchForm } from '@/components/local/Search/SearchForm'
 import Arrange from '@/components/local/filter/Arrange'
 import BadgeList from '@/components/local/filter/BadgeListFilter'
 import BusFilter from '@/components/local/filter/BusFilter'
 import TypeFilter from '@/components/local/filter/TypeFilter'
+import { useSearch } from '@/contexts/SearchContext'
 import { ArrowBigUpDash, Trash2 } from 'lucide-react'
 import React, { useState } from 'react'
 const items = [
@@ -35,6 +38,9 @@ const items = [
 ] as const
 
 function SearchPage() {
+  const { searchData } = useSearch()
+  const { data, isPending } = useGetTripSearchForm(searchData)
+  console.log(data)
   const initialState = {
     arrangeValue: 'mac dinh',
     selectedItems: [] as string[]
@@ -65,16 +71,14 @@ function SearchPage() {
   }
 
   console.log('filter ne', filterState)
-  const cardTrips = []
-  for (let i = 0; i < 10; i++) {
-    cardTrips.push(<CardTrip key={i} />)
-  }
+
+  if(isPending) return <Loading />
 
   return (
     <div className='w-full flex justify-center items-center bg-secondary pb-12'>
       <div className='flex flex-col justify-center items-center w-fit '>
         <div className='w-full flex justify-center absolute top-[100px]'>
-          <SearchForm />
+          <SearchForm onsubmitSearch={() => {}}/>
         </div>
         <h1 className='mt-52 mb-4 text-4xl font-bold'>Hồ Chí Minh - Bến Tre</h1>
         <div className='flex gap-10 w-3/4 main '>
@@ -96,10 +100,8 @@ function SearchPage() {
 
           <div className='w-full flex flex-col'>
             <BadgeList items={items} selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
-
-            <CardTrip />
-            {cardTrips.map((card, index) => (
-              <div key={index}>{card}</div>
+            {data?.data.map((item, index) => (
+              <CardTrip key={index}/>
             ))}
           </div>
         </div>
