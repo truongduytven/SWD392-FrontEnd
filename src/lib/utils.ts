@@ -14,15 +14,36 @@ export function formatDate(date: Date) {
 }
 
 export function calculateDuration(startTime:string, endTime:string) {
-  const startDateTime = new Date(`01/01/1970 ${startTime}`);
-  const endDateTime = new Date(`01/01/1970 ${endTime}`);
+  // Parse the start and end time
+  const startParts = startTime.split(':');
+  const endParts = endTime.split(':');
 
-  const durationInMs = endDateTime.getTime() - startDateTime.getTime();
-  const durationInMinutes = Math.floor(durationInMs / (1000 * 60));
+  const startHours = parseInt(startParts[0], 10);
+  const startMinutes = parseInt(startParts[1], 10);
+  const endHours = parseInt(endParts[0], 10);
+  const endMinutes = parseInt(endParts[1], 10);
 
-  const hours = Math.floor(durationInMinutes / 60);
-  const minutes = durationInMinutes % 60;
-  const durationFormatted = `${hours}h ${minutes}p`;
+  // Convert both times to minutes since midnight
+  const startTotalMinutes = startHours * 60 + startMinutes;
+  const endTotalMinutes = endHours * 60 + endMinutes;
 
-  return durationFormatted;
+  // Calculate the difference in minutes
+  let differenceInMinutes: number;
+  if (endTotalMinutes >= startTotalMinutes) {
+      differenceInMinutes = endTotalMinutes - startTotalMinutes;
+  } else {
+      // If the end time is earlier in the day than the start time, it means the end time is on the next day
+      differenceInMinutes = (endTotalMinutes + 24 * 60) - startTotalMinutes;
+  }
+
+  // Convert the difference back to hours and minutes
+  const diffHours = Math.floor(differenceInMinutes / 60);
+  const diffMinutes = differenceInMinutes % 60;
+
+  // Format the result as HH:MM
+  const formattedDiffHours = diffHours.toString().padStart(2, '0');
+  const formattedDiffMinutes = diffMinutes.toString().padStart(2, '0');
+
+  return `${formattedDiffHours}h ${formattedDiffMinutes}p`;
 }
+

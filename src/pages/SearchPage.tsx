@@ -1,4 +1,4 @@
-import { useGetTripSearchForm } from '@/apis/tripAPI'
+import { useGetCitySearchForm, useGetTripSearchForm } from '@/apis/tripAPI'
 import Loading from '@/components/global/molecules/Loading'
 import CardTrip from '@/components/global/organisms/CardTrip'
 import { SearchForm } from '@/components/local/Search/SearchForm'
@@ -73,7 +73,7 @@ function SearchPage() {
   if (isPending) return <Loading />
 
   return (
-    <div className='w-full flex justify-center items-center bg-secondary pb-12'>
+    <div className='w-screen flex justify-center items-center bg-secondary pb-12'>
       <div className='flex flex-col justify-center items-center w-fit '>
         <div className='w-full flex justify-center absolute top-[100px]'>
           <SearchForm onsubmitSearch={() => {}} />
@@ -81,10 +81,11 @@ function SearchPage() {
         {/* <h1 className='mt-52 mb-4 text-4xl font-bold'>{searchData.startLocation} - {searchData.endLocation}</h1> */}
         {data ? (
           <>
-            <h1 className='mt-52 mb-4 text-4xl font-bold'>
-              {searchData.startLocation} - {searchData.endLocation}
+            <h1 className='mt-56 mb-8 text-4xl font-bold '>
+              {/* {searchData.startLocation} - {searchData.endLocation} */}
+              {data?.data[0].startLocation} -  {data?.data[0].endLocation}
             </h1>
-            <div className='flex gap-10 w-3/4 main '>
+            <div className='flex gap-10 main '>
               <div className='sticky top-24 slidebar flex flex-col shadow-md border rounded-lg bg-white w-2/5 h-fit'>
                 <div className='flex justify-between items-center gap-5 px-4 py-2 text-lg font-bold'>
                   <p className='m-0'>Bộ lọc tìm kiếm</p>

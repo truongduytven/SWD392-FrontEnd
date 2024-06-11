@@ -1,28 +1,29 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/global/atoms/accordion'
+import { calculateDuration, formatPrice } from '@/lib/utils'
+import { ITripData } from '@/types/tripInterface'
 import { Star } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../atoms/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
-import { useNavigate } from 'react-router-dom'
 import RatingDetailLayout from '../molecules/RatingDetailLayout'
-import {ITripData} from '@/types/tripInterface'
-import { calculateDuration, formatPrice } from '@/lib/utils'
-interface ITripDataProps{
-  data:ITripData
+interface ITripDataProps {
+  data: ITripData
 }
-function CardTrip({data}:ITripDataProps) {
-  console.log("hdfj",data)
+
+function CardTrip({ data }: ITripDataProps) {
   const navigate = useNavigate()
   const handleSubmit = () => {
     navigate('/selectTicket')
   }
   return (
     <Accordion type='single' collapsible className='mb-3'>
-      <AccordionItem value='item-1'>
+      <AccordionItem value='item-1' className='w-full'>
         <div className='flex bg-white p-3 gap-3 border border-gray-200 rounded-md transition duration-300 ease-in-out w-full hover:shadow-md hover:shadow-orange-400 hover:border-orange-500 hover:transform transform  hover:translate-x-[-10px]'>
           <div className='w-1/5 min-w-48 relative  overflow-hidden bg-cover bg-no-repeat'>
             <img
               className='h-full rounded-sm transition duration-300 ease-in-out hover:scale-110 '
               src={data.imageUrl}
+              alt={data.companyName}
             />
           </div>
           <div className=' w-full flex flex-col gap-1'>
@@ -33,10 +34,9 @@ function CardTrip({data}:ITripDataProps) {
             {/* <p className='text-muted-foreground'>Limousine 24 phòng đôi</p> */}
             <p className='flex item-center justify-start gap-1'>
               {data.averageRating}/5
-              <Star className='w-5 text-yellow-500' fill='orange' />
-              ({data.quantityRating} đánh giá)
+              <Star className='w-5 text-yellow-500' fill='orange' />({data.quantityRating} đánh giá)
             </p>
-            <div className='flex justify-between items-end '>
+            <div className='flex justify-between items-end  '>
               <div className='flex gap-3 justify-center items-center'>
                 <div className=' h-full flex justify-between items-center'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='14' height='74' viewBox='0 0 14 74'>
@@ -63,13 +63,13 @@ function CardTrip({data}:ITripDataProps) {
                   <p className='m-0 p-0 '>
                     <span className='font-bold mr-2 text-lg'>{data.startTime}</span>• {data.startLocation}
                   </p>
-                  <p className='text-muted-foreground'>{calculateDuration(data.endTime,data.startTime)}</p>
+                  <p className='text-muted-foreground'>{calculateDuration(data.startTime, data.endTime)}</p>
                   <p>
                     <span className='font-bold mr-2 text-lg'>{data.endTime}</span>• {data.endLocation}
                   </p>
                 </div>
               </div>
-              <div className='flex justify-center items-center gap-1 cursor-pointer'>
+              <div className='mx-2'>
                 <AccordionTrigger className='text-tertiary font-medium underline hover:font-bold '>
                   Thông tin chi tiết
                 </AccordionTrigger>
@@ -99,7 +99,7 @@ function CardTrip({data}:ITripDataProps) {
             <TabsContent value='diemdon'>Em chờ.</TabsContent>
             <TabsContent value='diemtra'>Em chờ.</TabsContent>
             <TabsContent value='danhgia'>
-              <RatingDetailLayout/>
+              <RatingDetailLayout />
             </TabsContent>
           </Tabs>
         </AccordionContent>
