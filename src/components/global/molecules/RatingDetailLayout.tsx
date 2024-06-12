@@ -17,7 +17,7 @@ function RatingDetailLayout() {
   const [averageRatings, setAverageRatings] = useState<number>(5)
 
   return (
-    <div className=''>
+    <div className='h-[400px] overflow-y-auto'>
       <div className='flex items-center justify-center p-4 mb-4 rounded-sm bg-muted'>
         <div className='mx-10'>
           <span className='mx-1 text-2xl font-medium'>{averageRatings?.toFixed(1) || 0}</span>
