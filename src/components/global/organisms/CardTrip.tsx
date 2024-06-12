@@ -1,67 +1,56 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/global/atoms/accordion'
+import busAPI from '@/lib/busAPI'
 import { calculateDuration, formatPrice } from '@/lib/utils'
 import { ITripData } from '@/types/tripInterface'
-import { Star } from 'lucide-react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../atoms/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
 import RatingDetailLayout from '../molecules/RatingDetailLayout'
-import { useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useGetTripPictureDetails } from '@/apis/tripAPI'
-import busAPI from '@/lib/busAPI'
 interface ITripDataProps {
   data: ITripData
 }
 const steps = [{ step: 'Trạm ngã tư hàng xanh' }, { step: 'Vp Bình Chánh' }, { step: 'VP Bến Tre' }]
-const images = [
-  'https://media.architecturaldigest.com/photos/63079fc7b4858efb76814bd2/16:9/w_4000,h_2250,c_limit/9.%20DeLorean-Alpha-5%20%5BDeLorean%5D.jpg',
-  'https://wlt-p-001.sitecorecontenthub.cloud/api/public/content/0fdac51ab4f14c059952cb8333c7ee51?v=67d6e3db',
-  'https://imageio.forbes.com/specials-images/imageserve/6064b148afc9b47d022718d1/Hennessey-Venom-F5/960x0.jpg?height=473&width=711&fit=bounds',
-  'https://cdn.motor1.com/images/mgl/MkO9NN/s1/future-supercars.webp'
-]
-function CardTrip({ data }: ITripDataProps) {
-  const [isDetailsPictureOpen, setIsDetailsPictureOpen] = useState(false);
-  const queryClient = useQueryClient();
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 1))
-  }
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex < images.length - 1 ? prevIndex + 1 : 0))
-  }
+function CardTrip({ data }: ITripDataProps) {
+  const [isDetailsPictureOpen, setIsDetailsPictureOpen] = useState(false)
+  const queryClient = useQueryClient()
+  const [currentIndex, setCurrentIndex] = useState(0)
+
   const navigate = useNavigate()
   const handleSubmit = () => {
     navigate('/selectTicket')
   }
-  // const handleTriggerClick = () => {
-  //   setIsDetailsPictureOpen(!isDetailsPictureOpen);
-  //   if (!isDetailsPictureOpen) {
-  //     queryClient.fetchQuery({
-  //       queryKey: ['tripPictureDetails', data.tripID],
-  //       queryFn: () => busAPI.get(`/trip/trip-picture-detail/${data.tripID}`).then(res => res.data),
-  //     });
-  //   }
-  // };
+
   const fetchTripDetails = async (tripId: string) => {
-    const { data } = await busAPI.get(`/trip/trip-picture-detail/${tripId}`);
-    return data;
-  };
-   const { data: tripPictureDetails, isLoading, error, refetch } = useQuery({
+    const { data } = await busAPI.get(`/trip/trip-picture-detail/${tripId}`)
+    return data
+  }
+  const {
+    data: tripPictureDetails,
+    isLoading,
+    error,
+    refetch
+  } = useQuery({
     queryKey: ['tripPictureDetails', data.tripID],
     queryFn: () => fetchTripDetails(data.tripID),
-    enabled: false,
-  });
+    enabled: false
+  })
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex < tripPictureDetails.length - 1 ? prevIndex + 1 : 0))
+  }
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : tripPictureDetails.length - 1))
+  }
   const handleTriggerClick = () => {
-    setIsDetailsPictureOpen(!isDetailsPictureOpen);
+    setIsDetailsPictureOpen(!isDetailsPictureOpen)
     if (!isDetailsPictureOpen) {
-      refetch();
+      refetch()
     }
-  };
-  // const { data: tripPictureDetails, isLoading, error } = useGetTripPictureDetails(data.tripID);
-  console.log("chi tieets nef",tripPictureDetails )
+  }
+  console.log('chi tieets nef', tripPictureDetails)
   return (
     <Accordion type='single' collapsible className='mb-3'>
       <AccordionItem value='item-1' className='w-full'>
@@ -117,7 +106,10 @@ function CardTrip({ data }: ITripDataProps) {
                 </div>
               </div>
               <div className=''>
-                <AccordionTrigger onClick={handleTriggerClick}  className='text-tertiary transition font-medium hover:underline -mb-3 mx-1'>
+                <AccordionTrigger
+                  onClick={handleTriggerClick}
+                  className='text-tertiary transition font-medium hover:underline -mb-3 mx-1'
+                >
                   Thông tin chi tiết
                 </AccordionTrigger>
               </div>
@@ -141,88 +133,51 @@ function CardTrip({ data }: ITripDataProps) {
               <TabsTrigger value='danhgia'>Đánh giá</TabsTrigger>
             </TabsList>
             <TabsContent value='hinhanh'>
-              {/* <div className='p-4 flex flex-col justify-center items-center'>
-                <div className='relative overflow-hidden mb-4 w-full h-96'>
-                  <div
-                    className='flex transition-transform duration-500'
-                    style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-                  >
-                    {tripPictureDetails.map((image:string, index:any) => (
-                      <div key={index} className='flex-none w-full h-96 '>
-                        <img src={image} alt={`Slide ${index}`} className='w-full h-full rounded-md  object-cover' />
-                      </div>
-                    ))}
+              {isLoading ? (
+                <p>Loading details...</p>
+              ) : error ? (
+                <p>Error loading details</p>
+              ) : tripPictureDetails && tripPictureDetails.length > 0 ? (
+                <div className='p-4 flex flex-col justify-center items-center'>
+                  <div className='relative overflow-hidden mb-4 w-full h-96'>
+                    <div
+                      className='flex transition-transform duration-500'
+                      style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+                    >
+                      {tripPictureDetails.map((image: string, index: number) => (
+                        <div key={index} className='flex-none w-full h-96'>
+                          <img src={image} alt={`Slide ${index}`} className='w-full h-full rounded-md object-cover' />
+                        </div>
+                      ))}
+                    </div>
+                    <button
+                      onClick={handlePrev}
+                      className='absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 p-1 flex justify-center items-center rounded-full shadow hover:bg-opacity-100 transition'
+                    >
+                      <ChevronLeft className='text-primary' />
+                    </button>
+                    <button
+                      onClick={handleNext}
+                      className='absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 p-1 rounded-full shadow hover:bg-opacity-100 transition'
+                    >
+                      <ChevronRight className='text-primary' />
+                    </button>
                   </div>
-                  <button
-                    onClick={handlePrev}
-                    className='absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 p-1 flex justify-center items-center rounded-full shadow hover:bg-opacity-100 transition'
-                  >
-                    <ChevronLeft className='text-primary'/>
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    className='absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 p-1 rounded-full shadow hover:bg-opacity-100 transition'
-                  >
-                    <ChevronRight className='text-primary' />
-                  </button>
-                </div>
-                <div className='flex space-x-4 overflow-x-auto'>
-                  {tripPictureDetails.map((image:string, index:any) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`Thumbnail ${index}`}
-                      className={`w-24 h-24 object-cover rounded-md cursor-pointer ${currentIndex === index ? 'border-2  border-primary' : ''}`}
-                      onClick={() => setCurrentIndex(index)}
-                    />
-                  ))}
-                </div>
-              </div> */}
-                {isLoading ? (
-            <p>Loading details...</p>
-          ) : error ? (
-            <p>Error loading details</p>
-          ) : (
-            tripPictureDetails && tripPictureDetails.length > 0 && (
-              <div className='p-4 flex flex-col justify-center items-center'>
-                <div className='relative overflow-hidden mb-4 w-full h-96'>
-                  <div
-                    className='flex transition-transform duration-500'
-                    style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-                  >
+                  <div className='flex space-x-4 overflow-x-auto'>
                     {tripPictureDetails.map((image: string, index: number) => (
-                      <div key={index} className='flex-none w-full h-96'>
-                        <img src={image} alt={`Slide ${index}`} className='w-full h-full rounded-md object-cover' />
-                      </div>
+                      <img
+                        key={index}
+                        src={image}
+                        alt={`Thumbnail ${index}`}
+                        className={`w-24 h-24 object-cover rounded-md cursor-pointer ${currentIndex === index ? 'border-2 border-primary' : ''}`}
+                        onClick={() => setCurrentIndex(index)}
+                      />
                     ))}
                   </div>
-                  <button
-                    onClick={handlePrev}
-                    className='absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 p-1 flex justify-center items-center rounded-full shadow hover:bg-opacity-100 transition'
-                  >
-                    <ChevronLeft className='text-primary'/>
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    className='absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 p-1 rounded-full shadow hover:bg-opacity-100 transition'
-                  >
-                    <ChevronRight className='text-primary' />
-                  </button>
                 </div>
-                <div className='flex space-x-4 overflow-x-auto'>
-                  {tripPictureDetails.map((image: string, index: number) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`Thumbnail ${index}`}
-                      className={`w-24 h-24 object-cover rounded-md cursor-pointer ${currentIndex === index ? 'border-2 border-primary' : ''}`}
-                      onClick={() => setCurrentIndex(index)}
-                    />
-                  ))}
-                </div>
-              </div>
-            )
-          )}
+              ) : (
+                <p className='text-center font-semibold mt-8'>Không có ảnh cho chuyến xe này</p>
+              )}
             </TabsContent>
             <TabsContent value='tienich'>Tiện ích đâu.</TabsContent>
             <TabsContent value='lotrinh'>
