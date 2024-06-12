@@ -7,8 +7,9 @@ import BadgeList from '@/components/local/filter/BadgeListFilter'
 import BusFilter from '@/components/local/filter/BusFilter'
 import TypeFilter from '@/components/local/filter/TypeFilter'
 import { useSearch } from '@/contexts/SearchContext'
+import { findCityNameByID } from '@/lib/utils'
 import { ArrowBigUpDash, Trash2 } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 const items = [
   {
     id: 'ghengoi',
@@ -38,8 +39,13 @@ const items = [
 ] as const
 
 function SearchPage() {
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
   const { searchData } = useSearch()
   const { data, isPending } = useGetTripSearchForm(searchData)
+  const { data:dataCityFromTo } = useGetCitySearchForm()
+console.log("search data", searchData)
+console.log("tat ca city from to", dataCityFromTo)
   console.log(data)
   const initialState = {
     arrangeValue: 'mac dinh',
@@ -67,9 +73,20 @@ function SearchPage() {
 
   const handleScrollToTop = (e: React.MouseEvent) => {
     e.preventDefault()
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 150, behavior: 'smooth' })
   }
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
 
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   if (isPending) return <Loading />
 
   return (
@@ -82,11 +99,10 @@ function SearchPage() {
         {/* <h1 className='mt-52 mb-4 text-4xl font-bold'>{searchData.startLocation} - {searchData.endLocation}</h1> */}
         {data ? (
           <>
-            <h1 className='mt-56  mb-8 text-3xl font-bold '>
-              {/* {searchData.startLocation} - {searchData.endLocation} */}
-              {data?.data[0].startLocation} -  {data?.data[0].endLocation}
+            <h1 className='mt-56  mb-8 text-3xl font-bold text-center '>
+              {findCityNameByID(searchData.startLocation, dataCityFromTo?.fromCities || [])} - {findCityNameByID(searchData.endLocation, dataCityFromTo?.toCities || [])}
             </h1>
-            <div className='flex w-full gap-5 main   '>
+            <div className='flex w-full gap-5 main ' id='result'>
               <div className='sticky top-24 slidebar flex flex-col shadow-md border rounded-lg bg-white w-2/5 h-fit'>
                 <div className='flex justify-between items-center gap-5 py-2 text-md font-bold pr-2 '>
                   <p className='ml-4'>Bộ lọc tìm kiếm</p>
@@ -117,11 +133,11 @@ function SearchPage() {
           </h1>
         )}
       </div>
-      {data && (
+      {showScrollButton && (
         <a
-          href='#'
+          href='#result'
           onClick={handleScrollToTop}
-          className='sticky top-3/4 right-28 bg-primary rounded-full text-white flex justify-center items-center p-2 mb-4'
+          className='sticky top-3/4 bg-primary rounded-full text-white flex justify-center items-center p-2  mb-4 transition duration-300'
         >
           <ArrowBigUpDash size={30} fill='white' />
         </a>

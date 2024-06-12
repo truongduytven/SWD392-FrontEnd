@@ -70,7 +70,7 @@ function CardTrip({ data }: ITripDataProps) {
                 </div>
               </div>
               <div className=''>
-                <AccordionTrigger className='text-tertiary transition font-medium underline'>
+                <AccordionTrigger className='text-tertiary transition font-medium underline hover:font-bold -mb-3 mx-1'>
                   Thông tin chi tiết
                 </AccordionTrigger>
               </div>
@@ -86,18 +86,14 @@ function CardTrip({ data }: ITripDataProps) {
         <AccordionContent className='bg-white rounded-md h-[400px] overflow-y-auto'>
           <Tabs defaultValue='hinhanh' className='px-2 py-2'>
             <TabsList className=' px-4 flex sticky top-0 shadow-md '>
-              <TabsTrigger value='hinhanh' className=''>
-                Hình ảnh
-              </TabsTrigger>
+              <TabsTrigger value='hinhanh'>Hình ảnh</TabsTrigger>
               <TabsTrigger value='tienich'>Tiện ích</TabsTrigger>
-              <TabsTrigger value='diemdon'>Điểm đón</TabsTrigger>
-              <TabsTrigger value='diemtra'>Điểm trả</TabsTrigger>
+              <TabsTrigger value='lotrinh'>Lộ trình</TabsTrigger>
               <TabsTrigger value='danhgia'>Đánh giá</TabsTrigger>
             </TabsList>
             <TabsContent value='hinhanh'>Ảnh nè.</TabsContent>
             <TabsContent value='tienich'>Tiện ích đâu.</TabsContent>
-            <TabsContent value='diemdon'>Em chờ.</TabsContent>
-            <TabsContent value='diemtra'>Em chờ.</TabsContent>
+            <TabsContent value='lotrinh'>Em chờ.</TabsContent>
             <TabsContent value='danhgia'>
               <RatingDetailLayout />
             </TabsContent>

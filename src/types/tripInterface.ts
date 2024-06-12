@@ -1,9 +1,9 @@
 interface fromCity {
-    cityID: number;
+    cityID: string;
     cityName: string;
 }
 interface toCity {
-    cityID: number;
+    cityID: string;
     cityName: string;
 }
 
