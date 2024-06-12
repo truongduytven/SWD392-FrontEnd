@@ -73,29 +73,30 @@ function SearchPage() {
   if (isPending) return <Loading />
 
   return (
+    
     <div className='w-screen flex justify-center items-center bg-secondary pb-12'>
-      <div className='flex flex-col justify-center items-center w-fit '>
+      <div className='flex flex-col justify-center items-center w-2/3 '>
         <div className='w-full flex justify-center absolute top-[100px]'>
           <SearchForm onsubmitSearch={() => {}} />
         </div>
         {/* <h1 className='mt-52 mb-4 text-4xl font-bold'>{searchData.startLocation} - {searchData.endLocation}</h1> */}
         {data ? (
           <>
-            <h1 className='mt-56 mb-8 text-4xl font-bold '>
+            <h1 className='mt-56  mb-8 text-3xl font-bold '>
               {/* {searchData.startLocation} - {searchData.endLocation} */}
               {data?.data[0].startLocation} -  {data?.data[0].endLocation}
             </h1>
-            <div className='flex gap-10 main '>
+            <div className='flex w-full gap-5 main   '>
               <div className='sticky top-24 slidebar flex flex-col shadow-md border rounded-lg bg-white w-2/5 h-fit'>
-                <div className='flex justify-between items-center gap-5 px-4 py-2 text-lg font-bold'>
-                  <p className='m-0'>Bộ lọc tìm kiếm</p>
-                  <span
+                <div className='flex justify-between items-center gap-5 py-2 text-md font-bold pr-2 '>
+                  <p className='ml-4'>Bộ lọc tìm kiếm</p>
+                  <p
                     className='flex text-red-500 cursor-pointer justify-center items-center gap-2 px-2 py-1 rounded-md hover:bg-secondary'
                     onClick={handleClearFilters}
                   >
                     Bỏ lọc
                     <Trash2 />
-                  </span>
+                  </p>
                 </div>
                 <Arrange selectedValue={filterState.arrangeValue} onValueChange={handleArrangeChange} />
                 <BusFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
@@ -103,9 +104,9 @@ function SearchPage() {
               </div>
 
               <div className='w-full flex flex-col'>
+                <BadgeList items={items} selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
                 {data?.data.map((item, index) => <CardTrip data={item} />)}
 
-                <BadgeList items={items} selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
               </div>
             </div>
           </>

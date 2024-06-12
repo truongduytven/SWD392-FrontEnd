@@ -18,7 +18,7 @@ function CardTrip({ data }: ITripDataProps) {
   return (
     <Accordion type='single' collapsible className='mb-3'>
       <AccordionItem value='item-1' className='w-full'>
-        <div className='flex bg-white p-3 gap-3 border border-gray-200 rounded-md transition duration-300 ease-in-out w-full hover:shadow-md hover:shadow-orange-400 hover:border-orange-500 hover:transform transform  hover:translate-x-[-10px]'>
+        <div className='flex bg-white p-3 gap-3 border border-gray-200 rounded-md transition duration-300 ease-in-out w-full hover:shadow-md hover:shadow-orange-400 hover:border-orange-500 hover:transform transform  hover:translate-x-[-5px]'>
           <div className='w-1/5 min-w-48 relative  overflow-hidden bg-cover bg-no-repeat'>
             <img
               className='h-full rounded-sm transition duration-300 ease-in-out hover:scale-110 '
@@ -36,7 +36,7 @@ function CardTrip({ data }: ITripDataProps) {
               {data.averageRating}/5
               <Star className='w-5 text-yellow-500' fill='orange' />({data.quantityRating} đánh giá)
             </p>
-            <div className='flex justify-between items-end  '>
+            <div className='flex justify-between items-end '>
               <div className='flex gap-3 justify-center items-center'>
                 <div className=' h-full flex justify-between items-center'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='14' height='74' viewBox='0 0 14 74'>
@@ -69,8 +69,8 @@ function CardTrip({ data }: ITripDataProps) {
                   </p>
                 </div>
               </div>
-              <div className='mx-2'>
-                <AccordionTrigger className='text-tertiary font-medium underline hover:font-bold '>
+              <div className=''>
+                <AccordionTrigger className='text-tertiary transition font-medium underline'>
                   Thông tin chi tiết
                 </AccordionTrigger>
               </div>
