@@ -10,13 +10,17 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '../atoms/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
 import RatingDetailLayout from '../molecules/RatingDetailLayout'
+import UtilitiesTab from '@/components/local/TabCardTrip/UtilitiesTab'
+import RouteTrip from '@/components/local/TabCardTrip/RouteTrip'
 interface ITripDataProps {
   data: ITripData
 }
-const steps = [{ step: 'Trạm ngã tư hàng xanh' }, { step: 'Vp Bình Chánh' }, { step: 'VP Bến Tre' }]
+
 
 function CardTrip({ data }: ITripDataProps) {
   const [isDetailsPictureOpen, setIsDetailsPictureOpen] = useState(false)
+  const [isDetailsUtility, setIsDetailsUtility] = useState(false)
+  const [isDetailsRoute, setIsDetailsRoute] = useState(false)
   const queryClient = useQueryClient()
 
   const navigate = useNavigate()
@@ -24,25 +28,65 @@ function CardTrip({ data }: ITripDataProps) {
     navigate('/selectTicket')
   }
 
-  const fetchTripDetails = async (tripId: string) => {
+  const fetchTripPictureDetails = async (tripId: string) => {
     const { data } = await busAPI.get(`/trip/trip-picture-detail/${tripId}`)
+    return data
+  }
+  const fetchTripUtilitDetails = async (tripId: string) => {
+    const { data } = await busAPI.get(`/utility/trip/${tripId}`)
+    return data
+  }
+  const fetchTripRouteDetails = async (tripId: string) => {
+    const { data } = await busAPI.get(`/station/stations-from-trip/${tripId}`)
     return data
   }
   const {
     data: tripPictureDetails,
-    isLoading,
-    error,
-    refetch
+    isLoading:pictureDetailsLoading,
+    error: pictureDetailsError,
+  refetch: refetchPictureDetails
   } = useQuery({
     queryKey: ['tripPictureDetails', data.tripID],
-    queryFn: () => fetchTripDetails(data.tripID),
+    queryFn: () => fetchTripPictureDetails(data.tripID),
+    enabled: false
+  })
+  const {
+    data: tripUtilityDetails,
+    isLoading: utilityDetailsLoading,
+    error: utilityDetailsError,
+    refetch: refetchUtilityDetails
+  } = useQuery({
+    queryKey: ['tripUtilityDetails', data.tripID],
+    queryFn: () => fetchTripUtilitDetails(data.tripID),
+    enabled: false
+  })
+  const {
+    data: tripRouteDetails,
+    isLoading: routeDetailsLoading,
+    error: routeDetailsError,
+    refetch: refetchRouteDetails
+  } = useQuery({
+    queryKey: ['tripRouteDetails', data.tripID],
+    queryFn: () => fetchTripRouteDetails(data.tripID),
     enabled: false
   })
 
-  const handleTriggerClick = () => {
+  const handleTriggerPictureClick = () => {
     setIsDetailsPictureOpen(!isDetailsPictureOpen)
     if (!isDetailsPictureOpen) {
-      refetch()
+      refetchPictureDetails()
+    }
+  }
+  const handleTriggerUtilitiClick = () => {
+    setIsDetailsUtility(!isDetailsUtility)
+    if (!isDetailsUtility) {
+      refetchUtilityDetails()
+    }
+  }
+  const handleTriggerRouteClick = () => {
+    setIsDetailsRoute(!isDetailsRoute)
+    if (!isDetailsRoute) {
+      refetchRouteDetails()
     }
   }
   return (
@@ -101,7 +145,7 @@ function CardTrip({ data }: ITripDataProps) {
               </div>
               <div className=''>
                 <AccordionTrigger
-                  onClick={handleTriggerClick}
+                  onClick={handleTriggerPictureClick}
                   className='text-tertiary transition font-medium hover:underline -mb-3 mx-1'
                 >
                   Thông tin chi tiết
@@ -118,37 +162,28 @@ function CardTrip({ data }: ITripDataProps) {
         <div className='h-[1px] bg-stone-300 mx-3'></div>
         <AccordionContent className='bg-white rounded-md h-fit'>
           <Tabs defaultValue='hinhanh' className='px-2 py-2'>
+
             <TabsList className='z-10 px-4 flex gap-4 sticky top-0 shadow-md '>
               <TabsTrigger className='' value='hinhanh'>
                 Hình ảnh
               </TabsTrigger>
-              <TabsTrigger value='tienich'>Tiện ích</TabsTrigger>
-              <TabsTrigger value='lotrinh'>Lộ trình</TabsTrigger>
+              <TabsTrigger value='tienich' onClick={handleTriggerUtilitiClick}>Tiện ích</TabsTrigger>
+              <TabsTrigger value='lotrinh' onClick={handleTriggerRouteClick}>Lộ trình</TabsTrigger>
               <TabsTrigger value='danhgia'>Đánh giá</TabsTrigger>
             </TabsList>
+
             <TabsContent value='hinhanh'>
-              <ImageTab tripPictureDetails={tripPictureDetails} error={error} isLoading={isLoading} />
+              <ImageTab tripPictureDetails={tripPictureDetails} error={pictureDetailsError} isLoading={pictureDetailsLoading} />
             </TabsContent>
-            <TabsContent value='tienich'>Tiện ích đâu.</TabsContent>
+
+            <TabsContent value='tienich'>
+              <UtilitiesTab tripUtilityDetails={tripUtilityDetails} error={utilityDetailsError} isLoading={utilityDetailsLoading}/>
+            </TabsContent>
+
             <TabsContent value='lotrinh'>
-              <div className='ml-10 mt-4 text-base'>
-                <ol className='relative border-l border-orange-400 border-dashed'>
-                  {steps.map((item, index) => (
-                    <li key={index} className='mb-10 ml-6'>
-                      <span
-                        className={
-                          'flex absolute text-white -left-3 bg-primary justify-center items-center w-6 h-6  rounded-full ring-8 ring-white '
-                        }
-                      >
-                        {index + 1}
-                      </span>
-                      <h3 className={'flex items-center mb-1'}>{item.step}</h3>
-                      {/* <p className='text-base font-normal text-gray-500'>{item.description}</p> */}
-                    </li>
-                  ))}
-                </ol>
-              </div>
+             <RouteTrip tripRouteDetails={tripRouteDetails} error={routeDetailsError} isLoading={routeDetailsLoading}/>
             </TabsContent>
+
             <TabsContent value='danhgia'>
               <RatingDetailLayout />
             </TabsContent>

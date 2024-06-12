@@ -1,29 +1,29 @@
 import React, { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-
+import Loader from './Loader'
 interface ImageTabProps {
-  tripPictureDetails: string[];
-  isLoading: boolean;
-  error: any;
+  tripPictureDetails: string[]
+  isLoading: boolean
+  error: any
 }
 
 const ImageTab = ({ tripPictureDetails, isLoading, error }: ImageTabProps) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex < tripPictureDetails.length - 1 ? prevIndex + 1 : 0));
-  };
+    setCurrentIndex((prevIndex) => (prevIndex < tripPictureDetails.length - 1 ? prevIndex + 1 : 0))
+  }
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : tripPictureDetails.length - 1));
-  };
+    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : tripPictureDetails.length - 1))
+  }
 
   return (
     <div>
       {isLoading ? (
-        <p>Loading details...</p>
+        <Loader />
       ) : error ? (
-        <p>Error loading details</p>
+        <p className='text-center font-semibold mt-8'>Đã xảy ra lỗi trong quá trình tải, vui lòng thử lại sau!</p>
       ) : tripPictureDetails && tripPictureDetails.length > 0 ? (
         <div className='p-4 flex flex-col justify-center items-center'>
           <div className='relative overflow-hidden mb-4 w-full h-96'>
