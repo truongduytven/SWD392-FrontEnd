@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
 import RatingDetailLayout from '../molecules/RatingDetailLayout'
 import { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useGetTripPictureDetails } from '@/apis/tripAPI'
 import busAPI from '@/lib/busAPI'
 interface ITripDataProps {
@@ -36,17 +36,31 @@ function CardTrip({ data }: ITripDataProps) {
   const handleSubmit = () => {
     navigate('/selectTicket')
   }
+  // const handleTriggerClick = () => {
+  //   setIsDetailsPictureOpen(!isDetailsPictureOpen);
+  //   if (!isDetailsPictureOpen) {
+  //     queryClient.fetchQuery({
+  //       queryKey: ['tripPictureDetails', data.tripID],
+  //       queryFn: () => busAPI.get(`/trip/trip-picture-detail/${data.tripID}`).then(res => res.data),
+  //     });
+  //   }
+  // };
+  const fetchTripDetails = async (tripId: string) => {
+    const { data } = await busAPI.get(`/trip/trip-picture-detail/${tripId}`);
+    return data;
+  };
+   const { data: tripPictureDetails, isLoading, error, refetch } = useQuery({
+    queryKey: ['tripPictureDetails', data.tripID],
+    queryFn: () => fetchTripDetails(data.tripID),
+    enabled: false,
+  });
   const handleTriggerClick = () => {
     setIsDetailsPictureOpen(!isDetailsPictureOpen);
     if (!isDetailsPictureOpen) {
-      queryClient.fetchQuery({
-        queryKey: ['tripPictureDetails', data.tripID],
-        queryFn: () => busAPI.get(`/trip/trip-picture-detail/${data.tripID}`).then(res => res.data),
-      });
+      refetch();
     }
   };
-
-  const { data: tripPictureDetails, isLoading, error } = useGetTripPictureDetails(data.tripID);
+  // const { data: tripPictureDetails, isLoading, error } = useGetTripPictureDetails(data.tripID);
   console.log("chi tieets nef",tripPictureDetails )
   return (
     <Accordion type='single' collapsible className='mb-3'>
