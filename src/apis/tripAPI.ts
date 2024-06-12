@@ -30,3 +30,13 @@ export const useGetTripSearchForm = (searchData: SearchData) => {
     }
   })
 }
+
+export const useGetTripPictureDetails = (tripId: string) => {
+  return useQuery({
+    queryKey: ['tripPictureDetails', tripId],
+    queryFn: async () => {
+      const { data } = await busAPI.get(`/trip/trip-picture-detail/${tripId}`);
+      return data;
+    }
+  });
+};

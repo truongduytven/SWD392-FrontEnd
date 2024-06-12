@@ -8,6 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
 import RatingDetailLayout from '../molecules/RatingDetailLayout'
 import { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query'
+import { useGetTripPictureDetails } from '@/apis/tripAPI'
+import busAPI from '@/lib/busAPI'
 interface ITripDataProps {
   data: ITripData
 }
@@ -19,6 +22,8 @@ const images = [
   'https://cdn.motor1.com/images/mgl/MkO9NN/s1/future-supercars.webp'
 ]
 function CardTrip({ data }: ITripDataProps) {
+  const [isDetailsPictureOpen, setIsDetailsPictureOpen] = useState(false);
+  const queryClient = useQueryClient();
   const [currentIndex, setCurrentIndex] = useState(0)
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 1))
@@ -31,7 +36,18 @@ function CardTrip({ data }: ITripDataProps) {
   const handleSubmit = () => {
     navigate('/selectTicket')
   }
+  const handleTriggerClick = () => {
+    setIsDetailsPictureOpen(!isDetailsPictureOpen);
+    if (!isDetailsPictureOpen) {
+      queryClient.fetchQuery({
+        queryKey: ['tripPictureDetails', data.tripID],
+        queryFn: () => busAPI.get(`/trip/trip-picture-detail/${data.tripID}`).then(res => res.data),
+      });
+    }
+  };
 
+  const { data: tripPictureDetails, isLoading, error } = useGetTripPictureDetails(data.tripID);
+  console.log("chi tieets nef",tripPictureDetails )
   return (
     <Accordion type='single' collapsible className='mb-3'>
       <AccordionItem value='item-1' className='w-full'>
@@ -87,7 +103,7 @@ function CardTrip({ data }: ITripDataProps) {
                 </div>
               </div>
               <div className=''>
-                <AccordionTrigger className='text-tertiary transition font-medium hover:underline -mb-3 mx-1'>
+                <AccordionTrigger onClick={handleTriggerClick}  className='text-tertiary transition font-medium hover:underline -mb-3 mx-1'>
                   Thông tin chi tiết
                 </AccordionTrigger>
               </div>
@@ -117,7 +133,7 @@ function CardTrip({ data }: ITripDataProps) {
                     className='flex transition-transform duration-500'
                     style={{ transform: `translateX(-${currentIndex * 100}%)` }}
                   >
-                    {images.map((image, index) => (
+                    {tripPictureDetails.map((image:string, index:any) => (
                       <div key={index} className='flex-none w-full h-96 '>
                         <img src={image} alt={`Slide ${index}`} className='w-full h-full rounded-md  object-cover' />
                       </div>
@@ -137,7 +153,7 @@ function CardTrip({ data }: ITripDataProps) {
                   </button>
                 </div>
                 <div className='flex space-x-4 overflow-x-auto'>
-                  {images.map((image, index) => (
+                  {tripPictureDetails.map((image:string, index:any) => (
                     <img
                       key={index}
                       src={image}
