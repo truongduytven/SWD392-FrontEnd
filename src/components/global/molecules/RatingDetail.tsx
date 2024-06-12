@@ -88,20 +88,21 @@ function RatingDetail() {
                   <CarouselContent>
                     {Array.from({ length: 5 }).map((_, index) => (
                       <CarouselItem key={index}>
-                        <div className='p-1'>
-                          <Card>
-                            <CardContent className='flex aspect-square items-center justify-center'>
+                        <div className='flex flex-col gap-3 justify-center items-center'>
+                          <Card className='shadow-none border-none flex justify-center items-center'>
+                            <CardContent className='p-0'>
                               <img
-                                className='object-cotain h-full rounded cursor-pointer '
-                                src='https://i.pinimg.com/474x/df/cb/71/dfcb71381f423fd8973af381c42c500f.jpg'
+                                className='object-cotain h-full rounded-md cursor-pointer '
+                                src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Sgrz4c57LGlVsnMKrtZUVo-hJKuK3TK44Q&usqp=CAU'
                                 alt='rating'
                               />
                             </CardContent>
                           </Card>
-                        </div>
-                        <p className='text-right'>
+                          <p className='text-right '>
                           {index}/ {Array.length}
                         </p>
+                        </div>
+                      
                       </CarouselItem>
                     ))}
                   </CarouselContent>

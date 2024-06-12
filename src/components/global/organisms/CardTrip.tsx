@@ -9,6 +9,12 @@ import RatingDetailLayout from '../molecules/RatingDetailLayout'
 interface ITripDataProps {
   data: ITripData
 }
+const steps = [
+  { step: 'Step 1'},
+  { step: 'Step 2'},
+  { step: 'Step 3' }
+];
+
 
 function CardTrip({ data }: ITripDataProps) {
   const navigate = useNavigate()
@@ -70,7 +76,7 @@ function CardTrip({ data }: ITripDataProps) {
                 </div>
               </div>
               <div className=''>
-                <AccordionTrigger className='text-tertiary transition font-medium underline hover:font-bold -mb-3 mx-1'>
+                <AccordionTrigger className='text-tertiary transition font-medium underline -mb-3 mx-1'>
                   Thông tin chi tiết
                 </AccordionTrigger>
               </div>
@@ -85,15 +91,34 @@ function CardTrip({ data }: ITripDataProps) {
         <div className='h-[1px] bg-stone-300 mx-3'></div>
         <AccordionContent className='bg-white rounded-md h-[400px] overflow-y-auto'>
           <Tabs defaultValue='hinhanh' className='px-2 py-2'>
-            <TabsList className=' px-4 flex sticky top-0 shadow-md '>
-              <TabsTrigger value='hinhanh'>Hình ảnh</TabsTrigger>
+            <TabsList className=' px-4 flex gap-4 sticky top-0 shadow-md '>
+              <TabsTrigger className='' value='hinhanh'>
+                Hình ảnh
+              </TabsTrigger>
               <TabsTrigger value='tienich'>Tiện ích</TabsTrigger>
-              <TabsTrigger value='lotrinh'>Lộ trình</TabsTrigger>
+              <TabsTrigger value='lotrinh'>
+                Lộ trình
+             
+              </TabsTrigger>
               <TabsTrigger value='danhgia'>Đánh giá</TabsTrigger>
             </TabsList>
             <TabsContent value='hinhanh'>Ảnh nè.</TabsContent>
             <TabsContent value='tienich'>Tiện ích đâu.</TabsContent>
-            <TabsContent value='lotrinh'>Em chờ.</TabsContent>
+            <TabsContent value='lotrinh'>Em chờ.
+            <div className='ml-10'>
+        <ol className='relative border-l border-gray-200'>
+          {steps.map((item, index) => (
+            <li key={index} className='mb-10 ml-6'>
+              <span className={"flex absolute -left-3 bg-orange-300/50 justify-center items-center w-6 h-6  rounded-full ring-8 ring-white text-primary "}>
+                {index + 1}
+              </span>
+              <h3 className={"flex items-center mb-1 text-lg font-semibold"}>{item.step}</h3>
+              {/* <p className='text-base font-normal text-gray-500'>{item.description}</p> */}
+            </li>
+          ))}
+        </ol>
+      </div>
+            </TabsContent>
             <TabsContent value='danhgia'>
               <RatingDetailLayout />
             </TabsContent>
