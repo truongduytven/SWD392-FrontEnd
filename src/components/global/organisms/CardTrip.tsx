@@ -16,11 +16,11 @@ interface ITripDataProps {
   data: ITripData
 }
 
-
 function CardTrip({ data }: ITripDataProps) {
   const [isDetailsPictureOpen, setIsDetailsPictureOpen] = useState(false)
   const [isDetailsUtility, setIsDetailsUtility] = useState(false)
   const [isDetailsRoute, setIsDetailsRoute] = useState(false)
+  const [isDetailsRating, setIsDetailsRating] = useState(false)
   const queryClient = useQueryClient()
 
   const navigate = useNavigate()
@@ -40,11 +40,15 @@ function CardTrip({ data }: ITripDataProps) {
     const { data } = await busAPI.get(`/station/stations-from-trip/${tripId}`)
     return data
   }
+  const fetchTripRatingDetails = async (tripId: string) => {
+    const { data } = await busAPI.get(`/rating/feedback-in-trip/${tripId}/0?pageNumber=1&pageSize=5`)
+    return data
+  }
   const {
     data: tripPictureDetails,
-    isLoading:pictureDetailsLoading,
+    isLoading: pictureDetailsLoading,
     error: pictureDetailsError,
-  refetch: refetchPictureDetails
+    refetch: refetchPictureDetails
   } = useQuery({
     queryKey: ['tripPictureDetails', data.tripID],
     queryFn: () => fetchTripPictureDetails(data.tripID),
@@ -70,6 +74,16 @@ function CardTrip({ data }: ITripDataProps) {
     queryFn: () => fetchTripRouteDetails(data.tripID),
     enabled: false
   })
+  const {
+    data: tripRatingDetails,
+    isLoading: ratingDetailsLoading,
+    error: ratingDetailsError,
+    refetch: refetchRatingDetails
+  } = useQuery({
+    queryKey: ['tripRatingDetails', data.tripID],
+    queryFn: () => fetchTripRatingDetails(data.tripID),
+    enabled: false
+  })
 
   const handleTriggerPictureClick = () => {
     setIsDetailsPictureOpen(!isDetailsPictureOpen)
@@ -87,6 +101,12 @@ function CardTrip({ data }: ITripDataProps) {
     setIsDetailsRoute(!isDetailsRoute)
     if (!isDetailsRoute) {
       refetchRouteDetails()
+    }
+  }
+  const handleTriggerRatingClick = () => {
+    setIsDetailsRating(!isDetailsRating)
+    if (!isDetailsRating) {
+      refetchRatingDetails()
     }
   }
   return (
@@ -162,30 +182,55 @@ function CardTrip({ data }: ITripDataProps) {
         <div className='h-[1px] bg-stone-300 mx-3'></div>
         <AccordionContent className='bg-white rounded-md h-fit'>
           <Tabs defaultValue='hinhanh' className='px-2 py-2'>
-
             <TabsList className='z-10 px-4 flex gap-4 sticky top-0 shadow-md '>
               <TabsTrigger className='' value='hinhanh'>
                 Hình ảnh
               </TabsTrigger>
-              <TabsTrigger value='tienich' onClick={handleTriggerUtilitiClick}>Tiện ích</TabsTrigger>
-              <TabsTrigger value='lotrinh' onClick={handleTriggerRouteClick}>Lộ trình</TabsTrigger>
-              <TabsTrigger value='danhgia'>Đánh giá</TabsTrigger>
+              <TabsTrigger value='tienich' onClick={handleTriggerUtilitiClick}>
+                Tiện ích
+              </TabsTrigger>
+              <TabsTrigger value='lotrinh' onClick={handleTriggerRouteClick}>
+                Lộ trình
+              </TabsTrigger>
+              <TabsTrigger
+                value='danhgia'
+                onClick={() => {
+                  navigate('/search?value=0')
+                  handleTriggerRatingClick()
+                }}
+              >
+                Đánh giá
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value='hinhanh'>
-              <ImageTab tripPictureDetails={tripPictureDetails} error={pictureDetailsError} isLoading={pictureDetailsLoading} />
+              <ImageTab
+                tripPictureDetails={tripPictureDetails}
+                error={pictureDetailsError}
+                isLoading={pictureDetailsLoading}
+              />
             </TabsContent>
 
             <TabsContent value='tienich'>
-              <UtilitiesTab tripUtilityDetails={tripUtilityDetails} error={utilityDetailsError} isLoading={utilityDetailsLoading}/>
+              <UtilitiesTab
+                tripUtilityDetails={tripUtilityDetails}
+                error={utilityDetailsError}
+                isLoading={utilityDetailsLoading}
+              />
             </TabsContent>
 
             <TabsContent value='lotrinh'>
-             <RouteTrip tripRouteDetails={tripRouteDetails} error={routeDetailsError} isLoading={routeDetailsLoading}/>
+              <RouteTrip
+                tripRouteDetails={tripRouteDetails}
+                error={routeDetailsError}
+                isLoading={routeDetailsLoading}
+              />
             </TabsContent>
 
             <TabsContent value='danhgia'>
-              <RatingDetailLayout />
+              <RatingDetailLayout   tripRatingDetails={tripRatingDetails}
+                error={ratingDetailsError}
+                isLoading={ratingDetailsLoading}/>
             </TabsContent>
           </Tabs>
         </AccordionContent>
