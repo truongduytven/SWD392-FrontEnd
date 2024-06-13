@@ -241,6 +241,7 @@ function CardTrip({ data }: ITripDataProps) {
 
             <TabsContent value='danhgia'>
               <RatingDetailLayout
+              tripID={data.tripID}
                 tripRatingDetails={tripRatingDetails}
                 error={ratingDetailsError}
                 isLoading={ratingDetailsLoading}
