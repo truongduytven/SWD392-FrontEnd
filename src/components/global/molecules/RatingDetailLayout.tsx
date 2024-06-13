@@ -51,7 +51,7 @@ function RatingDetailLayout({tripID, tripRatingDetails, isLoading, error, refetc
     setSelectedRatingValue(value)
     setSelectedValue(value); 
     navigate(`/search?rating/feedback-in-trip/${tripID}/${value}?pageNumber=1&pageSize=5`)
-    refetchRatingDetails(); 
+    refetchRatingDetails();
   }
 
   return (
