@@ -6,20 +6,19 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { DatePicker } from './DatePicker'
 import { Button } from '@/components/global/atoms/button'
-import { formatDate } from 'date-fns'
 import { CircleDot, MapPin, Clock } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
-import { useSearch } from '@/contexts/SearchContext'
+import { SearchData, useSearch } from '@/contexts/SearchContext'
 import { useGetCitySearchForm } from '@/apis/tripAPI'
 import { useEffect } from 'react'
 
-export function SearchForm() {
-  const navigate = useNavigate()
+interface SearchFormProps {
+  onsubmitSearch: (values: SearchData) => void
+}
+
+export function SearchForm({ onsubmitSearch }: SearchFormProps) {
   const { searchData, setSearchData } = useSearch()
-
-
   const { data } = useGetCitySearchForm()
-
+console.log("object",data)
   const form = useForm<z.infer<typeof SearchSchema>>({
     resolver: zodResolver(SearchSchema),
     defaultValues: {
@@ -38,14 +37,8 @@ export function SearchForm() {
     }
   }, [searchData])
   function onSubmit(values: z.infer<typeof SearchSchema>) {
-    const postData = {
-      startLocaion: parseInt(values.startLocation),
-      endLocaion: parseInt(values.endLocation),
-      startDate: formatDate(values.startDate, 'yyyy-MM-dd')
-    }
-    console.log(postData)
     setSearchData(values)
-    navigate('/search')
+    onsubmitSearch(values)
   }
   return (
     <div className='h-full py-5 rounded-lg bg-white w-2/3 drop-shadow-lg'>

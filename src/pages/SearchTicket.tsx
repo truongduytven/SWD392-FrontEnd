@@ -69,7 +69,7 @@ function SearchTicket() {
                 </FormItem>
               )}
             />
-            <Button type='submit' onClick={handleSearch}>
+            <Button type='submit' >
               <UserRoundSearch className='w-5 mr-2' />
               Tra cứu
             </Button>

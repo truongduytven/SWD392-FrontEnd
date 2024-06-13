@@ -24,7 +24,7 @@ console.log("gia tri nhan duoc o sap xep:", selectedValue)
             name='type'
             render={({ field }) => (
               <FormItem className='space-y-3'>
-                <FormLabel className='text-lg font-bold'>Sắp xếp</FormLabel>
+                <FormLabel className='text-md font-bold'>Sắp xếp</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={(value) => {

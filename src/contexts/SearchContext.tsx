@@ -1,7 +1,7 @@
 // src/context/SearchContext.tsx
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 
-interface SearchData {
+export interface SearchData {
   startLocation: string;
   endLocation: string;
   startDate: Date;

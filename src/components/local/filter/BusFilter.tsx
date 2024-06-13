@@ -72,7 +72,7 @@ function BusFilter({ selectedItems, onItemsChange }: BusFilterProps) {
                   <Button
                     variant='ghost'
                     role='combobox'
-                    className={cn('w-full justify-between text-lg font-bold', !field.value && 'text-muted-foreground')}
+                    className={cn('w-full justify-between text-md font-bold', !field.value && 'text-muted-foreground')}
                     onClick={(event) => {
                       event.stopPropagation()
                       event.preventDefault()
