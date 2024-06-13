@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
 import RatingDetailLayout from '../molecules/RatingDetailLayout'
 import UtilitiesTab from '@/components/local/TabCardTrip/UtilitiesTab'
 import RouteTrip from '@/components/local/TabCardTrip/RouteTrip'
+import { da } from 'date-fns/locale'
 interface ITripDataProps {
   data: ITripData
 }
@@ -86,24 +87,31 @@ function CardTrip({ data }: ITripDataProps) {
   })
 
   const handleTriggerPictureClick = () => {
+    navigate(`/search?trip/trip-picture-detail=${data.tripID}`)
     setIsDetailsPictureOpen(!isDetailsPictureOpen)
     if (!isDetailsPictureOpen) {
       refetchPictureDetails()
     }
   }
   const handleTriggerUtilitiClick = () => {
+    navigate(`/search?utility/trip/${data.tripID}`)
+
     setIsDetailsUtility(!isDetailsUtility)
     if (!isDetailsUtility) {
       refetchUtilityDetails()
     }
   }
   const handleTriggerRouteClick = () => {
+    navigate(`/search?station/stations-from-trip=${data.tripID}`)
+
     setIsDetailsRoute(!isDetailsRoute)
     if (!isDetailsRoute) {
       refetchRouteDetails()
     }
   }
   const handleTriggerRatingClick = () => {
+    navigate(`/search?rating/feedback-in-trip/${data.tripID}/0?pageNumber=1&pageSize=5`)
+
     setIsDetailsRating(!isDetailsRating)
     if (!isDetailsRating) {
       refetchRatingDetails()
@@ -183,7 +191,11 @@ function CardTrip({ data }: ITripDataProps) {
         <AccordionContent className='bg-white rounded-md h-fit'>
           <Tabs defaultValue='hinhanh' className='px-2 py-2'>
             <TabsList className='z-10 px-4 flex gap-4 sticky top-0 shadow-md '>
-              <TabsTrigger className='' value='hinhanh'>
+              <TabsTrigger
+                className=''
+                value='hinhanh'
+                onClick={() => navigate(`/search?trip/trip-picture-detail=${data.tripID}`)}
+              >
                 Hình ảnh
               </TabsTrigger>
               <TabsTrigger value='tienich' onClick={handleTriggerUtilitiClick}>
@@ -228,9 +240,11 @@ function CardTrip({ data }: ITripDataProps) {
             </TabsContent>
 
             <TabsContent value='danhgia'>
-              <RatingDetailLayout   tripRatingDetails={tripRatingDetails}
+              <RatingDetailLayout
+                tripRatingDetails={tripRatingDetails}
                 error={ratingDetailsError}
-                isLoading={ratingDetailsLoading}/>
+                isLoading={ratingDetailsLoading}
+              />
             </TabsContent>
           </Tabs>
         </AccordionContent>
