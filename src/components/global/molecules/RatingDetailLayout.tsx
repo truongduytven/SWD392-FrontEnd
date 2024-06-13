@@ -11,9 +11,6 @@ const buttons = [
   { label: '2 Sao', value: '2' },
   { label: '1 Sao', value: '1' }
 ] as const
-
-
-
 interface Feedback {
   userName: string;
   date: string;
@@ -22,12 +19,10 @@ interface Feedback {
   rating: number;
   avt: string;
 }
-
 interface TripRatingDetails {
   feedbacks: Feedback[];
   totalRating: number;
 }
-
 interface RatingTabProps {
   tripID:string,
   tripRatingDetails: TripRatingDetails;
@@ -38,14 +33,9 @@ interface RatingTabProps {
 }
 function RatingDetailLayout({tripID, tripRatingDetails, isLoading, error, refetchRatingDetails,
   setSelectedRatingValue }: RatingTabProps) {
-  console.log("data ơ rating", tripRatingDetails)
   const navigate = useNavigate()
-
   const [searchParams] = useSearchParams()
-
   const [selectedValue, setSelectedValue] = useState<string>('0')
-  
-  console.log("ga trị chon", selectedValue)
   const [averageRatings, setAverageRatings] = useState<number>(5)
   const handleButtonClick = (value: string) => {
     setSelectedRatingValue(value)
@@ -53,7 +43,6 @@ function RatingDetailLayout({tripID, tripRatingDetails, isLoading, error, refetc
     navigate(`/search?rating/feedback-in-trip/${tripID}/${value}?pageNumber=1&pageSize=5`)
     refetchRatingDetails();
   }
-
   return (
     <div>
     <div className='flex items-center justify-center p-4 mb-4 rounded-sm bg-muted'>
@@ -73,7 +62,7 @@ function RatingDetailLayout({tripID, tripRatingDetails, isLoading, error, refetc
               </clipPath>
             </defs>
             <rect className='w-full h-full fill-slate-300' clipPath='url(#stars)' />
-            <rect width={averageRatings * 20 + '%'} className='fill-[#eab308] h-full' clipPath='url(#stars)' />
+            <rect width={tripRatingDetails?.totalRating * 20 + '%'} className='fill-[#eab308] h-full' clipPath='url(#stars)' />
           </svg>
         </div>
       </div>
