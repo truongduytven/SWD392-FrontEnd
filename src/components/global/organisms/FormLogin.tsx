@@ -7,12 +7,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { z } from 'zod'
 import { PasswordInput } from '../atoms/password-input'
 import { useEffect } from 'react'
-import LogoIcon from '@/assets/LogoMini.png';
-
+import LogoIcon from '@/assets/LogoMini.png'
+import { useAuth } from '@/auth/AuthProvider'
 type FormLoginProps = {
   reset: boolean
 }
 function FormLogin({ reset }: FormLoginProps) {
+  const { login } = useAuth()
+
   const formLogin = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -24,8 +26,14 @@ function FormLogin({ reset }: FormLoginProps) {
     console.log('login xóa')
     formLogin.reset()
   }, [reset])
-  function onSubmitLogin(values: z.infer<typeof loginSchema>) {
-    console.log(values)
+  async function onSubmitLogin(values: z.infer<typeof loginSchema>) {
+    try {
+      console.log(values)
+
+      await login(values.email, values.password)
+    } catch (error) {
+      console.error('Login failed:', error)
+    }
   }
   return (
     <Form {...formLogin}>
@@ -33,8 +41,11 @@ function FormLogin({ reset }: FormLoginProps) {
         onSubmit={formLogin.handleSubmit(onSubmitLogin)}
         className='flex items-center px-10 justify-center gap-5 flex-col h-full text-center shadow-xl mr-20 '
       >
-       <p className='font-medium text-2xl'>Đăng nhập</p>
-        <p className='flex items-center text-muted-foreground'>để tiếp tục với <img src={LogoIcon} className='mx-1' width={20}/>The Bus Journey</p>
+        <p className='font-medium text-2xl'>Đăng nhập</p>
+        <p className='flex items-center text-muted-foreground'>
+          để tiếp tục với <img src={LogoIcon} className='mx-1' width={20} />
+          The Bus Journey
+        </p>
 
         <FormField
           control={formLogin.control}
@@ -62,7 +73,9 @@ function FormLogin({ reset }: FormLoginProps) {
             </FormItem>
           )}
         />
-        <Button type='submit' className='w-2/3'>Đăng nhập</Button>
+        <Button type='submit' className='w-2/3'>
+          Đăng nhập
+        </Button>
       </form>
     </Form>
   )

@@ -2,6 +2,7 @@ import LogoFull from '@/assets/LogoFull.png'
 import { Link } from 'react-router-dom'
 import Container from '../atoms/container'
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '../atoms/navigation-menu'
+import { useAuth } from '@/auth/AuthProvider'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +13,7 @@ import {
 } from '@/components/global/atoms/dropdown-menu'
 import { BookUser, LogOut, Ticket } from 'lucide-react'
 function Header() {
+  const { user } = useAuth()
   return (
     <header className='w-full shadow-md fixed top-0 z-50 bg-white'>
       <Container>
@@ -100,6 +102,12 @@ function Header() {
               </Link>
             </DropdownMenuContent>
           </DropdownMenu>
+          <div>
+            <h1>Profile</h1>
+            <p>ID: {user?.id}</p>
+            <p>Username: {user?.username}</p>
+            <p>Email: {user?.email}</p>
+          </div>
         </div>
       </Container>
     </header>
