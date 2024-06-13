@@ -12,9 +12,21 @@ interface AuthContextType {
 
 // Define the shape of User
 interface User {
-  id: string;
-  username: string;
-  email: string;
+  userID: string,
+      userName: string,
+      password: string,
+      fullName: string,
+      email: string,
+      avatar: string,
+      address: string,
+      otpCode: string,
+      phoneNumber:string,
+      balance: number,
+      createDate: string,
+      isVerified: true,
+      status: string,
+      roleID: string
+      result:any
 }
 
 // Create the AuthContext
@@ -45,12 +57,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const fetchUser = async () => {
       if (token) {
         try {
-          const response = await axios.get<User>('https://your-backend-url.com/me', {
+          console.log("token ne", token)
+          const response = await axios.get<User>('https://ticket-booking-swd-project.azurewebsites.net/auth/check-token', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          setUser(response.data);
+          setUser(response.data.result.user);
+          console.log("jhkjfhkj", user)
         } catch (error) {
           console.error('Fetching user information failed:', error);
         }
@@ -61,8 +75,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await axios.post('https://your-backend-url.com/login', { username, password });
-      const newToken = response.data.token;
+      const response = await axios.post('https://ticket-booking-swd-project.azurewebsites.net/auth/login', { email:username,password: password });
+      console.log("red",response)
+      const newToken = response.data.result.accessToken;
       setToken(newToken);
       localStorage.setItem('token', newToken);
       // Redirect to home or another route after successful login

@@ -124,7 +124,7 @@ function CardTrip({ data }: ITripDataProps) {
         <div className='flex bg-white p-3 gap-3 border border-gray-200 rounded-md transition duration-300 ease-in-out w-full hover:shadow-md hover:shadow-orange-400 hover:border-orange-500 hover:transform transform  hover:translate-x-[-5px]'>
           <div className='w-1/5 min-w-48 relative  overflow-hidden bg-cover bg-no-repeat'>
             <img
-              className='h-full rounded-sm transition duration-300 ease-in-out hover:scale-110 '
+              className='w-full h-36 rounded-sm transition duration-300 ease-in-out hover:scale-110 '
               src={data.imageUrl}
               alt={data.companyName}
             />

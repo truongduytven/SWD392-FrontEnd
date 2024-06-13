@@ -104,8 +104,8 @@ function Header() {
           </DropdownMenu>
           <div>
             <h1>Profile</h1>
-            <p>ID: {user?.id}</p>
-            <p>Username: {user?.username}</p>
+            <p>ID: {user?.userID}</p>
+            <p>Username: {user?.userName}</p>
             <p>Email: {user?.email}</p>
           </div>
         </div>
