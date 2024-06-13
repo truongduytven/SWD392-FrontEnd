@@ -22,6 +22,7 @@ function CardTrip({ data }: ITripDataProps) {
   const [isDetailsUtility, setIsDetailsUtility] = useState(false)
   const [isDetailsRoute, setIsDetailsRoute] = useState(false)
   const [isDetailsRating, setIsDetailsRating] = useState(false)
+  const [selectedRatingValue, setSelectedRatingValue] = useState('0')
   const queryClient = useQueryClient()
 
   const navigate = useNavigate()
@@ -41,8 +42,8 @@ function CardTrip({ data }: ITripDataProps) {
     const { data } = await busAPI.get(`/station/stations-from-trip/${tripId}`)
     return data
   }
-  const fetchTripRatingDetails = async (tripId: string) => {
-    const { data } = await busAPI.get(`/rating/feedback-in-trip/${tripId}/0?pageNumber=1&pageSize=5`)
+  const fetchTripRatingDetails = async (tripId: string, ratingValue: string) => {
+    const { data } = await busAPI.get(`/rating/feedback-in-trip/${tripId}/${ratingValue}?pageNumber=1&pageSize=5`)
     return data
   }
   const {
@@ -81,8 +82,8 @@ function CardTrip({ data }: ITripDataProps) {
     error: ratingDetailsError,
     refetch: refetchRatingDetails
   } = useQuery({
-    queryKey: ['tripRatingDetails', data.tripID],
-    queryFn: () => fetchTripRatingDetails(data.tripID),
+    queryKey: ['tripRatingDetails', data.tripID,selectedRatingValue],
+    queryFn: () => fetchTripRatingDetails(data.tripID,selectedRatingValue),
     enabled: false
   })
 
@@ -245,6 +246,8 @@ function CardTrip({ data }: ITripDataProps) {
                 tripRatingDetails={tripRatingDetails}
                 error={ratingDetailsError}
                 isLoading={ratingDetailsLoading}
+                refetchRatingDetails={refetchRatingDetails}
+                setSelectedRatingValue={setSelectedRatingValue}
               />
             </TabsContent>
           </Tabs>
