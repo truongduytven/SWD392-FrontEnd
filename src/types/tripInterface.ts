@@ -1,9 +1,9 @@
 interface fromCity {
-    cityID: number;
+    cityID: string;
     cityName: string;
 }
 interface toCity {
-    cityID: number;
+    cityID: string;
     cityName: string;
 }
 
@@ -14,15 +14,15 @@ export interface ITripSearchForm {
 }
 
 export interface ITripData {
-    tripID: number,
+    tripID: string,
     companyName: string,
     imageUrl: string,
     averageRating: number,
     quantityRating: number,
     startLocation: string,
     endLocation:  string,
-    startTime: Date,
-    endTime: Date,
+    startTime: string,
+    endTime: string,
     emptySeat: number,
     price: number,
 }

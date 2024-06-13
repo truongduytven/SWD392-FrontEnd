@@ -1,10 +1,8 @@
 import { SearchData } from '@/contexts/SearchContext'
 import busAPI from '@/lib/busAPI'
-import { SearchSchema } from '@/lib/schemas/Search'
 import { ITripSearchData, ITripSearchForm } from '@/types/tripInterface'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { formatDate } from 'date-fns'
-import { z } from 'zod'
 
 export const useGetCitySearchForm = () => {
     return useQuery<ITripSearchForm>({
@@ -21,8 +19,8 @@ export const useGetTripSearchForm = (searchData: SearchData) => {
     queryKey: ["tripSearchForm", searchData],
     queryFn: async () => {
     const postData = {
-      startLocaion: parseInt(searchData.startLocation),
-      endLocaion: parseInt(searchData.endLocation),
+      startLocaion: searchData.startLocation,
+      endLocaion: searchData.endLocation,
       startDate: formatDate(searchData.startDate, 'yyyy-MM-dd')
     }
     const pageNumber = 1
@@ -32,3 +30,13 @@ export const useGetTripSearchForm = (searchData: SearchData) => {
     }
   })
 }
+
+export const useGetTripPictureDetails = (tripId: string) => {
+  return useQuery({
+    queryKey: ['tripPictureDetails', tripId],
+    queryFn: async () => {
+      const { data } = await busAPI.get(`/trip/trip-picture-detail/${tripId}`);
+      return data;
+    }
+  });
+};

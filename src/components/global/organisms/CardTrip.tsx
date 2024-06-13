@@ -1,34 +1,143 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/global/atoms/accordion'
+import ImageTab from '@/components/local/TabCardTrip/ImageTab'
+import busAPI from '@/lib/busAPI'
+import { calculateDuration, formatPrice } from '@/lib/utils'
+import { ITripData } from '@/types/tripInterface'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Star } from 'lucide-react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../atoms/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
-import { useNavigate } from 'react-router-dom'
 import RatingDetailLayout from '../molecules/RatingDetailLayout'
-function CardTrip() {
+import UtilitiesTab from '@/components/local/TabCardTrip/UtilitiesTab'
+import RouteTrip from '@/components/local/TabCardTrip/RouteTrip'
+import { da } from 'date-fns/locale'
+interface ITripDataProps {
+  data: ITripData
+}
+
+function CardTrip({ data }: ITripDataProps) {
+  const [isDetailsPictureOpen, setIsDetailsPictureOpen] = useState(false)
+  const [isDetailsUtility, setIsDetailsUtility] = useState(false)
+  const [isDetailsRoute, setIsDetailsRoute] = useState(false)
+  const [isDetailsRating, setIsDetailsRating] = useState(false)
+  const [selectedRatingValue, setSelectedRatingValue] = useState('0')
+  const queryClient = useQueryClient()
+
   const navigate = useNavigate()
   const handleSubmit = () => {
     navigate('/selectTicket')
   }
+
+  const fetchTripPictureDetails = async (tripId: string) => {
+    const { data } = await busAPI.get(`/trip/trip-picture-detail/${tripId}`)
+    return data
+  }
+  const fetchTripUtilitDetails = async (tripId: string) => {
+    const { data } = await busAPI.get(`/utility/trip/${tripId}`)
+    return data
+  }
+  const fetchTripRouteDetails = async (tripId: string) => {
+    const { data } = await busAPI.get(`/station/stations-from-trip/${tripId}`)
+    return data
+  }
+  const fetchTripRatingDetails = async (tripId: string, ratingValue: string) => {
+    const { data } = await busAPI.get(`/rating/feedback-in-trip/${tripId}/${ratingValue}?pageNumber=1&pageSize=5`)
+    return data
+  }
+  const {
+    data: tripPictureDetails,
+    isLoading: pictureDetailsLoading,
+    error: pictureDetailsError,
+    refetch: refetchPictureDetails
+  } = useQuery({
+    queryKey: ['tripPictureDetails', data.tripID],
+    queryFn: () => fetchTripPictureDetails(data.tripID),
+    enabled: false
+  })
+  const {
+    data: tripUtilityDetails,
+    isLoading: utilityDetailsLoading,
+    error: utilityDetailsError,
+    refetch: refetchUtilityDetails
+  } = useQuery({
+    queryKey: ['tripUtilityDetails', data.tripID],
+    queryFn: () => fetchTripUtilitDetails(data.tripID),
+    enabled: false
+  })
+  const {
+    data: tripRouteDetails,
+    isLoading: routeDetailsLoading,
+    error: routeDetailsError,
+    refetch: refetchRouteDetails
+  } = useQuery({
+    queryKey: ['tripRouteDetails', data.tripID],
+    queryFn: () => fetchTripRouteDetails(data.tripID),
+    enabled: false
+  })
+  const {
+    data: tripRatingDetails,
+    isLoading: ratingDetailsLoading,
+    error: ratingDetailsError,
+    refetch: refetchRatingDetails
+  } = useQuery({
+    queryKey: ['tripRatingDetails', data.tripID,selectedRatingValue],
+    queryFn: () => fetchTripRatingDetails(data.tripID,selectedRatingValue),
+    enabled: false
+  })
+
+  const handleTriggerPictureClick = () => {
+    navigate(`/search?trip/trip-picture-detail=${data.tripID}`)
+    setIsDetailsPictureOpen(!isDetailsPictureOpen)
+    if (!isDetailsPictureOpen) {
+      refetchPictureDetails()
+    }
+  }
+  const handleTriggerUtilitiClick = () => {
+    navigate(`/search?utility/trip/${data.tripID}`)
+
+    setIsDetailsUtility(!isDetailsUtility)
+    if (!isDetailsUtility) {
+      refetchUtilityDetails()
+    }
+  }
+  const handleTriggerRouteClick = () => {
+    navigate(`/search?station/stations-from-trip=${data.tripID}`)
+
+    setIsDetailsRoute(!isDetailsRoute)
+    if (!isDetailsRoute) {
+      refetchRouteDetails()
+    }
+  }
+  const handleTriggerRatingClick = () => {
+    navigate(`/search?rating/feedback-in-trip/${data.tripID}/0?pageNumber=1&pageSize=5`)
+
+    setIsDetailsRating(!isDetailsRating)
+    if (!isDetailsRating) {
+      refetchRatingDetails()
+    }
+  }
   return (
     <Accordion type='single' collapsible className='mb-3'>
-      <AccordionItem value='item-1'>
-        <div className='flex bg-white p-3 gap-3 border border-gray-200 rounded-md transition duration-300 ease-in-out w-full hover:shadow-md hover:shadow-orange-400 hover:border-orange-500 hover:transform transform  hover:translate-x-[-10px]'>
+      <AccordionItem value='item-1' className='w-full'>
+        <div className='flex bg-white p-3 gap-3 border border-gray-200 rounded-md transition duration-300 ease-in-out w-full hover:shadow-md hover:shadow-orange-400 hover:border-orange-500 hover:transform transform  hover:translate-x-[-5px]'>
           <div className='w-1/5 min-w-48 relative  overflow-hidden bg-cover bg-no-repeat'>
             <img
               className='h-full rounded-sm transition duration-300 ease-in-out hover:scale-110 '
-              src='https://mia.vn/media/uploads/blog-du-lich/top-8-xe-phong-nam-di-da-lat-tu-sai-gon-dam-bao-chat-luong-va-an-toan-nhat-1634463769.jpg'
+              src={data.imageUrl}
+              alt={data.companyName}
             />
           </div>
           <div className=' w-full flex flex-col gap-1'>
             <div className='text-lg font-bold flex justify-between'>
-              <p>Minh Tiên Limousine</p>
-              <p className='text-tertiary text-xl'>940.000đ</p>
+              <p>{data.companyName}</p>
+              <p className='text-tertiary text-xl'>Từ {formatPrice(data.price)}</p>
             </div>
             {/* <p className='text-muted-foreground'>Limousine 24 phòng đôi</p> */}
             <p className='flex item-center justify-start gap-1'>
-              4.6
-              <Star className='w-5 text-yellow-500' fill='orange' />
-              (78 đánh giá)
+              {data.averageRating}/5
+              <Star className='w-5 text-yellow-500' fill='orange' />({data.quantityRating} đánh giá)
             </p>
             <div className='flex justify-between items-end '>
               <div className='flex gap-3 justify-center items-center'>
@@ -53,23 +162,26 @@ function CardTrip() {
                   </svg>
                 </div>
 
-                <div className='flex flex-col items-start justify-between gap-1'>
-                  <p className='m-0 p-0'>
-                    <span className='font-bold mr-2 text-lg'>6:00</span>• Tp Hồ Chí Minh
+                <div className='flex flex-col items-start justify-between gap-1 '>
+                  <p className='m-0 p-0 '>
+                    <span className='font-bold mr-2 text-lg'>{data.startTime}</span>• {data.startLocation}
                   </p>
-                  <p className='text-muted-foreground'>2 giờ</p>
+                  <p className='text-muted-foreground'>{calculateDuration(data.startTime, data.endTime)}</p>
                   <p>
-                    <span className='font-bold mr-2 text-lg'>8:30</span>• Bến Tre
+                    <span className='font-bold mr-2 text-lg'>{data.endTime}</span>• {data.endLocation}
                   </p>
                 </div>
               </div>
-              <div className='flex justify-center items-center gap-1 cursor-pointer'>
-                <AccordionTrigger className='text-tertiary font-medium underline hover:font-bold '>
+              <div className=''>
+                <AccordionTrigger
+                  onClick={handleTriggerPictureClick}
+                  className='text-tertiary transition font-medium hover:underline -mb-3 mx-1'
+                >
                   Thông tin chi tiết
                 </AccordionTrigger>
               </div>
               <div className='flex flex-col justify-end items-center gap-3'>
-                <p>Còn trống 26 chỗ</p>
+                <p>Còn trống {data.emptySeat} chỗ</p>
                 <Button onClick={handleSubmit}>Chọn chuyến</Button>
               </div>
             </div>
@@ -77,23 +189,66 @@ function CardTrip() {
         </div>
 
         <div className='h-[1px] bg-stone-300 mx-3'></div>
-        <AccordionContent className='bg-white rounded-md h-[400px] overflow-y-auto'>
+        <AccordionContent className='bg-white rounded-md h-fit'>
           <Tabs defaultValue='hinhanh' className='px-2 py-2'>
-            <TabsList className=' px-4 flex sticky top-0 shadow-md '>
-              <TabsTrigger value='hinhanh' className=''>
+            <TabsList className='z-10 px-4 flex gap-4 sticky top-0 shadow-md '>
+              <TabsTrigger
+                className=''
+                value='hinhanh'
+                onClick={() => navigate(`/search?trip/trip-picture-detail=${data.tripID}`)}
+              >
                 Hình ảnh
               </TabsTrigger>
-              <TabsTrigger value='tienich'>Tiện ích</TabsTrigger>
-              <TabsTrigger value='diemdon'>Điểm đón</TabsTrigger>
-              <TabsTrigger value='diemtra'>Điểm trả</TabsTrigger>
-              <TabsTrigger value='danhgia'>Đánh giá</TabsTrigger>
+              <TabsTrigger value='tienich' onClick={handleTriggerUtilitiClick}>
+                Tiện ích
+              </TabsTrigger>
+              <TabsTrigger value='lotrinh' onClick={handleTriggerRouteClick}>
+                Lộ trình
+              </TabsTrigger>
+              <TabsTrigger
+                value='danhgia'
+                onClick={() => {
+                  navigate('/search?value=0')
+                  handleTriggerRatingClick()
+                }}
+              >
+                Đánh giá
+              </TabsTrigger>
             </TabsList>
-            <TabsContent value='hinhanh'>Ảnh nè.</TabsContent>
-            <TabsContent value='tienich'>Tiện ích đâu.</TabsContent>
-            <TabsContent value='diemdon'>Em chờ.</TabsContent>
-            <TabsContent value='diemtra'>Em chờ.</TabsContent>
+
+            <TabsContent value='hinhanh'>
+              <ImageTab
+                tripPictureDetails={tripPictureDetails}
+                error={pictureDetailsError}
+                isLoading={pictureDetailsLoading}
+              />
+            </TabsContent>
+
+            <TabsContent value='tienich'>
+              <UtilitiesTab
+                tripUtilityDetails={tripUtilityDetails}
+                error={utilityDetailsError}
+                isLoading={utilityDetailsLoading}
+              />
+            </TabsContent>
+
+            <TabsContent value='lotrinh'>
+              <RouteTrip
+                tripRouteDetails={tripRouteDetails}
+                error={routeDetailsError}
+                isLoading={routeDetailsLoading}
+              />
+            </TabsContent>
+
             <TabsContent value='danhgia'>
-              <RatingDetailLayout/>
+              <RatingDetailLayout
+              tripID={data.tripID}
+                tripRatingDetails={tripRatingDetails}
+                error={ratingDetailsError}
+                isLoading={ratingDetailsLoading}
+                refetchRatingDetails={refetchRatingDetails}
+                setSelectedRatingValue={setSelectedRatingValue}
+              />
             </TabsContent>
           </Tabs>
         </AccordionContent>
