@@ -9,11 +9,12 @@ import { PasswordInput } from '../atoms/password-input'
 import { useEffect } from 'react'
 import LogoIcon from '@/assets/LogoMini.png'
 import { useAuth } from '@/auth/AuthProvider'
+import Loading from '@/components/local/login/Loading'
 type FormLoginProps = {
   reset: boolean
 }
 function FormLogin({ reset }: FormLoginProps) {
-  const { login } = useAuth()
+  const { login, loading } = useAuth()
 
   const formLogin = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -73,8 +74,8 @@ function FormLogin({ reset }: FormLoginProps) {
             </FormItem>
           )}
         />
-        <Button type='submit' className='w-2/3'>
-          Đăng nhập
+        <Button type='submit' disabled={loading} className='w-2/3'>
+        {loading && <Loading />} Đăng nhập
         </Button>
       </form>
     </Form>
