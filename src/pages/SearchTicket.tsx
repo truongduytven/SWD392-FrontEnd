@@ -16,7 +16,7 @@ function SearchTicket() {
     resolver: zodResolver(searchTicket),
     defaultValues: {
       email: '',
-      code: ''
+      qrCode: ''
     }
   })
   function onSubmitLogin(values: z.infer<typeof searchTicket>) {
@@ -24,10 +24,10 @@ function SearchTicket() {
   }
   const [showModal, setShowModal] = useState<Boolean>(false)
   const [randomValue, setRandomValue] = useState<number | null>(null)
-  const handleSearch = () => {
-    setRandomValue(Math.random())
-    setShowModal(true)
-  }
+  // const handleSearch = () => {
+  //   setRandomValue(Math.random())
+  //   setShowModal(true)
+  // }
   return (
     <Container>
       <div className='my-10 hover:font-bold hover:underline hover:text-primary'>
@@ -58,7 +58,7 @@ function SearchTicket() {
             />
             <FormField
               control={searchTicketForm.control}
-              name='code'
+              name='qrCode'
               render={({ field }) => (
                 <FormItem className='w-2/3 flex flex-col justify-center '>
                   <FormLabel className='text-left'>Mã Code</FormLabel>

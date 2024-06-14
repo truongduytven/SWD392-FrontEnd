@@ -140,7 +140,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setUser(null)
     localStorage.removeItem('token')
     // Redirect to login page after logout
-    navigate(-1)
+    navigate("/")
   }
 
   return <AuthContext.Provider value={{ token, user, login, logout, errorMessage,loading }}>{children}</AuthContext.Provider>

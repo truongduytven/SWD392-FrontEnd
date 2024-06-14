@@ -42,8 +42,8 @@ function CardTrip({ data }: ITripDataProps) {
     const { data } = await busAPI.get(`/station/stations-from-trip/${tripId}`)
     return data
   }
-  const fetchTripRatingDetails = async (tripId: string, ratingValue: string) => {
-    const { data } = await busAPI.get(`/rating/feedback-in-trip/${tripId}/${ratingValue}?pageNumber=1&pageSize=5`)
+  const fetchTripRatingDetails = async (templateID: string, ratingValue: string) => {
+    const { data } = await busAPI.get(`/rating/feedback-in-trip/${templateID}/${ratingValue}?pageNumber=1&pageSize=5`)
     return data
   }
   const {
@@ -82,8 +82,8 @@ function CardTrip({ data }: ITripDataProps) {
     error: ratingDetailsError,
     refetch: refetchRatingDetails
   } = useQuery({
-    queryKey: ['tripRatingDetails', data.tripID,selectedRatingValue],
-    queryFn: () => fetchTripRatingDetails(data.tripID,selectedRatingValue),
+    queryKey: ['tripRatingDetails', data.templateID,selectedRatingValue],
+    queryFn: () => fetchTripRatingDetails(data.templateID,selectedRatingValue),
     enabled: false
   })
 

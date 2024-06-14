@@ -15,6 +15,7 @@ export interface ITripSearchForm {
 
 export interface ITripData {
     tripID: string,
+    templateID:string,
     companyName: string,
     imageUrl: string,
     averageRating: number,
