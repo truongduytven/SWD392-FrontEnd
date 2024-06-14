@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import busAPI from '@/lib/busAPI';
 // Define the shape of our AuthContext
 interface AuthContextType {
   token: string | null;
@@ -58,7 +59,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (token) {
         try {
           console.log("token ne", token)
-          const response = await axios.get<User>('https://ticket-booking-swd-project.azurewebsites.net/auth/check-token', {
+          const response = await busAPI.get<User>('/auth/check-token', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -75,13 +76,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await axios.post('https://ticket-booking-swd-project.azurewebsites.net/auth/login', { email:username,password: password });
+      const response = await busAPI.post('/auth/login', { email:username,password: password });
       console.log("red",response)
       const newToken = response.data.result.accessToken;
       setToken(newToken);
       localStorage.setItem('token', newToken);
       // Redirect to home or another route after successful login
-      navigate('/');
+      navigate(-1);
     } catch (error) {
       console.error('Login failed:', error);
     }
@@ -92,7 +93,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setUser(null);
     localStorage.removeItem('token');
     // Redirect to login page after logout
-    navigate('/login');
+    navigate(-1);
   };
 
   return (
