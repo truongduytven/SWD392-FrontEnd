@@ -57,7 +57,7 @@ function App() {
           </ProtectedRoute>
         }
       />
-     
+
       {/* <Route path='/login' element={<SignInSignUp />} />
       <Route path='/register' element={<SignInSignUp />} />
       <Route path='/otp-verified' element={<OtpForm />} /> */}
