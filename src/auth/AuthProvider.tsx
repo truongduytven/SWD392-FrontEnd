@@ -63,14 +63,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const fetchUser = async () => {
       if (token) {
         try {
-          console.log('token ne', token)
           const response = await busAPI.get<User>('/auth/check-token', {
             headers: {
               Authorization: `Bearer ${token}`
             }
           })
           setUser(response.data.result.user)
-          console.log('jhkjfhkj', user)
         } catch (error) {
           console.error('Fetching user information failed:', error)
         }
@@ -117,14 +115,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       setLoading(true)
       const response = await busAPI.post('/auth/login', { email: username, password: password })
-      const newToken = response.data.result.accessToken
+      const newToken = response.data.accessToken
       setToken(newToken)
       localStorage.setItem('token', newToken)
       setErrorMessage(null)
       navigate(-1)
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        const message = error.response.data.result.message
+        const message = error.response.data.message
         setErrorMessage(message)
         toast.error(message)
       } else {

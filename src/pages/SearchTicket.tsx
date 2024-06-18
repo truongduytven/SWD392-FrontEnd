@@ -108,7 +108,7 @@ function SearchTicket() {
           </div>
         )} */}
         {isLoading && <p>Loading...</p>}
-        {isError && <div className='flex flex-col justify-center items-center gap-4'>Đã xảy ra lỗi</div>}
+        {isError && <div className='flex flex-col justify-center items-center gap-4'>Đã xảy ra lỗi trong quá trình tra cứu</div>}
         {data && (
           <div>
             <h2 className='text-xl font-bold'>Thông tin vé</h2>
