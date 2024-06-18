@@ -207,6 +207,7 @@ function ProfilePage() {
                 <Input className='cursor-not-allowed' disabled />
               </Form.Item>
               <Form.Item
+              className='hidden'
                 name='passe'
                 label={<span className='font-medium'>Mật khẩu</span>}
                 rules={[{ required: true }]}

@@ -11,6 +11,8 @@ import { z } from 'zod'
 import { useState } from 'react'
 import Ticket from '@/components/global/organisms/Ticket'
 import Container from '@/components/global/atoms/container'
+import { useSearchTicket } from '@/apis/searchTicketAPI'
+
 function SearchTicket() {
   const searchTicketForm = useForm<z.infer<typeof searchTicket>>({
     resolver: zodResolver(searchTicket),
@@ -19,9 +21,12 @@ function SearchTicket() {
       qrCode: ''
     }
   })
+  const { data, isLoading, isError, refetch } = useSearchTicket(searchTicketForm.getValues()) // Call useSearchTicket with form values
   function onSubmitLogin(values: z.infer<typeof searchTicket>) {
+    refetch() // Refetch data when form submitted
     console.log(values)
   }
+  console.log('dât vedjjlj', data)
   const [showModal, setShowModal] = useState<Boolean>(false)
   const [randomValue, setRandomValue] = useState<number | null>(null)
   // const handleSearch = () => {
@@ -69,13 +74,13 @@ function SearchTicket() {
                 </FormItem>
               )}
             />
-            <Button type='submit' >
+            <Button type='submit'>
               <UserRoundSearch className='w-5 mr-2' />
               Tra cứu
             </Button>
           </form>
         </Form>
-        {showModal && (
+        {/* {showModal && (
           <div>
             <div className='fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'></div>
             <div className='fixed left-[50%] top-[50%] z-50 translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg'>
@@ -99,7 +104,15 @@ function SearchTicket() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
+        {isLoading && <p>Loading...</p>}
+        {isError && <div className='flex flex-col justify-center items-center gap-4'>da xay ra loi</div>}
+        {/* {data !== null && data !== undefined && Object.keys(data).length > 0 && (
+          <div>
+            {JSON.stringify(data)}
+          </div>
+        )} */}
+        {data}
       </div>
     </Container>
   )
