@@ -14,6 +14,7 @@ import {
 import { Input } from '@/components/global/atoms/input'
 import { Label } from '@/components/global/atoms/label'
 import ModalDetail from './ModalDetail'
+import { calculateDuration } from '@/lib/utils'
 interface TicketProps {
   date: string
   startTime: string
@@ -101,7 +102,7 @@ function Ticket({
                   <p className='m-0 p-0'>
                     <span className='font-bold mr-2 text-lg'>{startTime}</span>
                   </p>
-                  <p className='text-muted-foreground'>2 giờ</p>
+                  <p className='text-muted-foreground'>{calculateDuration(startTime,endTime)}</p>
                   <p>
                     <span className='font-bold mr-2 text-lg'>{endTime}</span>
                   </p>

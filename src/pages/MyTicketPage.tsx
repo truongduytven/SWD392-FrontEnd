@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Ticket from '@/components/local/myticket/Ticket'
 import { userAllTickets } from '@/apis/userAllTicket'
-import Loading from '@/components/local/login/Loading'
+import Loader from '@/components/local/TabCardTrip/Loader'
 // type TicketData = {
 //   date: string
 //   startTime: string
@@ -251,15 +251,13 @@ const tabs = [
 //   // More ticket data
 // ]
 
-
-
 function MyTicketPage() {
   const [activeTab, setActiveTab] = useState(1)
-  const { data: allTickets = [], isLoading, isError } = userAllTickets();
-  console.log("ve lay tư re", allTickets)
-  const unusedTickets = allTickets.filter(ticket => ticket.status === 'UNUSED');
-  const usedTickets = allTickets.filter(ticket => ticket.status === 'USED');
-  const canceledTickets = allTickets.filter(ticket => ticket.status === 'CANCEL');
+  const { data: allTickets = [], isLoading, isError } = userAllTickets()
+  console.log('ve lay tư re', allTickets)
+  const unusedTickets = allTickets.filter((ticket) => ticket.status === 'UNUSED')
+  const usedTickets = allTickets.filter((ticket) => ticket.status === 'USED')
+  const canceledTickets = allTickets.filter((ticket) => ticket.status === 'CANCEL')
   const dataMapping: Record<number, typeof allTickets> = {
     1: allTickets,
     2: unusedTickets,
@@ -268,12 +266,17 @@ function MyTicketPage() {
   }
   const activeData = dataMapping[activeTab]
 
-  if (isLoading) return <div className='m-auto'><Loading/>Đang tải</div>;
-  if (isError) return <div className='m-auto'>Error loading tickets</div>;
+  // if (isLoading)
+  //   return (
+  //     <div className='m-auto'>
+  //       <Loading />
+  //       Đang tải
+  //     </div>
+  //   )
+  // if (isError) return <div className='m-auto'>Error loading tickets</div>
 
   return (
     <div className='w-full max-w-4xl mx-auto mt-10 '>
-      
       <div className='relative flex  border-b py-1 border-gray-200 bg-muted rounded-md'>
         {tabs.map((tab) => (
           <button
@@ -293,7 +296,7 @@ function MyTicketPage() {
         />
       </div>
 
-      <div className='mt-4 bg-muted rounded-md'>
+      {/* <div className='mt-4 bg-muted rounded-md'>
         {activeData.map((ticket, index) => (
           <Ticket
             key={index}
@@ -308,6 +311,37 @@ function MyTicketPage() {
             status={ticket.status}
           />
         ))}
+      </div> */}
+      <div className='mt-4 bg-muted rounded-md'>
+        {isLoading && (
+          <div className='flex items-center justify-center h-40'>
+            <Loader />
+          </div>
+        )}
+
+        {isError && <p className='text-red-600 text-center mt-4'>Xảy ra lỗi trong quá trình tải dữ liệu. Vui lòng thử lại sau.</p>}
+
+        {!isLoading && !isError && activeData.length === 0 && (
+          <p className='text-gray-500 text-center mt-4'>Không có vé</p>
+        )}
+
+        {!isLoading &&
+          !isError &&
+          activeData.length > 0 &&
+          activeData.map((ticket, index) => (
+            <Ticket
+              key={index}
+              date={ticket.startDate}
+              startTime={ticket.startTime}
+              endTime={ticket.endTime}
+              locationTo={ticket.endCity}
+              locationFrom={ticket.startCity}
+              seatCode={ticket.seatCode}
+              priceTicket={ticket.ticketPrice}
+              priceService={ticket.totalServicePrice}
+              status={ticket.status}
+            />
+          ))}
       </div>
     </div>
   )
