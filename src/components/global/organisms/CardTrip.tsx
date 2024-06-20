@@ -31,19 +31,20 @@ function CardTrip({ data }: ITripDataProps) {
   }
 
   const fetchTripPictureDetails = async (tripId: string) => {
-    const { data } = await busAPI.get(`/trip/trip-picture-detail/${tripId}`)
+    const { data } = await busAPI.get(`/trip-management/manage-trips/${tripId}/pictures`)
     return data
   }
   const fetchTripUtilitDetails = async (tripId: string) => {
-    const { data } = await busAPI.get(`/utility/trip/${tripId}`)
+    const { data } = await busAPI.get(`/trip-management/managed-trips/${tripId}/utilities`)
     return data
   }
   const fetchTripRouteDetails = async (tripId: string) => {
-    const { data } = await busAPI.get(`/station/stations-from-trip/${tripId}`)
+    const { data } = await busAPI.get(`/station-management/managed-stations/routes/${tripId}`)
     return data
   }
   const fetchTripRatingDetails = async (templateID: string, ratingValue: string) => {
-    const { data } = await busAPI.get(`/rating/feedback-in-trip/${templateID}/${ratingValue}?pageNumber=1&pageSize=5`)
+    console.log("template ne", templateID)
+    const { data } = await busAPI.get(`/feedback-management/managed-feedbacks/trips/${templateID}/rate-scales/${ratingValue}?pageNumber=1&pageSize=5`)
     return data
   }
   const {
@@ -124,7 +125,7 @@ function CardTrip({ data }: ITripDataProps) {
         <div className='flex bg-white p-3 gap-3 border border-gray-200 rounded-md transition duration-300 ease-in-out w-full hover:shadow-md hover:shadow-orange-400 hover:border-orange-500 hover:transform transform  hover:translate-x-[-5px]'>
           <div className='w-1/5 min-w-48 relative  overflow-hidden bg-cover bg-no-repeat'>
             <img
-              className='w-full h-36 rounded-sm transition duration-300 ease-in-out hover:scale-110 '
+              className='w-full h-full  rounded-sm transition duration-300 ease-in-out hover:scale-110 '
               src={data.imageUrl}
               alt={data.companyName}
             />
@@ -164,11 +165,11 @@ function CardTrip({ data }: ITripDataProps) {
 
                 <div className='flex flex-col items-start justify-between gap-1 '>
                   <p className='m-0 p-0 '>
-                    <span className='font-bold mr-2 text-lg'>{data.startTime}</span>• {data.startLocation}
+                    <span className='font-bold mr-2 text-sm'>{data.startTime}</span>• {data.startLocation}
                   </p>
-                  <p className='text-muted-foreground'>{calculateDuration(data.startTime, data.endTime)}</p>
+                  <p className='text-muted-foreground text-sm'>{calculateDuration(data.startTime, data.endTime)}</p>
                   <p>
-                    <span className='font-bold mr-2 text-lg'>{data.endTime}</span>• {data.endLocation}
+                    <span className='font-bold mr-2 text-sm'>{data.endTime}</span>• {data.endLocation}
                   </p>
                 </div>
               </div>

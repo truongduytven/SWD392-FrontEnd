@@ -28,7 +28,7 @@ function App() {
         <Route path='/ticketInfo' element={<SearchTicket />} />
         <Route path='/payment-status/:id' element={<PaymentStatus />} />
         <Route path='/profile' element={<ProfilePage />} />
-        <Route path='/myticket' element={<MyTicketPage />} />
+        <Route path='/myticket/:id' element={<MyTicketPage />} />
       </Route>
       <Route
         path='/login'

@@ -67,13 +67,14 @@ console.log("tat ca city from to", dataCityFromTo)
       selectedItems: items
     }))
   }
+  console.log("filter ne", filterState)
   const handleClearFilters = () => {
     setFilterState(initialState)
   }
 
   const handleScrollToTop = (e: React.MouseEvent) => {
     e.preventDefault()
-    window.scrollTo({ top: 150, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
   useEffect(() => {
     const handleScroll = () => {
@@ -137,7 +138,7 @@ console.log("tat ca city from to", dataCityFromTo)
         <a
           href='#result'
           onClick={handleScrollToTop}
-          className='sticky top-3/4 bg-primary rounded-full text-white flex justify-center items-center p-2  mb-4 transition duration-300'
+          className='sticky top-3/4 ml-10 bg-primary rounded-full text-white flex justify-center items-center p-2  mb-4 transition duration-300'
         >
           <ArrowBigUpDash size={30} fill='white' />
         </a>

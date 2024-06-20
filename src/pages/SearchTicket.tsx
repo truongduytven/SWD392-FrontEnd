@@ -1,19 +1,19 @@
-import { Button } from '@/components/global/atoms/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/global/atoms/form';
-import { Input } from '@/components/global/atoms/input';
-import { searchTicket } from '@/lib/schemas/searchTicket';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { UserRoundSearch, TriangleAlert } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-import { z } from 'zod';
-import { useState } from 'react';
-import Ticket from '@/components/global/organisms/Ticket';
-import Container from '@/components/global/atoms/container';
-import { useSearchTicket } from '@/apis/searchTicketAPI';
-import { ISearchTicket } from '@/types/searchTicket'; // Ensure this import is correct
-
+import { Button } from '@/components/global/atoms/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/global/atoms/form'
+import { Input } from '@/components/global/atoms/input'
+import { searchTicket } from '@/lib/schemas/searchTicket'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { UserRoundSearch, TriangleAlert } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ArrowLeft } from 'lucide-react'
+import { z } from 'zod'
+import { useState } from 'react'
+import Ticket from '@/components/global/organisms/Ticket'
+import Container from '@/components/global/atoms/container'
+import { useSearchTicket } from '@/apis/searchTicketAPI'
+import { ISearchTicket } from '@/types/searchTicket' // Ensure this import is correct
+import Loading from '@/components/local/login/Loading'
 function SearchTicket() {
   const searchTicketForm = useForm<z.infer<typeof searchTicket>>({
     resolver: zodResolver(searchTicket),
@@ -21,18 +21,18 @@ function SearchTicket() {
       email: '',
       qrCode: ''
     }
-  });
+  })
 
-  const { data, isLoading, isError, refetch } = useSearchTicket(searchTicketForm.getValues());
+  const { data, isLoading, isError, refetch } = useSearchTicket(searchTicketForm.getValues())
 
   function onSubmitLogin(values: z.infer<typeof searchTicket>) {
-    refetch();
-    console.log(values);
+    refetch()
+    console.log(values)
   }
 
-  console.log('data', data);
-  const [showModal, setShowModal] = useState<Boolean>(false);
-  const [randomValue, setRandomValue] = useState<number | null>(null);
+  console.log('data', data)
+  const [showModal, setShowModal] = useState<Boolean>(false)
+  const [randomValue, setRandomValue] = useState<number | null>(null)
 
   return (
     <Container>
@@ -75,14 +75,21 @@ function SearchTicket() {
                 </FormItem>
               )}
             />
-            <Button type='submit'>
+            {isError && (
+              <div className='flex flex-col justify-center items-center gap-4'>
+                Đã xảy ra lỗi trong quá trình tra cứu
+              </div>
+            )}
+
+            <Button type='submit' disabled={isLoading}>
+              {isLoading && <Loading />}
               <UserRoundSearch className='w-5 mr-2' />
               Tra cứu
             </Button>
           </form>
         </Form>
 
-                {/* {showModal && (
+        {/* {showModal && (
           <div>
             <div className='fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'></div>
             <div className='fixed left-[50%] top-[50%] z-50 translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg'>
@@ -107,8 +114,7 @@ function SearchTicket() {
             </div>
           </div>
         )} */}
-        {isLoading && <p>Loading...</p>}
-        {isError && <div className='flex flex-col justify-center items-center gap-4'>Đã xảy ra lỗi trong quá trình tra cứu</div>}
+        {/* {isLoading && <p>Loading...</p>} */}
         {data && (
           <div>
             <h2 className='text-xl font-bold'>Thông tin vé</h2>
@@ -134,7 +140,7 @@ function SearchTicket() {
         )}
       </div>
     </Container>
-  );
+  )
 }
 
-export default SearchTicket;
+export default SearchTicket

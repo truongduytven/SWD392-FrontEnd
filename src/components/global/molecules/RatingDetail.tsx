@@ -39,7 +39,7 @@ function RatingDetail({ feedback }:RatingDetailProps) {
     <div className='w-full p-4 cursor-pointer mx-10 '>
       <div className='flex items-center justify-between mb-4'>
         <div className='flex items-center justify-center'>
-          <div className='w-12  h-12 mr-2 overflow-hidden rounded-full'>
+          <div className='w-12 h-12 mr-2 overflow-hidden rounded-full'>
             <img
               className='object-cover w-full h-full'
               src={defaultAvatar}
@@ -57,7 +57,7 @@ function RatingDetail({ feedback }:RatingDetailProps) {
           {Array(feedback.rating)
             .fill(null)
             .map((_, index) => {
-              return <img key={index} src={starFillIcon} className='w-5 h-5' />
+              return <img key={index} src={starFillIcon} className='w-5 h-5 ' />
             })}
         </div>
       </div>
@@ -72,7 +72,7 @@ function RatingDetail({ feedback }:RatingDetailProps) {
            
              {feedback.imageUrl.map((img:any, index:any) => (
            <img
-           className='object-cover w-24 rounded cursor-pointer aspect-square'
+           className='object-cover w-24 h-32 rounded cursor-pointer aspect-square  '
            src={img}
            alt='rating'
          />

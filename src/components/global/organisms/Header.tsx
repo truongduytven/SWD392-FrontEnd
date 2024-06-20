@@ -84,7 +84,7 @@ function Header() {
                       Hồ sơ người dùng
                     </DropdownMenuItem>
                   </Link>
-                  <Link to='/myticket'>
+                  <Link to={`/myticket/${user?.userID}`}>
                     <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
                       <Ticket className='w-5' />
                       Vé của tôi

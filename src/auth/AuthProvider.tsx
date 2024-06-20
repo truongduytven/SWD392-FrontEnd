@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const fetchUser = async () => {
       if (token) {
         try {
-          const response = await busAPI.get<User>('/auth/check-token', {
+          const response = await busAPI.get<User>('/auth-management/managed-auths/token-verification', {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -114,17 +114,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const login = async (username: string, password: string) => {
     try {
       setLoading(true)
-      const response = await busAPI.post('/auth/login', { email: username, password: password })
+      const response = await busAPI.post('/auth-management/managed-auths/sign-ins', { email: username, password: password })
       const newToken = response.data.accessToken
       setToken(newToken)
       localStorage.setItem('token', newToken)
       setErrorMessage(null)
+      toast.success("Đăng nhập thành công")
       navigate(-1)
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const message = error.response.data.message
         setErrorMessage(message)
-        toast.error(message)
+        toast.error("Email hoặc mật khẩu không đúng")
       } else {
         console.error('Login failed:', error)
       }
