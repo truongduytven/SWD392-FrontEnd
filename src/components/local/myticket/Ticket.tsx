@@ -1,5 +1,3 @@
-import React, { useState } from 'react'
-import { Sprout } from 'lucide-react'
 import { Button } from '@/components/global/atoms/button'
 import {
   Dialog,
@@ -11,14 +9,14 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/global/atoms/dialog'
-import { Input } from '@/components/global/atoms/input'
-import { Label } from '@/components/global/atoms/label'
-import ModalDetail from './ModalDetail'
 import { calculateDuration } from '@/lib/utils'
+import { Sprout } from 'lucide-react'
+import { useState } from 'react'
+import ModalDetail from './ModalDetail'
 interface TicketProps {
-  date: string,
-  ticketDetailID:string,
-  companyName:string,
+  date: string
+  ticketDetailID: string
+  companyName: string
   startTime: string
   endTime: string
   locationTo: string
@@ -28,21 +26,7 @@ interface TicketProps {
   priceService: number
   status: string
 }
-const ticketInfo = {
-  username: "John Doe",
-  operator: "Example Bus Co.",
-  departureTime: "10:00 AM",
-  arrivalTime: "1:00 PM",
-  from: "City A",
-  to: "City B",
-  seatCode: "A12",
-  fare: 25,
-  serviceFee: 5,
-  serviceDetails: [
-    { name: "WiFi", station: "Any", price: 2 },
-    { name: "Refreshment", station: "Any", price: 3 }
-  ]
-};
+
 function Ticket({
   date,
   ticketDetailID,
@@ -106,7 +90,7 @@ function Ticket({
                   <p className='m-0 p-0'>
                     <span className='font-bold mr-2 text-lg'>{startTime}</span>
                   </p>
-                  <p className='text-muted-foreground'>{calculateDuration(startTime,endTime)}</p>
+                  <p className='text-muted-foreground'>{calculateDuration(startTime, endTime)}</p>
                   <p>
                     <span className='font-bold mr-2 text-lg'>{endTime}</span>
                   </p>
@@ -143,7 +127,11 @@ function Ticket({
           >
             <Dialog>
               <DialogTrigger asChild>
-                <div className='flex justify-center items-center gap-1 hover:font-bold'> <Sprout />Xem chi tiết</div>
+                <div className='flex justify-center items-center gap-1 hover:font-bold'>
+                  {' '}
+                  <Sprout />
+                  Xem chi tiết
+                </div>
               </DialogTrigger>
               <DialogContent className='sm:max-w-md'>
                 <DialogHeader>
@@ -151,9 +139,7 @@ function Ticket({
                   <DialogDescription>Thông tin chi tiết bao gồm thông tin về vé và dịch vụ (nếu có).</DialogDescription>
                 </DialogHeader>
                 <div className='flex items-start justify-center space-x-2 h-[400px] overflow-y-scroll'>
-                   
                   <ModalDetail ticketDetailID={ticketDetailID} />
-                 
                 </div>
                 <DialogFooter className='sm:justify-end'>
                   <DialogClose asChild>
@@ -164,7 +150,6 @@ function Ticket({
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          
           </div>
         )}
       </div>

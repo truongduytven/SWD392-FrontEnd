@@ -1,19 +1,16 @@
+import { useSearchTicket } from '@/apis/searchTicketAPI'
 import { Button } from '@/components/global/atoms/button'
+import Container from '@/components/global/atoms/container'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/global/atoms/form'
 import { Input } from '@/components/global/atoms/input'
+import Loading from '@/components/local/login/Loading'
 import { searchTicket } from '@/lib/schemas/searchTicket'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { UserRoundSearch, TriangleAlert } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
-import { z } from 'zod'
+import { ArrowLeft, TriangleAlert, UserRoundSearch } from 'lucide-react'
 import { useState } from 'react'
-import Ticket from '@/components/global/organisms/Ticket'
-import Container from '@/components/global/atoms/container'
-import { useSearchTicket } from '@/apis/searchTicketAPI'
-import { ISearchTicket } from '@/types/searchTicket' // Ensure this import is correct
-import Loading from '@/components/local/login/Loading'
+import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
+import { z } from 'zod'
 function SearchTicket() {
   const searchTicketForm = useForm<z.infer<typeof searchTicket>>({
     resolver: zodResolver(searchTicket),

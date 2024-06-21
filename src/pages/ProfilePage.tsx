@@ -122,7 +122,9 @@ function ProfilePage() {
             fullName: user?.fullName,
             avatar: user?.avatar,
             phone: user?.phoneNumber,
-            address: user?.address
+            address: user?.address,
+            pass:"",
+            confirm:""
             // ...profile,
             // role: profile?.role ? profile?.role.roleName : undefined,
           }}
