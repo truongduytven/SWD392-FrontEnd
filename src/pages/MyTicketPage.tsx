@@ -312,7 +312,7 @@ function MyTicketPage() {
           />
         ))}
       </div> */}
-      <div className='mt-4 bg-muted rounded-md'>
+      <div className='mt-4 mb-14 bg-muted rounded-md'>
         {isLoading && (
           <div className='flex items-center justify-center h-40'>
             <Loader />
@@ -331,6 +331,8 @@ function MyTicketPage() {
           activeData.map((ticket, index) => (
             <Ticket
               key={index}
+              ticketDetailID={ticket.ticketDetailID}
+              companyName={ticket.companyName}
               date={ticket.startDate}
               startTime={ticket.startTime}
               endTime={ticket.endTime}

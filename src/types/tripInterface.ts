@@ -29,7 +29,7 @@ export interface ITripData {
 }
 
 export interface ITripSearchData {
-    data: ITripData[],
-    totalPages: number,
+    items: ITripData[],
+    totalCount: number,
 }
 

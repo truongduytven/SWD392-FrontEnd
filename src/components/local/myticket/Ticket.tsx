@@ -16,7 +16,9 @@ import { Label } from '@/components/global/atoms/label'
 import ModalDetail from './ModalDetail'
 import { calculateDuration } from '@/lib/utils'
 interface TicketProps {
-  date: string
+  date: string,
+  ticketDetailID:string,
+  companyName:string,
   startTime: string
   endTime: string
   locationTo: string
@@ -43,6 +45,8 @@ const ticketInfo = {
 };
 function Ticket({
   date,
+  ticketDetailID,
+  companyName,
   startTime,
   endTime,
   locationTo,
@@ -73,7 +77,7 @@ function Ticket({
           <span className='absolute -bottom-6 right-0 transform translate-x-1/2 translate-y-1/2 bg-muted rounded-full p-4'></span>
         </div>
         <div className='flex flex-col justify-center items-center gap-2 ml-3 mr-4 '>
-          <p className='text-lg font-bold text-primary'>Nhà xe: Những con ong</p>
+          <p className='text-lg font-bold text-primary'>Nhà xe: {companyName}</p>
           <div className='flex justify-between items-center gap-16'>
             <div className='flex '>
               <div className='flex justify-center items-center'>
@@ -108,8 +112,8 @@ function Ticket({
                   </p>
                 </div>
                 <div className='flex flex-col h-full justify-between py-0.5'>
-                  <span>• {locationTo}</span>
                   <span>• {locationFrom}</span>
+                  <span>• {locationTo}</span>
                 </div>
               </div>
             </div>

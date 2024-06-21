@@ -122,7 +122,7 @@ console.log("tat ca city from to", dataCityFromTo)
 
               <div className='w-full flex flex-col'>
                 <BadgeList items={items} selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
-                {data?.data.map((item, index) => <CardTrip data={item} />)}
+                {data?.items.map((item, index) => <CardTrip data={item} />)}
 
               </div>
             </div>
