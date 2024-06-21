@@ -86,9 +86,9 @@ function Ticket({
                     <path
                       fill='none'
                       stroke='#484848'
-                      stroke-linecap='round'
+                      strokeLinecap='round'
                       strokeWidth='2'
-                      stroke-dasharray='0 7'
+                      strokeDasharray='0 7'
                       d='M7 13.5v46'
                     ></path>
                     <g fill='none' stroke='#DC2910' strokeWidth='3'>
@@ -152,7 +152,7 @@ function Ticket({
                 </DialogHeader>
                 <div className='flex items-start justify-center space-x-2 h-[400px] overflow-y-scroll'>
                    
-                  <ModalDetail />
+                  <ModalDetail ticketDetailID={ticketDetailID} />
                  
                 </div>
                 <DialogFooter className='sm:justify-end'>

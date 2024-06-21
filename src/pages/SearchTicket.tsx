@@ -115,7 +115,7 @@ function SearchTicket() {
           </div>
         )} */}
         {/* {isLoading && <p>Loading...</p>} */}
-        {data && (
+        {data ? (
           <div>
             <h2 className='text-xl font-bold'>Thông tin vé</h2>
             <p>Giá: {data.price.price}</p>
@@ -137,7 +137,42 @@ function SearchTicket() {
             <img src={data.qrCodeImage} alt='QR Code' />
             <p>Mã Code: {data.qrCode}</p>
           </div>
+        ) : (
+          <div className='flex flex-col justify-center items-center gap-4'>
+            <h1 className='text-lg font-bold'>Tra cứu thất bại</h1>
+            <p className='flex'>
+              <TriangleAlert className='text-red-600 mr-1' />
+              Vé của bạn không được tìm thấy trên hệ thống, vui lòng kiểm tra lại{' '}
+              <span className='font-semibold text-red-600 mx-1'> số điện thoại </span> và
+              <span className='font-semibold text-red-600 mx-1'> mã số vé </span>
+            </p>
+          </div>
         )}
+
+        {/* <div>
+          <h2 className=' text-center mb-4'>Service List</h2>
+          <form method='get' className='mb-4 flex'>
+            <div className=''>
+              <label htmlFor=''>Search Item 1</label>
+              <input type='text' name='SearchString' placeholder='Search...' />
+            </div>
+            <div className=''>
+              <label htmlFor=''>Search Item 2</label>
+
+              <input type='text' name='SearchString' placeholder='Search...' />
+            </div>
+            <div className=''>
+              <label htmlFor=''>Search Item 3 </label>
+
+              <input type='text' name='SearchString' placeholder='Search...' />
+            </div>
+            <div className=''>
+              <button type='submit' className=''>
+                Search
+              </button>
+            </div>
+          </form>
+        </div> */}
       </div>
     </Container>
   )
