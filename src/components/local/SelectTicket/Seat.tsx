@@ -1,32 +1,33 @@
+// Seat.tsx
 import React from 'react';
-import { Seat as SeatType } from '@/constants/SeatData';
 import SeatIcon from '@/assets/selectedSeat.svg';
 import BoughtSeatIcon from '@/assets/boughtseat.svg';
-import NotSoldSeatIcon from '@/assets/notsoldseat.svg';
+import FrontSeatIcon from '@/assets/front_seat.svg';
+import BackSeatIcon from '@/assets/back_seat.svg';
+import MiddleSeatIcon from '@/assets/middle_seat.svg';
 
 interface SeatProps {
-  seat: SeatType;
-  onClick: (seatCode: string) => void;
+  seatCode: string;
+  price: number;
+  onClick: (seatCode: string, price: number) => void;
   selected: boolean;
+  booked: boolean;
 }
 
-const Seat: React.FC<SeatProps> = ({ seat, onClick, selected }) => {
-  const { seatCode, status } = seat;
-
+const Seat: React.FC<SeatProps> = ({ seatCode, price, onClick, selected, booked }) => {
   let SeatSvg;
-  if (status === 'bought') {
+  seatCode.startsWith('A') ? SeatSvg = FrontSeatIcon : seatCode.startsWith('B') ? SeatSvg = MiddleSeatIcon : SeatSvg = BackSeatIcon;
+  if (booked) {
     SeatSvg = BoughtSeatIcon;
-  } else if (status === 'notsold' && !selected) {
-    SeatSvg = NotSoldSeatIcon;
-  } else {
+  } else if (selected) {
     SeatSvg = SeatIcon;
   }
 
   return (
     <button
-      className={`relative w-10 h-10 m-2 flex items-center justify-center rounded-md ${status === 'bought' && 'cursor-not-allowed'}`}
-      onClick={() => onClick(seatCode)}
-      disabled={status === 'bought'}
+      className={`relative w-10 h-10 m-2 flex items-center justify-center rounded-md ${booked && 'cursor-not-allowed'}`}
+      onClick={() => onClick(seatCode, price)}
+      disabled={booked}
     >
       <img src={SeatSvg} className="w-full h-full" alt={seatCode} />
       <span className="absolute inset-0 flex items-center justify-center text-xs text-white font-bold">
