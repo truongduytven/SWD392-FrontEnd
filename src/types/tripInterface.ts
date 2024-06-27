@@ -15,6 +15,7 @@ export interface ITripSearchForm {
 
 export interface ITripData {
     tripID: string,
+    templateID:string,
     companyName: string,
     imageUrl: string,
     averageRating: number,
@@ -28,7 +29,7 @@ export interface ITripData {
 }
 
 export interface ITripSearchData {
-    data: ITripData[],
-    totalPages: number,
+    items: ITripData[],
+    totalCount: number,
 }
 

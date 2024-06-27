@@ -21,10 +21,11 @@ export const signUpSchema = z
        
 		password: z
 			.string()
-			.min(8, {
+			.min(5, {
 				message:
-					'Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự.Yêu cầu bao gồm: 1 chữ hoa (A-Z) 1 chữ thường (a-z) 1 số (0-9) 1 ký tự đặc biệt(_, #, ?, !, @, $, %, ^, &, *, -)',
+					'Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 5 ký tự.Yêu cầu bao gồm: 1 chữ hoa (A-Z) 1 chữ thường (a-z) 1 số (0-9) 1 ký tự đặc biệt(_, #, ?, !, @, $, %, ^, &, *, -)',
 			})
+			.max(10, "Mật khẩu tối đa 10 kí tự")
 			.regex(
 				/^(?!.*(.)\1{2,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[_#?!@$%^&*\\-])[A-Za-z0-9_#?!@$%^&*\\-]{8,}$/,
 				{

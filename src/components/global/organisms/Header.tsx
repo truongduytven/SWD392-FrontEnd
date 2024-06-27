@@ -1,7 +1,5 @@
 import LogoFull from '@/assets/LogoFull.png'
-import { Link } from 'react-router-dom'
-import Container from '../atoms/container'
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '../atoms/navigation-menu'
+import { useAuth } from '@/auth/AuthProvider'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +9,14 @@ import {
   DropdownMenuTrigger
 } from '@/components/global/atoms/dropdown-menu'
 import { BookUser, LogOut, Ticket } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import Container from '../atoms/container'
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '../atoms/navigation-menu'
 function Header() {
+  const { user, token, logout } = useAuth()
+  const avatarSrc = user?.avatar
+    ? user.avatar
+    : 'https://symbols.vn/wp-content/uploads/2022/02/Hinh-Canh-Cut-Cute-Chibi-dang-yeu.png'
   return (
     <header className='w-full shadow-md fixed top-0 z-50 bg-white'>
       <Container>
@@ -58,48 +63,51 @@ function Header() {
             </Link>
           </div>
           <div className='flex-1 text-right'>
-            <Link to='/login'>
-              <button className='text-black rounded-md font-medium hover:before:bg-redborder-red-500 relative h-fit py-2 w-fit overflow-hidden bg-white px-3 transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-orange-500 before:transition-all before:duration-500 hover:text-white hover:before:left-0 hover:before:w-full'>
-                <p className='relative z-10'> Đăng ký/Đăng nhập</p>
-              </button>
-            </Link>
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <img
-                className='h-10 w-10 cursor-pointer rounded-full object-cover border-2 border-primary hover:border-tertiary'
-                src='https://symbols.vn/wp-content/uploads/2022/02/Hinh-Canh-Cut-Cute-Chibi-dang-yeu.png'
-                alt='avatar'
-              />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className='w-fit'>
-              <DropdownMenuLabel className='py-0'>ThuongMinhlsr</DropdownMenuLabel>
-              <DropdownMenuItem className='py-0 text-xs' disabled>
-                thuongminhlsr@gmail.com
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <Link to='/profile'>
-                <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
-                  <BookUser className='w-5' />
-                  Hồ sơ người dùng
-                </DropdownMenuItem>
-              </Link>
-              <Link to='/myticket'>
-                <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
-                  <Ticket className='w-5' />
-                  Vé của tôi
-                </DropdownMenuItem>
-              </Link>
-              <DropdownMenuSeparator />
+            {token ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger className='float-right' asChild>
+                  <img
+                    className='h-10 w-10 cursor-pointer rounded-full object-cover border-2 border-primary hover:border-tertiary'
+                    src={avatarSrc}
+                    alt='avatar'
+                  />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className='w-fit'>
+                  <DropdownMenuLabel className='py-0'>{user?.userName}</DropdownMenuLabel>
+                  <DropdownMenuItem className='py-0 text-xs' disabled>
+                    {user?.email}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <Link to='/profile'>
+                    <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
+                      <BookUser className='w-5' />
+                      Hồ sơ người dùng
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link to={`/myticket/${user?.userID}`}>
+                    <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
+                      <Ticket className='w-5' />
+                      Vé của tôi
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuSeparator />
 
-              <Link to='/'>
-                <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
-                  <LogOut className='w-5' />
-                  Đăng xuất
-                </DropdownMenuItem>
+                  <Link to='/'>
+                    <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer' onClick={logout}>
+                      <LogOut className='w-5' />
+                      Đăng xuất
+                    </DropdownMenuItem>
+                  </Link>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to='/login'>
+                <button className='text-black rounded-md font-medium hover:before:bg-redborder-red-500 relative h-fit py-2 w-fit overflow-hidden bg-white px-3 transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-orange-500 before:transition-all before:duration-500 hover:text-white hover:before:left-0 hover:before:w-full'>
+                  <p className='relative z-10'> Đăng ký/Đăng nhập</p>
+                </button>
               </Link>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            )}
+          </div>
         </div>
       </Container>
     </header>

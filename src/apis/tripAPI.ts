@@ -8,7 +8,7 @@ export const useGetCitySearchForm = () => {
     return useQuery<ITripSearchForm>({
       queryKey: ["citySearchForm"],
       queryFn: async () => {
-        const { data } = await busAPI.get<ITripSearchForm>("/city/from-cities-to-cities")
+        const { data } = await busAPI.get<ITripSearchForm>("/route-management/managed-routes")
         return data
       }
     })
@@ -25,7 +25,7 @@ export const useGetTripSearchForm = (searchData: SearchData) => {
     }
     const pageNumber = 1
     const totalPages = 10
-    const { data } = await busAPI.get<ITripSearchData>(`/trip/list-trip-fromCity-toCity/${postData.startLocaion}/${postData.endLocaion}/${postData.startDate}/${pageNumber}/${totalPages}`)
+    const { data } = await busAPI.get<ITripSearchData>(`/trip-management/managed-trips/from-city/${postData.startLocaion}/to-city/${postData.endLocaion}/start-time/${postData.startDate}/page-number/${pageNumber}/page-size/${totalPages}`)
     return data
     }
   })
