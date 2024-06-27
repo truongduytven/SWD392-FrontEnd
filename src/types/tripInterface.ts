@@ -14,22 +14,25 @@ export interface ITripSearchForm {
 }
 
 export interface ITripData {
-    tripID: string,
-    templateID:string,
-    companyName: string,
-    imageUrl: string,
-    averageRating: number,
-    quantityRating: number,
-    startLocation: string,
-    endLocation:  string,
-    startTime: string,
-    endTime: string,
-    emptySeat: number,
-    price: number,
+    TripID: string,
+    RouteID: string,
+    TemplateID:string,
+    CompanyName: string,
+    ImageUrl: string,
+    AverageRating: number,
+    QuantityRating: number,
+    StartLocation: string,
+    EndLocation:  string,
+    StartDate: string,
+    EndDate: string,
+    StartTime: string,
+    EndTime: string,
+    EmptySeat: number,
+    Price: number,
 }
 
 export interface ITripSearchData {
-    items: ITripData[],
-    totalCount: number,
+    Items: ITripData[],
+    TotalCount: number,
 }
 

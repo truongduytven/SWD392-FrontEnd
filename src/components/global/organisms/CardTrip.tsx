@@ -53,8 +53,8 @@ function CardTrip({ data }: ITripDataProps) {
     error: pictureDetailsError,
     refetch: refetchPictureDetails
   } = useQuery({
-    queryKey: ['tripPictureDetails', data.tripID],
-    queryFn: () => fetchTripPictureDetails(data.tripID),
+    queryKey: ['tripPictureDetails', data.TripID],
+    queryFn: () => fetchTripPictureDetails(data.TripID),
     enabled: false
   })
   const {
@@ -63,8 +63,8 @@ function CardTrip({ data }: ITripDataProps) {
     error: utilityDetailsError,
     refetch: refetchUtilityDetails
   } = useQuery({
-    queryKey: ['tripUtilityDetails', data.tripID],
-    queryFn: () => fetchTripUtilitDetails(data.tripID),
+    queryKey: ['tripUtilityDetails', data.TripID],
+    queryFn: () => fetchTripUtilitDetails(data.TripID),
     enabled: false
   })
   const {
@@ -73,8 +73,8 @@ function CardTrip({ data }: ITripDataProps) {
     error: routeDetailsError,
     refetch: refetchRouteDetails
   } = useQuery({
-    queryKey: ['tripRouteDetails', data.tripID],
-    queryFn: () => fetchTripRouteDetails(data.tripID),
+    queryKey: ['tripRouteDetails', data.TripID],
+    queryFn: () => fetchTripRouteDetails(data.TripID),
     enabled: false
   })
   const {
@@ -83,20 +83,20 @@ function CardTrip({ data }: ITripDataProps) {
     error: ratingDetailsError,
     refetch: refetchRatingDetails
   } = useQuery({
-    queryKey: ['tripRatingDetails', data.templateID,selectedRatingValue],
-    queryFn: () => fetchTripRatingDetails(data.templateID,selectedRatingValue),
+    queryKey: ['tripRatingDetails', data.TemplateID,selectedRatingValue],
+    queryFn: () => fetchTripRatingDetails(data.TemplateID,selectedRatingValue),
     enabled: false
   })
 
   const handleTriggerPictureClick = () => {
-    navigate(`/search?trip/trip-picture-detail=${data.tripID}`)
+    navigate(`/search?trip/trip-picture-detail=${data.TripID}`)
     setIsDetailsPictureOpen(!isDetailsPictureOpen)
     if (!isDetailsPictureOpen) {
       refetchPictureDetails()
     }
   }
   const handleTriggerUtilitiClick = () => {
-    navigate(`/search?utility/trip/${data.tripID}`)
+    navigate(`/search?utility/trip/${data.TripID}`)
 
     setIsDetailsUtility(!isDetailsUtility)
     if (!isDetailsUtility) {
@@ -104,7 +104,7 @@ function CardTrip({ data }: ITripDataProps) {
     }
   }
   const handleTriggerRouteClick = () => {
-    navigate(`/search?station/stations-from-trip=${data.tripID}`)
+    navigate(`/search?station/stations-from-trip=${data.TripID}`)
 
     setIsDetailsRoute(!isDetailsRoute)
     if (!isDetailsRoute) {
@@ -112,7 +112,7 @@ function CardTrip({ data }: ITripDataProps) {
     }
   }
   const handleTriggerRatingClick = () => {
-    navigate(`/search?rating/feedback-in-trip/${data.tripID}/0?pageNumber=1&pageSize=5`)
+    navigate(`/search?rating/feedback-in-trip/${data.TripID}/0?pageNumber=1&pageSize=5`)
 
     setIsDetailsRating(!isDetailsRating)
     if (!isDetailsRating) {
@@ -126,19 +126,19 @@ function CardTrip({ data }: ITripDataProps) {
           <div className='w-1/5 min-w-48 relative  overflow-hidden bg-cover bg-no-repeat'>
             <img
               className='w-full h-full  rounded-sm transition duration-300 ease-in-out hover:scale-110 '
-              src={data.imageUrl}
-              alt={data.companyName}
+              src={data.ImageUrl}
+              alt={data.CompanyName}
             />
           </div>
           <div className=' w-full flex flex-col gap-1'>
             <div className='text-lg font-bold flex justify-between'>
-              <p>{data.companyName}</p>
-              <p className='text-tertiary text-xl'>Từ {formatPrice(data.price)}</p>
+              <p>{data.CompanyName}</p>
+              <p className='text-tertiary text-xl'>Từ {formatPrice(data.Price)}</p>
             </div>
             {/* <p className='text-muted-foreground'>Limousine 24 phòng đôi</p> */}
             <p className='flex item-center justify-start gap-1'>
-              {data.averageRating}/5
-              <Star className='w-5 text-yellow-500' fill='orange' />({data.quantityRating} đánh giá)
+              {data.AverageRating}/5
+              <Star className='w-5 text-yellow-500' fill='orange' />({data.QuantityRating} đánh giá)
             </p>
             <div className='flex justify-between items-end '>
               <div className='flex gap-3 justify-center items-center'>
@@ -165,11 +165,11 @@ function CardTrip({ data }: ITripDataProps) {
 
                 <div className='flex flex-col items-start justify-between gap-1 '>
                   <p className='m-0 p-0 '>
-                    <span className='font-bold mr-2 text-sm'>{data.startTime}</span>• {data.startLocation}
+                    <span className='font-bold mr-2 text-sm'>{data.StartTime}</span>• {data.StartLocation}
                   </p>
-                  <p className='text-muted-foreground text-sm'>{calculateDuration(data.startTime, data.endTime)}</p>
+                  <p className='text-muted-foreground text-sm'>{calculateDuration(data.StartTime, data.EndTime)}</p>
                   <p>
-                    <span className='font-bold mr-2 text-sm'>{data.endTime}</span>• {data.endLocation}
+                    <span className='font-bold mr-2 text-sm'>{data.EndTime}</span>• {data.EndLocation}
                   </p>
                 </div>
               </div>
@@ -182,7 +182,7 @@ function CardTrip({ data }: ITripDataProps) {
                 </AccordionTrigger>
               </div>
               <div className='flex flex-col justify-end items-center gap-3'>
-                <p>Còn trống {data.emptySeat} chỗ</p>
+                <p>Còn trống {data.EmptySeat} chỗ</p>
                 <Button onClick={handleSubmit}>Chọn chuyến</Button>
               </div>
             </div>
@@ -196,7 +196,7 @@ function CardTrip({ data }: ITripDataProps) {
               <TabsTrigger
                 className=''
                 value='hinhanh'
-                onClick={() => navigate(`/search?trip/trip-picture-detail=${data.tripID}`)}
+                onClick={() => navigate(`/search?trip/trip-picture-detail=${data.TripID}`)}
               >
                 Hình ảnh
               </TabsTrigger>
@@ -243,7 +243,7 @@ function CardTrip({ data }: ITripDataProps) {
 
             <TabsContent value='danhgia'>
               <RatingDetailLayout
-              tripID={data.tripID}
+              tripID={data.TripID}
                 tripRatingDetails={tripRatingDetails}
                 error={ratingDetailsError}
                 isLoading={ratingDetailsLoading}

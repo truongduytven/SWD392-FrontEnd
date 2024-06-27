@@ -122,7 +122,7 @@ function SearchPage() {
 
               <div className='w-full flex flex-col'>
                 <BadgeList items={items} selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
-                {data?.items.map((item, index) => <CardTrip data={item} />)}
+                {data?.Items.map((item, index) => <CardTrip key={index} data={item} />)}
               </div>
             </div>
           </>
