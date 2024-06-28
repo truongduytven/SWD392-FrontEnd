@@ -135,6 +135,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   const logout = () => {
+    toast.success("Đăng xuất thành công")
+
     setToken(null)
     setUser(null)
     localStorage.removeItem('token')

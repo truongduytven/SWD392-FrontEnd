@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <AuthProvider>
         <SearchProvider>
           <InvoiceProvider>
-            <Toaster richColors position='top-right' />
+            <Toaster richColors position='top-right' duration={1000} />
             <App />
           </InvoiceProvider>
         </SearchProvider>
