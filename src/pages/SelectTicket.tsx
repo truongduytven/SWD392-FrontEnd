@@ -48,7 +48,7 @@ function SelectTicket() {
         </div>
         <div className='flex justify-evenly'>
           <div className='border w-7/12 rounded-xl shadow-md'>
-            <ChooseSeatCode />
+            {data && <ChooseSeatCode data={data}/>}
           </div>
           <div className='flex flex-col space-y-10 w-4/12'>
             <InvoiceDetail />

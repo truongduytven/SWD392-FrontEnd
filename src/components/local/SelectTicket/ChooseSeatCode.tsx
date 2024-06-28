@@ -1,8 +1,12 @@
 import SeatLayout from "@/components/local/SelectTicket/SeatCodeLayout"
-import { defaultSeats } from "@/constants/SeatData"
 import { formatPrice } from "@/lib/utils"
+import { ITicketData } from "@/types/ticketInterface";
 
-function ChooseSeatCode() {
+interface ChooseSeatCodeProps {
+  data: ITicketData,
+}
+
+function ChooseSeatCode({ data }: ChooseSeatCodeProps) {
   const Colors = ['bg-tertiary', 'bg-pink-400', 'bg-blue-400']
   return (
     <div className='flex justify-around p-4 h-full'>
@@ -15,15 +19,15 @@ function ChooseSeatCode() {
           <div className='h-5 w-5 rounded-sm bg-red-500' />
           <span>Đang chọn</span>
         </div>
-        {defaultSeats.map((seat, index) => (
+        {data.ticketType_TripModels.map((seat, index) => (
           <div key={index} className='flex items-center space-x-3 text-sm'>
             <div className={`h-5 w-5 rounded-sm ${Colors[index]}`} />
-            <span>{seat.TicketTypeName === 'front' ? 'Hàng trên' : seat.TicketTypeName === 'back' ? 'Hàng cuối' : 'Hàng giữa'} - {formatPrice(seat.price)}</span>
+            <span>{seat.ticketName} - {formatPrice(seat.price)}</span>
           </div>
         ))}
       </div>
       <div className="flex justify-evenly text-center h-full mb-4 space-x-3">
-        <SeatLayout />
+        {data && <SeatLayout tripModels={data.ticketType_TripModels}/>}
       </div>
     </div>
   )

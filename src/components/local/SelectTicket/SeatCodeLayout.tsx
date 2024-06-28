@@ -6,12 +6,18 @@ import { defaultSeats } from '@/constants/SeatData';
 import { ticket } from '@/types/invoiceData';
 import { toast } from 'sonner';
 import { JSX } from 'react/jsx-runtime';
+import { useGetTripData } from '@/apis/ticketAPI';
+import { ITicketModels } from '@/types/ticketInterface';
 
 const booking = ["A01", "A02", "A03", "A04", "A05", "A06", "A07"];
+interface SeatLayoutProps {
+  tripModels: ITicketModels
+}
 
-const SeatLayout: React.FC = () => {
+function SeatLayout({ tripModels }: SeatLayoutProps) {
   const { invoiceData, updateTickets } = useInvoice();
   const [selectedSeats, setSelectedSeats] = useState<ticket[]>(invoiceData.tickets);
+  const { data } = useGetTripData({ tripID: invoiceData.tripID });
 
   const handleSeatClick = (seatCode: string, price: number) => {
     if (selectedSeats.find((ticket) => ticket.seatCode === seatCode)) {
@@ -41,8 +47,8 @@ const SeatLayout: React.FC = () => {
   const renderSeats = () => {
     const seats: JSX.Element[] = [];
 
-    defaultSeats.forEach((seat) => {
-      const prefix = seat.TicketTypeName === 'front' ? 'A' : seat.TicketTypeName === 'back' ? 'C' : 'B';
+    data?.ticketType_TripModels.forEach((seat) => {
+      const prefix = seat.ticketName === 'Hàng đầu' ? 'A' : seat.ticketName === 'Hàng sau' ? 'C' : 'B';
       
       for (let i = 1; i <= seat.quantity; i++) {
         const seatCode = `${prefix}${i.toString().padStart(2, '0')}`;
