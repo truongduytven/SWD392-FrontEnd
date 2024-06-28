@@ -2,6 +2,10 @@ import { InvoiceData, Service, ticket } from '@/types/invoiceData';
 import { createContext, useContext, useState } from 'react';
 
 const defaultInvoiceData: InvoiceData = {
+  userID: '',
+  tripID: '',
+  companyName: '',
+  isBalance: false,
   startLocation: 'Bx.Miền Tây',
   endLocation: 'Bến Tre - Trà Vinh',
   timeStart: new Date('2023-05-23T07:00:00'),
@@ -13,6 +17,8 @@ interface InvoiceContextType {
   invoiceData: InvoiceData;
   updateTickets: (tickets: ticket[]) => void;
   updateTicketServices: (seatCode: string, updatedServices: Service[]) => void;
+  updateUserIDTripID: (userID: string | undefined, tripID: string , companyName: string) => void;
+  updateInvoiceData: (startLocation: string, endLocation: string, timeStart: Date) => void;
 }
 
 const InvoiceContext = createContext<InvoiceContextType | undefined>(undefined);
@@ -62,8 +68,29 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }));
   };
 
+  const updateUserIDTripID = (userID: string | undefined, tripID: string , companyName: string) => {
+    if(userID === undefined) {
+      userID = '';
+    }
+    setInvoiceData((prevData) => ({
+      ...prevData,
+      userID: userID,
+      tripID: tripID,
+      companyName: companyName,
+    }));
+  }
+
+  const updateInvoiceData = (startLocation: string, endLocation: string, timeStart: Date) => {
+    setInvoiceData((prevData) => ({
+      ...prevData,
+      startLocation: startLocation ?? prevData.startLocation,
+      endLocation: endLocation ?? prevData.endLocation,
+      timeStart: timeStart ?? prevData.timeStart,
+    }));
+  };  
+
   return (
-    <InvoiceContext.Provider value={{ invoiceData, updateTickets, updateTicketServices }}>
+    <InvoiceContext.Provider value={{ invoiceData, updateTickets, updateTicketServices, updateInvoiceData, updateUserIDTripID }}>
       {children}
     </InvoiceContext.Provider>
   );

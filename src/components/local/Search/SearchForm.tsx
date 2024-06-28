@@ -30,8 +30,8 @@ console.log("object",data)
   useEffect(() => {
     if (data) {
       form.reset({
-        startLocation: searchData.startLocation || data?.fromCities[0]?.cityID.toString(),
-        endLocation: searchData.endLocation || data?.toCities[0]?.cityID.toString(),
+        startLocation: searchData.startLocation || data?.FromCities[0]?.CityID.toString(),
+        endLocation: searchData.endLocation || data?.ToCities[0]?.CityID.toString(),
         startDate: searchData.startDate
       })
     }
@@ -61,9 +61,9 @@ console.log("object",data)
                           <SelectValue placeholder='Chọn địa điểm' />
                         </SelectTrigger>
                         <SelectContent>
-                          {data?.fromCities.map((city, index) => (
-                            <SelectItem key={index} value={city.cityID.toString()}>
-                              {city.cityName}
+                          {data?.FromCities.map((city, index) => (
+                            <SelectItem key={index} value={city.CityID.toString()}>
+                              {city.CityName}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -88,9 +88,9 @@ console.log("object",data)
                           <SelectValue placeholder='Chọn địa điểm' />
                         </SelectTrigger>
                         <SelectContent>
-                          {data?.toCities.map((city, index) => (
-                            <SelectItem key={index} value={city.cityID.toString()}>
-                              {city.cityName}
+                          {data?.ToCities.map((city, index) => (
+                            <SelectItem key={index} value={city.CityID.toString()}>
+                              {city.CityName}
                             </SelectItem>
                           ))}
                         </SelectContent>

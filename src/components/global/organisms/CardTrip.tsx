@@ -13,6 +13,8 @@ import RatingDetailLayout from '../molecules/RatingDetailLayout'
 import UtilitiesTab from '@/components/local/TabCardTrip/UtilitiesTab'
 import RouteTrip from '@/components/local/TabCardTrip/RouteTrip'
 import { da } from 'date-fns/locale'
+import { useAuth } from '@/auth/AuthProvider'
+import { useInvoice } from '@/contexts/InvoiceContext'
 interface ITripDataProps {
   data: ITripData
 }
@@ -24,9 +26,12 @@ function CardTrip({ data }: ITripDataProps) {
   const [isDetailsRating, setIsDetailsRating] = useState(false)
   const [selectedRatingValue, setSelectedRatingValue] = useState('0')
   const queryClient = useQueryClient()
+  const { user } = useAuth()
+  const { updateUserIDTripID } = useInvoice()
 
   const navigate = useNavigate()
   const handleSubmit = () => {
+    updateUserIDTripID(user?.userID, data.TripID, data.CompanyName)
     navigate('/selectTicket')
   }
 
