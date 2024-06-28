@@ -6,12 +6,14 @@ import { Input } from '@/components/global/atoms/input'
 import Loading from '@/components/local/login/Loading'
 import { searchTicket } from '@/lib/schemas/searchTicket'
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 import { ArrowLeft, TriangleAlert, UserRoundSearch } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 function SearchTicket() {
+ 
   const searchTicketForm = useForm<z.infer<typeof searchTicket>>({
     resolver: zodResolver(searchTicket),
     defaultValues: {
@@ -20,10 +22,12 @@ function SearchTicket() {
     }
   })
 
-  const { data, isLoading, isError, refetch } = useSearchTicket(searchTicketForm.getValues())
+  
 
+  const { data, isLoading, isError, refetch } = useSearchTicket(searchTicketForm.getValues())
+  console.log(searchTicketForm.getValues())
   function onSubmitLogin(values: z.infer<typeof searchTicket>) {
-    refetch()
+    refetch({ email: values.email, qrCode: values.qrCode });
     console.log(values)
   }
 
@@ -112,7 +116,7 @@ function SearchTicket() {
           </div>
         )} */}
         {/* {isLoading && <p>Loading...</p>} */}
-        {data ? (
+        {data?.price ? (
           <div>
             <h2 className='text-xl font-bold'>Thông tin vé</h2>
             <p>Giá: {data.price.price}</p>

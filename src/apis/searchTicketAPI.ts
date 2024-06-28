@@ -9,13 +9,18 @@ interface SearchTicketForm {
 }
 
 export const useSearchTicket = ({ email, qrCode }: SearchTicketForm) => {
+  console.log("hfkhk",email,qrCode)
   return useQuery<ISearchTicket, Error>({
     queryKey: ['searchTicket', email, qrCode], // Provide queryKey as an array
     queryFn: async () => {
-      const { data } = await busAPI.get<ISearchTicket>(`/ticket-detail-management/managed-ticket-details/qrCodes/${qrCode}/emails/${email}`);
+      const newEmail = email.replace(/@/g, '%40')
+      console.log(newEmail)
+      const { data } = await busAPI.get<ISearchTicket>(`/ticket-detail-management/managed-ticket-details/qrCodes/${qrCode}/emails/${newEmail}`);
+      console.log("data owr api,", data)
       return data;
     },
     enabled: false,
+    
   });
 };
 
