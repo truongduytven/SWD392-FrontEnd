@@ -1,16 +1,16 @@
-interface fromCity {
-    cityID: string;
-    cityName: string;
+interface FromCity {
+    CityID: string;
+    CityName: string;
 }
-interface toCity {
-    cityID: string;
-    cityName: string;
+interface ToCity {
+    CityID: string;
+    CityName: string;
 }
 
 
 export interface ITripSearchForm {
-    fromCities: fromCity[],
-    toCities: toCity[],
+    FromCities: FromCity[],
+    ToCities: ToCity[],
 }
 
 export interface ITripData {

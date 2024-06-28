@@ -1,7 +1,11 @@
-export interface InvoiceData {
+export interface  InvoiceData {
+  companyName: string
+  userID: string | undefined
+  tripID: string
+  isBalance: boolean
   startLocation: string
-  endLocation: string
-  timeStart: Date
+  endLocation: string 
+  timeStart: Date 
   tickets: ticket[]
   totalPrice: number
 }

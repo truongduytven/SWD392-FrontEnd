@@ -100,8 +100,8 @@ function SearchPage() {
         {data ? (
           <>
             <h1 className='mt-56  mb-8 text-3xl font-bold text-center '>
-              {findCityNameByID(searchData.startLocation, dataCityFromTo?.fromCities || [])} -{' '}
-              {findCityNameByID(searchData.endLocation, dataCityFromTo?.toCities || [])}
+              {findCityNameByID(searchData.startLocation, dataCityFromTo?.FromCities || [])} -{' '}
+              {findCityNameByID(searchData.endLocation, dataCityFromTo?.ToCities || [])}
             </h1>
             <div className='flex w-full gap-5 main ' id='result'>
               <div className='sticky top-24 slidebar flex flex-col shadow-md border rounded-lg bg-white w-2/5 h-fit'>

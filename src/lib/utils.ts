@@ -48,8 +48,8 @@ export function calculateDuration(startTime:string, endTime:string) {
 }
 
 interface City {
-  cityID: string;
-  cityName: string;
+  CityID: string;
+  CityName: string;
 }
 
 // Define types for arrays
@@ -57,7 +57,7 @@ type CitiesArray = City[];
 
 // Function to find city name by ID
 export function findCityNameByID(cityID: string, cities: CitiesArray): string {
-  const city = cities.find(city => city.cityID === cityID);
-  return city ? city.cityName : "City not found";
+  const city = cities.find(city => city.CityID === cityID);
+  return city ? city.CityName : "City not found";
 }
 
