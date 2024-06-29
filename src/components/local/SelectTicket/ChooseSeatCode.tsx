@@ -21,13 +21,13 @@ function ChooseSeatCode({ data }: ChooseSeatCodeProps) {
         </div>
         {data.ticketType_TripModels.map((seat, index) => (
           <div key={index} className='flex items-center space-x-3 text-sm'>
-            <div className={`h-5 w-5 rounded-sm ${Colors[index]}`} />
+            <div className={`h-5 w-5 rounded-sm ${seat.ticketName === 'Hàng đầu' ? Colors[0] : seat.ticketName === 'Hàng sau' ? Colors[2] : Colors[1]}`} />
             <span>{seat.ticketName} - {formatPrice(seat.price)}</span>
           </div>
         ))}
       </div>
       <div className="flex justify-evenly text-center h-full mb-4 space-x-3">
-        {data && <SeatLayout tripModels={data.ticketType_TripModels}/>}
+        {data && <SeatLayout seatBooked={data.seatBooked} tripModels={data.ticketType_TripModels}/>}
       </div>
     </div>
   )

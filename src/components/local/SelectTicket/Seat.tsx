@@ -9,12 +9,13 @@ import MiddleSeatIcon from '@/assets/middle_seat.svg';
 interface SeatProps {
   seatCode: string;
   price: number;
-  onClick: (seatCode: string, price: number) => void;
+  onClick: (seatCode: string, price: number, ticketType_TripID: string) => void;
   selected: boolean;
   booked: boolean;
+  ticketType_TripID: string;
 }
 
-const Seat: React.FC<SeatProps> = ({ seatCode, price, onClick, selected, booked }) => {
+const Seat: React.FC<SeatProps> = ({ seatCode, price, onClick, selected, booked, ticketType_TripID }) => {
   let SeatSvg;
   seatCode.startsWith('A') ? SeatSvg = FrontSeatIcon : seatCode.startsWith('B') ? SeatSvg = MiddleSeatIcon : SeatSvg = BackSeatIcon;
   if (booked) {
@@ -26,7 +27,7 @@ const Seat: React.FC<SeatProps> = ({ seatCode, price, onClick, selected, booked 
   return (
     <button
       className={`relative w-10 h-10 m-2 flex items-center justify-center rounded-md ${booked && 'cursor-not-allowed'}`}
-      onClick={() => onClick(seatCode, price)}
+      onClick={() => onClick(seatCode, price, ticketType_TripID)}
       disabled={booked}
     >
       <img src={SeatSvg} className="w-full h-full" alt={seatCode} />

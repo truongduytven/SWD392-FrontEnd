@@ -70,6 +70,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           })
           setUser(response.data.result.user)
         } catch (error) {
+          localStorage.removeItem('token')
           console.error('Fetching user information failed:', error)
         }
       }

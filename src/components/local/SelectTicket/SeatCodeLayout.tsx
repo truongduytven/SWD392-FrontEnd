@@ -1,25 +1,22 @@
 // SeatLayout.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Seat from './Seat';
 import { useInvoice } from '@/contexts/InvoiceContext';
-import { defaultSeats } from '@/constants/SeatData';
 import { ticket } from '@/types/invoiceData';
 import { toast } from 'sonner';
 import { JSX } from 'react/jsx-runtime';
-import { useGetTripData } from '@/apis/ticketAPI';
 import { ITicketModels } from '@/types/ticketInterface';
-
-const booking = ["A01", "A02", "A03", "A04", "A05", "A06", "A07"];
 interface SeatLayoutProps {
-  tripModels: ITicketModels
+  tripModels: ITicketModels[]
+  seatBooked: string[]
 }
 
-function SeatLayout({ tripModels }: SeatLayoutProps) {
+function SeatLayout({ tripModels, seatBooked }: SeatLayoutProps) {
   const { invoiceData, updateTickets } = useInvoice();
   const [selectedSeats, setSelectedSeats] = useState<ticket[]>(invoiceData.tickets);
-  const { data } = useGetTripData({ tripID: invoiceData.tripID });
+  tripModels.sort((a, b) => a.ticketName === 'Hàng đầu' ? -1 : a.ticketName === 'Hàng sau' ? 1 : 0);
 
-  const handleSeatClick = (seatCode: string, price: number) => {
+  const handleSeatClick = (seatCode: string, price: number, ticketType_TripID: string) => {
     if (selectedSeats.find((ticket) => ticket.seatCode === seatCode)) {
       let newSelected = selectedSeats.filter((ticket) => ticket.seatCode !== seatCode);
       // const newTickets = newSelected.map((selectedTicket) => {
@@ -34,7 +31,7 @@ function SeatLayout({ tripModels }: SeatLayoutProps) {
       toast.warning('Chỉ được chọn tối đa 5 ghế');
       return;
     } else {
-      let newSelected = [...selectedSeats, { seatCode: seatCode, price: price, services: [] }];
+      let newSelected = [...selectedSeats, { seatCode: seatCode, price: price, ticketType_TripID: ticketType_TripID, services: [] }];
       // const newTickets = newSelected.map((code) => {
       //   const seatService = invoiceData.tickets.find((ticket) => ticket.seatCode === code)!;
       //   return { seatCode: seatCode, price: price, services: (seatService ? seatService.services : []) } as ticket;
@@ -47,7 +44,7 @@ function SeatLayout({ tripModels }: SeatLayoutProps) {
   const renderSeats = () => {
     const seats: JSX.Element[] = [];
 
-    data?.ticketType_TripModels.forEach((seat) => {
+    tripModels.forEach((seat) => {
       const prefix = seat.ticketName === 'Hàng đầu' ? 'A' : seat.ticketName === 'Hàng sau' ? 'C' : 'B';
       
       for (let i = 1; i <= seat.quantity; i++) {
@@ -55,11 +52,12 @@ function SeatLayout({ tripModels }: SeatLayoutProps) {
         seats.push(
           <Seat
             key={seatCode}
+            ticketType_TripID={seat.ticketType_TripID}
             seatCode={seatCode}
             price={seat.price}
             onClick={handleSeatClick}
             selected={Boolean(selectedSeats.find((selectedTicket) => selectedTicket.seatCode === seatCode))}
-            booked={booking.includes(seatCode)}
+            booked={seatBooked.includes(seatCode)}
           />
         );
       }

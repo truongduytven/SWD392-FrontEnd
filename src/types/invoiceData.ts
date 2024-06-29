@@ -5,7 +5,9 @@ export interface  InvoiceData {
   isBalance: boolean
   startLocation: string
   endLocation: string 
-  timeStart: Date 
+  startTime: string
+  startDate: string
+  endTime: string
   tickets: ticket[]
   totalPrice: number
 }
@@ -21,6 +23,7 @@ export interface Service {
 }
 
 export interface ticket {
+  ticketType_TripID: string
   seatCode: string
   price: number
   services: Service[]
