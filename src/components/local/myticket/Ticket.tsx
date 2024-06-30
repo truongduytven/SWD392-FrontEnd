@@ -13,6 +13,8 @@ import { calculateDuration } from '@/lib/utils'
 import { Sprout } from 'lucide-react'
 import { useState } from 'react'
 import ModalDetail from './ModalDetail'
+import { MessageCircleHeart } from 'lucide-react'
+import RatingForm from '@/components/global/organisms/RatingForm'
 interface TicketProps {
   date: string
   ticketDetailID: string
@@ -41,7 +43,7 @@ function Ticket({
   status
 }: TicketProps) {
   const [isHovered, setIsHovered] = useState(false)
-
+  const [showRatingForm, setShowRatingForm] = useState(false)
   return (
     <div
       className='mx-auto w-fit overflow-hidden flex justify-center items-center'
@@ -127,12 +129,21 @@ function Ticket({
           >
             <Dialog>
               <DialogTrigger asChild>
-                <div className='flex justify-center items-center gap-1 hover:font-bold'>
-                  {' '}
-                  <Sprout />
-                  Xem chi tiết
-                </div>
+                  <div className='flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
+                    {' '}
+                    <Sprout />
+                    Xem chi tiết
+                  </div>
               </DialogTrigger>
+              {status === 'ĐÃ SỬ DỤNG' && (
+                <div
+                  onClick={() => setShowRatingForm(true)}
+                  className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'
+                >
+                  <MessageCircleHeart />
+                  Đánh giá
+                </div>
+              )}
               <DialogContent className='sm:max-w-md'>
                 <DialogHeader>
                   <DialogTitle>Thông tin chi tiết vé</DialogTitle>
@@ -153,6 +164,7 @@ function Ticket({
           </div>
         )}
       </div>
+      {showRatingForm && <RatingForm setShowRatingForm={setShowRatingForm}/>}
     </div>
   )
 }

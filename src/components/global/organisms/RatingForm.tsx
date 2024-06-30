@@ -10,7 +10,9 @@ import React, { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
-
+interface RatingFormProps {
+  setShowRatingForm: (show: boolean) => void;
+}
 const rateValueToText = ['Rất tệ', 'Tệ', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
 const suggestedContents = [
   'Rất hài lòng với dịch vụ',
@@ -19,7 +21,7 @@ const suggestedContents = [
   'An toàn, tiện nghi',
   "Nhà vệ sinh sạch sẽ"
 ]
-const RatingForm: React.FC = () => {
+function RatingForm ({ setShowRatingForm }: RatingFormProps)  {
   const [files, setFiles] = useState<File[]>([])
   const [suggestedContent, setSuggestedContent] = useState<string>('')
   const form = useForm<z.infer<typeof ratingSchema>>({
@@ -62,8 +64,8 @@ const RatingForm: React.FC = () => {
     setSuggestedContent(content)
   }
   return (
-    <div className='flex h-screen items-center justify-center py-40'>
-      <div className='fixed inset-0 z-[1000]  flex flex-col justify-center items-center '>
+    <div className='flex h-screen items-center justify-center py-40 '>
+      <div className='fixed inset-0 z-[1000]  flex flex-col justify-center items-center bg-black/70'>
         <div className='w-[500px] bg-background rounded-md p-6 drop-shadow-lg'>
           <div className='text-2xl font-medium text-center mb-4'>Đánh giá chuyến đi</div>
           <Form {...form}>
@@ -174,9 +176,7 @@ const RatingForm: React.FC = () => {
               </div>
 
               <div className='flex justify-end items-center gap-3'>
-                <Link to='/'>
-                  <Button variant='outline'>Trở lại</Button>
-                </Link>
+                  <Button variant='outline' onClick={()=>setShowRatingForm(false)}>Trở lại</Button>
                 <Button type='submit'>Đánh giá</Button>
               </div>
             </form>

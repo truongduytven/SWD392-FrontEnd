@@ -23,6 +23,7 @@ interface TicketData {
   export const userAllTickets = () => {
     
 const userId = useParams()
+console.log("id ne", userId)
     return useQuery<TicketData[], Error>({
       queryKey: ['allTickets'],
       queryFn: async () => {

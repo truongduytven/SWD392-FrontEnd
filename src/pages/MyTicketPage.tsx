@@ -13,10 +13,9 @@ const tabs = [
 function MyTicketPage() {
   const [activeTab, setActiveTab] = useState(1)
   const { data: allTickets = [], isLoading, isError } = userAllTickets()
-  console.log('ve lay tư re', allTickets)
-  const unusedTickets = allTickets.filter((ticket) => ticket.status === 'UNUSED')
-  const usedTickets = allTickets.filter((ticket) => ticket.status === 'USED')
-  const canceledTickets = allTickets.filter((ticket) => ticket.status === 'CANCEL')
+  const unusedTickets = allTickets.filter((ticket) => ticket.status === 'CHƯA SỬ DỤNG')
+  const usedTickets = allTickets.filter((ticket) => ticket.status === 'ĐÃ SỬ DỤNG')
+  const canceledTickets = allTickets.filter((ticket) => ticket.status === 'ĐÃ HỦY')
   const dataMapping: Record<number, typeof allTickets> = {
     1: allTickets,
     2: unusedTickets,
