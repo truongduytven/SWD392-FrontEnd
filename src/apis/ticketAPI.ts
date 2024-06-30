@@ -1,5 +1,5 @@
 import busAPI from "@/lib/busAPI";
-import { ITicketData } from "@/types/ticketInterface";
+import { IService, IStations, ITicketData } from "@/types/ticketInterface";
 import { useQuery } from "@tanstack/react-query";
 
 interface getTripData {
@@ -17,3 +17,27 @@ export const useGetTripData = ({ tripID }: getTripData) => {
       enabled: !!tripID, // Enable the query only when tripID is available
     });
   };
+
+export const useStationData = ({ tripID }: getTripData) => {
+    return useQuery<IStations[]>({
+      queryKey: ['StationData'], // Provide queryKey as an array
+      queryFn: async () => {
+        const { data } = await busAPI.get<IStations[]>(`/station-management/managed-stations/trips/${tripID}`);
+        console.log(data)
+        return data;
+      },
+      enabled: !!tripID,
+    });
+  }
+
+export const useGetServiceWithStation = (stationId: string | null) => {
+    return useQuery<IService[]>({
+      queryKey: ['ServiceData', stationId], // Provide queryKey as an array
+      queryFn: async () => {
+        const { data } = await busAPI.get<IService[]>(`/service-management/managed-services/stations/${stationId}`);
+        console.log(data)
+        return data;
+      },
+      enabled: !!stationId,
+    });
+}

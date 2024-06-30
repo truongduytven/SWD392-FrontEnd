@@ -2,6 +2,7 @@ import { InvoiceData, Service, ticket } from '@/types/invoiceData';
 import { createContext, useContext, useState } from 'react';
 
 const defaultInvoiceData: InvoiceData = {
+  routeID: '',
   userID: '',
   tripID: '',
   companyName: '',
@@ -11,7 +12,16 @@ const defaultInvoiceData: InvoiceData = {
   startTime: '06:00',
   endTime: '09:00',
   startDate: '2021-09-10',
-  tickets: [],
+  tickets: [
+    {
+      ticketType_TripID: '123',
+      seatCode: 'C30',
+      price: 190000,
+      services: [
+        
+      ],
+    }
+  ],
   totalPrice: 0,
 };
 
@@ -19,7 +29,7 @@ interface InvoiceContextType {
   invoiceData: InvoiceData;
   updateTickets: (tickets: ticket[]) => void;
   updateTicketServices: (seatCode: string, updatedServices: Service[]) => void;
-  updateUserIDTripID: (userID: string | undefined, tripID: string, endTime: string) => void;
+  updateUserIDTripID: (userID: string | undefined, tripID: string,routeID: string, endTime: string) => void;
   updateInvoiceData: (startLocation: string, endLocation: string, startTime: string, startDate: string , companyName: string) => void;
 }
 
@@ -70,12 +80,13 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }));
   };
 
-  const updateUserIDTripID = (userID: string | undefined, tripID: string, endTime: string) => {
+  const updateUserIDTripID = (userID: string | undefined, tripID: string, routeID: string, endTime: string) => {
     if(userID === undefined) {
       userID = '';
     }
     setInvoiceData((prevData) => ({
       ...prevData,
+      routeID: routeID,
       userID: userID,
       tripID: tripID,
       endTime: endTime,

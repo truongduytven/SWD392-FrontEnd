@@ -16,6 +16,7 @@ function InfoPayment() {
   const { invoiceData } = useInvoice()
   const [errors, setErrors] = useState({ username: '', phoneNumber: '', email: '' })
   const [infoData, setInfoData] = useState<infoPaymentData>({ username: '', phoneNumber: '', email: '' })
+  console.log(invoiceData)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target
     setInfoData((prevData) => ({

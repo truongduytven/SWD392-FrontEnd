@@ -98,7 +98,9 @@ function SearchPage() {
         </div>
         {/* <h1 className='mt-52 mb-4 text-4xl font-bold'>{searchData.startLocation} - {searchData.endLocation}</h1> */}
         {isPending ? (
-          <Loading />
+          <div className='mt-20'>
+            <Loading />
+          </div>
         ) : (
           data ? (
             <>

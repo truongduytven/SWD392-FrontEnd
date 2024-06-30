@@ -20,9 +20,15 @@ function InvoiceDetail() {
           <span className='font-semibold'>{companyName}</span>
         </div>
         <div className='flex justify-between'>
-          <span>Tuyến xe: </span>
+          <span>Tuyến xe từ: </span>
           <span className='font-semibold'>
-            {startLocation} - {endLocation}
+            {startLocation}
+          </span>
+        </div>
+        <div className='flex justify-between'>
+          <span>Đến: </span>
+          <span className='font-semibold'>
+            {endLocation}
           </span>
         </div>
         <div className='flex justify-between'>

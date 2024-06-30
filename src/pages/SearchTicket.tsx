@@ -118,9 +118,9 @@ function SearchTicket() {
             <p>Giá: {data.price.price}</p>
             <p>Trạm:</p>
             <ul>
-              {data.price.stations.map((station) => (
-                <li key={station.stationName}>
-                  {station.stationName}: {station.price}
+              {data.price.services.map((services) => (
+                <li key={services.serviceName}>
+                  {services.serviceName}: {services.price}
                 </li>
               ))}
             </ul>

@@ -20,7 +20,7 @@ interface ServiceItemProps {
   service: Service
   seatCode: string
   onUpdateService: (service: Service) => void
-  onDeleteService: (serviceId: number, selectedStation: string) => void
+  onDeleteService: (serviceId: string, selectedStation: string) => void
 }
 
 function ServiceItem({ service, onDeleteService, onUpdateService }: ServiceItemProps) {
@@ -35,7 +35,7 @@ function ServiceItem({ service, onDeleteService, onUpdateService }: ServiceItemP
   }
 
   const handleDeleteService = () => {
-    onDeleteService(service.id, service.station)
+    onDeleteService(service.serviceID, service.station)
     toast.success(`Xoá ${service.name} thành công`)
   }
   return (

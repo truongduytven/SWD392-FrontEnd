@@ -2,17 +2,18 @@ import { Card, CardContent, CardFooter } from "@/components/local/SelectService/
 import { ServiceDefault } from "@/constants/SeatData"
 import { formatPrice } from "@/lib/utils"
 import { Service } from "@/types/invoiceData"
+import { IServiceModel } from "@/types/ticketInterface"
 import { toast } from "sonner"
 
 interface ServiceLayoutProps {
   keySearch: string
-  props: ServiceDefault[]
+  props: IServiceModel[]
   selectedStation: string | null
   onAddService: (service: Service) => void
 }
 
 const ServiceLayout = ({ props, selectedStation, onAddService, keySearch }: ServiceLayoutProps) => {
-  const handleCardclick = (service: ServiceDefault) => {
+  const handleCardclick = (service: IServiceModel) => {
     if(selectedStation) {
       const serviceFinal = {...service, station: selectedStation, quantity: 1}
       onAddService(serviceFinal)
