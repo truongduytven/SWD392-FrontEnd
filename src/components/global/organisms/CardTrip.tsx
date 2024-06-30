@@ -25,13 +25,12 @@ function CardTrip({ data }: ITripDataProps) {
   const [isDetailsRoute, setIsDetailsRoute] = useState(false)
   const [isDetailsRating, setIsDetailsRating] = useState(false)
   const [selectedRatingValue, setSelectedRatingValue] = useState('0')
-  const queryClient = useQueryClient()
   const { user } = useAuth()
   const { updateUserIDTripID } = useInvoice()
 
   const navigate = useNavigate()
   const handleSubmit = () => {
-    updateUserIDTripID(user?.userID, data.TripID, data.CompanyName)
+    updateUserIDTripID(user?.userID, data.TripID, data.EndTime)
     navigate('/selectTicket')
   }
 

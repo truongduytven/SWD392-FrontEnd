@@ -1,6 +1,7 @@
 export type ITicketData = {
     tripID: string
     routeID: string
+    companyName: string
     startLocation: string
     endLocation: string
     startTime: string

@@ -10,13 +10,9 @@ import { SearchForm } from '@/components/local/Search/SearchForm'
 import PopularTrip from '../components/local/Home/PopularTrip'
 import { popularTripData } from '@/constants/PopularTrip'
 import CriteriaTags from '@/components/local/Home/CriteriaTags'
-import { useGetCitySearchForm } from '@/apis/tripAPI'
-import Loading from '@/components/global/molecules/Loading'
 import { useNavigate } from 'react-router-dom'
 function HomePage() {
-  const { isPending } = useGetCitySearchForm()
   const navigate = useNavigate()
-  if (isPending) return <Loading />
   return (
     <div>
       <div className='h-[600px]'>
