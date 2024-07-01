@@ -15,9 +15,10 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuL
 import { fetchUserDetail } from '@/apis/userAPI'
 function Header() {
   const { user, token, logout } = useAuth()
+  const { data, isLoading, isError, refetch } = fetchUserDetail(user?.userID || "");
   
-  const avatarSrc = user?.avatar
-    ? user.avatar
+  const avatarSrc = data?.avatar
+    ? data.avatar
     : 'https://symbols.vn/wp-content/uploads/2022/02/Hinh-Canh-Cut-Cute-Chibi-dang-yeu.png'
   return (
     <header className='w-full shadow-md fixed top-0 z-50 bg-white'>
@@ -75,9 +76,9 @@ function Header() {
                   />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-fit'>
-                  <DropdownMenuLabel className='py-0'>{user?.userName}</DropdownMenuLabel>
+                  <DropdownMenuLabel className='py-0'>{data?.userName}</DropdownMenuLabel>
                   <DropdownMenuItem className='py-0 text-xs' disabled>
-                    {user?.email}
+                    {data?.email}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <Link to='/profile'>
@@ -86,7 +87,7 @@ function Header() {
                       Hồ sơ người dùng
                     </DropdownMenuItem>
                   </Link>
-                  <Link to={`/myticket/${user?.userID}`}>
+                  <Link to={`/myticket/${data?.userID}`}>
                     <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
                       <Ticket className='w-5' />
                       Vé của tôi
