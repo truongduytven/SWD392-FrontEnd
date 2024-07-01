@@ -1,3 +1,5 @@
+import { formatPrice } from "@/lib/utils"
+
 interface Station {
   serviceName: string
   price: number
@@ -62,7 +64,7 @@ function Ticket({ price, trip, totalBill, qrCode, qrCodeImage }: TicketProps) {
             <div className='flex flex-col gap-2 items-center'>
               <p className='text-lg font-semibold  mt-4'>
                 Giá vé:
-                <span className='text-xl font-bold text-orange-500 ml-1'>{price.price}</span>
+                <span className='text-xl font-bold text-orange-500 ml-1'>{formatPrice(price.price)}</span>
               </p>
               <p className='text-md font-semibold mt-10'>Giá dịch vụ:</p>
             </div>
@@ -70,7 +72,7 @@ function Ticket({ price, trip, totalBill, qrCode, qrCodeImage }: TicketProps) {
             {price.services.map((service, index) => (
               <div className='flex justify-between text-md gap-2' key={index}>
                 <span className='text-gray-500 mt-6 whitespace-nowrap'>{`${service.serviceName}`}</span>
-                <span className='font-bold text-orange-500 mt-6 whitespace-nowrap'>{`${service.price}`}</span>
+                <span className='font-bold text-orange-500 mt-6 whitespace-nowrap'>{`${formatPrice(service.price)}`}</span>
                 <span className='italic font-semibold mt-6  whitespace-nowrap'>{`Trạm${index + 1}`}</span>
               </div>
              
@@ -110,7 +112,7 @@ function Ticket({ price, trip, totalBill, qrCode, qrCodeImage }: TicketProps) {
               <h1 className='text-lg'>Tổng hóa đơn</h1>
             </div>
             <div>
-              <h1 className='text-lg font-bold'>{totalBill}</h1>
+              <h1 className='text-lg font-bold'>{formatPrice(totalBill)}</h1>
             </div>
             <div className='h-24'>
               <img src={qrCodeImage} alt='QR code' className='h-full' />

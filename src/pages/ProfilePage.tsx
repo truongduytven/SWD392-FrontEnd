@@ -6,34 +6,20 @@ import { useDropzone } from 'react-dropzone';
 import { RuleObject } from 'antd/lib/form';
 import { formatPrice } from '@/lib/utils';
 import { useAuth } from '@/auth/AuthProvider';
-import { fetchUserDetail } from '@/apis/userAPI';
+import { fetchUserDetail, updateUserProfile } from '@/apis/userAPI';
 import Loader from '@/components/local/TabCardTrip/Loader';
 import axios from 'axios';
-
+import { useQueryClient } from '@tanstack/react-query';
 function ProfilePage() {
   const { user } = useAuth();
-  const { data, isLoading, isError } = fetchUserDetail(user?.userID || "");
-  console.log("tui ne", data);
+  const { data, isLoading, isError, refetch } = fetchUserDetail(user?.userID || "");
 
   const [hasChanges, setHasChanges] = useState(false);
   const [form] = Form.useForm();
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const [showPasswordFields, setShowPasswordFields] = useState(false);
-  useEffect(() => {
-    const fetchTickets = async () => {
-      try {
-        const response = await axios.get(
-          `https://ticket-booking-swd392-project.azurewebsites.net/ticket-detail-management/managed-ticket-details/customers/f2ddaf1e-cf45-4bfb-b537-ace42f5b6707`
-        );
-        console.log("hiuhd",response)
-      } catch (err) {
-      } finally {
-      }
-    };
-
-    fetchTickets();
-  }, []);
+  const queryClient = useQueryClient();
   const onDrop = useCallback((acceptedFiles: Array<File>) => {
     const file = acceptedFiles[0];
     const reader = new FileReader();
@@ -52,12 +38,51 @@ function ProfilePage() {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
   });
-
-  const onSubmit = (values: any) => {
+  const fetchAvatarAndConvertToBase64 = async (avatarUrl: string) => {
+    try {
+      const response = await fetch(avatarUrl);
+      console.log("loi",response)
+      if (!response.ok) {
+        throw new Error('Failed to fetch avatar image');
+      }
+  
+      const blob = await response.blob();
+      const reader = new FileReader();
+  
+      return new Promise<string>((resolve, reject) => {
+        reader.onloadend = () => {
+          const base64data = reader.result as string;
+          resolve(base64data);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error('Error fetching avatar image:', error);
+      throw error; // Rethrow the error to handle it elsewhere
+    }
+  };
+  const onSubmit =async (values: any) => {
     const formData = { ...values };
-
-    if (base64Image) {
-      formData.avatar = base64Image;
+    delete formData.email;
+    delete formData.avatar
+    formData.userID= user?.userID
+    // if (base64Image) {
+    //   formData.Avatar = base64Image;
+    // }
+    try {
+      if (!base64Image && data?.avatar) {
+        const base64Avatar = await fetchAvatarAndConvertToBase64(data.avatar);
+        formData.Avatar = base64Avatar;
+      } else if (base64Image) {
+        formData.Avatar = base64Image;
+      }
+  
+      // Your existing code for submitting form data...
+      
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      // Handle error
     }
 
     console.log('Form Data:', formData);
@@ -66,6 +91,16 @@ function ProfilePage() {
       if (formData.hasOwnProperty(key)) {
         console.log(`${key}: ${formData[key]}`);
       }
+    }
+
+    try {
+      await updateUserProfile(formData); // Call your update function here
+      await refetch(); // Fetch updated user details
+      setHasChanges(false);
+      queryClient.invalidateQueries('userDetail'); // Invalidate cache to reflect updated data
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      // Handle error
     }
 
     // Dispatch update action here
@@ -81,7 +116,7 @@ function ProfilePage() {
   };
 
   const validateConfirmPassword = (_rule: RuleObject, value: any) => {
-    const passFieldValue = form.getFieldValue('newPassword');
+    const passFieldValue = form.getFieldValue('NewPassword');
     if (passFieldValue && !value) {
       return Promise.reject('Vui lòng xác nhận mật khẩu');
     }
@@ -142,15 +177,15 @@ function ProfilePage() {
             className="w-full max-w-3xl rounded-lg p-4 shadow-mini-content"
             layout="vertical"
             initialValues={{
-              userName: data?.userName,
+              UserName: data?.userName,
               email: data?.email,
-              passe: data?.password,
-              fullName: data?.fullName,
-              avatar: data?.avatar,
-              phone: data?.phoneNumber,
-              address: data?.address,
-              newPassword: "",
-              confirmPassword: ""
+              Password:"",
+              FullName: data?.fullName,
+              Avatar: data?.avatar,
+              PhoneNumber: data?.phoneNumber,
+              Address: data?.address,
+              NewPassword: "",
+              ConfirmPassword: ""
             }}
           >
             <div className="flex flex-col items-center justify-center">
@@ -195,30 +230,30 @@ function ProfilePage() {
                 </div>
 
                 <Form.Item
-                  name="userName"
+                  name="UserName"
                   label={<span className="font-medium">Tên người dùng</span>}
                   rules={[{ required: true, message: 'Tên người dùng không được bỏ trống' }]}
                 >
                   <Input placeholder="Tên người dùng" />
                 </Form.Item>
                 <Form.Item
-                  name="fullName"
+                  name="FullName"
                   label={<span className="font-medium">Họ và tên</span>}
                   rules={[{ required: true, message: 'Họ và tên không được bỏ trống' }]}
                 >
                   <Input placeholder="Họ và tên" />
                 </Form.Item>
                 <Form.Item
-                  name="address"
+                  name="Address"
                   label={<span className="font-medium">Địa chỉ</span>}
                 >
                   <Input placeholder="Địa chỉ" />
                 </Form.Item>
-                <Form.Item className="hidden" name="avatar" label="Avatar" />
+                <Form.Item className='hidden' name="Avatar" label="Avatar" />
 
                 <Form.Item
-                  name="phone"
-                  label={<span className="font-medium">Phone</span>}
+                  name="PhoneNumber"
+                  label={<span className="font-medium">PhoneNumber</span>}
                   rules={[{ required: true, message: 'Số điện thoại không được bỏ trống' }]}
                 >
                   <Input placeholder="Số điện thoại" />
@@ -231,14 +266,14 @@ function ProfilePage() {
                   {showPasswordFields ? 'Ẩn đổi mật khẩu' : 'Đổi mật khẩu'}
                 </Button>
                 <Form.Item
-                  name="password"
+                  name="Password"
                   label={<span className="font-medium">Mật khẩu cũ</span>}
                   hidden={!showPasswordFields}
                 >
                   <Input.Password placeholder="Nhập mật khẩu cũ" />
                 </Form.Item>
                 <Form.Item
-                  name="newPassword"
+                  name="NewPassword"
                   label={<span className="font-medium">Mật khẩu mới</span>}
                   hidden={!showPasswordFields}
                 >
@@ -246,7 +281,7 @@ function ProfilePage() {
                 </Form.Item>
 
                 <Form.Item
-                  name="confirmPassword"
+                  name="ConfirmPassword"
                   label={<span className="font-medium">Xác nhận mật khẩu</span>}
                   rules={[{ validator: validateConfirmPassword }]}
                   hidden={!showPasswordFields}

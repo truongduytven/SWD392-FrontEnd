@@ -10,9 +10,11 @@ import React, { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
+
 interface RatingFormProps {
   setShowRatingForm: (show: boolean) => void;
 }
+
 const rateValueToText = ['Rất tệ', 'Tệ', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
 const suggestedContents = [
   'Rất hài lòng với dịch vụ',
@@ -21,9 +23,12 @@ const suggestedContents = [
   'An toàn, tiện nghi',
   "Nhà vệ sinh sạch sẽ"
 ]
-function RatingForm ({ setShowRatingForm }: RatingFormProps)  {
+
+function RatingForm ({ setShowRatingForm }: RatingFormProps) {
   const [files, setFiles] = useState<File[]>([])
+  const [base64Files, setBase64Files] = useState<string[]>([])
   const [suggestedContent, setSuggestedContent] = useState<string>('')
+
   const form = useForm<z.infer<typeof ratingSchema>>({
     resolver: zodResolver(ratingSchema),
     defaultValues: { value: 5, content: '', imageUrls: [] }
@@ -32,40 +37,61 @@ function RatingForm ({ setShowRatingForm }: RatingFormProps)  {
   const { handleSubmit, control, setValue, reset } = form
 
   const onSubmit = (data: z.infer<typeof ratingSchema>) => {
-    console.log('Form Data:', data)
-
+    
     const formData = new FormData()
     formData.append('value', data.value.toString())
     formData.append('content', data.content || '')
-
-    files.forEach((file, index) => {
-      formData.append(`files`, file, file.name)
+    
+    base64Files.forEach((base64File, index) => {
+      formData.append('imageUrls', base64File)
     })
+    console.log('Form Data:', data)
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`)
+    }
+    // You can use this formData to send the data to your server using an Axios POST request or any other method.
 
     reset({ value: 5, content: '', imageUrls: [] })
     setFiles([])
+    setBase64Files([])
     setSuggestedContent('')
   }
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || [])
     const newFiles = [...files, ...selectedFiles]
+
     setFiles(newFiles)
     setValue('imageUrls', newFiles)
+
+    selectedFiles.forEach((file) => {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        if (reader.result) {
+          setBase64Files((prev) => [...prev, reader.result as string])
+        }
+      }
+      reader.readAsDataURL(file)
+    })
   }
 
   const removeFile = (index: number) => {
     const newFiles = [...files.slice(0, index), ...files.slice(index + 1)]
+    const newBase64Files = [...base64Files.slice(0, index), ...base64Files.slice(index + 1)]
+
     setFiles(newFiles)
+    setBase64Files(newBase64Files)
     setValue('imageUrls', newFiles)
   }
+
   const handleSuggestedContentClick = (content: string) => {
     setValue('content', content)
     setSuggestedContent(content)
   }
+
   return (
     <div className='flex h-screen items-center justify-center py-40 '>
-      <div className='fixed inset-0 z-[1000]  flex flex-col justify-center items-center bg-black/70'>
+      <div className='fixed inset-0 z-[1000] flex flex-col justify-center items-center bg-black/70'>
         <div className='w-[500px] bg-background rounded-md p-6 drop-shadow-lg'>
           <div className='text-2xl font-medium text-center mb-4'>Đánh giá chuyến đi</div>
           <Form {...form}>
@@ -146,7 +172,7 @@ function RatingForm ({ setShowRatingForm }: RatingFormProps)  {
                     <img className='w-32 h-32 object-cover rounded-2xl' src={URL.createObjectURL(file)} alt='...' />
                     <button
                       type='button'
-                      className='absolute -top-3 -right-3 font-medium  text-white bg-primary rounded-full px-2 py-1 text-xs'
+                      className='absolute -top-3 -right-3 font-medium text-white bg-primary rounded-full px-2 py-1 text-xs'
                       onClick={() => removeFile(index)}
                     >
                       X
@@ -176,7 +202,7 @@ function RatingForm ({ setShowRatingForm }: RatingFormProps)  {
               </div>
 
               <div className='flex justify-end items-center gap-3'>
-                  <Button variant='outline' onClick={()=>setShowRatingForm(false)}>Trở lại</Button>
+                <Button variant='outline' onClick={() => setShowRatingForm(false)}>Trở lại</Button>
                 <Button type='submit'>Đánh giá</Button>
               </div>
             </form>

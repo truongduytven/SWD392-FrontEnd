@@ -59,7 +59,6 @@ function App() {
       {/* <Route path='/login' element={<SignInSignUp />} />
       <Route path='/register' element={<SignInSignUp />} />
       <Route path='/otp-verified' element={<OtpForm />} /> */}
-      <Route path='/rating' element={<RatingForm />} />
       <Route path='*' element={<NotFoundPage />} />
     </Routes>
   )

@@ -31,3 +31,12 @@ export const fetchUserDetail = (userId: string) => {
       }
     });
   };
+  export const updateUserProfile = async (formData: any) => {
+    try {
+      const response = await busAPI.put(`/user-management/managed-users/${formData.userID}`, formData); // Adjust the API endpoint and method as per your backend API
+      return response.data; // Assuming the API returns updated user data
+    } catch (error) {
+      console.log(error)
+      throw new Error('Error updating user profile'); // Handle errors appropriately in your application
+    }
+  };
