@@ -48,7 +48,7 @@ function App() {
         }
       />
       <Route
-        path='/otp-verified'
+        path='/otp-verified/:email'
         element={
           <ProtectedRoute>
             <OtpForm />

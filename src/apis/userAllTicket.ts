@@ -3,8 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/auth/AuthProvider';
 import { useParams } from 'react-router-dom';
 import { error } from 'console';
+
 interface TicketData {
     bookingID: string;
+    userID:string;
+    tripID:string;
     ticketDetailID: string;
     companyName: string;
     startDate: string;

@@ -17,7 +17,9 @@ import { MessageCircleHeart } from 'lucide-react'
 import RatingForm from '@/components/global/organisms/RatingForm'
 interface TicketProps {
   date: string
-  ticketDetailID: string
+  ticketDetailID: string,
+  tripID:string,
+  userID:string,
   companyName: string
   startTime: string
   endTime: string
@@ -32,6 +34,8 @@ interface TicketProps {
 function Ticket({
   date,
   ticketDetailID,
+  tripID,
+  userID,
   companyName,
   startTime,
   endTime,
@@ -164,7 +168,7 @@ function Ticket({
           </div>
         )}
       </div>
-      {showRatingForm && <RatingForm setShowRatingForm={setShowRatingForm}/>}
+      {showRatingForm && <RatingForm userID = {userID} tripID={tripID} setShowRatingForm={setShowRatingForm}/>}
     </div>
   )
 }

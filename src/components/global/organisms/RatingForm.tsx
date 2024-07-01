@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 interface RatingFormProps {
+  tripID:string;
+  userID:string;
   setShowRatingForm: (show: boolean) => void;
 }
 
@@ -24,7 +26,7 @@ const suggestedContents = [
   "Nhà vệ sinh sạch sẽ"
 ]
 
-function RatingForm ({ setShowRatingForm }: RatingFormProps) {
+function RatingForm ({userID, tripID, setShowRatingForm }: RatingFormProps) {
   const [files, setFiles] = useState<File[]>([])
   const [base64Files, setBase64Files] = useState<string[]>([])
   const [suggestedContent, setSuggestedContent] = useState<string>('')
@@ -36,51 +38,46 @@ function RatingForm ({ setShowRatingForm }: RatingFormProps) {
 
   const { handleSubmit, control, setValue, reset } = form
 
-  const onSubmit = (data: z.infer<typeof ratingSchema>) => {
-    
-    const formData = new FormData()
-    formData.append('value', data.value.toString())
-    formData.append('content', data.content || '')
-    
-    base64Files.forEach((base64File, index) => {
-      formData.append('imageUrls', base64File)
-    })
-    console.log('Form Data:', data)
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`)
+   const onSubmit = async (data: z.infer<typeof ratingSchema>) => {
+    try {
+      const formData = new FormData()
+      formData.append('Rating', data.value.toString())
+      formData.append('userID', userID)
+      formData.append('tripID', tripID)
+      formData.append('Description', data.content || '')
+
+      files.forEach((file) => {
+        formData.append('Files', file) // Append file as binary data
+      })
+
+      // Simulate API call with FormData
+      console.log('Form Data:', formData)
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`)
+      }
+
+      // Assuming you have an Axios or fetch call here to send formData to the server
+      // Example:
+      // const response = await axios.post('/api/upload', formData);
+
+      reset({ value: 5, content: '', imageUrls: [] })
+      setFiles([])
+      setSuggestedContent('')
+      setShowRatingForm(false)
+    } catch (error) {
+      console.error('Error submitting rating:', error)
     }
-    // You can use this formData to send the data to your server using an Axios POST request or any other method.
-
-    reset({ value: 5, content: '', imageUrls: [] })
-    setFiles([])
-    setBase64Files([])
-    setSuggestedContent('')
   }
-
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || [])
     const newFiles = [...files, ...selectedFiles]
-
     setFiles(newFiles)
     setValue('imageUrls', newFiles)
-
-    selectedFiles.forEach((file) => {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        if (reader.result) {
-          setBase64Files((prev) => [...prev, reader.result as string])
-        }
-      }
-      reader.readAsDataURL(file)
-    })
   }
 
   const removeFile = (index: number) => {
     const newFiles = [...files.slice(0, index), ...files.slice(index + 1)]
-    const newBase64Files = [...base64Files.slice(0, index), ...base64Files.slice(index + 1)]
-
     setFiles(newFiles)
-    setBase64Files(newBase64Files)
     setValue('imageUrls', newFiles)
   }
 

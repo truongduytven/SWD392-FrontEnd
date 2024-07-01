@@ -65,6 +65,8 @@ function MyTicketPage() {
           activeData.map((ticket, index) => (
             <Ticket
               key={index}
+              tripID={ticket.tripID}
+              userID={ticket.userID}  
               ticketDetailID={ticket.ticketDetailID}
               companyName={ticket.companyName}
               date={ticket.startDate}

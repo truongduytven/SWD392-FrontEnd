@@ -17,9 +17,7 @@ function Header() {
   const { user, token, logout } = useAuth()
   const { data, isLoading, isError, refetch } = fetchUserDetail(user?.userID || "");
   
-  const avatarSrc = data?.avatar
-    ? data.avatar
-    : 'https://symbols.vn/wp-content/uploads/2022/02/Hinh-Canh-Cut-Cute-Chibi-dang-yeu.png'
+  
   return (
     <header className='w-full shadow-md fixed top-0 z-50 bg-white'>
       <Container>
@@ -71,7 +69,7 @@ function Header() {
                 <DropdownMenuTrigger className='float-right' asChild>
                   <img
                     className='h-10 w-10 cursor-pointer rounded-full object-cover border-2 border-primary hover:border-tertiary'
-                    src={avatarSrc}
+                    src={data?.avatar}
                     alt='avatar'
                   />
                 </DropdownMenuTrigger>

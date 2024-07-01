@@ -35,15 +35,10 @@ export const fetchUserDetail = (userId: string) => {
     });
   };
   export const updateUserProfile = async (userId:string,formData: any) => {
-    console.log("tuiiiiii", userId)
-    console.log("vo day")
     try {
       const response = await busAPI.put(`/user-management/managed-users/${userId}`, formData); // Adjust the API endpoint and method as per your backend API
-      console.log("res của update", response)
       return response.data; // Assuming the API returns updated user data
     } catch (error) {
-      console.log(error)
-      console.log("loi ne ma", error)
       throw new Error('Error updating user profile'); // Handle errors appropriately in your application
     }
   };

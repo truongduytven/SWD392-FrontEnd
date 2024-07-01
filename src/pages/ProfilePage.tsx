@@ -9,10 +9,12 @@ import { RuleObject } from 'antd/lib/form'
 import { Key, PiggyBank } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { toast } from 'sonner'
+import Loading from '@/components/local/login/Loading'
 function ProfilePage() {
   const { user } = useAuth()
   const { data, isLoading, isError, refetch } = fetchUserDetail(user?.userID || '')
-
+const [loading, setLoading] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
   const [form] = Form.useForm()
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null)
@@ -39,7 +41,6 @@ function ProfilePage() {
   })
 
   const onSubmit = async (values: any) => {
-    console.log('hskhjh', values.UserName)
     const formData = new FormData()
     formData.append('UserName', values.UserName || data?.userName)
     formData.append('FullName', values.FullName || data?.fullName)
@@ -57,17 +58,23 @@ function ProfilePage() {
 
     try {
       const response = await updateUserProfile(user?.userID || '', formData)
+      setLoading(false)
+      toast.success('Cập nhật profile thành công')
+      
       console.log('Profile updated successfully:', response)
       console.log('Profile updated successfully:', response.data)
       await refetch()
       setHasChanges(false)
       queryClient.invalidateQueries({ queryKey: ['userDetail', user?.userID] })
-    } catch (error) {
+    } catch (error:any) {
+      setLoading(false)
+      toast.error(error.response?.data?.result?.message || 'Mật khẩu cũ không chính xác!');
       console.error('Error updating profile:', error)
     }
   }
 
   const handleFormSubmit = async (values: any) => {
+    setLoading(true)
     await onSubmit(values)
     setHasChanges(false)
   }
@@ -235,15 +242,18 @@ function ProfilePage() {
                   <Input.Password placeholder='Xác nhận mật khẩu' />
                 </Form.Item>
                 <Form.Item className='mb-2 flex justify-center'>
-                  <Button type='dashed' htmlType='submit' disabled={!hasChanges}>
-                    Update Profile
+                  <Button type='dashed' htmlType='submit' className={`${loading ? 'bg-orange-500 text-white' : ''}`} disabled={!hasChanges}>
+                    {loading && <Loading/>}
+                    Cập nhật
                   </Button>
+                
                 </Form.Item>
               </div>
             </div>
           </Form>
         </ConfigProvider>
       </div>
+
     </div>
   )
 }
