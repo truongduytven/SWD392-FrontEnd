@@ -18,20 +18,21 @@ function ProfilePage() {
   const [form] = Form.useForm();
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
   const [base64Image, setBase64Image] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [showPasswordFields, setShowPasswordFields] = useState(false);
   const queryClient = useQueryClient();
   const onDrop = useCallback((acceptedFiles: Array<File>) => {
-    const file = acceptedFiles[0];
+    const droppedFile = acceptedFiles[0];
+    setFile(droppedFile);
     const reader = new FileReader();
 
     reader.onloadend = () => {
       setPreview(reader.result);
-      setBase64Image(reader.result as string);
       setHasChanges(true);
     };
 
-    if (file) {
-      reader.readAsDataURL(file);
+    if (droppedFile) {
+      reader.readAsDataURL(droppedFile); // Read as URL if needed for preview
     }
   }, []);
 
@@ -63,41 +64,59 @@ function ProfilePage() {
     }
   };
   const onSubmit =async (values: any) => {
-    const formData = { ...values };
-    delete formData.email;
-    delete formData.avatar
-    formData.userID= user?.userID
-    // if (base64Image) {
-    //   formData.Avatar = base64Image;
-    // }
-    try {
-      if (!base64Image && data?.avatar) {
-        const base64Avatar = await fetchAvatarAndConvertToBase64(data.avatar);
-        formData.Avatar = base64Avatar;
-      } else if (base64Image) {
-        formData.Avatar = base64Image;
-      }
+  //   const formData = { ...values };
+  //   delete formData.email;
+  //   delete formData.avatar
+  //   if (base64Image) {
+  //     formData.Avatar = base64Image;
+  //   } else{
+  //     formData.Avatar =""
+  //   }
+  //  console.log( form.getFieldValue("Address"))
+  //   const payload = {
+  //     UserName: form.getFieldValue("UserName") || data?.userName,
+  //     FullName: form.getFieldValue("FullName") || data?.fullName,
+  //     Address: form.getFieldValue("Address") || data?.address,
+  //     PhoneNumber: form.getFieldValue("PhoneNumber") || data?.phoneNumber,
+  //     Avatar: base64Image || "",
+  //     Password:form.getFieldValue("Password") ,
+  //     NewPassword:form.getFieldValue("NewPassword"),
+  //     ConfirmPassword:form.getFieldValue("ConfirmPassword")
+  //   };
+  //   console.log("payd", payload)
+  //     console.log('UserName from form:', form.getFieldValue('UserName'));
+  //   console.log('Form Data:', formData);
+
+  //   for (const key in formData) {
+  //     if (formData.hasOwnProperty(key)) {
+  //       console.log(`${key}: ${formData[key]}`);
+  //     }
+  //   }
+  console.log("hskhjh",values.UserName )
+  const formData = new FormData();
+  // Append fields to FormData
+  formData.append("UserName", values.UserName || data?.userName);
+  formData.append("FullName", values.FullName || data?.fullName);
+  formData.append("Address", values.Address || data?.address);
+  formData.append("PhoneNumber", values.PhoneNumber || data?.phoneNumber);
+  formData.append("Password", values.Password);
+  formData.append("NewPassword", values.NewPassword);
+  formData.append("ConfirmPassword", values.ConfirmPassword);
   
-      // Your existing code for submitting form data...
-      
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      // Handle error
-    }
-
-    console.log('Form Data:', formData);
-
-    for (const key in formData) {
-      if (formData.hasOwnProperty(key)) {
-        console.log(`${key}: ${formData[key]}`);
-      }
-    }
-
+  // Append avatar if base64Image exists
+  if (file) {
+    formData.append("Avatar", file);
+  } else {
+    formData.append("Avatar", ""); // Set Avatar as empty string if base64Image is not available
+  }
+   
     try {
-      await updateUserProfile(formData); // Call your update function here
-      await refetch(); // Fetch updated user details
+      const response = await updateUserProfile(user?.userID || "", formData); // Call your update function here
+      console.log('Profile updated successfully:', response);
+      // const response = await axios.put(`https://65a5598f52f07a8b4a3eeb7a.mockapi.io/product/User/2`, payload);
+      console.log('Profile updated successfully:', response.data);
       setHasChanges(false);
-      queryClient.invalidateQueries('userDetail'); // Invalidate cache to reflect updated data
+      // queryClient.invalidateQueries('userDetail'); // Invalidate cache to reflect updated data
     } catch (error) {
       console.error('Error updating profile:', error);
       // Handle error
@@ -107,6 +126,7 @@ function ProfilePage() {
   };
 
   const handleFormSubmit = async (values: any) => {
+    
     await onSubmit(values);
     setHasChanges(false);
   };
@@ -249,7 +269,7 @@ function ProfilePage() {
                 >
                   <Input placeholder="Địa chỉ" />
                 </Form.Item>
-                <Form.Item className='hidden' name="Avatar" label="Avatar" />
+                <Form.Item className='hidden' name="avatar" label="Avatar" />
 
                 <Form.Item
                   name="PhoneNumber"

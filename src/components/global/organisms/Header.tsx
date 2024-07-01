@@ -12,8 +12,10 @@ import { BookUser, LogOut, Ticket } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Container from '../atoms/container'
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '../atoms/navigation-menu'
+import { fetchUserDetail } from '@/apis/userAPI'
 function Header() {
   const { user, token, logout } = useAuth()
+  
   const avatarSrc = user?.avatar
     ? user.avatar
     : 'https://symbols.vn/wp-content/uploads/2022/02/Hinh-Canh-Cut-Cute-Chibi-dang-yeu.png'
