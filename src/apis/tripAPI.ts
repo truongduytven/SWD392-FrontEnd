@@ -1,6 +1,6 @@
 import { SearchData } from '@/contexts/SearchContext'
 import busAPI from '@/lib/busAPI'
-import { ITripSearchData, ITripSearchForm } from '@/types/tripInterface'
+import { IPopularTrip, ITripSearchData, ITripSearchForm } from '@/types/tripInterface'
 import { useQuery } from '@tanstack/react-query'
 import { formatDate } from 'date-fns'
 
@@ -40,3 +40,13 @@ export const useGetTripPictureDetails = (tripId: string) => {
     }
   });
 };
+
+export const useGetPopularTrip = () => {
+  return useQuery<IPopularTrip[]>({
+    queryKey: ['popularTrip'],
+    queryFn: async () => {
+      const { data } = await busAPI.get<IPopularTrip[]>(`/trip-management/manage-trips/populars`);
+      return data;
+    }
+  });
+}
