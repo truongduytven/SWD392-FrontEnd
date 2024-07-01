@@ -6,9 +6,12 @@ import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 // import { useDispatch, useSelector } from 'react-redux'
 import { RuleObject } from 'antd/lib/form'
-
+import { formatPrice } from '@/lib/utils'
 import { Collapse } from 'antd'
+import { useAuth } from '@/auth/AuthProvider'
 function ProfilePage() {
+  const { user } = useAuth()
+
   // const dispatch = useDispatch()
   // const profile = useSelector((state: RootState) => state.user.userDetails)
   // const loading = useSelector((state: RootState) => state.allUser.loading)
@@ -113,13 +116,15 @@ function ProfilePage() {
           className='w-full max-w-3xl rounded-lg p-4 shadow-mini-content'
           layout='vertical'
           initialValues={{
-            userName: 'Thuongminhlsr',
-            email: 'admin@gmail.com',
-            passe: 'abc',
-            fullName: 'Võ Thị Mỹ Tiên',
-            avatar: 'anh ne',
-            phone: '012345679',
-            address: 'Bình Thuận'
+            userName: user?.userName,
+            email: user?.email,
+            passe: user?.password,
+            fullName: user?.fullName,
+            avatar: user?.avatar,
+            phone: user?.phoneNumber,
+            address: user?.address,
+            pass:"",
+            confirm:""
             // ...profile,
             // role: profile?.role ? profile?.role.roleName : undefined,
           }}
@@ -143,27 +148,27 @@ function ProfilePage() {
                     <Avatar className='h-full w-full' title='Change avatar'>
                       <AvatarImage
                         className='object-cover'
-                        src='https://symbols.vn/wp-content/uploads/2022/02/Hinh-Canh-Cut-Cute-Chibi-dang-yeu.png'
+                        src={user?.avatar}
                         alt='avatar'
                         sizes=''
                       />
-                      <AvatarFallback>ThuongMinhLsr</AvatarFallback>
+                      <AvatarFallback>{user?.userName}</AvatarFallback>
                     </Avatar>
                   ) : (
                     <Avatar className='h-full w-full' title='Change image'>
-                      <AvatarImage className='object-cover' src={preview as string} alt='avatar' />
-                      <AvatarFallback>Thuongminhlsr</AvatarFallback>
+                      <AvatarImage className='object-cover' src={preview as string} alt={user?.fullName} />
+                      <AvatarFallback>{user?.userName}</AvatarFallback>
                     </Avatar>
                   )}
                 </div>
               </div>
               <div className='mt-16 flex flex-col items-center'>
-                <h4 className='text-navy-700 text-xl font-bold dark:text-white'>ThuongMinhLsr</h4>
+                <h4 className='text-navy-700 text-xl font-bold dark:text-white'>{user?.userName}</h4>
                 <p className='flex items-center gap-2 text-base font-normal text-gray-600'>
                   <Key size={16} /> Khách hàng
                 </p>
                 <p className='flex items-center gap-2 text-lg text-primary font-medium  text-gray-600'>
-                  <PiggyBank size={16} /> 1.000.234đ
+                  <PiggyBank size={24} /> <span>{formatPrice(user?.balance || 0)}</span>
                 </p>
               </div>
 
@@ -204,6 +209,7 @@ function ProfilePage() {
                 <Input className='cursor-not-allowed' disabled />
               </Form.Item>
               <Form.Item
+              className='hidden'
                 name='passe'
                 label={<span className='font-medium'>Mật khẩu</span>}
                 rules={[{ required: true }]}

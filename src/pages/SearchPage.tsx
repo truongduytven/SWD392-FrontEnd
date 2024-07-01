@@ -39,13 +39,13 @@ const items = [
 ] as const
 
 function SearchPage() {
-  const [showScrollButton, setShowScrollButton] = useState(false);
+  const [showScrollButton, setShowScrollButton] = useState(false)
 
   const { searchData } = useSearch()
   const { data, isPending } = useGetTripSearchForm(searchData)
-  const { data:dataCityFromTo } = useGetCitySearchForm()
-console.log("search data", searchData)
-console.log("tat ca city from to", dataCityFromTo)
+  const { data: dataCityFromTo } = useGetCitySearchForm()
+  console.log('search data', searchData)
+  console.log('tat ca city from to', dataCityFromTo)
   console.log(data)
   const initialState = {
     arrangeValue: 'mac dinh',
@@ -67,77 +67,82 @@ console.log("tat ca city from to", dataCityFromTo)
       selectedItems: items
     }))
   }
+  console.log('filter ne', filterState)
   const handleClearFilters = () => {
     setFilterState(initialState)
   }
 
   const handleScrollToTop = (e: React.MouseEvent) => {
     e.preventDefault()
-    window.scrollTo({ top: 150, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
-        setShowScrollButton(true);
+        setShowScrollButton(true)
       } else {
-        setShowScrollButton(false);
+        setShowScrollButton(false)
       }
-    };
+    }
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-  if (isPending) return <Loading />
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+  // if (isPending) return <Loading />
 
   return (
-    
     <div className='w-screen flex justify-center items-center bg-secondary pb-12'>
       <div className='flex flex-col justify-center items-center w-2/3 '>
         <div className='w-full flex justify-center absolute top-[100px]'>
           <SearchForm onsubmitSearch={() => {}} />
         </div>
         {/* <h1 className='mt-52 mb-4 text-4xl font-bold'>{searchData.startLocation} - {searchData.endLocation}</h1> */}
-        {data ? (
-          <>
-            <h1 className='mt-56  mb-8 text-3xl font-bold text-center '>
-              {findCityNameByID(searchData.startLocation, dataCityFromTo?.fromCities || [])} - {findCityNameByID(searchData.endLocation, dataCityFromTo?.toCities || [])}
-            </h1>
-            <div className='flex w-full gap-5 main ' id='result'>
-              <div className='sticky top-24 slidebar flex flex-col shadow-md border rounded-lg bg-white w-2/5 h-fit'>
-                <div className='flex justify-between items-center gap-5 py-2 text-md font-bold pr-2 '>
-                  <p className='ml-4'>Bộ lọc tìm kiếm</p>
-                  <p
-                    className='flex text-red-500 cursor-pointer justify-center items-center gap-2 px-2 py-1 rounded-md hover:bg-secondary'
-                    onClick={handleClearFilters}
-                  >
-                    Bỏ lọc
-                    <Trash2 />
-                  </p>
-                </div>
-                <Arrange selectedValue={filterState.arrangeValue} onValueChange={handleArrangeChange} />
-                <BusFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
-                <TypeFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
-              </div>
-
-              <div className='w-full flex flex-col'>
-                <BadgeList items={items} selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
-                {data?.data.map((item, index) => <CardTrip data={item} />)}
-
-              </div>
-            </div>
-          </>
+        {isPending ? (
+          <Loading />
         ) : (
-          <h1 className='mt-52 font-semibold text-center'>
-            Xin lỗi bạn vì sự bất tiện này. TheBusJourney sẽ cập nhật ngay khi có thông tin xe hoạt động trên tuyến đường này.
-            <p className='text-center'>Xin bạn vui lòng thay đổi tuyến đường tìm kiếm!</p>
-          </h1>
+          data ? (
+            <>
+              <h1 className='mt-56  mb-8 text-3xl font-bold text-center '>
+                {findCityNameByID(searchData.startLocation, dataCityFromTo?.FromCities || [])} -{' '}
+                {findCityNameByID(searchData.endLocation, dataCityFromTo?.ToCities || [])}
+              </h1>
+              <div className='flex w-full gap-5 main ' id='result'>
+                <div className='sticky top-24 slidebar flex flex-col shadow-md border rounded-lg bg-white w-2/5 h-fit'>
+                  <div className='flex justify-between items-center gap-5 py-2 text-md font-bold pr-2 '>
+                    <p className='ml-4'>Bộ lọc tìm kiếm</p>
+                    <p
+                      className='flex text-red-500 cursor-pointer justify-center items-center gap-2 px-2 py-1 rounded-md hover:bg-secondary'
+                      onClick={handleClearFilters}
+                    >
+                      Bỏ lọc
+                      <Trash2 />
+                    </p>
+                  </div>
+                  <Arrange selectedValue={filterState.arrangeValue} onValueChange={handleArrangeChange} />
+                  <BusFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
+                  <TypeFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
+                </div>
+  
+                <div className='w-full flex flex-col'>
+                  <BadgeList items={items} selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
+                  {data?.Items.map((item, index) => <CardTrip key={index} data={item} />)}
+                </div>
+              </div>
+            </>
+          ) : (
+            <h1 className='mt-52 font-semibold text-center'>
+              Xin lỗi bạn vì sự bất tiện này. TheBusJourney sẽ cập nhật ngay khi có thông tin xe hoạt động trên tuyến
+              đường này.
+              <p className='text-center'>Xin bạn vui lòng thay đổi tuyến đường tìm kiếm!</p>
+            </h1>
+          )
         )}
       </div>
       {showScrollButton && (
         <a
           href='#result'
           onClick={handleScrollToTop}
-          className='sticky top-3/4 bg-primary rounded-full text-white flex justify-center items-center p-2  mb-4 transition duration-300'
+          className='sticky top-3/4 ml-10 bg-primary rounded-full text-white flex justify-center items-center p-2  mb-4 transition duration-300'
         >
           <ArrowBigUpDash size={30} fill='white' />
         </a>

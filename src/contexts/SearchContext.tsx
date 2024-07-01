@@ -1,5 +1,4 @@
-// src/context/SearchContext.tsx
-import React, { createContext, useState, ReactNode, useContext } from 'react';
+import React, { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 
 export interface SearchData {
   startLocation: string;
@@ -21,7 +20,21 @@ const defaultSearchData: SearchData = {
 const SearchContext = createContext<SearchContextProps | undefined>(undefined);
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
-  const [searchData, setSearchData] = useState<SearchData>(defaultSearchData);
+  const [searchData, setSearchData] = useState<SearchData>(() => {
+    const savedData = localStorage.getItem('searchData');
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      return {
+        ...parsedData,
+        startDate: new Date(parsedData.startDate), // Convert startDate back to Date object
+      };
+    }
+    return defaultSearchData;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('searchData', JSON.stringify(searchData));
+  }, [searchData]);
 
   return (
     <SearchContext.Provider value={{ searchData, setSearchData }}>

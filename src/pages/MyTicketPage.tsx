@@ -1,16 +1,7 @@
-import React, { useState } from 'react'
+import { userAllTickets } from '@/apis/userAllTicket'
+import Loader from '@/components/local/TabCardTrip/Loader'
 import Ticket from '@/components/local/myticket/Ticket'
-type TicketData = {
-  date: string
-  startTime: string
-  locationTo: string
-  locationFrom: string
-  seatCode: string
-  priceTicket: string
-  priceService: string
-  endTime: string
-  status: string
-}
+import { useState } from 'react'
 
 const tabs = [
   { id: 1, label: 'Tất cả' },
@@ -19,99 +10,19 @@ const tabs = [
   { id: 4, label: 'Đã hủy' }
 ]
 
-const allTickets: TicketData[] = [
-  {
-    date: '23-01-2023',
-    startTime: '9:00',
-    endTime: '13:00',
-    locationTo: 'Music Event',
-    locationFrom: 'United State',
-    seatCode: 'A01',
-    priceTicket: '600.000',
-    priceService: '120.000',
-    status: 'Đã sử dụng'
-  },
-  {
-    date: '24-02-2023',
-    startTime: '2:00',
-    endTime: '7:00',
-    locationTo: 'Bến Tre',
-    locationFrom: 'United State',
-    seatCode: 'B01',
-    priceTicket: '6.000.000',
-    priceService: '1.200.000',
-    status: 'Đã hủy'
-  },
-  {
-    date: '01-01-2024',
-    startTime: '3:00',
-    endTime: '13:00',
-    locationTo: 'Hà Nội',
-    locationFrom: 'Bình Thuận',
-    seatCode: 'A09',
-    priceTicket: '300.000',
-    priceService: '210.000',
-    status: 'Chưa sử dụng'
-  }
-
-  // More ticket data
-]
-
-const unusedTickets: TicketData[] = [
-  {
-    date: '01-01-2024',
-    startTime: '3:00',
-    endTime: '13:00',
-    locationTo: 'Hà Nội',
-    locationFrom: 'Bình Thuận',
-    seatCode: 'A09',
-    priceTicket: '300.000',
-    priceService: '210.000',
-    status: 'Chưa sử dụng'
-  }
-
-  // More ticket data
-]
-
-const usedTickets: TicketData[] = [
-  {
-    date: '01-07-2029',
-    startTime: '12:00',
-    endTime: '21:00',
-    locationTo: 'Hà Nội',
-    locationFrom: 'Lâm Đồng',
-    seatCode: 'A09',
-    priceTicket: '300.000',
-    priceService: '210.000',
-    status: 'Đã sử dụng'
-  }
-  // More ticket data
-]
-
-const canceledTickets: TicketData[] = [
-  {
-    date: '04-08-2025',
-    startTime: '21:00',
-    endTime: '3:00',
-    locationTo: 'Lâm Đồng',
-    locationFrom: 'Bình Thuận',
-    seatCode: 'A09',
-    priceTicket: '300.000',
-    priceService: '210.000',
-    status: 'Đã hủy'
-  }
-  // More ticket data
-]
-
-const dataMapping: Record<number, TicketData[]> = {
-  1: allTickets,
-  2: unusedTickets,
-  3: usedTickets,
-  4: canceledTickets
-}
-
 function MyTicketPage() {
   const [activeTab, setActiveTab] = useState(1)
+  const { data: allTickets = [], isLoading, isError } = userAllTickets()
+  console.log('ve lay tư re', allTickets)
+  const unusedTickets = allTickets.filter((ticket) => ticket.status === 'UNUSED')
+  const usedTickets = allTickets.filter((ticket) => ticket.status === 'USED')
+  const canceledTickets = allTickets.filter((ticket) => ticket.status === 'CANCEL')
+  const dataMapping: Record<number, typeof allTickets> = {
+    1: allTickets,
+    2: unusedTickets,
+    3: usedTickets,
+    4: canceledTickets
+  }
   const activeData = dataMapping[activeTab]
 
   return (
@@ -134,22 +45,40 @@ function MyTicketPage() {
           style={{ width: `calc(100% / ${tabs.length})`, transform: `translateX(${(activeTab - 1) * 100}%)` }}
         />
       </div>
+      <div className='mt-4 mb-14 bg-muted rounded-md'>
+        {isLoading && (
+          <div className='flex items-center justify-center h-40'>
+            <Loader />
+          </div>
+        )}
 
-      <div className='mt-4 bg-muted rounded-md'>
-        {activeData.map((ticket, index) => (
-          <Ticket
-            key={index}
-            date={ticket.date}
-            startTime={ticket.startTime}
-            endTime={ticket.endTime}
-            locationTo={ticket.locationTo}
-            locationFrom={ticket.locationFrom}
-            seatCode={ticket.seatCode}
-            priceTicket={ticket.priceTicket}
-            priceService={ticket.priceService}
-            status={ticket.status}
-          />
-        ))}
+        {isError && (
+          <p className='text-red-600 text-center mt-4'>Xảy ra lỗi trong quá trình tải dữ liệu. Vui lòng thử lại sau.</p>
+        )}
+
+        {!isLoading && !isError && activeData.length === 0 && (
+          <p className='text-gray-500 text-center mt-4'>Không có vé</p>
+        )}
+
+        {!isLoading &&
+          !isError &&
+          activeData.length > 0 &&
+          activeData.map((ticket, index) => (
+            <Ticket
+              key={index}
+              ticketDetailID={ticket.ticketDetailID}
+              companyName={ticket.companyName}
+              date={ticket.startDate}
+              startTime={ticket.startTime}
+              endTime={ticket.endTime}
+              locationTo={ticket.endCity}
+              locationFrom={ticket.startCity}
+              seatCode={ticket.seatCode}
+              priceTicket={ticket.ticketPrice}
+              priceService={ticket.totalServicePrice}
+              status={ticket.status}
+            />
+          ))}
       </div>
     </div>
   )

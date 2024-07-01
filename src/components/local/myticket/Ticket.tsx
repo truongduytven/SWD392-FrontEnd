@@ -1,5 +1,3 @@
-import React, { useState } from 'react'
-import { Sprout } from 'lucide-react'
 import { Button } from '@/components/global/atoms/button'
 import {
   Dialog,
@@ -11,37 +9,28 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/global/atoms/dialog'
-import { Input } from '@/components/global/atoms/input'
-import { Label } from '@/components/global/atoms/label'
+import { calculateDuration } from '@/lib/utils'
+import { Sprout } from 'lucide-react'
+import { useState } from 'react'
 import ModalDetail from './ModalDetail'
 interface TicketProps {
   date: string
+  ticketDetailID: string
+  companyName: string
   startTime: string
   endTime: string
   locationTo: string
   locationFrom: string
   seatCode: string
-  priceTicket: string
-  priceService: string
+  priceTicket: number
+  priceService: number
   status: string
 }
-const ticketInfo = {
-  username: "John Doe",
-  operator: "Example Bus Co.",
-  departureTime: "10:00 AM",
-  arrivalTime: "1:00 PM",
-  from: "City A",
-  to: "City B",
-  seatCode: "A12",
-  fare: 25,
-  serviceFee: 5,
-  serviceDetails: [
-    { name: "WiFi", station: "Any", price: 2 },
-    { name: "Refreshment", station: "Any", price: 3 }
-  ]
-};
+
 function Ticket({
   date,
+  ticketDetailID,
+  companyName,
   startTime,
   endTime,
   locationTo,
@@ -72,7 +61,7 @@ function Ticket({
           <span className='absolute -bottom-6 right-0 transform translate-x-1/2 translate-y-1/2 bg-muted rounded-full p-4'></span>
         </div>
         <div className='flex flex-col justify-center items-center gap-2 ml-3 mr-4 '>
-          <p className='text-lg font-bold text-primary'>Nhà xe: Những con ong</p>
+          <p className='text-lg font-bold text-primary'>Nhà xe: {companyName}</p>
           <div className='flex justify-between items-center gap-16'>
             <div className='flex '>
               <div className='flex justify-center items-center'>
@@ -81,12 +70,12 @@ function Ticket({
                     <path
                       fill='none'
                       stroke='#484848'
-                      stroke-linecap='round'
-                      stroke-width='2'
-                      stroke-dasharray='0 7'
+                      strokeLinecap='round'
+                      strokeWidth='2'
+                      strokeDasharray='0 7'
                       d='M7 13.5v46'
                     ></path>
-                    <g fill='none' stroke='#DC2910' stroke-width='3'>
+                    <g fill='none' stroke='#DC2910' strokeWidth='3'>
                       <circle cx='7' cy='7' r='7' stroke='none'></circle>
                       <circle cx='7' cy='7' r='5.5'></circle>
                     </g>
@@ -101,14 +90,14 @@ function Ticket({
                   <p className='m-0 p-0'>
                     <span className='font-bold mr-2 text-lg'>{startTime}</span>
                   </p>
-                  <p className='text-muted-foreground'>2 giờ</p>
+                  <p className='text-muted-foreground'>{calculateDuration(startTime, endTime)}</p>
                   <p>
                     <span className='font-bold mr-2 text-lg'>{endTime}</span>
                   </p>
                 </div>
                 <div className='flex flex-col h-full justify-between py-0.5'>
-                  <span>• {locationTo}</span>
                   <span>• {locationFrom}</span>
+                  <span>• {locationTo}</span>
                 </div>
               </div>
             </div>
@@ -138,7 +127,11 @@ function Ticket({
           >
             <Dialog>
               <DialogTrigger asChild>
-                <div className='flex justify-center items-center gap-1 hover:font-bold'> <Sprout />Xem chi tiết</div>
+                <div className='flex justify-center items-center gap-1 hover:font-bold'>
+                  {' '}
+                  <Sprout />
+                  Xem chi tiết
+                </div>
               </DialogTrigger>
               <DialogContent className='sm:max-w-md'>
                 <DialogHeader>
@@ -146,9 +139,7 @@ function Ticket({
                   <DialogDescription>Thông tin chi tiết bao gồm thông tin về vé và dịch vụ (nếu có).</DialogDescription>
                 </DialogHeader>
                 <div className='flex items-start justify-center space-x-2 h-[400px] overflow-y-scroll'>
-                   
-                  <ModalDetail />
-                 
+                  <ModalDetail ticketDetailID={ticketDetailID} />
                 </div>
                 <DialogFooter className='sm:justify-end'>
                   <DialogClose asChild>
@@ -159,7 +150,6 @@ function Ticket({
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          
           </div>
         )}
       </div>

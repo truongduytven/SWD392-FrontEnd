@@ -1,34 +1,38 @@
-interface fromCity {
-    cityID: string;
-    cityName: string;
+interface FromCity {
+    CityID: string;
+    CityName: string;
 }
-interface toCity {
-    cityID: string;
-    cityName: string;
+interface ToCity {
+    CityID: string;
+    CityName: string;
 }
 
 
 export interface ITripSearchForm {
-    fromCities: fromCity[],
-    toCities: toCity[],
+    FromCities: FromCity[],
+    ToCities: ToCity[],
 }
 
 export interface ITripData {
-    tripID: string,
-    companyName: string,
-    imageUrl: string,
-    averageRating: number,
-    quantityRating: number,
-    startLocation: string,
-    endLocation:  string,
-    startTime: string,
-    endTime: string,
-    emptySeat: number,
-    price: number,
+    TripID: string,
+    RouteID: string,
+    TemplateID:string,
+    CompanyName: string,
+    ImageUrl: string,
+    AverageRating: number,
+    QuantityRating: number,
+    StartLocation: string,
+    EndLocation:  string,
+    StartDate: string,
+    EndDate: string,
+    StartTime: string,
+    EndTime: string,
+    EmptySeat: number,
+    Price: number,
 }
 
 export interface ITripSearchData {
-    data: ITripData[],
-    totalPages: number,
+    Items: ITripData[],
+    TotalCount: number,
 }
 

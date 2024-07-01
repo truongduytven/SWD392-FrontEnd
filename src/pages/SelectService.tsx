@@ -3,8 +3,8 @@ import Container from '@/components/global/atoms/container'
 import TicketService from '@/components/local/SelectService/TicketService'
 import InvoiceDetail from '@/components/local/SelectTicket/InvoiceDetail'
 import { useInvoice } from '@/contexts/InvoiceContext'
-import { formatPrice } from '@/lib/utils'
-import { format } from 'date-fns'
+import { calculateDuration, formatPrice } from '@/lib/utils'
+import { format, formatDate } from 'date-fns'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import OOPS from '@/assets/oops.jpg'
@@ -37,8 +37,8 @@ function SelectService() {
                   <div className='flex text-sm border shadow-md' key={index}>
                     <div className='w-5/12 flex flex-col justify-center border-r-2 border-dashed p-2 items-center space-y-2'>
                       <span>Giờ xuất bến</span>
-                      <span className='font-bold text-lg'>{format(invoiceData.timeStart, 'p')}</span>
-                      <span className='font-semibold'>{format(invoiceData.timeStart, 'P')}</span>
+                      <span className='font-bold text-lg'>{invoiceData.startTime}</span>
+                      <span className='font-semibold'>{invoiceData.startDate}</span>
                       <span className='text-tertiary'>Đang chờ thanh toán</span>
                     </div>
                     <div className='w-full flex flex-col'>
@@ -69,12 +69,12 @@ function SelectService() {
 
                             <div className='flex flex-col items-start justify-between gap-1'>
                               <p className='m-0 p-0'>
-                                <span className='font-bold mr-2 text-lg'>6:00</span>
+                                <span className='font-bold mr-2 text-lg'>{invoiceData.startTime}</span>
                                 {invoiceData.startLocation}
                               </p>
-                              <p className='text-muted-foreground'>2 giờ</p>
+                              <p className='text-muted-foreground'>{calculateDuration(invoiceData.startTime, invoiceData.endTime)}</p>
                               <p>
-                                <span className='font-bold mr-2 text-lg'>8:30</span>
+                                <span className='font-bold mr-2 text-lg'>{invoiceData.endTime}</span>
                                 {invoiceData.endLocation}
                               </p>
                             </div>
