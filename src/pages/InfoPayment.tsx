@@ -7,16 +7,30 @@ import InvoiceDetail from '@/components/local/SelectTicket/InvoiceDetail'
 import { useInvoice } from '@/contexts/InvoiceContext'
 import { infoPaymentData } from '@/types/infoPayment'
 import { ArrowLeft, ArrowRight, ShieldCheck } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import OOPS from '@/assets/oops.jpg'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '@/auth/AuthProvider'
+import wallet from '@/assets/wallet.png'
 
 function InfoPayment() {
   const navigate = useNavigate()
   const { invoiceData } = useInvoice()
   const [errors, setErrors] = useState({ username: '', phoneNumber: '', email: '' })
   const [infoData, setInfoData] = useState<infoPaymentData>({ username: '', phoneNumber: '', email: '' })
-  console.log(invoiceData)
+  const [paymentMethod, setPaymentMethod] = useState('VNPay')
+  const { user } = useAuth()
+  
+  useEffect(() => {
+    if (user) {
+      setInfoData({
+        username: user.fullName,
+        phoneNumber: user.phoneNumber,
+        email: user.email
+      })
+    }
+  }, [user])
+  
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target
     setInfoData((prevData) => ({
@@ -27,6 +41,10 @@ function InfoPayment() {
       ...prevErrors,
       [id]: ''
     }))
+  }
+
+  const handlePaymentChange = (value: string) => {
+    setPaymentMethod(value)
   }
 
   const validateFields = () => {
@@ -63,12 +81,38 @@ function InfoPayment() {
 
   const onSubmit = () => {
     if (validateFields()) {
-      console.log(infoData)
+      const DataBooking = {
+        addOrUpdateBookingModel: {
+          userID: user?.userID,
+          tripID: invoiceData.tripID,
+          isBalance: paymentMethod === 'VNPay' ? false : true,
+          fullName: infoData.username,
+          phoneNumber: infoData.phoneNumber,
+          email: infoData.email,
+          quantity: invoiceData.tickets.length,
+          totalBill: invoiceData.totalPrice,
+        },
+        addOrUpdateTicketModels: [
+          ...invoiceData.tickets.map((ticket) => ({
+            ticketType_TripID: ticket.ticketType_TripID,
+            seatCode: ticket.seatCode,
+            price: ticket.price,
+            addOrUpdateServiceModels: ticket.services.map((service) => ({
+              serviceID: service.serviceID,
+              stationID: service.station,
+              quantity: service.quantity,
+              price: service.price,
+            })),
+          })),
+        ],
+      }
+      console.log(DataBooking)
     }
   }
+  
   return invoiceData.tickets.length > 0 ? (
     <Container>
-      <div className='h-full flex flex-col mt-10 mb-12  '>
+      <div className='h-full flex flex-col mt-10 mb-12'>
         <div className='flex justify-start items-center'>
           <Button
             onClick={() => navigate(-1)}
@@ -108,7 +152,7 @@ function InfoPayment() {
               {errors.phoneNumber && <span className='text-red-500 text-sm'>{errors.phoneNumber}</span>}
             </div>
             <div className='grid w-full max-w-sm items-center gap-1.5'>
-              <Label htmlFor='email'>Tên người đi</Label>
+              <Label htmlFor='email'>Email</Label>
               <Input
                 value={infoData.email}
                 onChange={handleChange}
@@ -124,10 +168,10 @@ function InfoPayment() {
               khi cần thiết.
             </div>
             <div className='font-bold'>Phương thức thanh toán</div>
-            <RadioGroup defaultValue='option-one'>
-              <div className='flex items-center space-x-2'>
+            <RadioGroup value={paymentMethod} defaultValue={paymentMethod}>
+              <div className='flex items-center space-x-2' onClick={() => handlePaymentChange('VNPay')}>
                 <div className='flex h-16 space-x-3 w-full items-center rounded-md border px-3 py-2 text-xs'>
-                  <RadioGroupItem value='option-one' id='option-one' />
+                  <RadioGroupItem value='VNPay' id='option-one' />
                   <img
                     src='https://cdn-new.topcv.vn/unsafe/150x/https://static.topcv.vn/company_logos/cong-ty-cp-giai-phap-thanh-toan-viet-nam-vnpay-6194ba1fa3d66.jpg'
                     alt='ảnh logo thanh toan'
@@ -135,6 +179,19 @@ function InfoPayment() {
                   />
                   <Label className='text-lg' htmlFor='option-one'>
                     VNPay
+                  </Label>
+                </div>
+              </div>
+              <div className='flex items-center space-x-2' onClick={() => handlePaymentChange('wallet')}>
+                <div className='flex h-16 space-x-3 w-full items-center rounded-md border px-3 py-2 text-xs'>
+                  <RadioGroupItem value='wallet' id='option-two' />
+                  <img
+                    src={wallet}
+                    alt='ảnh logo thanh toan bang vi'
+                    className='max-h-14 max-w-14'
+                  />
+                  <Label className='text-lg' htmlFor='option-two'>
+                    Thanh toán bằng ví
                   </Label>
                 </div>
               </div>

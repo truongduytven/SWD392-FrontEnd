@@ -4,7 +4,7 @@ import ServiceLayout from '@/components/local/SelectService/ServiceLayout'
 import ServiceAction from '@/components/local/SelectService/ServiceAction'
 import { Service, ticket } from '@/types/invoiceData'
 import { HandPlatter } from 'lucide-react'
-import { ServiceData, stationData } from '@/constants/SeatData'
+// import { stationData } from '@/constants/SeatData'
 import { useEffect, useState } from 'react'
 import {
   Accordion,
@@ -26,7 +26,7 @@ import {
 import { useInvoice } from '@/contexts/InvoiceContext'
 import { formatPrice } from '@/lib/utils'
 import { useGetServiceWithStation, useStationData } from '@/apis/ticketAPI'
-import { IService, IStations } from '@/types/ticketInterface'
+import { IService } from '@/types/ticketInterface'
 
 function TicketService({ services, seatCode }: ticket) {
   const [ servicesData, setServices ] = useState<IService[] | undefined>([])
@@ -37,8 +37,8 @@ function TicketService({ services, seatCode }: ticket) {
   const [keySearch, setKeySearch] = useState<string>('')
   const [priceStation, setPriceStation] = useState(0)
   const { data: serviceData } = useGetServiceWithStation(selectedStation)
-  const { data: stationsData} = useStationData({ tripID: invoiceData.tripID })
-
+  const { data: stationsData} = useStationData({ routeID: invoiceData.routeID })
+  console.log(serviceData)
   useEffect(() => {
     // Recalculate price whenever localServices changes
     let totalPrice = 0;
@@ -155,8 +155,8 @@ function TicketService({ services, seatCode }: ticket) {
                 <AlertDialogTitle className='flex justify-between items-center mb-6'>Dịch vụ đã chọn</AlertDialogTitle>
               </AlertDialogHeader>
               <div className='flex flex-col space-y-2 my-2 p-2 overflow-y-auto max-h-[500px]'>
-                <Accordion type='multiple' className='w-full' defaultValue={stationData}>
-                  {stationData && stationsData?.map((station, index) => (
+                <Accordion type='multiple' className='w-full' defaultValue={stationsData?.map(station => station.stationID)}>
+                  {stationsData && stationsData?.map((station, index) => (
                     <AccordionItem key={index} value={station.stationID} defaultValue={station.stationID}>
                       <AccordionTrigger className='hover:text-tertiary'>
                         <span>{station.name}</span>

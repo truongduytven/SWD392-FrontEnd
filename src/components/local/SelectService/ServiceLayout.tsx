@@ -1,5 +1,4 @@
 import { Card, CardContent, CardFooter } from "@/components/local/SelectService/cardService"
-import { ServiceDefault } from "@/constants/SeatData"
 import { formatPrice } from "@/lib/utils"
 import { Service } from "@/types/invoiceData"
 import { IServiceModel } from "@/types/ticketInterface"

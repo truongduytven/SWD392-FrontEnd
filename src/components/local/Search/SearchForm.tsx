@@ -39,6 +39,8 @@ export function SearchForm({ onsubmitSearch }: SearchFormProps) {
       })
     }
   }, [searchData, data])
+
+  console.log(data)
   function onSubmit(values: z.infer<typeof SearchSchema>) {
     setSearchData(values)
     onsubmitSearch(values)

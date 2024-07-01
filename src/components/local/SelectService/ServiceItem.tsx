@@ -42,7 +42,7 @@ function ServiceItem({ service, onDeleteService, onUpdateService }: ServiceItemP
     <div className='border flex rounded-md items-center pl-1'>
       <div
         style={{
-          backgroundImage: `url(https://cafebiz.cafebizcdn.vn/162123310254002176/2023/9/12/mi-tom-9-3416-1694501408503-1694501408589217157289.jpg)`,
+          backgroundImage: `url(${service.imageUrl})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center'

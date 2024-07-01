@@ -13,14 +13,14 @@ const defaultInvoiceData: InvoiceData = {
   endTime: '09:00',
   startDate: '2021-09-10',
   tickets: [
-    {
-      ticketType_TripID: '123',
-      seatCode: 'C30',
-      price: 190000,
-      services: [
+    // {
+    //   ticketType_TripID: '123',
+    //   seatCode: 'C30',
+    //   price: 190000,
+    //   services: [
         
-      ],
-    }
+    //   ],
+    // }
   ],
   totalPrice: 0,
 };
@@ -73,10 +73,20 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return ticket;
     });
 
+    const totalTicketPrice = updatedTickets.reduce((total, ticket) => total + ticket.price, 0);
+    const totalServicePrice = updatedTickets.reduce(
+      (total, ticket) =>
+        total +
+        ticket.services.reduce((serviceTotal, service) => serviceTotal + service.price * service.quantity, 0),
+      0
+    );
+    const totalPrice = totalTicketPrice + totalServicePrice;
+
     // Directly update the state with new ticket information
     setInvoiceData((prevData) => ({
       ...prevData,
       tickets: updatedTickets,
+      totalPrice: totalPrice,
     }));
   };
 
