@@ -13,25 +13,22 @@ function SelectTicket() {
   const { invoiceData, updateInvoiceData } = useInvoice()
   const { data, isLoading, isSuccess } = useGetTripData({ tripID: invoiceData.tripID })
   const navigate = useNavigate()
-
   useEffect(() => {
     if (data && isSuccess) {
       if (
-        data.startLocation !== invoiceData.startLocation ||
-        data.endLocation !== invoiceData.endLocation ||
-        data.startDate !== invoiceData.startDate ||
-        data.startTime !== invoiceData.startTime ||
-        data.companyName !== invoiceData.companyName
+        data.StartLocation !== invoiceData.startLocation ||
+        data.EndLocation !== invoiceData.endLocation ||
+        data.StartDate !== invoiceData.startDate ||
+        data.StartTime !== invoiceData.startTime ||
+        data.CompanyName !== invoiceData.companyName
       ) {
-        updateInvoiceData(data.startLocation, data.endLocation, data.startTime, data.startDate, data.companyName)
+        updateInvoiceData(data.StartLocation, data.EndLocation, data.StartTime, data.StartDate, data.CompanyName)
       }
     }
   }, [data, isSuccess, updateInvoiceData])
   const handleGoToService = () => {
     navigate('/selectService')
   }
-
-  // if (isLoading) return <Loading />
 
   return (
     <Container>
@@ -54,7 +51,8 @@ function SelectTicket() {
           </div>
         ) : (
           <div className='flex justify-evenly'>
-            <div className='border w-7/12 rounded-xl shadow-md'>{data && <ChooseSeatCode data={data} />}</div>
+            <div className='border w-7/12 rounded-xl shadow-md'>{data ?
+            <ChooseSeatCode data={data} /> : <div className='flex justify-center mt-10 text-2xl'>Không có dữ liệu về vé của chuyến này</div>}</div>
             <div className='flex flex-col space-y-10 w-4/12'>
               <InvoiceDetail />
               <div className='flex justify-end'>

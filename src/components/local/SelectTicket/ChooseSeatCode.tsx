@@ -19,15 +19,15 @@ function ChooseSeatCode({ data }: ChooseSeatCodeProps) {
           <div className='h-5 w-5 rounded-sm bg-red-500' />
           <span>Đang chọn</span>
         </div>
-        {data.ticketType_TripModels.map((seat, index) => (
+        {data.TicketType_TripModels.length > 0 && data.TicketType_TripModels.map((seat, index) => (
           <div key={index} className='flex items-center space-x-3 text-sm'>
-            <div className={`h-5 w-5 rounded-sm ${seat.ticketName === 'Hàng đầu' ? Colors[0] : seat.ticketName === 'Hàng sau' ? Colors[2] : Colors[1]}`} />
-            <span>{seat.ticketName} - {formatPrice(seat.price)}</span>
+            <div className={`h-5 w-5 rounded-sm ${seat.TicketName === 'Hàng đầu' ? Colors[0] : seat.TicketName === 'Hàng sau' ? Colors[2] : Colors[1]}`} />
+            <span>{seat.TicketName} - {formatPrice(seat.Price)}</span>
           </div>
         ))}
       </div>
       <div className="flex justify-evenly text-center h-full mb-4 space-x-3">
-        {data && <SeatLayout seatBooked={data.seatBooked} tripModels={data.ticketType_TripModels}/>}
+        {data && <SeatLayout seatBooked={data.SeatBooked} tripModels={data.TicketType_TripModels}/>}
       </div>
     </div>
   )

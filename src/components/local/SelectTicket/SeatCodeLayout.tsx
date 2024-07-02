@@ -14,7 +14,7 @@ interface SeatLayoutProps {
 function SeatLayout({ tripModels, seatBooked }: SeatLayoutProps) {
   const { invoiceData, updateTickets } = useInvoice();
   const [selectedSeats, setSelectedSeats] = useState<ticket[]>(invoiceData.tickets);
-  tripModels.sort((a, b) => a.ticketName === 'Hàng đầu' ? -1 : a.ticketName === 'Hàng sau' ? 1 : 0);
+  tripModels.sort((a, b) => a.TicketName === 'Hàng đầu' ? -1 : a.TicketName === 'Hàng sau' ? 1 : 0);
 
   const handleSeatClick = (seatCode: string, price: number, ticketType_TripID: string) => {
     if (selectedSeats.find((ticket) => ticket.seatCode === seatCode)) {
@@ -45,16 +45,16 @@ function SeatLayout({ tripModels, seatBooked }: SeatLayoutProps) {
     const seats: JSX.Element[] = [];
 
     tripModels.forEach((seat) => {
-      const prefix = seat.ticketName === 'Hàng đầu' ? 'A' : seat.ticketName === 'Hàng sau' ? 'C' : 'B';
+      const prefix = seat.TicketName === 'Hàng đầu' ? 'A' : seat.TicketName === 'Hàng sau' ? 'C' : 'B';
       
-      for (let i = 1; i <= seat.quantity; i++) {
+      for (let i = 1; i <= seat.Quantity; i++) {
         const seatCode = `${prefix}${i.toString().padStart(2, '0')}`;
         seats.push(
           <Seat
             key={seatCode}
-            ticketType_TripID={seat.ticketType_TripID}
+            ticketType_TripID={seat.TicketType_TripID}
             seatCode={seatCode}
-            price={seat.price}
+            price={seat.Price}
             onClick={handleSeatClick}
             selected={Boolean(selectedSeats.find((selectedTicket) => selectedTicket.seatCode === seatCode))}
             booked={seatBooked.includes(seatCode)}

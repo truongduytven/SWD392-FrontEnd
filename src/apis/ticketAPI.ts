@@ -19,6 +19,7 @@ export const useGetTripData = ({ tripID }: getTripData) => {
         return data;
       },
       enabled: !!tripID, // Enable the query only when tripID is available
+      retry: 2,
     });
   };
 
