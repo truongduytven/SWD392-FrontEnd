@@ -1,4 +1,3 @@
-import axios from 'axios';
 import busAPI from '@/lib/busAPI';
 
 interface ITicketDetail {

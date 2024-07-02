@@ -6,8 +6,8 @@
 //   }
 
   export interface Seat {
-    TicketTypeId: string;
-    TicketTypeName: string;
+    ticketType_TripID: string;
+    ticketName: string;
     price: number;
     quantity: number;
   }
@@ -33,20 +33,20 @@ export const stationData: string[] = [
 
 export const defaultSeats: Seat[] = [
   {
-    TicketTypeId: '1',
-    TicketTypeName: 'front',
+    ticketType_TripID: '1',
+    ticketName: 'front',
     price: 100000,
     quantity: 12,
   },
   {
-    TicketTypeId: '2',
-    TicketTypeName: 'middle',
+    ticketType_TripID: '2',
+    ticketName: 'middle',
     price: 120000,
     quantity: 8,
   },
   {
-    TicketTypeId: '3',
-    TicketTypeName: 'back',
+    ticketType_TripID: '3',
+    ticketName: 'back',
     price: 140000,
     quantity: 12,
   },

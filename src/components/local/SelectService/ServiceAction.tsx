@@ -1,3 +1,4 @@
+import { useStationData } from '@/apis/ticketAPI'
 import {
   Select,
   SelectContent,
@@ -7,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/global/atoms/select'
-import { stationData } from '@/constants/SeatData'
+import { useInvoice } from '@/contexts/InvoiceContext'
 import { Search } from 'lucide-react'
 import { useRef } from 'react'
 interface ServiceActionProps {
@@ -18,14 +19,14 @@ interface ServiceActionProps {
 function ServiceAction({ onStationSelect, onKeyChange }: ServiceActionProps) {
   
   const searchInputRef = useRef<HTMLInputElement>(null)
-
+  const { invoiceData } = useInvoice()
+  const { data } = useStationData({ routeID: invoiceData.routeID })
   const handleKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onKeyChange(event.target.value)
     if (searchInputRef.current) {
       searchInputRef.current.focus()
     }
   }
-
 
   return (
     <div className='flex space-x-4 justify-end'>
@@ -50,10 +51,10 @@ function ServiceAction({ onStationSelect, onKeyChange }: ServiceActionProps) {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Danh sách trạm</SelectLabel>
-              {stationData &&
-                stationData.map((station) => (
-                  <SelectItem key={station} value={station}>
-                    {station}
+              {data &&
+                data.map((station) => (
+                  <SelectItem key={station.stationID} value={station.stationID}>
+                    {station.name}
                   </SelectItem>
                 ))}
             </SelectGroup>

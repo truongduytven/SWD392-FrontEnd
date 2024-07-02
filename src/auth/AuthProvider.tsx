@@ -71,6 +71,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setUser(response.data.result.user)
         } catch (error) {
           localStorage.removeItem('token')
+          localStorage.removeItem('token')
           console.error('Fetching user information failed:', error)
         }
       }
@@ -178,6 +179,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setToken(null)
     setUser(null)
     localStorage.removeItem('token')
+    toast.success("Đăng xuất tài khoản thành công")
     // Redirect to login page after logout
     navigate('/')
   }

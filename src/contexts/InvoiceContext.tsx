@@ -2,14 +2,26 @@ import { InvoiceData, Service, ticket } from '@/types/invoiceData';
 import { createContext, useContext, useState } from 'react';
 
 const defaultInvoiceData: InvoiceData = {
+  routeID: '',
   userID: '',
   tripID: '',
   companyName: '',
   isBalance: false,
   startLocation: 'Bx.Miền Tây',
   endLocation: 'Bến Tre - Trà Vinh',
-  timeStart: new Date('2023-05-23T07:00:00'),
-  tickets: [],
+  startTime: '06:00',
+  endTime: '09:00',
+  startDate: '2021-09-10',
+  tickets: [
+    // {
+    //   ticketType_TripID: '123',
+    //   seatCode: 'C30',
+    //   price: 190000,
+    //   services: [
+        
+    //   ],
+    // }
+  ],
   totalPrice: 0,
 };
 
@@ -17,8 +29,8 @@ interface InvoiceContextType {
   invoiceData: InvoiceData;
   updateTickets: (tickets: ticket[]) => void;
   updateTicketServices: (seatCode: string, updatedServices: Service[]) => void;
-  updateUserIDTripID: (userID: string | undefined, tripID: string , companyName: string) => void;
-  updateInvoiceData: (startLocation: string, endLocation: string, timeStart: Date) => void;
+  updateUserIDTripID: (userID: string | undefined, tripID: string,routeID: string, endTime: string) => void;
+  updateInvoiceData: (startLocation: string, endLocation: string, startTime: string, startDate: string , companyName: string) => void;
 }
 
 const InvoiceContext = createContext<InvoiceContextType | undefined>(undefined);
@@ -61,31 +73,44 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return ticket;
     });
 
+    const totalTicketPrice = updatedTickets.reduce((total, ticket) => total + ticket.price, 0);
+    const totalServicePrice = updatedTickets.reduce(
+      (total, ticket) =>
+        total +
+        ticket.services.reduce((serviceTotal, service) => serviceTotal + service.price * service.quantity, 0),
+      0
+    );
+    const totalPrice = totalTicketPrice + totalServicePrice;
+
     // Directly update the state with new ticket information
     setInvoiceData((prevData) => ({
       ...prevData,
       tickets: updatedTickets,
+      totalPrice: totalPrice,
     }));
   };
 
-  const updateUserIDTripID = (userID: string | undefined, tripID: string , companyName: string) => {
+  const updateUserIDTripID = (userID: string | undefined, tripID: string, routeID: string, endTime: string) => {
     if(userID === undefined) {
       userID = '';
     }
     setInvoiceData((prevData) => ({
       ...prevData,
+      routeID: routeID,
       userID: userID,
       tripID: tripID,
-      companyName: companyName,
+      endTime: endTime,
     }));
   }
 
-  const updateInvoiceData = (startLocation: string, endLocation: string, timeStart: Date) => {
+  const updateInvoiceData = (startLocation: string, endLocation: string, startTime: string, startDate: string, companyName: string) => {
     setInvoiceData((prevData) => ({
       ...prevData,
       startLocation: startLocation ?? prevData.startLocation,
       endLocation: endLocation ?? prevData.endLocation,
-      timeStart: timeStart ?? prevData.timeStart,
+      startTime: startTime ?? prevData.startTime,
+      startDate: startDate ?? prevData.startDate,
+      companyName: companyName ?? prevData.companyName,
     }));
   };  
 

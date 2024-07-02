@@ -1,10 +1,10 @@
 
 import { useInvoice } from '@/contexts/InvoiceContext'
-import { formatDate, formatPrice } from '@/lib/utils'
+import { formatDateString, formatPrice } from '@/lib/utils'
 
 function InvoiceDetail() {
   const { invoiceData } = useInvoice()
-  const { startLocation, endLocation, timeStart, tickets, companyName } = invoiceData
+  const { startLocation, endLocation, startTime, startDate, tickets, companyName } = invoiceData
   const totalTicketPrice = tickets?.reduce((sum, ticket) => sum + ticket.price, 0)
   const totalServicePrice = tickets?.reduce(
     (total, ticket) =>
@@ -20,14 +20,20 @@ function InvoiceDetail() {
           <span className='font-semibold'>{companyName}</span>
         </div>
         <div className='flex justify-between'>
-          <span>Tuyến xe: </span>
+          <span>Tuyến xe từ: </span>
           <span className='font-semibold'>
-            {startLocation} - {endLocation}
+            {startLocation}
+          </span>
+        </div>
+        <div className='flex justify-between'>
+          <span>Đến: </span>
+          <span className='font-semibold'>
+            {endLocation}
           </span>
         </div>
         <div className='flex justify-between'>
           <span>Thời gian xuất bến: </span>
-          <span className='font-semibold'>{formatDate(timeStart)}</span>
+          <span className='font-semibold'>{startTime} - {formatDateString(startDate)}</span>
         </div>
         <div className='flex justify-between'>
           <span>Mã số ghế đã chọn: </span>

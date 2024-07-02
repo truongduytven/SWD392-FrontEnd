@@ -61,3 +61,8 @@ export function findCityNameByID(cityID: string, cities: CitiesArray): string {
   return city ? city.CityName : "City not found";
 }
 
+export function formatDateString(dateString: string) {
+  const [year, month, day] = dateString.split('-');
+  return `${day}/${month}/${year}`;
+}
+
