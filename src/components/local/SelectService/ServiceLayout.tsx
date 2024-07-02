@@ -23,16 +23,16 @@ const ServiceLayout = ({ props, selectedStation, onAddService, keySearch }: Serv
   }
   return (
     <div className="w-full grid grid-cols-3 gap-5 p-2 overflow-y-auto max-h-[500px]">
-      {Array.isArray(props) && props.filter(service => service.name.toLowerCase().includes(keySearch.toLowerCase())).map((service, index) => (
+      {Array.isArray(props) && props.filter(service => service.Name.toLowerCase().includes(keySearch.toLowerCase())).map((service, index) => (
         <div className="w-full" key={index}>
           <Card onClick={() => handleCardclick(service)} className="cursor-pointer">
             <CardContent>
-              <img className="max-w-32 max-h-20 rounded-md" src={service.imageUrl} alt="ảnh thức ăn" />
+              <img className="max-w-32 max-h-20 rounded-md" src={service.ImageUrl} alt="ảnh thức ăn" />
             </CardContent>
             <CardFooter>
               <div className="flex w-full flex-col justify-center items-center">
-                  <p className="text-lg font-semibold text-center">{service.name}</p>
-                  <p className="text-sm text-gray-500">{formatPrice(service.price)}</p>
+                  <p className="text-lg font-semibold text-center">{service.Name}</p>
+                  <p className="text-sm text-gray-500">{formatPrice(service.Price)}</p>
               </div>
             </CardFooter>
           </Card>

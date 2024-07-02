@@ -8,7 +8,7 @@ function InvoiceDetail() {
   const totalTicketPrice = tickets?.reduce((sum, ticket) => sum + ticket.price, 0)
   const totalServicePrice = tickets?.reduce(
     (total, ticket) =>
-      total + ticket.services.reduce((serviceTotal, service) => serviceTotal + service.price * service.quantity, 0),
+      total + ticket.services.reduce((serviceTotal, service) => serviceTotal + service.Price * service.quantity, 0),
     0
   )
   return (

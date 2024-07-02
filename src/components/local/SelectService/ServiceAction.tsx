@@ -53,8 +53,8 @@ function ServiceAction({ onStationSelect, onKeyChange }: ServiceActionProps) {
               <SelectLabel>Danh sách trạm</SelectLabel>
               {data &&
                 data.map((station) => (
-                  <SelectItem key={station.stationID} value={station.stationID}>
-                    {station.name}
+                  <SelectItem key={station.StationID} value={station.StationID}>
+                    {station.Name}
                   </SelectItem>
                 ))}
             </SelectGroup>
