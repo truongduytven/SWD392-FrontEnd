@@ -4,12 +4,19 @@ import { Button } from '@/components/global/atoms/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/global/atoms/form'
 import { RadioGroup, RadioGroupItem } from '@/components/global/atoms/radio-group'
 import { Textarea } from '@/components/global/atoms/textarea'
+import busAPI from '@/lib/busAPI'
 import { ratingSchema } from '@/lib/schemas/ratingSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
+
+interface RatingFormProps {
+  tripID:string;
+  userID:string;
+  setShowRatingForm: (show: boolean) => void;
+}
 
 const rateValueToText = ['Rất tệ', 'Tệ', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
 const suggestedContents = [
@@ -19,9 +26,12 @@ const suggestedContents = [
   'An toàn, tiện nghi',
   "Nhà vệ sinh sạch sẽ"
 ]
-const RatingForm: React.FC = () => {
+
+function RatingForm ({userID, tripID, setShowRatingForm }: RatingFormProps) {
   const [files, setFiles] = useState<File[]>([])
+  const [base64Files, setBase64Files] = useState<string[]>([])
   const [suggestedContent, setSuggestedContent] = useState<string>('')
+
   const form = useForm<z.infer<typeof ratingSchema>>({
     resolver: zodResolver(ratingSchema),
     defaultValues: { value: 5, content: '', imageUrls: [] }
@@ -29,22 +39,37 @@ const RatingForm: React.FC = () => {
 
   const { handleSubmit, control, setValue, reset } = form
 
-  const onSubmit = (data: z.infer<typeof ratingSchema>) => {
-    console.log('Form Data:', data)
+   const onSubmit = async (data: z.infer<typeof ratingSchema>) => {
+    try {
+      const formData = new FormData()
+      formData.append('Rating', data.value.toString())
+      formData.append('UserID', userID)
+      formData.append('TripID', tripID)
+      formData.append('Description', data.content || '')
+      files.forEach((file) => {
+        formData.append('Files', file) // Append file as binary data
+      })
+      
+    const response=  await busAPI.post('/feedback-management/managed-feedbacks', formData);
+    console.log("thanh cong", response)
+      // Simulate API call with FormData
+      console.log('Form Data:', formData)
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`)
+      }
 
-    const formData = new FormData()
-    formData.append('value', data.value.toString())
-    formData.append('content', data.content || '')
+      // Assuming you have an Axios or fetch call here to send formData to the server
+      // Example:
+      // const response = await axios.post('/api/upload', formData);
 
-    files.forEach((file, index) => {
-      formData.append(`files`, file, file.name)
-    })
-
-    reset({ value: 5, content: '', imageUrls: [] })
-    setFiles([])
-    setSuggestedContent('')
+      reset({ value: 5, content: '', imageUrls: [] })
+      setFiles([])
+      setSuggestedContent('')
+      setShowRatingForm(false)
+    } catch (error) {
+      console.error('Error submitting rating:', error)
+    }
   }
-
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || [])
     const newFiles = [...files, ...selectedFiles]
@@ -57,13 +82,15 @@ const RatingForm: React.FC = () => {
     setFiles(newFiles)
     setValue('imageUrls', newFiles)
   }
+
   const handleSuggestedContentClick = (content: string) => {
     setValue('content', content)
     setSuggestedContent(content)
   }
+
   return (
-    <div className='flex h-screen items-center justify-center py-40'>
-      <div className='fixed inset-0 z-[1000]  flex flex-col justify-center items-center '>
+    <div className='flex h-screen items-center justify-center py-40 '>
+      <div className='fixed inset-0 z-[1000] flex flex-col justify-center items-center bg-black/70'>
         <div className='w-[500px] bg-background rounded-md p-6 drop-shadow-lg'>
           <div className='text-2xl font-medium text-center mb-4'>Đánh giá chuyến đi</div>
           <Form {...form}>
@@ -144,7 +171,7 @@ const RatingForm: React.FC = () => {
                     <img className='w-32 h-32 object-cover rounded-2xl' src={URL.createObjectURL(file)} alt='...' />
                     <button
                       type='button'
-                      className='absolute -top-3 -right-3 font-medium  text-white bg-primary rounded-full px-2 py-1 text-xs'
+                      className='absolute -top-3 -right-3 font-medium text-white bg-primary rounded-full px-2 py-1 text-xs'
                       onClick={() => removeFile(index)}
                     >
                       X
@@ -174,9 +201,7 @@ const RatingForm: React.FC = () => {
               </div>
 
               <div className='flex justify-end items-center gap-3'>
-                <Link to='/'>
-                  <Button variant='outline'>Trở lại</Button>
-                </Link>
+                <Button variant='outline' onClick={() => setShowRatingForm(false)}>Trở lại</Button>
                 <Button type='submit'>Đánh giá</Button>
               </div>
             </form>

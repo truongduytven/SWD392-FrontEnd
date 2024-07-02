@@ -27,7 +27,7 @@ interface User {
   phoneNumber: string
   balance: number
   createDate: string
-  isVerified: true
+  isVerified: boolean
   status: string
   roleID: string
   result: any
@@ -71,6 +71,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setUser(response.data.result.user)
         } catch (error) {
           localStorage.removeItem('token')
+          localStorage.removeItem('token')
           console.error('Fetching user information failed:', error)
         }
       }
@@ -91,7 +92,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   //     console.error('Login failed:', error)
   //   }
   // }
-  
 
   // const login = async (username: string, password: string) => {
   //   try {
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   //     const newToken = response.data.result.accessToken
   //     setToken(newToken)
   //     localStorage.setItem('token', newToken)
-  //     setErrorMessage(null) 
+  //     setErrorMessage(null)
   //     navigate(-1)
   //   } catch (error) {
   //     if (axios.isAxiosError(error) && error.response) {
@@ -112,21 +112,59 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   //     }
   //   }
   // }
-  const login = async (username: string, password: string) => {
+  const login = async (email: string, password: string) => {
     try {
       setLoading(true)
-      const response = await busAPI.post('/auth-management/managed-auths/sign-ins', { email: username, password: password })
-      const newToken = response.data.accessToken
+      const response = await busAPI.post('/auth-management/managed-auths/sign-ins', {
+        email: email,
+        password: password
+      })
+      const newToken = response.data.AccessToken
       setToken(newToken)
       localStorage.setItem('token', newToken)
       setErrorMessage(null)
-      toast.success("Đăng nhập thành công")
+      toast.success('Đăng nhập thành công')
       navigate(-1)
+      // Fetch user data after setting the token
+      //  const fetchUser = async () => {
+      //   try {
+      //     const response = await busAPI.get<User>('/auth-management/managed-auths/token-verification', {
+      //       headers: {
+      //         Authorization: `Bearer ${newToken}`
+      //       }
+      //     });
+      //     const userData = response.data.result.user;
+      //     setUser(userData);
+
+      //     if (userData.isVerified) {
+      //       toast.success('Đăng nhập thành công')
+      //       navigate(-1);
+      //     } else {
+      //       toast.error('Tài khoản chưa được xác thực, vui lòng xác thực')
+      //       const response = await busAPI.post('user-management/managed-users/otp-code-sending', user?.email)
+      //       navigate(`/otp-verified/${user?.email}`); // Navigate to the verification page
+      //     }
+      //   } catch (error) {
+      //     console.error('Fetching user information failed:', error);
+      //   }
+      // };
+
+      // fetchUser();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
+        console.log(error)
         const message = error.response.data.message
+        console.log('msajgjgaej', message)
+        if (error.response.data.verified === false) {
+          toast.error('Email đã đăng kí nhưng chưa xác thực. Vui lòng xác thực email!')
+          navigate(`/otp-verified/${email}`)
+          const response = await busAPI.post('user-management/managed-users/otp-code-sending', { email: email })
+        } else {
+          setLoading(false)
+          toast.error('Email hoặc mật khẩu không đúng')
+        }
+        console.log('check verified', error.response.data.verified)
         setErrorMessage(message)
-        toast.error(error.response.data.message)
       } else {
         console.error('Login failed:', error)
       }
@@ -136,13 +174,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   const logout = () => {
+    toast.success('Đăng xuất thành công')
+
     setToken(null)
     setUser(null)
     localStorage.removeItem('token')
     toast.success("Đăng xuất tài khoản thành công")
     // Redirect to login page after logout
-    navigate("/")
+    navigate('/')
   }
 
-  return <AuthContext.Provider value={{ token, user, login, logout, errorMessage,loading }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ token, user, login, logout, errorMessage, loading }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }

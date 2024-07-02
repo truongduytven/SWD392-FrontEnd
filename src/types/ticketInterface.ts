@@ -20,21 +20,21 @@ export type ITicketModels = {
 
 export type IStations = 
   {
-    name: string
-    stationID: string
+    Name: string
+    StationID: string
   }
 
 
 export type IServiceModel = {
-  serviceID: string
-  name: string
-  price: number
-  imageUrl: string
+  ServiceID: string
+  Name: string
+  Price: number
+  ImageUrl: string
 }
 
 export type IService = {
-  serviceTypeID: string
-  stationID: string
-  name: string
-  serviceModels: IServiceModel[]
+  ServiceTypeID: string
+  StationID: string
+  Name: string
+  ServiceModels: IServiceModel[]
 }

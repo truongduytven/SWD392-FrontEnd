@@ -53,7 +53,7 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const totalServicePrice = tickets.reduce(
       (total, ticket) =>
         total +
-        ticket.services.reduce((serviceTotal, service) => serviceTotal + service.price * service.quantity, 0),
+        ticket.services.reduce((serviceTotal, service) => serviceTotal + service.Price * service.quantity, 0),
       0
     );
     const totalPrice = totalTicketPrice + totalServicePrice;
@@ -77,7 +77,7 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const totalServicePrice = updatedTickets.reduce(
       (total, ticket) =>
         total +
-        ticket.services.reduce((serviceTotal, service) => serviceTotal + service.price * service.quantity, 0),
+        ticket.services.reduce((serviceTotal, service) => serviceTotal + service.Price * service.quantity, 0),
       0
     );
     const totalPrice = totalTicketPrice + totalServicePrice;

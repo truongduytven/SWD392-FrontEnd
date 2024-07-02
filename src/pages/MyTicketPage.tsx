@@ -13,10 +13,9 @@ const tabs = [
 function MyTicketPage() {
   const [activeTab, setActiveTab] = useState(1)
   const { data: allTickets = [], isLoading, isError } = userAllTickets()
-  console.log('ve lay tư re', allTickets)
-  const unusedTickets = allTickets.filter((ticket) => ticket.status === 'UNUSED')
-  const usedTickets = allTickets.filter((ticket) => ticket.status === 'USED')
-  const canceledTickets = allTickets.filter((ticket) => ticket.status === 'CANCEL')
+  const unusedTickets = allTickets.filter((ticket) => ticket.Status === 'CHƯA SỬ DỤNG')
+  const usedTickets = allTickets.filter((ticket) => ticket.Status === 'ĐÃ SỬ DỤNG')
+  const canceledTickets = allTickets.filter((ticket) => ticket.Status === 'ĐÃ HỦY')
   const dataMapping: Record<number, typeof allTickets> = {
     1: allTickets,
     2: unusedTickets,
@@ -66,17 +65,20 @@ function MyTicketPage() {
           activeData.map((ticket, index) => (
             <Ticket
               key={index}
-              ticketDetailID={ticket.ticketDetailID}
-              companyName={ticket.companyName}
-              date={ticket.startDate}
-              startTime={ticket.startTime}
-              endTime={ticket.endTime}
-              locationTo={ticket.endCity}
-              locationFrom={ticket.startCity}
-              seatCode={ticket.seatCode}
-              priceTicket={ticket.ticketPrice}
-              priceService={ticket.totalServicePrice}
-              status={ticket.status}
+              tripID={ticket.TripID}
+              userID={ticket.UserID}  
+              ticketDetailID={ticket.TicketDetailID}
+              companyName={ticket.CompanyName}
+              date={ticket.StartDate}
+              startTime={ticket.StartTime}
+              endTime={ticket.EndTime}
+              locationTo={ticket.EndCity}
+              locationFrom={ticket.StartCity}
+              seatCode={ticket.SeatCode}
+              priceTicket={ticket.TicketPrice}
+              priceService={ticket.TotalServicePrice}
+              status={ticket.Status}
+              isRated={ticket.IsRated}
             />
           ))}
       </div>

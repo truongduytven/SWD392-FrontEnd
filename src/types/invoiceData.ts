@@ -14,10 +14,10 @@ export interface  InvoiceData {
 }
 
 export interface Service {
-  serviceID: string
-  name: string
-  price: number
-  imageUrl: string
+  ServiceID: string
+  Name: string
+  Price: number
+  ImageUrl: string
   quantity: number
   station: string
 }

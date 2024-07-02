@@ -43,7 +43,7 @@ function TicketService({ services, seatCode }: ticket) {
     // Recalculate price whenever localServices changes
     let totalPrice = 0;
     localServices.forEach(service => {
-      totalPrice += service.price * service.quantity;
+      totalPrice += service.Price * service.quantity;
     });
     setPriceStation(totalPrice);
   }, [localServices]);
@@ -61,7 +61,7 @@ function TicketService({ services, seatCode }: ticket) {
 
   const handleAddService = (service: Service) => {
     const findService = localServices.find(
-      (localServices) => localServices.serviceID === service.serviceID && localServices.station === service.station
+      (localServices) => localServices.ServiceID === service.ServiceID && localServices.station === service.station
     )
     if (findService) {
       setLocalServices(
@@ -77,14 +77,14 @@ function TicketService({ services, seatCode }: ticket) {
   const handleUpdateService = (updatedService: Service) => {
     setLocalServices(
       localServices.map((service) =>
-        service.serviceID === updatedService.serviceID && service.station === updatedService.station ? updatedService : service
+        service.ServiceID === updatedService.ServiceID && service.station === updatedService.station ? updatedService : service
       )
     )
   }
 
   const handleDeleteService = (serviceId: string, selectedStation: string) => {
     const findService = localServices.find(
-      (localServices) => localServices.serviceID === serviceId && localServices.station === selectedStation
+      (localServices) => localServices.ServiceID === serviceId && localServices.station === selectedStation
     )
     setLocalServices(localServices.filter((service) => service !== findService))
   }
@@ -128,19 +128,19 @@ function TicketService({ services, seatCode }: ticket) {
             </AlertDialogHeader>
             <ServiceAction onKeyChange={handleKeyChange} onStationSelect={handleClickSelectService} />
             {isServiceSelected && servicesData && servicesData?.length > 0 && (
-              <Tabs defaultValue={servicesData?.[0].serviceTypeID} className='w-full mt-4'>
+              <Tabs defaultValue={servicesData?.[0].ServiceTypeID} className='w-full mt-4'>
                 <TabsList>
                   {servicesData?.map((items, index) => (
-                    <TabsTrigger key={index} value={items.serviceTypeID}>
-                      {items.name}
+                    <TabsTrigger key={index} value={items.ServiceTypeID}>
+                      {items.Name}
                     </TabsTrigger>
                   ))}
                 </TabsList>
                 {servicesData?.map((items) => (
-                  <TabsContent key={items.serviceTypeID} value={items.serviceTypeID}>
+                  <TabsContent key={items.ServiceTypeID} value={items.ServiceTypeID}>
                   <ServiceLayout
                     keySearch={keySearch}
-                    props={items.serviceModels}
+                    props={items.ServiceModels}
                     selectedStation={selectedStation}
                     onAddService={handleAddService} 
                   />
@@ -155,18 +155,18 @@ function TicketService({ services, seatCode }: ticket) {
                 <AlertDialogTitle className='flex justify-between items-center mb-6'>Dịch vụ đã chọn</AlertDialogTitle>
               </AlertDialogHeader>
               <div className='flex flex-col space-y-2 my-2 p-2 overflow-y-auto max-h-[500px]'>
-                <Accordion type='multiple' className='w-full' defaultValue={stationsData?.map(station => station.stationID)}>
+                <Accordion type='multiple' className='w-full' defaultValue={stationsData?.map(station => station.StationID)}>
                   {stationsData && stationsData?.map((station, index) => (
-                    <AccordionItem key={index} value={station.stationID} defaultValue={station.stationID}>
+                    <AccordionItem key={index} value={station.StationID} defaultValue={station.StationID}>
                       <AccordionTrigger className='hover:text-tertiary'>
-                        <span>{station.name}</span>
+                        <span>{station.Name}</span>
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className='flex flex-col space-y-3'>
                           {localServices &&
-                          localServices.filter((service) => service.station === station.stationID).length > 0 ? (
+                          localServices.filter((service) => service.station === station.StationID).length > 0 ? (
                             localServices
-                              .filter((service) => service.station === station.stationID)
+                              .filter((service) => service.station === station.StationID)
                               .map((service) => (
                                 <ServiceItem
                                   service={service}

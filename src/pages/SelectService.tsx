@@ -29,7 +29,7 @@ function SelectService() {
             {invoiceData &&
               invoiceData.tickets.map((ticket, index) => {
                 const servicePrice = ticket.services?.reduce(
-                  (total, service) => total + service.price * service.quantity,
+                  (total, service) => total + service.Price * service.quantity,
                   0
                 )
                 return (

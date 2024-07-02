@@ -1,27 +1,27 @@
 import busAPI from '@/lib/busAPI';
 
 interface ITicketDetail {
-    bookingID: string;
-    customerName: string;
-    companyName: string;
-    startDate: string;
-    startTime: string;
-    endDate: string;
-    endTime: string;
-    startCity: string;
-    endCity: string;
-    seatCode: string;
-    ticketPrice: number;
-    totalServicePrice: number;
-    sumOfPrice: number;
-    status: string;
-    qrCodeImage: string;
-    qrCode: string;
-    serviceDetailList: {
-      serviceName: string;
-      quantity: number;
-      servicePrice: number;
-      serviceInStation: string;
+    BookingID: string;
+    CustomerName: string;
+    CompanyName: string;
+    StartDate: string;
+    StartTime: string;
+    EndDate: string;
+    EndTime: string;
+    StartCity: string;
+    EndCity: string;
+    SeatCode: string;
+    TicketPrice: number;
+    TotalServicePrice: number;
+    SumOfPrice: number;
+    Status: string;
+    QrCodeImage: string;
+    QrCode: string;
+    ServiceDetailList: {
+      ServiceName: string;
+      Quantity: number;
+      ServicePrice: number;
+      ServiceInStation: string;
     }[];
   }
 export const fetchTicketDetail = async (ticketDetailID: string): Promise<ITicketDetail> => {
