@@ -18,12 +18,12 @@ import {
 } from '@/components/global/atoms/dialog'
 import starFillIcon from '@/assets/star-fill.svg'
 interface Feedback {
-  userName: string;
-  date: string;
-  desciption: string;
-  imageUrl: string[];
-  rating: number;
-  avt: string;
+  UserName: string;
+  Date: string;
+  Desciption: string;
+  ImageUrl: string[];
+  Rating: number;
+  Avt: string;
 }
 interface RatingDetailProps {
   feedback: Feedback;
@@ -33,6 +33,7 @@ const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 function RatingDetail({ feedback }:RatingDetailProps) {
+  console.log("rating", feedback)
   const defaultAvatar = 'https://i.pinimg.com/originals/7d/83/2a/7d832a6867b7a6b4fbec7ff05864df6e.png';
   return (
     <div className='flex justify-center mb-4 bg-muted '>
@@ -48,13 +49,13 @@ function RatingDetail({ feedback }:RatingDetailProps) {
           </div>
 
           <div className=' flex flex-col'>
-            <strong className='text-md '>{feedback.userName}</strong>
-            <p className='text-muted-foreground text-sm flex justify-center items-center gap-1'> <span>Đi ngày: </span><span>{formatDate(feedback.date)}</span></p>
+            <strong className='text-md '>{feedback.UserName}</strong>
+            <div className='text-muted-foreground text-sm flex justify-center items-center gap-1'> <span>Đi ngày: </span><span>{formatDate(feedback.Date)}</span></div>
           </div>
         </div>
 
         <div className='flex'>
-          {Array(feedback.rating)
+          {Array(feedback.Rating)
             .fill(null)
             .map((_, index) => {
               return <img key={index} src={starFillIcon} className='w-5 h-5 ' />
@@ -62,17 +63,18 @@ function RatingDetail({ feedback }:RatingDetailProps) {
         </div>
       </div>
 
-      <div className='text-foreground text-base'>{feedback.desciption}</div>
+      <div className='text-foreground text-base'>{feedback.Desciption}</div>
 
       <div className='flex gap-2 mt-2'>
         {/* {!!rating.imageUrls?.length && ( */}
 
-        <Dialog>
+        {/* <Dialog>
           <DialogTrigger className='flex gap-2'>
-           
-             {feedback.imageUrl.map((img:any, index:any) => (
+           {' '}
+             {feedback.ImageUrl?.map((img:any, index:any) => (
            <img
-           className='object-cover w-24 h-32 rounded cursor-pointer aspect-square  '
+           key={index}
+           className='object-cover w-24 h-32 rounded cursor-pointer aspect-square '
            src={img}
            alt='rating'
          />
@@ -83,7 +85,7 @@ function RatingDetail({ feedback }:RatingDetailProps) {
               <DialogDescription>
                 <Carousel className='w-full '>
                   <CarouselContent>
-                  {feedback.imageUrl.map((img:any, index:any) => (
+                  {feedback.ImageUrl.map((img:any, index:any) => (
                       <CarouselItem key={index}>
                         <div className='flex flex-col h-full gap-3 justify-center items-center'>
                           <Card className='shadow-none  border-none flex justify-center items-center'>
@@ -95,9 +97,9 @@ function RatingDetail({ feedback }:RatingDetailProps) {
                               />
                             </CardContent>
                           </Card>
-                          <p className='text-right '>
-                          {index+1}/ {feedback.imageUrl.length}
-                        </p>
+                          <div className='text-right '>
+                          {index+1}/ {feedback.ImageUrl.length}
+                        </div>
                         </div>
                       
                       </CarouselItem>
@@ -109,7 +111,51 @@ function RatingDetail({ feedback }:RatingDetailProps) {
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
+         {feedback.ImageUrl && feedback.ImageUrl.length > 0 && (
+            <Dialog>
+              <DialogTrigger className="flex gap-2">
+                {feedback.ImageUrl.map((img, index) => (
+                  <img
+                    key={index}
+                    className="object-cover w-24 h-32 rounded cursor-pointer aspect-square"
+                    src={img}
+                    alt="rating"
+                  />
+                ))}
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogDescription>
+                    <Carousel className="w-full">
+                      <CarouselContent>
+                        {feedback.ImageUrl.map((img, index) => (
+                          <CarouselItem key={index}>
+                            <div className="flex flex-col h-full gap-3 justify-center items-center">
+                              <Card className="shadow-none border-none flex justify-center items-center">
+                                <CardContent className="p-0 flex justify-center items-center">
+                                  <img
+                                    className="object-contain h-full rounded-md cursor-pointer"
+                                    src={img}
+                                    alt="rating"
+                                  />
+                                </CardContent>
+                              </Card>
+                              <div className="text-right">
+                                {index + 1} / {feedback.ImageUrl.length}
+                              </div>
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <CarouselPrevious />
+                      <CarouselNext />
+                    </Carousel>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          )}
 
       </div>
 

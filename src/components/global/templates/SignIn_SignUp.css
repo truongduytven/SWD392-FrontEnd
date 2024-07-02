@@ -5,6 +5,7 @@
     overflow: hidden;
     min-height: 75%;
     min-width: 50%;
+    height: fit-content;
   }
   
   .form-container {

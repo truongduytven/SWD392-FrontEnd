@@ -12,16 +12,16 @@ const buttons = [
   { label: '1 Sao', value: '1' }
 ] as const
 interface Feedback {
-  userName: string;
-  date: string;
-  desciption: string;
-  imageUrl: string[];
-  rating: number;
-  avt: string;
+  UserName: string;
+  Date: string;
+  Desciption: string;
+  ImageUrl: string[];
+  Rating: number;
+  Avt: string;
 }
 interface TripRatingDetails {
-  feedbacks: Feedback[];
-  totalRating: number;
+  Feedbacks: Feedback[];
+  TotalRating: number;
 }
 interface RatingTabProps {
   tripID:string,
@@ -47,7 +47,7 @@ function RatingDetailLayout({tripID, tripRatingDetails, isLoading, error, refetc
     <div>
     <div className='flex items-center justify-center p-4 mb-4 rounded-sm bg-muted'>
       <div className='mx-10'>
-        <span className='mx-1 text-2xl font-medium'>{tripRatingDetails?.totalRating?.toFixed(1) || 0}</span>
+        <span className='mx-1 text-2xl font-medium'>{tripRatingDetails?.TotalRating?.toFixed(1) || 0}</span>
         <span className='text-base font-medium'>/ 5</span>
         <div className='flex my-2'>
           <svg viewBox='0 0 1000 200' className='mb-0'>
@@ -62,7 +62,7 @@ function RatingDetailLayout({tripID, tripRatingDetails, isLoading, error, refetc
               </clipPath>
             </defs>
             <rect className='w-full h-full fill-slate-300' clipPath='url(#stars)' />
-            <rect width={tripRatingDetails?.totalRating * 20 + '%'} className='fill-[#eab308] h-full' clipPath='url(#stars)' />
+            <rect width={tripRatingDetails?.TotalRating * 20 + '%'} className='fill-[#eab308] h-full' clipPath='url(#stars)' />
           </svg>
         </div>
       </div>
@@ -82,15 +82,15 @@ function RatingDetailLayout({tripID, tripRatingDetails, isLoading, error, refetc
     {isLoading ? (
       <Loader />
     ) : error ? (
-      <p className='text-center font-semibold mt-8'>Đã xảy ra lỗi trong quá trình tải, vui lòng thử lại sau!</p>
-    ) : tripRatingDetails && tripRatingDetails.feedbacks.length > 0 ? (
+      <div className='text-center font-semibold mt-8'>Đã xảy ra lỗi trong quá trình tải, vui lòng thử lại sau!</div>
+    ) : tripRatingDetails && tripRatingDetails.Feedbacks.length > 0 ? (
       <div className='h-[400px] overflow-y-auto'>
-        {tripRatingDetails.feedbacks.map((feedback, index) => (
+        {tripRatingDetails.Feedbacks.map((feedback, index) => (
           <RatingDetail feedback={feedback} key={index} />
         ))}
       </div>
     ) : (
-      <p className='text-center font-semibold mt-8'>Không có đánh giá cho chuyến xe này</p>
+      <div className='text-center font-semibold mt-8'>Không có đánh giá cho chuyến xe này</div>
     )}
   </div>
    

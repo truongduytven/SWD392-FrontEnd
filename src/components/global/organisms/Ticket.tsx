@@ -1,55 +1,104 @@
+import { formatPrice } from "@/lib/utils"
 
-function Ticket() {
+interface Station {
+  serviceName: string
+  price: number
+}
+
+interface Trip {
+  userName: string
+  route: string
+  company: string
+  date: string
+  time: string
+  position: string
+}
+
+export interface TicketProps {
+  price: {
+    price: number
+    services: Station[]
+  }
+  trip: Trip
+  totalBill: number
+  qrCodeImage: string
+  qrCode: string
+}
+const data = [
+  {
+    price: {
+      price: 9000,
+      services: [
+        {
+          serviceName: 'Mì tôn',
+          price: 9000
+        },
+        {
+          serviceName: 'Mì trộn',
+          price: 195000
+        }
+      ]
+    },
+    trip: {
+      userName: 'Staff',
+      route: 'Hòa Bình - Thừa Thiên Huế',
+      company: 'My Thuong',
+      date: '2024-08-15',
+      time: '20:00',
+      position: 'A02'
+    },
+    totalBill: 54000,
+    qrCodeImage:
+      'https://firebasestorage.googleapis.com/v0/b/cloudfunction-yt-2b3df.appspot.com/o/TICKETBOOKING%2FQR%2Fc7b9e6cc-69aa-4fb3-a694-9c2ca765d149?alt=media&token=f6e58350-0f4d-4aee-aa7b-ab94de9d5d77',
+    qrCode: '12055878'
+  }
+]
+function Ticket({ price, trip, totalBill, qrCode, qrCodeImage }: TicketProps) {
   return (
     <div className='flex flex-col items-center justify-center text-sm '>
-            <h1 className="text-3xl font-bold mb-4">Tra cứu vé thành công</h1>
+      <h1 className='text-3xl font-bold mb-4'>Tra cứu vé thành công</h1>
 
       <div className='flex bg-white shadow-lg rounded-lg border'>
         <div className='flex '>
-          <div className='flex flex-col justify-between bg-cover border-r border-dashed border-gray-700 p-5 opacity-85'>
+          <div className='flex flex-col w-fit justify-start bg-cover border-r border-dashed border-gray-700 p-5 opacity-85'>
             <div className='flex flex-col gap-2 items-center'>
-              <p className='text-lg font-semibold'>
-                Giá vé: 
-                <span className='text-xl font-bold text-orange-500 ml-1'>170.000đ</span>
+              <p className='text-lg font-semibold  mt-4'>
+                Giá vé:
+                <span className='text-xl font-bold text-orange-500 ml-1'>{formatPrice(price.price)}</span>
               </p>
-              <p className='text-md font-semibold'>Giá dịch vụ:</p>
+              <p className='text-md font-semibold mt-10'>Giá dịch vụ:</p>
             </div>
-            <div className='flex justify-between text-md gap-2'>
-              <span className='text-gray-500'>Dịch vụ 1:</span>
-              <span className='font-bold text-orange-500'>20.000đ</span>
-              <span className='italic font-semibold'>Trạm A</span>
-            </div>
-            <div className='flex justify-between text-md gap-2'>
-              <span className='text-gray-500'>Dịch vụ 2:</span>
-              <span className='font-bold text-orange-500'>30.000đ</span>
-              <span className='italic font-semibold'>Trạm B</span>
-            </div>
-            <div className='flex justify-between text-md gap-2'>
-              <span className='text-gray-500'>Dịch vụ 3:</span>
-              <span className='font-bold text-orange-500'>30.000đ</span>
-              <span className='italic font-semibold'>Trạm C</span>
-            </div>
+
+            {price.services.map((service, index) => (
+              <div className='flex justify-between text-md gap-2' key={index}>
+                <span className='text-gray-500 mt-6 whitespace-nowrap'>{`${service.serviceName}`}</span>
+                <span className='font-bold text-orange-500 mt-6 whitespace-nowrap'>{`${formatPrice(service.price)}`}</span>
+                <span className='italic font-semibold mt-6  whitespace-nowrap'>{`Trạm${index + 1}`}</span>
+              </div>
+             
+
+            ))}
           </div>
           <div className='flex flex-col gap-2 items-center p-7 justify-between  text-center space-y-2'>
             <p className='border-t text-lg border-b border-gray-400 py-2 font-bold text-orange-500'>THE BUS JOURNEY</p>
-            <h3 className='text-lg font-medium'>Nguyễn Ngọc Quân</h3>
+            <h3 className='text-lg font-medium'>{trip.userName}</h3>
             <h4 className='text-md'>
-              Chặng đi: <span className='font-bold'>Hà Nội - Bến Tre</span>
+              Chặng đi: <span className='font-bold'>{trip.route}</span>
             </h4>
             <h4 className='text-md'>
-              Nhà xe: <span className='font-bold'>Minh Tiên</span>
+              Nhà xe: <span className='font-bold'>{trip.company}</span>
             </h4>
             <p>
               Khởi hành:
-              <span className='text-base font-bold ml-2'>15:30</span>
+              <span className='text-base font-bold ml-2'>{trip.time}</span>
             </p>
             <p>
               Ngày:
-              <span className='text-base font-bold ml-2'>24/07/2023</span>
+              <span className='text-base font-bold ml-2'>{trip.date}</span>
             </p>
             <p>
               Vị trí vé:
-              <span className='text-base font-bold ml-2'>A15</span>
+              <span className='text-base font-bold ml-2'>{trip.position}</span>
             </p>
           </div>
         </div>
@@ -63,14 +112,11 @@ function Ticket() {
               <h1 className='text-lg'>Tổng hóa đơn</h1>
             </div>
             <div>
-              <h1 className='text-lg font-bold'>650.000đ</h1>
+              <h1 className='text-lg font-bold'>{formatPrice(totalBill)}</h1>
             </div>
             <div className='h-24'>
-              <img
-                src='https://external-preview.redd.it/cg8k976AV52mDvDb5jDVJABPrSZ3tpi1aXhPjgcDTbw.png?auto=webp&s=1c205ba303c1fa0370b813ea83b9e1bddb7215eb'
-                alt='QR code'
-                className='h-full'
-              />
+              <img src={qrCodeImage} alt='QR code' className='h-full' />
+              <p className='text-center font-bold mt-2'>{qrCode}</p>
             </div>
             <p>Cảm ơn quý khách đã tin tưởng</p>
           </div>

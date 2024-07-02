@@ -2,33 +2,36 @@ import busAPI from '@/lib/busAPI';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/auth/AuthProvider';
 import { useParams } from 'react-router-dom';
+import { error } from 'console';
+
 interface TicketData {
-    bookingID: string;
-    ticketDetailID: string;
-    companyName: string;
-    startDate: string;
-    startTime: string;
-    endDate: string;
-    endTime: string;
-    totalTime: string;
-    startCity: string;
-    endCity: string;
-    seatCode: string;
-    ticketPrice: number;
-    totalServicePrice: number;
-    status: string;
+    BookingID: string;
+    UserID:string;
+    TripID:string;
+    TicketDetailID: string;
+    CompanyName: string;
+    StartDate: string;
+    StartTime: string;
+    EndDate: string;
+    EndTime: string;
+    TotalTime: string;
+    StartCity: string;
+    EndCity: string;
+    SeatCode: string;
+    TicketPrice: number;
+    TotalServicePrice: number;
+    Status: string;
+    IsRated: boolean
   }
 
   export const userAllTickets = () => {
     
 const userId = useParams()
-console.log("user ơ đay", userId)
+console.log("id ne", userId)
     return useQuery<TicketData[], Error>({
       queryKey: ['allTickets'],
       queryFn: async () => {
-        console.log("user ơ react qỉey", userId.id)
         const { data } = await busAPI.get<TicketData[]>(`/ticket-detail-management/managed-ticket-details/customers/${userId.id}`);
-        console.log("objechdhkskjt", data)
         return data;
       }
     });
