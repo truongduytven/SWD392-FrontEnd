@@ -35,14 +35,14 @@ function ServiceItem({ service, onDeleteService, onUpdateService }: ServiceItemP
   }
 
   const handleDeleteService = () => {
-    onDeleteService(service.serviceID, service.station)
-    toast.success(`Xoá ${service.name} thành công`)
+    onDeleteService(service.ServiceID, service.station)
+    toast.success(`Xoá ${service.Name} thành công`)
   }
   return (
     <div className='border flex rounded-md items-center pl-1'>
       <div
         style={{
-          backgroundImage: `url(${service.imageUrl})`,
+          backgroundImage: `url(${service.ImageUrl})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center'
@@ -58,7 +58,7 @@ function ServiceItem({ service, onDeleteService, onUpdateService }: ServiceItemP
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Xác nhận xóa</AlertDialogTitle>
-              <AlertDialogDescription>Bạn có chắc chắn rằng muốn xóa {service.name} không ?</AlertDialogDescription>
+              <AlertDialogDescription>Bạn có chắc chắn rằng muốn xóa {service.Name} không ?</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Hủy</AlertDialogCancel>
@@ -68,15 +68,15 @@ function ServiceItem({ service, onDeleteService, onUpdateService }: ServiceItemP
         </AlertDialog>
       </div>
       <div className='w-full relative flex flex-col text-sm p-2'>
-        <span>{service.name}</span>
-        <span>{formatPrice(service.price)}</span>
+        <span>{service.Name}</span>
+        <span>{formatPrice(service.Price)}</span>
         <QuantityInput initialValue={service.quantity} onUpdate={handleQuantityUpdate} />
       </div>
       <AlertDialog open={isAlertDialogOpen} onOpenChange={setIsAlertDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Xác nhận xóa</AlertDialogTitle>
-            <AlertDialogDescription>Bạn có chắc chắn rằng muốn xóa {service.name} không?</AlertDialogDescription>
+            <AlertDialogDescription>Bạn có chắc chắn rằng muốn xóa {service.Name} không?</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setIsAlertDialogOpen(false)}>Hủy</AlertDialogCancel>
