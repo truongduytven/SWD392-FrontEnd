@@ -1,21 +1,21 @@
 export type ITicketData = {
-  tripID: string
-  routeID: string
-  companyName: string
-  startLocation: string
-  endLocation: string
-  startTime: string
-  startDate: string
-  totalSeats: number
-  seatBooked: string[]
-  ticketType_TripModels: ITicketModels[]
+  TripID: string
+  RouteID: string
+  CompanyName: string
+  StartLocation: string
+  EndLocation: string
+  StartTime: string
+  StartDate: string
+  TotalSeats: number
+  SeatBooked: string[]
+  TicketType_TripModels: ITicketModels[]
 }
 
 export type ITicketModels = {
-  ticketType_TripID: string
-  ticketName: string
-  quantity: number
-  price: number
+  TicketType_TripID: string
+  TicketName: string
+  Quantity: number
+  Price: number
 }
 
 export type IStations = 
