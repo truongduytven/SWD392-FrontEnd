@@ -4,7 +4,6 @@ import TicketService from '@/components/local/SelectService/TicketService'
 import InvoiceDetail from '@/components/local/SelectTicket/InvoiceDetail'
 import { useInvoice } from '@/contexts/InvoiceContext'
 import { calculateDuration, formatPrice } from '@/lib/utils'
-import { format, formatDate } from 'date-fns'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import OOPS from '@/assets/oops.jpg'
@@ -25,8 +24,8 @@ function SelectService() {
           </Button>
         </div>
         <div className='flex justify-center uppercase font-bold text-4xl mb-12 text-primary'>chọn dịch vụ</div>
-        <div className='flex justify-evenly'>
-          <div className='w-1/2 flex flex-col space-y-3'>
+        <div className='flex justify-around'>
+          <div className='w-3/5 flex flex-col space-y-3'>
             {invoiceData &&
               invoiceData.tickets.map((ticket, index) => {
                 const servicePrice = ticket.services?.reduce(
@@ -35,7 +34,7 @@ function SelectService() {
                 )
                 return (
                   <div className='flex text-sm border shadow-md' key={index}>
-                    <div className='w-5/12 flex flex-col justify-center border-r-2 border-dashed p-2 items-center space-y-2'>
+                    <div className='w-1/3 flex flex-col justify-center border-r-2 border-dashed p-2 items-center space-y-2'>
                       <span>Giờ xuất bến</span>
                       <span className='font-bold text-lg'>{invoiceData.startTime}</span>
                       <span className='font-semibold'>{invoiceData.startDate}</span>
@@ -67,14 +66,14 @@ function SelectService() {
                               </svg>
                             </div>
 
-                            <div className='flex flex-col items-start justify-between gap-1'>
+                            <div className='w-full flex flex-col items-start justify-between gap-1'>
                               <p className='m-0 p-0'>
-                                <span className='font-bold mr-2 text-lg'>{invoiceData.startTime}</span>
+                                <span className='font-bold mr-1 text-md'>{invoiceData.startTime}</span>
                                 {invoiceData.startLocation}
                               </p>
                               <p className='text-muted-foreground'>{calculateDuration(invoiceData.startTime, invoiceData.endTime)}</p>
                               <p>
-                                <span className='font-bold mr-2 text-lg'>{invoiceData.endTime}</span>
+                                <span className='font-bold mr-1 text-md'>{invoiceData.endTime}</span>
                                 {invoiceData.endLocation}
                               </p>
                             </div>
@@ -84,7 +83,7 @@ function SelectService() {
                               Số ghế: <span className='font-bold'>{ticket.seatCode}</span>
                             </span>
                             <span>Giá vé: <span className='font-bold'>{formatPrice(ticket.price)}</span></span>
-                            {ticket.services && <span>Giá dịch vụ: <span className='font-bold'>{formatPrice(servicePrice)}</span></span>}
+                            <span>Giá dịch vụ: <span className='font-bold'>{formatPrice(servicePrice)}</span></span>
                           </div>
                         </div>
                       </div>

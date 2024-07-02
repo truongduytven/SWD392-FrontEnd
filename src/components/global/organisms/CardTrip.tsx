@@ -3,7 +3,7 @@ import ImageTab from '@/components/local/TabCardTrip/ImageTab'
 import busAPI from '@/lib/busAPI'
 import { calculateDuration, formatPrice } from '@/lib/utils'
 import { ITripData } from '@/types/tripInterface'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Star } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -12,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
 import RatingDetailLayout from '../molecules/RatingDetailLayout'
 import UtilitiesTab from '@/components/local/TabCardTrip/UtilitiesTab'
 import RouteTrip from '@/components/local/TabCardTrip/RouteTrip'
-import { da } from 'date-fns/locale'
 import { useAuth } from '@/auth/AuthProvider'
 import { useInvoice } from '@/contexts/InvoiceContext'
 interface ITripDataProps {
@@ -30,7 +29,7 @@ function CardTrip({ data }: ITripDataProps) {
 
   const navigate = useNavigate()
   const handleSubmit = () => {
-    updateUserIDTripID(user?.userID, data.TripID, data.EndTime)
+    updateUserIDTripID(user?.userID, data.TripID, data.RouteID, data.EndTime)
     navigate('/selectTicket')
   }
 

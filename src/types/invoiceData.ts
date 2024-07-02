@@ -1,4 +1,5 @@
 export interface  InvoiceData {
+  routeID: string
   companyName: string
   userID: string | undefined
   tripID: string
@@ -13,12 +14,11 @@ export interface  InvoiceData {
 }
 
 export interface Service {
-  id: number
+  serviceID: string
   name: string
   price: number
-  quantity: number
-  type: string
   imageUrl: string
+  quantity: number
   station: string
 }
 

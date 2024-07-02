@@ -1,6 +1,6 @@
 
  interface Station {
-    stationName: string;
+    serviceName: string;
     price: number;
   }
   
@@ -16,7 +16,7 @@
 export interface ISearchTicket {
     price: {
       price: number;
-      stations: Station[];
+      services: Station[];
     };
     trip: Trip;
     totalBill: number;

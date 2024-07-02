@@ -139,6 +139,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setToken(null)
     setUser(null)
     localStorage.removeItem('token')
+    toast.success("Đăng xuất tài khoản thành công")
     // Redirect to login page after logout
     navigate("/")
   }

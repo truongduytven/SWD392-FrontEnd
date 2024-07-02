@@ -39,6 +39,8 @@ export function SearchForm({ onsubmitSearch }: SearchFormProps) {
       })
     }
   }, [searchData, data])
+
+  console.log(data)
   function onSubmit(values: z.infer<typeof SearchSchema>) {
     setSearchData(values)
     onsubmitSearch(values)
@@ -52,7 +54,7 @@ export function SearchForm({ onsubmitSearch }: SearchFormProps) {
           <Form {...form}>
             <form className='w-full h-full' onSubmit={form.handleSubmit(onSubmit)}>
               <div className='w-full h-1/2 flex justify-around items-end p-3'>
-                <div className='flex w-full justify-evenly'>
+                <div className='flex w-full justify-around'>
                   <FormField
                     control={form.control}
                     name='startLocation'

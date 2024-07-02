@@ -36,3 +36,12 @@ export interface ITripSearchData {
     TotalCount: number,
 }
 
+export type IPopularTrip = {
+    tripID: string,
+    fromCityID: string,
+    fromCity: string,
+    toCityID: string,
+    toCity: string,
+    priceFrom: number,
+    imageUrl: string[],
+}
