@@ -126,7 +126,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (axios.isAxiosError(error) && error.response) {
         const message = error.response.data.message
         setErrorMessage(message)
-        toast.error("Email hoặc mật khẩu không đúng")
+        toast.error(error.response.data.message)
       } else {
         console.error('Login failed:', error)
       }
