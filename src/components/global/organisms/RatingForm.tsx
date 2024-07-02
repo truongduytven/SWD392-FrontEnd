@@ -4,6 +4,7 @@ import { Button } from '@/components/global/atoms/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/global/atoms/form'
 import { RadioGroup, RadioGroupItem } from '@/components/global/atoms/radio-group'
 import { Textarea } from '@/components/global/atoms/textarea'
+import busAPI from '@/lib/busAPI'
 import { ratingSchema } from '@/lib/schemas/ratingSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { ChangeEvent, useState } from 'react'
@@ -45,11 +46,12 @@ function RatingForm ({userID, tripID, setShowRatingForm }: RatingFormProps) {
       formData.append('UserID', userID)
       formData.append('TripID', tripID)
       formData.append('Description', data.content || '')
-
       files.forEach((file) => {
         formData.append('Files', file) // Append file as binary data
       })
-
+      
+    const response=  await busAPI.post('/feedback-management/managed-feedbacks', formData);
+    console.log("thanh cong", response)
       // Simulate API call with FormData
       console.log('Form Data:', formData)
       for (const [key, value] of formData.entries()) {
