@@ -42,10 +42,10 @@ const [loading, setLoading] = useState(false)
 
   const onSubmit = async (values: any) => {
     const formData = new FormData()
-    formData.append('UserName', values.UserName || data?.userName)
-    formData.append('FullName', values.FullName || data?.fullName)
-    formData.append('Address', values.Address || data?.address)
-    formData.append('PhoneNumber', values.PhoneNumber || data?.phoneNumber)
+    formData.append('UserName', values.UserName || data?.UserName)
+    formData.append('FullName', values.FullName || data?.FullName)
+    formData.append('Address', values.Address || data?.Address)
+    formData.append('PhoneNumber', values.PhoneNumber || data?.PhoneNumber)
     formData.append('Password', values.Password)
     formData.append('NewPassword', values.NewPassword)
     formData.append('ConfirmPassword', values.ConfirmPassword)
@@ -137,13 +137,13 @@ const [loading, setLoading] = useState(false)
             className='w-full max-w-3xl rounded-lg p-4 shadow-mini-content'
             layout='vertical'
             initialValues={{
-              UserName: data?.userName,
-              email: data?.email,
+              UserName: data?.UserName,
+              email: data?.Email,
               Password: '',
-              FullName: data?.fullName,
-              Avatar: data?.avatar,
-              PhoneNumber: data?.phoneNumber,
-              Address: data?.address,
+              FullName: data?.FullName,
+              Avatar: data?.Avatar,
+              PhoneNumber: data?.PhoneNumber,
+              Address: data?.Address,
               NewPassword: '',
               ConfirmPassword: ''
             }}

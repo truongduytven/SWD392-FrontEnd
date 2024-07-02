@@ -40,10 +40,18 @@ function FormSignUp({ reset }: FormSignUpProps) {
     try {
       setLoading(true)
       const response = await busAPI.post('/auth-management/managed-auths/sign-ups', data)
-      console.log('Signup successful:', response.data.message)
+      console.log('Signup successful:', response.data.Verified)
       setLoading(false)
-      toast.success('Đăng kí thành công, vui lòng kiểm tra mail và xác nhận!')
-      navigate(`/otp-verified/${data.email}`)
+      if (response.data.Messages === 'EMAIL ĐÃ ĐĂNG KÍ NHƯNG CHƯA ĐƯỢC XÁC THỰC!') {
+        toast.success('Email đã được đăng kí nhưng chưa xác thực. Vui lòng xác thực mail!')
+        navigate(`/otp-verified/${data.email}`)
+        const response = await busAPI.post('user-management/managed-users/otp-code-sending', { email: data.email })
+      } else if (response.data.Messages === 'EMAIL ĐÃ TỒN TẠI!') {
+        toast.error('Email đã tồn tại, vui lòng thử với email khác')
+      } else {
+        toast.success('Đăng kí thành công, vui lòng kiểm tra mail và xác nhận!')
+        navigate(`/otp-verified/${data.email}`)
+      }
       // Handle successful signup, e.g., redirect or display success message
     } catch (error) {
       setLoading(false)

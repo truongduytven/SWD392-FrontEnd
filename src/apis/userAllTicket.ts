@@ -5,22 +5,23 @@ import { useParams } from 'react-router-dom';
 import { error } from 'console';
 
 interface TicketData {
-    bookingID: string;
-    userID:string;
-    tripID:string;
-    ticketDetailID: string;
-    companyName: string;
-    startDate: string;
-    startTime: string;
-    endDate: string;
-    endTime: string;
-    totalTime: string;
-    startCity: string;
-    endCity: string;
-    seatCode: string;
-    ticketPrice: number;
-    totalServicePrice: number;
-    status: string;
+    BookingID: string;
+    UserID:string;
+    TripID:string;
+    TicketDetailID: string;
+    CompanyName: string;
+    StartDate: string;
+    StartTime: string;
+    EndDate: string;
+    EndTime: string;
+    TotalTime: string;
+    StartCity: string;
+    EndCity: string;
+    SeatCode: string;
+    TicketPrice: number;
+    TotalServicePrice: number;
+    Status: string;
+    IsRated: boolean
   }
 
   export const userAllTickets = () => {

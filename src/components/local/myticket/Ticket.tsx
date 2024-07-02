@@ -28,7 +28,8 @@ interface TicketProps {
   seatCode: string
   priceTicket: number
   priceService: number
-  status: string
+  status: string,
+  isRated:boolean
 }
 
 function Ticket({
@@ -44,7 +45,8 @@ function Ticket({
   seatCode,
   priceTicket,
   priceService,
-  status
+  status,
+  isRated
 }: TicketProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [showRatingForm, setShowRatingForm] = useState(false)
@@ -139,7 +141,7 @@ function Ticket({
                     Xem chi tiết
                   </div>
               </DialogTrigger>
-              {status === 'ĐÃ SỬ DỤNG' && (
+              {/* {status === 'ĐÃ SỬ DỤNG' && (
                 <div
                   onClick={() => setShowRatingForm(true)}
                   className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'
@@ -147,6 +149,24 @@ function Ticket({
                   <MessageCircleHeart />
                   Đánh giá
                 </div>
+              )} */}
+              {status === 'ĐÃ SỬ DỤNG' && (
+                isRated 
+                ? (
+                  <div className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
+                    <MessageCircleHeart />
+                    Đã đánh giá
+                  </div>
+                ) 
+                : (
+                  <div
+                    onClick={() => setShowRatingForm(true)}
+                    className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'
+                  >
+                    <MessageCircleHeart />
+                    Đánh giá
+                  </div>
+                )
               )}
               <DialogContent className='sm:max-w-md'>
                 <DialogHeader>

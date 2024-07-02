@@ -27,7 +27,7 @@ interface User {
   phoneNumber: string
   balance: number
   createDate: string
-  isVerified: true
+  isVerified: boolean
   status: string
   roleID: string
   result: any
@@ -111,24 +111,59 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   //     }
   //   }
   // }
-  const login = async (username: string, password: string) => {
+  const login = async (email: string, password: string) => {
     try {
       setLoading(true)
       const response = await busAPI.post('/auth-management/managed-auths/sign-ins', {
-        email: username,
+        email: email,
         password: password
       })
-      const newToken = response.data.accessToken
+      const newToken = response.data.AccessToken
       setToken(newToken)
       localStorage.setItem('token', newToken)
       setErrorMessage(null)
       toast.success('Đăng nhập thành công')
       navigate(-1)
+      // Fetch user data after setting the token
+      //  const fetchUser = async () => {
+      //   try {
+      //     const response = await busAPI.get<User>('/auth-management/managed-auths/token-verification', {
+      //       headers: {
+      //         Authorization: `Bearer ${newToken}`
+      //       }
+      //     });
+      //     const userData = response.data.result.user;
+      //     setUser(userData);
+
+      //     if (userData.isVerified) {
+      //       toast.success('Đăng nhập thành công')
+      //       navigate(-1);
+      //     } else {
+      //       toast.error('Tài khoản chưa được xác thực, vui lòng xác thực')
+      //       const response = await busAPI.post('user-management/managed-users/otp-code-sending', user?.email)
+      //       navigate(`/otp-verified/${user?.email}`); // Navigate to the verification page
+      //     }
+      //   } catch (error) {
+      //     console.error('Fetching user information failed:', error);
+      //   }
+      // };
+
+      // fetchUser();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
+        console.log(error)
         const message = error.response.data.message
+        console.log('msajgjgaej', message)
+        if (error.response.data.verified === false) {
+          toast.error('Email đã đăng kí nhưng chưa xác thực. Vui lòng xác thực email!')
+          navigate(`/otp-verified/${email}`)
+          const response = await busAPI.post('user-management/managed-users/otp-code-sending', { email: email })
+        } else {
+          setLoading(false)
+          toast.error('Email hoặc mật khẩu không đúng')
+        }
+        console.log('check verified', error.response.data.verified)
         setErrorMessage(message)
-        toast.error('Email hoặc mật khẩu không đúng')
       } else {
         console.error('Login failed:', error)
       }

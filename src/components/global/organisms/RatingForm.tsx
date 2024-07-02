@@ -42,8 +42,8 @@ function RatingForm ({userID, tripID, setShowRatingForm }: RatingFormProps) {
     try {
       const formData = new FormData()
       formData.append('Rating', data.value.toString())
-      formData.append('userID', userID)
-      formData.append('tripID', tripID)
+      formData.append('UserID', userID)
+      formData.append('TripID', tripID)
       formData.append('Description', data.content || '')
 
       files.forEach((file) => {

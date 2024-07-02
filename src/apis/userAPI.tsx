@@ -4,21 +4,22 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 interface IUserDetail {
-  userID: string,
-  userName: string,
-  password: string,
-  fullName: string,
-  email: string,
-  avatar: string,
-  address: string,
-  otpCode: string,
-  phoneNumber: string,
-  balance: number,
-  createDate: string,
-  isVerified: boolean,
-  status: string,
-  roleID: string,
-  roleName:string
+  UserID: string,
+  UserName: string,
+  Password: string,
+  FullName: string,
+  Email: string,
+  Avatar: string,
+  Address: string,
+  OtpCode: string,
+  PhoneNumber: string,
+  Balance: number,
+  CreateDate: string,
+  IsVerified: boolean,
+  Status: string,
+  RoleID: string,
+  RoleName:string,
+  CompanyID:string
 }
 // export const fetchUserDetail = async (userId: string): Promise<IUserDetail> => {
 //   const { data } = await busAPI.get<IUserDetail>(`/user-management/managed-users/${userId}/details`);

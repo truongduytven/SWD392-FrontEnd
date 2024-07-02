@@ -69,14 +69,14 @@ function Header() {
                 <DropdownMenuTrigger className='float-right' asChild>
                   <img
                     className='h-10 w-10 cursor-pointer rounded-full object-cover border-2 border-primary hover:border-tertiary'
-                    src={data?.avatar}
+                    src={data?.Avatar}
                     alt='avatar'
                   />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-fit'>
-                  <DropdownMenuLabel className='py-0'>{data?.userName}</DropdownMenuLabel>
+                  <DropdownMenuLabel className='py-0'>{data?.UserName}</DropdownMenuLabel>
                   <DropdownMenuItem className='py-0 text-xs' disabled>
-                    {data?.email}
+                    {data?.Email}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <Link to='/profile'>
@@ -85,7 +85,7 @@ function Header() {
                       Hồ sơ người dùng
                     </DropdownMenuItem>
                   </Link>
-                  <Link to={`/myticket/${data?.userID}`}>
+                  <Link to={`/myticket/${data?.UserID}`}>
                     <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
                       <Ticket className='w-5' />
                       Vé của tôi
