@@ -10,12 +10,15 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import React, { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
 import { z } from 'zod'
+import Loading from '@/components/local/login/Loading'
+
 
 interface RatingFormProps {
-  tripID:string;
-  userID:string;
-  setShowRatingForm: (show: boolean) => void;
+  tripID: string
+  userID: string
+  setShowRatingForm: (show: boolean) => void
 }
 
 const rateValueToText = ['Rất tệ', 'Tệ', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
@@ -24,14 +27,14 @@ const suggestedContents = [
   'Chất lượng chuyến đi tốt',
   'Nhân viên chu đáo',
   'An toàn, tiện nghi',
-  "Nhà vệ sinh sạch sẽ"
+  'Nhà vệ sinh sạch sẽ'
 ]
 
-function RatingForm ({userID, tripID, setShowRatingForm }: RatingFormProps) {
+function RatingForm({ userID, tripID, setShowRatingForm }: RatingFormProps) {
   const [files, setFiles] = useState<File[]>([])
   const [base64Files, setBase64Files] = useState<string[]>([])
   const [suggestedContent, setSuggestedContent] = useState<string>('')
-
+  const [loading, setLoading] = useState(false)
   const form = useForm<z.infer<typeof ratingSchema>>({
     resolver: zodResolver(ratingSchema),
     defaultValues: { value: 5, content: '', imageUrls: [] }
@@ -39,7 +42,8 @@ function RatingForm ({userID, tripID, setShowRatingForm }: RatingFormProps) {
 
   const { handleSubmit, control, setValue, reset } = form
 
-   const onSubmit = async (data: z.infer<typeof ratingSchema>) => {
+  const onSubmit = async (data: z.infer<typeof ratingSchema>) => {
+    setLoading(true)
     try {
       const formData = new FormData()
       formData.append('Rating', data.value.toString())
@@ -49,9 +53,12 @@ function RatingForm ({userID, tripID, setShowRatingForm }: RatingFormProps) {
       files.forEach((file) => {
         formData.append('Files', file) // Append file as binary data
       })
-      
-    const response=  await busAPI.post('/feedback-management/managed-feedbacks', formData);
-    console.log("thanh cong", response)
+
+      const response = await busAPI.post('/feedback-management/managed-feedbacks', formData)
+      setLoading(false)
+      console.log('thanh cong', response)
+      toast.success('Đánh giá chuyến đi thành công')
+
       // Simulate API call with FormData
       console.log('Form Data:', formData)
       for (const [key, value] of formData.entries()) {
@@ -68,6 +75,8 @@ function RatingForm ({userID, tripID, setShowRatingForm }: RatingFormProps) {
       setShowRatingForm(false)
     } catch (error) {
       console.error('Error submitting rating:', error)
+      setLoading(false)
+      toast.error('Đánh giá chuyến đi thất bại. Vui lòng thử lại sau!')
     }
   }
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -201,8 +210,10 @@ function RatingForm ({userID, tripID, setShowRatingForm }: RatingFormProps) {
               </div>
 
               <div className='flex justify-end items-center gap-3'>
-                <Button variant='outline' onClick={() => setShowRatingForm(false)}>Trở lại</Button>
-                <Button type='submit'>Đánh giá</Button>
+                <Button variant='outline' onClick={() => setShowRatingForm(false)}>
+                  Trở lại
+                </Button>
+                <Button type='submit' disabled={loading}>{loading && <Loading/>}Đánh giá</Button>
               </div>
             </form>
           </Form>
