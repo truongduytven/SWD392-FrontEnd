@@ -28,15 +28,18 @@ function FormSignUp({ reset }: FormSignUpProps) {
       address: '',
       phoneNumber: '',
       password: '',
-      confirmpassword: ''
+      confirmpassword: '',
+      companyID:"3fa85f64-5717-4562-b3fc-2c963f66afa6"
     }
-  })
+    }
+  )
   useEffect(() => {
     console.log('sign up xóa')
     formSignUp.reset()
   }, [reset])
 
   const onSubmitSignUp = async (data: any) => {
+    console.log("dang kí", data)
     try {
       setLoading(true)
       const response = await busAPI.post('/auth-management/managed-auths/sign-ups', data)

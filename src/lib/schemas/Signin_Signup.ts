@@ -13,6 +13,10 @@ export const signUpSchema = z
             .string()
             .min(2, 'Tên phải nhiều hơn 2 kí tự')
             .max(40, 'Tên ít hơn 40 kí tự'),
+        companyID: z
+            .string()
+            .min(2, 'Tên phải nhiều hơn 2 kí tự')
+            .max(40, 'Tên ít hơn 40 kí tự'),
         fullName: z
             .string()
             .min(2, 'Họ tên phải nhiều hơn 2 kí tự')

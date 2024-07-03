@@ -1,28 +1,28 @@
 import { formatPrice } from "@/lib/utils"
 
 interface Station {
-  serviceName: string
-  price: number
+  ServiceName: string
+  Price: number
 }
 
 interface Trip {
-  userName: string
-  route: string
-  company: string
-  date: string
-  time: string
-  position: string
+  UserName: string
+  Route: string
+  Company: string
+  Date: string
+  Time: string
+  Position: string
 }
 
 export interface TicketProps {
-  price: {
-    price: number
-    services: Station[]
+  Price: {
+    Price: number
+    Services: Station[]
   }
-  trip: Trip
-  totalBill: number
-  qrCodeImage: string
-  qrCode: string
+  Trip: Trip
+  TotalBill: number
+  QrCodeImage: string
+  QrCode: string
 }
 const data = [
   {
@@ -53,7 +53,7 @@ const data = [
     qrCode: '12055878'
   }
 ]
-function Ticket({ price, trip, totalBill, qrCode, qrCodeImage }: TicketProps) {
+function Ticket({ Price, Trip, TotalBill, QrCode, QrCodeImage }: TicketProps) {
   return (
     <div className='flex flex-col items-center justify-center text-sm '>
       <h1 className='text-3xl font-bold mb-4'>Tra cứu vé thành công</h1>
@@ -64,15 +64,15 @@ function Ticket({ price, trip, totalBill, qrCode, qrCodeImage }: TicketProps) {
             <div className='flex flex-col gap-2 items-center'>
               <p className='text-lg font-semibold  mt-4'>
                 Giá vé:
-                <span className='text-xl font-bold text-orange-500 ml-1'>{formatPrice(price.price)}</span>
+                <span className='text-xl font-bold text-orange-500 ml-1'>{formatPrice(Price.Price)}</span>
               </p>
               <p className='text-md font-semibold mt-10'>Giá dịch vụ:</p>
             </div>
 
-            {price.services.map((service, index) => (
+            {Price.Services.map((service, index) => (
               <div className='flex justify-between text-md gap-2' key={index}>
-                <span className='text-gray-500 mt-6 whitespace-nowrap'>{`${service.serviceName}`}</span>
-                <span className='font-bold text-orange-500 mt-6 whitespace-nowrap'>{`${formatPrice(service.price)}`}</span>
+                <span className='text-gray-500 mt-6 whitespace-nowrap'>{`${service.ServiceName}`}</span>
+                <span className='font-bold text-orange-500 mt-6 whitespace-nowrap'>{`${formatPrice(service.Price)}`}</span>
                 <span className='italic font-semibold mt-6  whitespace-nowrap'>{`Trạm${index + 1}`}</span>
               </div>
              
@@ -81,24 +81,24 @@ function Ticket({ price, trip, totalBill, qrCode, qrCodeImage }: TicketProps) {
           </div>
           <div className='flex flex-col gap-2 items-center p-7 justify-between  text-center space-y-2'>
             <p className='border-t text-lg border-b border-gray-400 py-2 font-bold text-orange-500'>THE BUS JOURNEY</p>
-            <h3 className='text-lg font-medium'>{trip.userName}</h3>
+            <h3 className='text-lg font-medium'>{Trip.UserName}</h3>
             <h4 className='text-md'>
-              Chặng đi: <span className='font-bold'>{trip.route}</span>
+              Chặng đi: <span className='font-bold'>{Trip.Route}</span>
             </h4>
             <h4 className='text-md'>
-              Nhà xe: <span className='font-bold'>{trip.company}</span>
+              Nhà xe: <span className='font-bold'>{Trip.Company}</span>
             </h4>
             <p>
               Khởi hành:
-              <span className='text-base font-bold ml-2'>{trip.time}</span>
+              <span className='text-base font-bold ml-2'>{Trip.Time}</span>
             </p>
             <p>
               Ngày:
-              <span className='text-base font-bold ml-2'>{trip.date}</span>
+              <span className='text-base font-bold ml-2'>{Trip.Date}</span>
             </p>
             <p>
               Vị trí vé:
-              <span className='text-base font-bold ml-2'>{trip.position}</span>
+              <span className='text-base font-bold ml-2'>{Trip.Position}</span>
             </p>
           </div>
         </div>
@@ -112,11 +112,11 @@ function Ticket({ price, trip, totalBill, qrCode, qrCodeImage }: TicketProps) {
               <h1 className='text-lg'>Tổng hóa đơn</h1>
             </div>
             <div>
-              <h1 className='text-lg font-bold'>{formatPrice(totalBill)}</h1>
+              <h1 className='text-lg font-bold'>{formatPrice(TotalBill)}</h1>
             </div>
             <div className='h-24'>
-              <img src={qrCodeImage} alt='QR code' className='h-full' />
-              <p className='text-center font-bold mt-2'>{qrCode}</p>
+              <img src={QrCodeImage} alt='QR code' className='h-full' />
+              <p className='text-center font-bold mt-2'>{QrCode}</p>
             </div>
             <p>Cảm ơn quý khách đã tin tưởng</p>
           </div>

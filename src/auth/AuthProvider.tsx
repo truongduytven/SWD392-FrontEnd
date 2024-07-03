@@ -16,21 +16,21 @@ interface AuthContextType {
 
 // Define the shape of User
 interface User {
-  userID: string
-  userName: string
-  password: string
-  fullName: string
-  email: string
-  avatar: string
-  address: string
-  otpCode: string
-  phoneNumber: string
-  balance: number
-  createDate: string
-  isVerified: boolean
-  status: string
-  roleID: string
-  result: any
+  UserID: string
+  UserName: string
+  Password: string
+  FullName: string
+  Email: string
+  Avatar: string
+  Address: string
+  OtpCode: string
+  PhoneNumber: string
+  Balance: number
+  CreateDate: string
+  IsVerified: boolean
+  Status: string
+  RoleID: string
+  Result: any
 }
 
 // Create the AuthContext
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
               Authorization: `Bearer ${token}`
             }
           })
-          setUser(response.data.result.user)
+          setUser(response.data.Result.User)
         } catch (error) {
           localStorage.removeItem('token')
           localStorage.removeItem('token')
@@ -174,7 +174,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   const logout = () => {
-    toast.success('Đăng xuất thành công')
 
     setToken(null)
     setUser(null)
