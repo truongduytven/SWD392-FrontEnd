@@ -6,10 +6,12 @@ import { Button } from '../atoms/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/global/atoms/form'
 import { z } from 'zod'
 import { PasswordInput } from '../atoms/password-input'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import LogoIcon from '@/assets/LogoMini.png'
 import { useAuth } from '@/auth/AuthProvider'
 import Loading from '@/components/local/login/Loading'
+import {auth, provider} from"../../../services/configFirebase"
+import {signInWithPopup} from "firebase/auth"
 type FormLoginProps = {
   reset: boolean
 }
@@ -36,6 +38,27 @@ function FormLogin({ reset }: FormLoginProps) {
       console.error('Login failed:', error)
     }
   }
+  const handleClick= async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const token = await result.user.getIdToken();
+      const userInfo = {
+        uid: result.user.uid,
+        email: result.user.email,
+        displayName: result.user.displayName,
+        photoURL: result.user.photoURL,
+      };
+      console.log("token ne", token)
+      console.log("tui ne o gg", userInfo)
+      // Send the token to your backend
+      // await axios.post("https://your-backend-api.com/auth/google", { token });
+
+      // Handle success (e.g., redirect, display message)
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+      // Handle error
+    }
+  };
   return (
     <Form {...formLogin}>
       <form
@@ -77,6 +100,9 @@ function FormLogin({ reset }: FormLoginProps) {
         <Button type='submit' disabled={loading} className='w-2/3'>
         {loading && <Loading />} Đăng nhập
         </Button>
+      <div>
+        <button onClick={handleClick}>Sign in with Google</button>
+      </div>
       </form>
     </Form>
   )

@@ -12,7 +12,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import busAPI from '@/lib/busAPI'
 import { toast } from 'sonner'
 import Loading from '@/components/local/login/Loading'
-
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google'
 type FormSignUpProps = {
   reset: boolean
 }
@@ -29,17 +29,16 @@ function FormSignUp({ reset }: FormSignUpProps) {
       phoneNumber: '',
       password: '',
       confirmpassword: '',
-      companyID:"3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      companyID: '3fa85f64-5717-4562-b3fc-2c963f66afa6'
     }
-    }
-  )
+  })
   useEffect(() => {
     console.log('sign up xóa')
     formSignUp.reset()
   }, [reset])
 
   const onSubmitSignUp = async (data: any) => {
-    console.log("dang kí", data)
+    console.log('dang kí', data)
     try {
       setLoading(true)
       const response = await busAPI.post('/auth-management/managed-auths/sign-ups', data)
@@ -65,8 +64,22 @@ function FormSignUp({ reset }: FormSignUpProps) {
       // Handle error, e.g., display error message to user
     }
   }
+  const login = useGoogleLogin({
+    onSuccess: tokenResponse => console.log(tokenResponse.access_token),
+  });
   return (
     <Form {...formSignUp}>
+      {/* <GoogleLogin
+        onSuccess={(credentialResponse) => {
+          console.log(credentialResponse)
+        }}
+        onError={() => {
+          console.log('Login Failed')
+        }}
+      /> */}
+   
+
+<button onClick={() => login()}>Sign in with Google 🚀</button>;
       <form
         onSubmit={formSignUp.handleSubmit(onSubmitSignUp)}
         className='flex items-center justify-start flex-col h-full gap-2 text-center shadow-xl mr-20 '

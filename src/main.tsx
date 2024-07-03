@@ -8,21 +8,23 @@ import { InvoiceProvider } from '@/contexts/InvoiceContext.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from '@/auth/AuthProvider.tsx'
 import ErrorBoundary from './ErrorBoundary'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <SearchProvider>
-          <InvoiceProvider>
-            <Toaster richColors position='top-right' duration={1000} />
-            <ErrorBoundary>
-              
-            <App />
-            </ErrorBoundary>
-          </InvoiceProvider>
-        </SearchProvider>
-      </AuthProvider>
-    </QueryClientProvider>
-  </BrowserRouter>
+  <GoogleOAuthProvider clientId='887412650578-vul7m42hbph5r7ubkqnl5kh335q35ka6.apps.googleusercontent.com'>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <SearchProvider>
+            <InvoiceProvider>
+              <Toaster richColors position='top-right' duration={1000} />
+              <ErrorBoundary>
+                <App />
+              </ErrorBoundary>
+            </InvoiceProvider>
+          </SearchProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </BrowserRouter>
+  </GoogleOAuthProvider>
 )
