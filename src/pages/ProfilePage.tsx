@@ -23,6 +23,10 @@ const [loading, setLoading] = useState(false)
   const queryClient = useQueryClient()
   const onDrop = useCallback((acceptedFiles: Array<File>) => {
     const droppedFile = acceptedFiles[0]
+    if (droppedFile && !droppedFile.type.startsWith('image/')) {
+      toast.error('Only image files are accepted!')
+      return
+    }
     setFile(droppedFile)
     const reader = new FileReader()
 
@@ -37,7 +41,10 @@ const [loading, setLoading] = useState(false)
   }, [])
 
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop
+     onDrop,
+     accept: {
+      'image/*': []
+    }
   })
 
   const onSubmit = async (values: any) => {
@@ -96,6 +103,17 @@ const [loading, setLoading] = useState(false)
 
   const handleTogglePasswordFields = () => {
     setShowPasswordFields((prevShowPasswordFields) => !prevShowPasswordFields)
+  }
+
+  const validatePhoneNumber = (_rule: RuleObject, value: any) => {
+    if (!value) {
+      return Promise.reject('Số điện thoại không được bỏ trống')
+    }
+    const phoneNumberRegex = /^0\d{9}$/
+    if (!phoneNumberRegex.test(value)) {
+      return Promise.reject('Số điện thoại phải có 10 chữ số và bắt đầu bằng 0')
+    }
+    return Promise.resolve()
   }
 
   if (isLoading) {
@@ -207,7 +225,10 @@ const [loading, setLoading] = useState(false)
                 <Form.Item
                   name='PhoneNumber'
                   label={<span className='font-medium'>PhoneNumber</span>}
-                  rules={[{ required: true, message: 'Số điện thoại không được bỏ trống' }]}
+                  rules={[
+                    { required: true,message:"" },
+                    { validator: validatePhoneNumber }
+                  ]}
                 >
                   <Input placeholder='Số điện thoại' />
                 </Form.Item>
