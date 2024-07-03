@@ -13,7 +13,7 @@ import { toast } from 'sonner'
 import Loading from '@/components/local/login/Loading'
 function ProfilePage() {
   const { user } = useAuth()
-  const { data, isLoading, isError, refetch } = fetchUserDetail(user?.userID || '')
+  const { data, isLoading, isError, refetch } = fetchUserDetail(user?.UserID || '')
 const [loading, setLoading] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
   const [form] = Form.useForm()
@@ -23,6 +23,10 @@ const [loading, setLoading] = useState(false)
   const queryClient = useQueryClient()
   const onDrop = useCallback((acceptedFiles: Array<File>) => {
     const droppedFile = acceptedFiles[0]
+    if (droppedFile && !droppedFile.type.startsWith('image/')) {
+      toast.error('Only image files are accepted!')
+      return
+    }
     setFile(droppedFile)
     const reader = new FileReader()
 
@@ -37,7 +41,10 @@ const [loading, setLoading] = useState(false)
   }, [])
 
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop
+     onDrop,
+     accept: {
+      'image/*': []
+    }
   })
 
   const onSubmit = async (values: any) => {
@@ -57,7 +64,7 @@ const [loading, setLoading] = useState(false)
     }
 
     try {
-      const response = await updateUserProfile(user?.userID || '', formData)
+      const response = await updateUserProfile(user?.UserID || '', formData)
       setLoading(false)
       toast.success('Cập nhật profile thành công')
       
@@ -65,7 +72,7 @@ const [loading, setLoading] = useState(false)
       console.log('Profile updated successfully:', response.data)
       await refetch()
       setHasChanges(false)
-      queryClient.invalidateQueries({ queryKey: ['userDetail', user?.userID] })
+      queryClient.invalidateQueries({ queryKey: ['userDetail', user?.UserID] })
     } catch (error:any) {
       setLoading(false)
       toast.error(error.response?.data?.result?.message || 'Mật khẩu cũ không chính xác!');
@@ -96,6 +103,17 @@ const [loading, setLoading] = useState(false)
 
   const handleTogglePasswordFields = () => {
     setShowPasswordFields((prevShowPasswordFields) => !prevShowPasswordFields)
+  }
+
+  const validatePhoneNumber = (_rule: RuleObject, value: any) => {
+    if (!value) {
+      return Promise.reject('Số điện thoại không được bỏ trống')
+    }
+    const phoneNumberRegex = /^0\d{9}$/
+    if (!phoneNumberRegex.test(value)) {
+      return Promise.reject('Số điện thoại phải có 10 chữ số và bắt đầu bằng 0')
+    }
+    return Promise.resolve()
   }
 
   if (isLoading) {
@@ -164,24 +182,24 @@ const [loading, setLoading] = useState(false)
                     <input {...getInputProps()} />
                     {!preview ? (
                       <Avatar className='h-full w-full' title='Change avatar'>
-                        <AvatarImage className='object-cover' src={user?.avatar} alt='avatar' />
-                        <AvatarFallback>{user?.userName}</AvatarFallback>
+                        <AvatarImage className='object-cover' src={user?.Avatar} alt='avatar' />
+                        <AvatarFallback>{user?.UserName}</AvatarFallback>
                       </Avatar>
                     ) : (
                       <Avatar className='h-full w-full' title='Change image'>
-                        <AvatarImage className='object-cover' src={preview as string} alt={user?.fullName} />
-                        <AvatarFallback>{user?.userName}</AvatarFallback>
+                        <AvatarImage className='object-cover' src={preview as string} alt={user?.FullName} />
+                        <AvatarFallback>{user?.UserName}</AvatarFallback>
                       </Avatar>
                     )}
                   </div>
                 </div>
                 <div className='mt-16 flex flex-col items-center'>
-                  <h4 className='text-navy-700 text-xl font-bold dark:text-white'>{user?.userName}</h4>
+                  <h4 className='text-navy-700 text-xl font-bold dark:text-white'>{user?.UserName}</h4>
                   <p className='flex items-center gap-2 text-base font-normal text-gray-600'>
                     <Key size={16} /> Khách hàng
                   </p>
                   <p className='flex items-center gap-2 text-lg text-primary font-medium text-gray-600'>
-                    <PiggyBank size={24} /> <span>{formatPrice(user?.balance || 0)}</span>
+                    <PiggyBank size={24} /> <span>{formatPrice(user?.Balance || 0)}</span>
                   </p>
                 </div>
 
@@ -207,7 +225,10 @@ const [loading, setLoading] = useState(false)
                 <Form.Item
                   name='PhoneNumber'
                   label={<span className='font-medium'>PhoneNumber</span>}
-                  rules={[{ required: true, message: 'Số điện thoại không được bỏ trống' }]}
+                  rules={[
+                    { required: true,message:"" },
+                    { validator: validatePhoneNumber }
+                  ]}
                 >
                   <Input placeholder='Số điện thoại' />
                 </Form.Item>

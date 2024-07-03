@@ -1,25 +1,25 @@
 
  interface Station {
-    serviceName: string;
-    price: number;
+    ServiceName: string;
+    Price: number;
   }
   
   interface Trip {
-    userName: string;
-    route: string;
-    company: string;
-    date: string;
-    time: string;
-    position: string;
+    UserName: string;
+    Route: string;
+    Company: string;
+    Date: string;
+    Ttime: string;
+    Position: string;
   }
   
 export interface ISearchTicket {
-    price: {
-      price: number;
-      services: Station[];
+    Price: {
+      Price: number;
+      Services: Station[];
     };
-    trip: Trip;
-    totalBill: number;
-    qrCodeImage: string;
-    qrCode: string;
+    Trip: Trip;
+    TotalBill: number;
+    QrCodeImage: string;
+    QrCode: string;
   }

@@ -15,7 +15,7 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuL
 import { fetchUserDetail } from '@/apis/userAPI'
 function Header() {
   const { user, token, logout } = useAuth()
-  const { data, isLoading, isError, refetch } = fetchUserDetail(user?.userID || "");
+  const { data, isLoading, isError, refetch } = fetchUserDetail(user?.UserID || "");
   
   
   return (
@@ -64,7 +64,7 @@ function Header() {
             </Link>
           </div>
           <div className='flex-1 text-right'>
-            {token ? (
+            {data ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className='float-right' asChild>
                   <img
