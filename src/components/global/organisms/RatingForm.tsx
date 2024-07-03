@@ -14,11 +14,11 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 import Loading from '@/components/local/login/Loading'
 
-
 interface RatingFormProps {
   tripID: string
   userID: string
   setShowRatingForm: (show: boolean) => void
+  onRatingSuccess: () => void // New prop
 }
 
 const rateValueToText = ['Rất tệ', 'Tệ', 'Bình thường', 'Hài lòng', 'Tuyệt vời']
@@ -30,7 +30,7 @@ const suggestedContents = [
   'Nhà vệ sinh sạch sẽ'
 ]
 
-function RatingForm({ userID, tripID, setShowRatingForm }: RatingFormProps) {
+function RatingForm({ userID, tripID, setShowRatingForm, onRatingSuccess }: RatingFormProps) {
   const [files, setFiles] = useState<File[]>([])
   const [base64Files, setBase64Files] = useState<string[]>([])
   const [suggestedContent, setSuggestedContent] = useState<string>('')
@@ -43,6 +43,7 @@ function RatingForm({ userID, tripID, setShowRatingForm }: RatingFormProps) {
   const { handleSubmit, control, setValue, reset } = form
 
   const onSubmit = async (data: z.infer<typeof ratingSchema>) => {
+    console.log('anh ne', data.imageUrls)
     setLoading(true)
     try {
       const formData = new FormData()
@@ -50,9 +51,18 @@ function RatingForm({ userID, tripID, setShowRatingForm }: RatingFormProps) {
       formData.append('UserID', userID)
       formData.append('TripID', tripID)
       formData.append('Description', data.content || '')
-      files.forEach((file) => {
-        formData.append('Files', file) // Append file as binary data
-      })
+      // files.forEach((file) => {
+      //   formData.append('Files', file) // Append file as binary data
+      // })
+      // Append files only if there are files selected
+      if (files.length > 0) {
+        files.forEach((file) => {
+          formData.append('Files', file) // Append file as binary data
+        })
+      } else {
+        // Append an empty array if no files are selected
+        formData.append('Files', "")
+      }
 
       const response = await busAPI.post('/feedback-management/managed-feedbacks', formData)
       setLoading(false)
@@ -73,6 +83,7 @@ function RatingForm({ userID, tripID, setShowRatingForm }: RatingFormProps) {
       setFiles([])
       setSuggestedContent('')
       setShowRatingForm(false)
+      onRatingSuccess() // Call the success callback here
     } catch (error) {
       console.error('Error submitting rating:', error)
       setLoading(false)
@@ -213,7 +224,9 @@ function RatingForm({ userID, tripID, setShowRatingForm }: RatingFormProps) {
                 <Button variant='outline' onClick={() => setShowRatingForm(false)}>
                   Trở lại
                 </Button>
-                <Button type='submit' disabled={loading}>{loading && <Loading/>}Đánh giá</Button>
+                <Button type='submit' disabled={loading}>
+                  {loading && <Loading />}Đánh giá
+                </Button>
               </div>
             </form>
           </Form>
