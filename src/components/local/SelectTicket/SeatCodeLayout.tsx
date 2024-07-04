@@ -6,6 +6,7 @@ import { ticket } from '@/types/invoiceData';
 import { toast } from 'sonner';
 import { JSX } from 'react/jsx-runtime';
 import { ITicketModels } from '@/types/ticketInterface';
+import { formatSeatCode } from '@/lib/utils';
 interface SeatLayoutProps {
   tripModels: ITicketModels[]
   seatBooked: string[]
@@ -57,7 +58,7 @@ function SeatLayout({ tripModels, seatBooked }: SeatLayoutProps) {
             price={seat.Price}
             onClick={handleSeatClick}
             selected={Boolean(selectedSeats.find((selectedTicket) => selectedTicket.seatCode === seatCode))}
-            booked={seatBooked.includes(seatCode)}
+            booked={seatBooked.includes(formatSeatCode(seatCode))}
           />
         );
       }
