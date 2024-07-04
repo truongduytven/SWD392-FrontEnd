@@ -3,7 +3,7 @@
     border-radius: 20px;
     position: relative;
     overflow: hidden;
-    min-height: 75%;
+    min-height: 90%;
     min-width: 50%;
     height: fit-content;
   }

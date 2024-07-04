@@ -12,11 +12,16 @@ import { useAuth } from '@/auth/AuthProvider'
 import Loading from '@/components/local/login/Loading'
 import {auth, provider} from"../../../services/configFirebase"
 import {signInWithPopup} from "firebase/auth"
+import { Shell } from 'lucide-react'
+import { useGoogleLogin } from '@react-oauth/google'
+import googleIcon from '@/assets/google.svg'
+
 type FormLoginProps = {
   reset: boolean
 }
 function FormLogin({ reset }: FormLoginProps) {
   const { login, loading } = useAuth()
+  const [isLoggingGoogle, setIsLoggingGoogle] = useState(false)
 
   const formLogin = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -38,29 +43,13 @@ function FormLogin({ reset }: FormLoginProps) {
       console.error('Login failed:', error)
     }
   }
-  const handleClick= async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const token = await result.user.getIdToken();
-      const userInfo = {
-        uid: result.user.uid,
-        email: result.user.email,
-        displayName: result.user.displayName,
-        photoURL: result.user.photoURL,
-      };
-      console.log("token ne", token)
-      console.log("tui ne o gg", userInfo)
-      // Send the token to your backend
-      // await axios.post("https://your-backend-api.com/auth/google", { token });
-
-      // Handle success (e.g., redirect, display message)
-    } catch (error) {
-      console.error("Error signing in with Google:", error);
-      // Handle error
-    }
-  };
+ 
+  const loginGG = useGoogleLogin({
+    onSuccess: (tokenResponse) => console.log(tokenResponse.access_token)
+  })
   return (
     <Form {...formLogin}>
+     
       <form
         onSubmit={formLogin.handleSubmit(onSubmitLogin)}
         className='flex items-center px-10 justify-center gap-5 flex-col h-full text-center shadow-xl mr-20 '
@@ -97,11 +86,23 @@ function FormLogin({ reset }: FormLoginProps) {
             </FormItem>
           )}
         />
+         <div className='relative w-2/3'>
+          <div className='absolute inset-0 flex items-center'>
+            <span className='w-full border-t' />
+          </div>
+          <div className='relative flex justify-center text-xs uppercase'>
+            <span className='px-2 bg-background text-muted-foreground'>hoặc tiếp tục với</span>
+          </div>
+        </div>
+        <Button className='w-2/3' onClick={() => loginGG()} variant='outline' type='button' disabled={isLoggingGoogle}>
+          <img className='mr-2 w-7 h-7' alt='google' src={googleIcon} />
+          Đăng nhập bằng google
+          {isLoggingGoogle && <Shell className='w-4 h-4 ml-1 animate-spin' />}
+        </Button>
         <Button type='submit' disabled={loading} className='w-2/3'>
         {loading && <Loading />} Đăng nhập
         </Button>
       <div>
-        <button onClick={handleClick}>Sign in with Google</button>
       </div>
       </form>
     </Form>
