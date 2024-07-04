@@ -64,7 +64,7 @@ function Header() {
             </Link>
           </div>
           <div className='flex-1 text-right'>
-            {token ? (
+            {data ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className='float-right' asChild>
                   <img
