@@ -46,10 +46,15 @@ function Ticket({
   priceTicket,
   priceService,
   status,
-  isRated
+  isRated 
 }: TicketProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [showRatingForm, setShowRatingForm] = useState(false)
+  const [rated, setRated] = useState(isRated) 
+  const handleRatingSuccess = () => {
+    setRated(true) // Update local state
+  }
+
   return (
     <div
       className='mx-auto w-fit overflow-hidden flex justify-center items-center'
@@ -151,7 +156,7 @@ function Ticket({
                 </div>
               )} */}
               {status === 'ĐÃ SỬ DỤNG' && (
-                isRated 
+                rated 
                 ? (
                   <div className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
                     <MessageCircleHeart />
@@ -188,7 +193,7 @@ function Ticket({
           </div>
         )}
       </div>
-      {showRatingForm && <RatingForm userID = {userID} tripID={tripID} setShowRatingForm={setShowRatingForm}/>}
+      {showRatingForm && <RatingForm userID = {userID} tripID={tripID} setShowRatingForm={setShowRatingForm} onRatingSuccess={handleRatingSuccess} />}
     </div>
   )
 }
