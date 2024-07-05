@@ -1,5 +1,6 @@
 import LogoFull from '@/assets/LogoFull.png'
 import { useAuth } from '@/auth/AuthProvider'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +17,6 @@ import { fetchUserDetail } from '@/apis/userAPI'
 function Header() {
   const { user, token, logout } = useAuth()
   const { data, isLoading, isError, refetch } = fetchUserDetail(user?.UserID || "");
-  
   
   return (
     <header className='w-full shadow-md fixed top-0 z-50 bg-white'>
