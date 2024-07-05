@@ -48,16 +48,16 @@ function SearchPage() {
   console.log('tat ca city from to', dataCityFromTo)
   console.log(data)
   const initialState = {
-    arrangeValue: 'mac dinh',
+    sortOption: 'DEFAULT',
     selectedItems: [] as string[]
   }
 
   const [filterState, setFilterState] = useState(initialState)
 
-  const handleArrangeChange = (value: string) => {
+  const handlesortOptionChange = (value: string) => {
     setFilterState((prevState) => ({
       ...prevState,
-      arrangeValue: value
+      sortOption: value
     }))
   }
 
@@ -120,7 +120,7 @@ function SearchPage() {
                       <Trash2 />
                     </p>
                   </div>
-                  <Arrange selectedValue={filterState.arrangeValue} onValueChange={handleArrangeChange} />
+                  <Arrange selectedValue={filterState.sortOption} onValueChange={handlesortOptionChange} />
                   <BusFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
                   <TypeFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
                 </div>
