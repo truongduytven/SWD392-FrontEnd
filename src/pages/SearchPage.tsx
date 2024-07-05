@@ -104,12 +104,16 @@ const filterItems: readonly { id: string; label: string }[] = [...staticItems, .
     <div className='w-screen flex justify-center items-center bg-secondary pb-12'>
       <div className='flex flex-col justify-center items-center w-2/3 '>
         <div className='w-full flex justify-center absolute top-[100px]'>
+
+      
           <SearchForm onsubmitSearch={() => {}} />
         </div>
         {/* <h1 className='mt-52 mb-4 text-4xl font-bold'>{searchData.startLocation} - {searchData.endLocation}</h1> */}
         {isFetching ? (
           <div className='mt-20'>
             <Loading />
+
+            <p className='mt-3 animate-pulse'>Đang tìm kiếm chuyến xe, bạn vui lòng đợi chút xíu...</p>
           </div>
         ) : (
           data ? (
@@ -147,9 +151,13 @@ const filterItems: readonly { id: string; label: string }[] = [...staticItems, .
             </>
           ) : (
             <h1 className='mt-52 font-semibold text-center'>
-              Xin lỗi bạn vì sự bất tiện này. TheBusJourney sẽ cập nhật ngay khi có thông tin xe hoạt động trên tuyến
-              đường này.
-              <p className='text-center'>Xin bạn vui lòng thay đổi tuyến đường tìm kiếm!</p>
+              {filterState !== initialState ? (
+                <>Không tìm thấy chuyến xe. TheBusJourney sẽ cập nhật ngay khi có thông tin xe hoạt động trên tuyến đường này.
+                  <p className='text-center'>Xin bạn vui lòng thay đổi tuyến đường tìm kiếm!</p>
+                </>
+              ) : (
+                'Không có kết quả phù hợp với tiêu chí lọc. Hãy thử chỉnh sửa hoặc xóa lọc để xem thêm kết quả!'
+              )}
             </h1>
           )
         )}
