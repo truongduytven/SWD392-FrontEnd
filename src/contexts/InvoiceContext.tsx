@@ -2,6 +2,7 @@ import { InvoiceData, Service, ticket } from '@/types/invoiceData';
 import { createContext, useContext, useState } from 'react';
 
 const defaultInvoiceData: InvoiceData = {
+  companyID: '',
   routeID: '',
   userID: '',
   tripID: '',
@@ -29,7 +30,7 @@ interface InvoiceContextType {
   invoiceData: InvoiceData;
   updateTickets: (tickets: ticket[]) => void;
   updateTicketServices: (seatCode: string, updatedServices: Service[]) => void;
-  updateUserIDTripID: (userID: string | undefined, tripID: string,routeID: string, endTime: string) => void;
+  updateUserIDTripID: (userID: string | undefined, tripID: string,routeID: string, companyID: string, endTime: string) => void;
   updateInvoiceData: (startLocation: string, endLocation: string, startTime: string, startDate: string , companyName: string) => void;
 }
 
@@ -90,12 +91,13 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }));
   };
 
-  const updateUserIDTripID = (userID: string | undefined, tripID: string, routeID: string, endTime: string) => {
+  const updateUserIDTripID = (userID: string | undefined, tripID: string, routeID: string, companyID: string, endTime: string) => {
     if(userID === undefined) {
       userID = '';
     }
     setInvoiceData((prevData) => ({
       ...prevData,
+      companyID: companyID,
       routeID: routeID,
       userID: userID,
       tripID: tripID,

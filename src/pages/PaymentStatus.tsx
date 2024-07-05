@@ -35,8 +35,11 @@ function PaymentStatus() {
     handleResponse()
   }, [query, navigate, token])
   return (
-    <div className='w-full h-full'>
-      <Loading />
+    <div className='flex h-screen w-screen justify-center items-center'>
+      <div className='flex flex-col space-y-3 items-center'>
+        <Loading />
+        <span className='text-lg font-medium'>Đang xử lí thanh toán.....</span>
+      </div>
     </div>
   )
 }

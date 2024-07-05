@@ -8,6 +8,9 @@ function PaymentSuccess() {
         <div className='text-2xl font-medium'>
          Thanh toán thành công
         </div>
+        <div className='text-xl mt-4'>
+          Vui lòng kiểm tra vé đã mua trong phần vé của tôi hoặc trong email!!!
+        </div>
         <p className='text-lg mt-4'>
           Cảm ơn vì đã tin tưởng <span className='text-primary font-medium'>The Bus Journey</span>
         </p>
