@@ -66,3 +66,11 @@ export function formatDateString(dateString: string) {
   return `${day}/${month}/${year}`;
 }
 
+export function formatSeatCode(seatCode: string) {
+  const words = seatCode.split('');
+  if(words[1] === '0') {
+    return `${words[0]}${words[2]}`
+  }
+  return seatCode;
+}
+

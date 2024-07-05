@@ -109,7 +109,7 @@ function SearchPage() {
         </div>
         {/* <h1 className='mt-52 mb-4 text-4xl font-bold'>{searchData.startLocation} - {searchData.endLocation}</h1> */}
         {isFetching ? (
-          <div className='mt-20'>
+          <div className='mt-40'>
             <Loading />
 
             <p className='mt-3 animate-pulse'>Đang tìm kiếm chuyến xe, bạn vui lòng đợi chút xíu...</p>
@@ -153,13 +153,15 @@ function SearchPage() {
 
                 {data && data.Items.length > 0 ? (
                   data.Items.map((item, index) => <CardTrip key={index} data={item} />)
-                ) : (
-                  <h1 className='mt-52 font-semibold text-center'>
+                ) : (<>
+                  <img>
+                  </img>
+                  <h1 className='mt-40 font-semibold text-center'>
                     <>
                       Không tìm thấy chuyến xe.
                       <p className='text-center'>Xin bạn vui lòng thay đổi tuyến đường tìm kiếm hoặc bỏ lọc!</p>
                     </>
-                  </h1> // Replace with your default CardTrip component
+                  </h1></> // Replace with your default CardTrip component
                 )}
                 {/* {data?.Items.map((item, index) => <CardTrip key={index} data={item} />)} */}
               </div>

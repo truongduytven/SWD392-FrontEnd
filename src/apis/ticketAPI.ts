@@ -8,6 +8,7 @@ interface getTripData {
 
 interface getStationData {
     routeID: string;
+    companyID: string;
 }
 
 export const useGetTripData = ({ tripID }: getTripData) => {
@@ -23,12 +24,11 @@ export const useGetTripData = ({ tripID }: getTripData) => {
     });
   };
 
-export const useStationData = ({ routeID }: getStationData) => {
+export const useStationData = ({ routeID, companyID }: getStationData) => {
     return useQuery<IStations[]>({
       queryKey: ['StationData'], // Provide queryKey as an array
       queryFn: async () => {
-        const { data } = await busAPI.get<IStations[]>(`/station-management/managed-stations/routes/${routeID}`);
-        console.log(data)
+        const { data } = await busAPI.get<IStations[]>(`/station-management/managed-stations/routes/${routeID}/companyID/${companyID}`);
         return data;
       },
       enabled: !!routeID,

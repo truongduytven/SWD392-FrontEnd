@@ -1,6 +1,6 @@
 import Loading from '@/components/global/molecules/Loading'
 import OtpForm from '@/components/global/organisms/OtpForm'
-import RatingForm from '@/components/global/organisms/RatingForm'
+// import RatingForm from '@/components/global/organisms/RatingForm'
 import RootLayout from '@/components/global/templates/RootLayout'
 import SignInSignUp from '@/components/global/templates/SignIn_SignUp'
 import HomePage from '@/pages/HomePage'
@@ -15,6 +15,8 @@ import SelectTicket from '@/pages/SelectTicket'
 import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './auth/ProtectedRoute'
 import PaymentStatus from './pages/PaymentStatus'
+import PaymentSuccess from './pages/PaymentSuccess'
+import PaymentFailure from './pages/PaymentFailure'
 function App() {
   return (
     <Routes>
@@ -26,7 +28,9 @@ function App() {
         <Route path='/selectService' element={<SelectService />} />
         <Route path='/infopayment' element={<InfoPayment />} />
         <Route path='/ticketInfo' element={<SearchTicket />} />
-        <Route path='/payment-status/:id' element={<PaymentStatus />} />
+        <Route path='/payment-success/:id' element={<PaymentStatus />} />
+        <Route path='/payment-success' element={<PaymentSuccess />} />
+        <Route path='/payment-fail' element={<PaymentFailure />} />
         <Route path='/profile' element={<ProfilePage />} />
         <Route path='/myticket/:id' element={<MyTicketPage />} />
       </Route>

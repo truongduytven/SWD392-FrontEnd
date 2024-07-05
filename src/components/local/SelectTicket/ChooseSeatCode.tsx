@@ -8,6 +8,7 @@ interface ChooseSeatCodeProps {
 
 function ChooseSeatCode({ data }: ChooseSeatCodeProps) {
   const Colors = ['bg-tertiary', 'bg-pink-400', 'bg-blue-400']
+  data.TicketType_TripModels = data.TicketType_TripModels.sort((a, b) => a.TicketName.localeCompare(b.TicketName));
   return (
     <div className='flex justify-around p-4 h-full'>
       <div className='flex flex-col items-start justify-center space-y-10 mt-10'>

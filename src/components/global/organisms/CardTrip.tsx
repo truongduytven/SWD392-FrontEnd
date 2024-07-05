@@ -29,7 +29,7 @@ function CardTrip({ data }: ITripDataProps) {
 
   const navigate = useNavigate()
   const handleSubmit = () => {
-    updateUserIDTripID(user?.UserID, data.TripID, data.RouteID, data.EndTime)
+    updateUserIDTripID(user?.UserID, data.TripID, data.RouteID, data.CompanyID, data.EndTime)
     navigate('/selectTicket')
   }
 
