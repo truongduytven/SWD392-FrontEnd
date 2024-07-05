@@ -39,16 +39,17 @@ const companyItems = companies ? companies.map(company => ({
 
 const filterItems: readonly { id: string; label: string }[] = [...staticItems, ...companyItems]
   const { searchData } = useSearch()
-  const { data, isPending } = useGetTripSearchForm(searchData)
-  const { data: dataCityFromTo } = useGetCitySearchForm()
-  console.log(data)
   const initialState = {
     sortOption: 'DEFAULT',
     sortCompany: [] as string[],
     seatAvailability: [] as string[]
   }
-
   const [filterState, setFilterState] = useState(initialState)
+  const { data, isFetching, refetch } = useGetTripSearchForm(searchData, filterState)
+  console.log("data ở searchPage", data)
+  const { data: dataCityFromTo } = useGetCitySearchForm()
+  console.log(data)
+
 
   const handleSortOptionChange = (value: string) => {
     setFilterState((prevState) => ({
@@ -91,7 +92,12 @@ const filterItems: readonly { id: string; label: string }[] = [...staticItems, .
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
   // if (isPending) return <Loading />
-
+  useEffect(() => {
+    // Only refetch data if filterState has changed
+    if (filterState !== initialState) {
+      refetch();
+    }
+  }, [filterState, refetch]);
   return (
     <div className='w-screen flex justify-center items-center bg-secondary pb-12'>
       <div className='flex flex-col justify-center items-center w-2/3 '>
@@ -99,7 +105,7 @@ const filterItems: readonly { id: string; label: string }[] = [...staticItems, .
           <SearchForm onsubmitSearch={() => {}} />
         </div>
         {/* <h1 className='mt-52 mb-4 text-4xl font-bold'>{searchData.startLocation} - {searchData.endLocation}</h1> */}
-        {isPending ? (
+        {isFetching ? (
           <div className='mt-20'>
             <Loading />
           </div>
