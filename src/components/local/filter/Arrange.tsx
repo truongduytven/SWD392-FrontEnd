@@ -67,7 +67,7 @@ console.log("gia tri nhan duoc o sap xep:", selectedValue)
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='RATING_DESC' />
+                        <RadioGroupItem value='RATING_ASC' />
                       </FormControl>
                       <FormLabel className='font-normal'>Đánh giá tăng dần</FormLabel>
                     </FormItem>
