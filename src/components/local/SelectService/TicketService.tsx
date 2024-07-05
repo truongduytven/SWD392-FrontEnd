@@ -37,7 +37,7 @@ function TicketService({ services, seatCode }: ticket) {
   const [keySearch, setKeySearch] = useState<string>('')
   const [priceStation, setPriceStation] = useState(0)
   const { data: serviceData } = useGetServiceWithStation(selectedStation)
-  const { data: stationsData} = useStationData({ routeID: invoiceData.routeID })
+  const { data: stationsData} = useStationData({ routeID: invoiceData.routeID, companyID: invoiceData.companyID })
   console.log(serviceData)
   useEffect(() => {
     // Recalculate price whenever localServices changes
