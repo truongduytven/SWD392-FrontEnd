@@ -25,8 +25,8 @@ const items = [
   },
   { label: 'English', id: 'en' },
   { label: 'French', id: 'fr' },
-  { label: 'German', id: 'de' },
-  { label: 'Spanish', id: 'es' },
+  { label: 'German', id: 'ger' },
+  { label: 'Spanish', id: 'sp' },
   { label: 'Portuguese', id: 'pt' },
   { label: 'Russian', id: 'ru' },
   { label: 'Japanese', id: 'ja' },
@@ -49,22 +49,22 @@ function SearchPage() {
   console.log(data)
   const initialState = {
     sortOption: 'DEFAULT',
-    selectedItems: [] as string[]
+    sortCompany: [] as string[]
   }
 
   const [filterState, setFilterState] = useState(initialState)
 
-  const handlesortOptionChange = (value: string) => {
+  const handleSortOptionChange = (value: string) => {
     setFilterState((prevState) => ({
       ...prevState,
       sortOption: value
     }))
   }
 
-  const handleItemsChange = (items: string[]) => {
+  const handleSortCompanyChange = (items: string[]) => {
     setFilterState((prevState) => ({
       ...prevState,
-      selectedItems: items
+      sortCompany: items
     }))
   }
   console.log('filter ne', filterState)
@@ -120,13 +120,13 @@ function SearchPage() {
                       <Trash2 />
                     </p>
                   </div>
-                  <Arrange selectedValue={filterState.sortOption} onValueChange={handlesortOptionChange} />
-                  <BusFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
-                  <TypeFilter selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
+                  <Arrange selectedValue={filterState.sortOption} onValueChange={handleSortOptionChange} />
+                  <BusFilter selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
+                  <TypeFilter selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
                 </div>
   
                 <div className='w-full flex flex-col'>
-                  <BadgeList items={items} selectedItems={filterState.selectedItems} onItemsChange={handleItemsChange} />
+                  <BadgeList items={items} selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
                   {data?.Items.map((item, index) => <CardTrip key={index} data={item} />)}
                 </div>
               </div>
