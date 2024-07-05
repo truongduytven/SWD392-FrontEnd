@@ -18,6 +18,7 @@ export interface ITripData {
     RouteID: string,
     TemplateID:string,
     CompanyName: string,
+    CompanyID:string,
     ImageUrl: string,
     AverageRating: number,
     QuantityRating: number,

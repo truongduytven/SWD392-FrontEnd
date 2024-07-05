@@ -41,8 +41,9 @@ function CardTrip({ data }: ITripDataProps) {
     const { data } = await busAPI.get(`/trip-management/managed-trips/${tripId}/utilities`)
     return data
   }
-  const fetchTripRouteDetails = async (tripId: string) => {
-    const { data } = await busAPI.get(`/station-management/managed-stations/routes/${tripId}`)
+  const fetchTripRouteDetails = async (tripId: string, comapnyId:string) => {
+    console.log("dhjkshdkhkj", tripId, comapnyId)
+    const { data } = await busAPI.get(`/station-management/managed-stations/routes/${tripId}/companyID/${comapnyId}`)
     return data
   }
   const fetchTripRatingDetails = async (templateID: string, ratingValue: string) => {
@@ -77,7 +78,7 @@ function CardTrip({ data }: ITripDataProps) {
     refetch: refetchRouteDetails
   } = useQuery({
     queryKey: ['tripRouteDetails', data.TripID],
-    queryFn: () => fetchTripRouteDetails(data.TripID),
+    queryFn: () => fetchTripRouteDetails(data.TripID, data.CompanyID),
     enabled: false
   })
   const {
