@@ -108,12 +108,10 @@ function InfoPayment() {
           })),
         ],
       }
+      console.log(DataBooking)
       try {
-        const response = await axios.post('https://localhost:7081/booking-management/managed-bookings/vnpay-payment', DataBooking , {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }})
+        const response = await busAPI.post('/booking-management/managed-bookings/vnpay-payment', DataBooking)
+        console.log(response)
         const link = response.data.Result
         window.location.href = link
       } catch (error) {

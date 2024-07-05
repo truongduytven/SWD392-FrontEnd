@@ -58,7 +58,7 @@ function SeatLayout({ tripModels, seatBooked }: SeatLayoutProps) {
             price={seat.Price}
             onClick={handleSeatClick}
             selected={Boolean(selectedSeats.find((selectedTicket) => selectedTicket.seatCode === seatCode))}
-            booked={seatBooked.includes(formatSeatCode(seatCode))}
+            booked={seatBooked.includes(formatSeatCode(seatCode)) || seatBooked.includes(seatCode)}
           />
         );
       }
