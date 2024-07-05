@@ -15,8 +15,7 @@ interface SeatLayoutProps {
 function SeatLayout({ tripModels, seatBooked }: SeatLayoutProps) {
   const { invoiceData, updateTickets } = useInvoice();
   const [selectedSeats, setSelectedSeats] = useState<ticket[]>(invoiceData.tickets);
-  tripModels.sort((a, b) => a.TicketName === 'Hàng đầu' ? -1 : a.TicketName === 'Hàng sau' ? 1 : 0);
-
+  tripModels = tripModels.sort((a, b) => a.TicketName.localeCompare(b.TicketName));
   const handleSeatClick = (seatCode: string, price: number, ticketType_TripID: string) => {
     if (selectedSeats.find((ticket) => ticket.seatCode === seatCode)) {
       let newSelected = selectedSeats.filter((ticket) => ticket.seatCode !== seatCode);
@@ -44,7 +43,6 @@ function SeatLayout({ tripModels, seatBooked }: SeatLayoutProps) {
 
   const renderSeats = () => {
     const seats: JSX.Element[] = [];
-
     tripModels.forEach((seat) => {
       const prefix = seat.TicketName === 'Hàng đầu' ? 'A' : seat.TicketName === 'Hàng sau' ? 'C' : 'B';
       

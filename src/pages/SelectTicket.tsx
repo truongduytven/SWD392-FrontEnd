@@ -29,7 +29,7 @@ function SelectTicket() {
   const handleGoToService = () => {
     navigate('/selectService')
   }
-
+  console.log(invoiceData)
   return (
     <Container>
       <div className='h-full flex flex-col mt-10 mb-12'>
