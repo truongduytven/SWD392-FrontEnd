@@ -1,3 +1,4 @@
+import { useGetCompanies } from '@/apis/companyAPI'
 import { useGetCitySearchForm, useGetTripSearchForm } from '@/apis/tripAPI'
 import Loading from '@/components/global/molecules/Loading'
 import CardTrip from '@/components/global/organisms/CardTrip'
@@ -10,7 +11,7 @@ import { useSearch } from '@/contexts/SearchContext'
 import { findCityNameByID } from '@/lib/utils'
 import { ArrowBigUpDash, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-const items = [
+const staticItems = [
   {
     id: 'HEAD',
     label: 'Hàng đầu'
@@ -23,29 +24,23 @@ const items = [
     id: 'BACK',
     label: 'Hàng cuối'
   },
-  { label: 'English', id: 'en' },
-  { label: 'French', id: 'fr' },
-  { label: 'German', id: 'ger' },
-  { label: 'Spanish', id: 'sp' },
-  { label: 'Portuguese', id: 'pt' },
-  { label: 'Russian', id: 'ru' },
-  { label: 'Japanese', id: 'ja' },
-  { label: 'Korean', id: 'ko' },
-  { label: 'Chinese', id: 'zh' },
   { label: 'Giờ sớm nhất', id: 'gio som nhat' },
   { label: 'Giờ muộn nhất', id: 'gio muon nhat' },
   { label: 'Giá tăng dần', id: 'gia tang dan' },
   { label: 'Giá giảm dần', id: 'gia giam dan' }
 ] as const
-
 function SearchPage() {
   const [showScrollButton, setShowScrollButton] = useState(false)
+const {data:companies} = useGetCompanies()
+const companyItems = companies ? companies.map(company => ({
+  id: company.CompanyID,
+  label: company.Name
+})) : []
 
+const filterItems: readonly { id: string; label: string }[] = [...staticItems, ...companyItems]
   const { searchData } = useSearch()
   const { data, isPending } = useGetTripSearchForm(searchData)
   const { data: dataCityFromTo } = useGetCitySearchForm()
-  console.log('search data', searchData)
-  console.log('tat ca city from to', dataCityFromTo)
   console.log(data)
   const initialState = {
     sortOption: 'DEFAULT',
@@ -135,8 +130,8 @@ function SearchPage() {
                 <div className='w-full flex flex-col'>
                   <div className='flex'>
                     
-                  <BadgeList items={items} selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
-                  <BadgeList items={items} selectedItems={filterState.seatAvailability} onItemsChange={handleSeatAvailabilityChange} />
+                  <BadgeList items={filterItems} selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
+                  <BadgeList items={filterItems} selectedItems={filterState.seatAvailability} onItemsChange={handleSeatAvailabilityChange} />
                   </div>
                   {data?.Items.map((item, index) => <CardTrip key={index} data={item} />)}
                 </div>

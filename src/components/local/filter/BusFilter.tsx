@@ -16,6 +16,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { BusFilterSchema } from '@/lib/schemas/BusFilterSchema'
 import { cn } from '@/lib/utils'
 import { CheckIcon, ChevronsUpDown } from 'lucide-react'
+import { useGetCompanies } from '@/apis/companyAPI'
 const companies = [
   { label: 'English', value: 'en' },
   { label: 'French', value: 'fr' },
@@ -34,6 +35,8 @@ interface BusFilterProps {
 }
 function BusFilter({ selectedItems, onItemsChange }: BusFilterProps) {
   const [showModal, setShowModal] = useState<Boolean>(false)
+  const { data: companies } = useGetCompanies()
+
   const form = useForm<z.infer<typeof BusFilterSchema>>({
     resolver: zodResolver(BusFilterSchema),
     defaultValues: {
@@ -46,7 +49,6 @@ function BusFilter({ selectedItems, onItemsChange }: BusFilterProps) {
 
   function onSubmit(data: z.infer<typeof BusFilterSchema>) {
     onItemsChange(data.company || [])
-
   }
 
   const toggleLanguage = (value: string) => {
@@ -91,20 +93,20 @@ function BusFilter({ selectedItems, onItemsChange }: BusFilterProps) {
                     <CommandList className='h-40 overflow-y-auto'>
                       {/* <PopoverClose className='w-full'> */}
                       <CommandGroup>
-                        {companies.map((com) => (
+                        {companies?.map((com) => (
                           <CommandItem
-                            value={com.label}
-                            key={com.value}
+                            value={com.Name}
+                            key={com.CompanyID}
                             onSelect={() => {
-                              toggleLanguage(com.value)
+                              toggleLanguage(com.CompanyID)
                             }}
                           >
-                            {com.label}
+                            {com.Name}
                             <CheckIcon
                               strokeWidth={3}
                               className={cn(
                                 'ml-auto h-4 w-4 text-primary ',
-                                field.value?.includes(com.value) ? 'opacity-100' : 'opacity-0'
+                                field.value?.includes(com.CompanyID) ? 'opacity-100' : 'opacity-0'
                               )}
                             />
                           </CommandItem>
