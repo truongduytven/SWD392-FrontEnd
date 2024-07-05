@@ -23,8 +23,8 @@ const steps = [
   }
 ]
 interface Route {
-    stationID: string;
-    name: string;
+    StationID: string;
+    Name: string;
   }
 interface RouteTabProps {
   tripRouteDetails: Route[]
@@ -51,7 +51,7 @@ function RouteTrip({ tripRouteDetails, isLoading, error }: RouteTabProps) {
                 >
                   {index + 1}
                 </span>
-                <h3 className={'flex items-center mb-1'}>{item.name}</h3>
+                <h3 className={'flex items-center mb-1'}>{item.Name}</h3>
                 {/* <p className='text-base font-normal text-gray-500'>{item.description}</p> */}
               </li>
             ))}
