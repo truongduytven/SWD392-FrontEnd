@@ -14,6 +14,8 @@ const BadgeList: React.FC<BadgeListProps> = ({ items, selectedItems, onItemsChan
   }
   return (
     <div className='flex flex-wrap'>
+
+      
       {selectedItems.map((itemId) => {
         const item = items.find((i) => i.id === itemId)
         return (
