@@ -43,37 +43,37 @@ console.log("gia tri nhan duoc o sap xep:", selectedValue)
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='TIME_SOONER' />
+                        <RadioGroupItem value='THỜI GIAN ĐI SỚM NHẤT' />
                       </FormControl>
                       <FormLabel className='font-normal'>Giờ sớm nhất</FormLabel>
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='TIME_LATER'  />
+                        <RadioGroupItem value='THỜI GIAN ĐI MUỘN NHẤT'  />
                       </FormControl>
                       <FormLabel className='font-normal'>Giờ muộn nhất</FormLabel>
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='PRICE_ASC'  />
+                        <RadioGroupItem value='GIÁ TĂNG DẦN'  />
                       </FormControl>
                       <FormLabel className='font-normal'>Giá tăng dần</FormLabel>
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='PRICE_DESC' />
+                        <RadioGroupItem value='GIÁ GIẢM DẦN' />
                       </FormControl>
                       <FormLabel className='font-normal'>Giá giảm dần</FormLabel>
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='RATING_ASC' />
+                        <RadioGroupItem value='TỔNG SỐ ĐÁNH GIÁ TĂNG DẦN' />
                       </FormControl>
                       <FormLabel className='font-normal'>Đánh giá tăng dần</FormLabel>
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='RATING_DESC' />
+                        <RadioGroupItem value='TỔNG SỐ ĐÁNH GIÁ GIẢM DẦN' />
                       </FormControl>
                       <FormLabel className='font-normal'>Đánh giá giảm dần</FormLabel>
                     </FormItem>

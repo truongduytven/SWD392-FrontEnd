@@ -13,21 +13,23 @@ import { ArrowBigUpDash, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 const staticItems = [
   {
-    id: 'HEAD',
+    id: 'HÀNG ĐẦU',
     label: 'Hàng đầu'
   },
   {
-    id: 'MIDDLE',
+    id: 'HÀNG GIỮA',
     label: 'Hàng giữa'
   },
   {
-    id: 'BACK',
+    id: 'HÀNG SAU',
     label: 'Hàng cuối'
   },
-  { label: 'Giờ sớm nhất', id: 'gio som nhat' },
-  { label: 'Giờ muộn nhất', id: 'gio muon nhat' },
-  { label: 'Giá tăng dần', id: 'gia tang dan' },
-  { label: 'Giá giảm dần', id: 'gia giam dan' }
+  { label: 'Giờ sớm nhất', id: 'THỜI GIAN ĐI SỚM NHẤT' },
+  { label: 'Giờ muộn nhất', id: 'THỜI GIAN ĐI MUỘN NHẤT' },
+  { label: 'Đánh giá tăng dần', id: 'TỔNG SỐ ĐÁNH GIÁ TĂNG DẦN' },
+  { label: 'Đánh giá giảm dần', id: 'TỔNG SỐ ĐÁNH GIÁ GIẢM DẦN' },
+  { label: 'Giá tăng dần', id: 'GIÁ TĂNG DẦN' },
+  { label: 'Giá giảm dần', id: 'GIÁ GIẢM DẦN' }
 ] as const
 function SearchPage() {
   const [showScrollButton, setShowScrollButton] = useState(false)
