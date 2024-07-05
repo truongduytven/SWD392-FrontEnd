@@ -33,13 +33,15 @@ const staticItems = [
 ] as const
 function SearchPage() {
   const [showScrollButton, setShowScrollButton] = useState(false)
-const {data:companies} = useGetCompanies()
-const companyItems = companies ? companies.map(company => ({
-  id: company.CompanyID,
-  label: company.Name
-})) : []
+  const { data: companies } = useGetCompanies()
+  const companyItems = companies
+    ? companies.map((company) => ({
+        id: company.CompanyID,
+        label: company.Name
+      }))
+    : []
 
-const filterItems: readonly { id: string; label: string }[] = [...staticItems, ...companyItems]
+  const filterItems: readonly { id: string; label: string }[] = [...staticItems, ...companyItems]
   const { searchData } = useSearch()
   const initialState = {
     sortOption: 'DEFAULT',
@@ -48,10 +50,9 @@ const filterItems: readonly { id: string; label: string }[] = [...staticItems, .
   }
   const [filterState, setFilterState] = useState(initialState)
   const { data, isFetching, refetch } = useGetTripSearchForm(searchData, filterState)
-  console.log("data ở searchPage", data)
+  console.log('data ở searchPage', data)
   const { data: dataCityFromTo } = useGetCitySearchForm()
   console.log(data)
-
 
   const handleSortOptionChange = (value: string) => {
     setFilterState((prevState) => ({
@@ -97,15 +98,13 @@ const filterItems: readonly { id: string; label: string }[] = [...staticItems, .
   useEffect(() => {
     // Only refetch data if filterState has changed
     if (filterState !== initialState) {
-      refetch();
+      refetch()
     }
-  }, [filterState, refetch]);
+  }, [filterState, refetch])
   return (
     <div className='w-screen flex justify-center items-center bg-secondary pb-12'>
       <div className='flex flex-col justify-center items-center w-2/3 '>
         <div className='w-full flex justify-center absolute top-[100px]'>
-
-      
           <SearchForm onsubmitSearch={() => {}} />
         </div>
         {/* <h1 className='mt-52 mb-4 text-4xl font-bold'>{searchData.startLocation} - {searchData.endLocation}</h1> */}
@@ -116,50 +115,56 @@ const filterItems: readonly { id: string; label: string }[] = [...staticItems, .
             <p className='mt-3 animate-pulse'>Đang tìm kiếm chuyến xe, bạn vui lòng đợi chút xíu...</p>
           </div>
         ) : (
-          data ? (
-            <>
-              <h1 className='mt-56  mb-8 text-3xl font-bold text-center '>
-                {findCityNameByID(searchData.startLocation, dataCityFromTo?.FromCities || [])} -{' '}
-                {findCityNameByID(searchData.endLocation, dataCityFromTo?.ToCities || [])}
-              </h1>
-              <div className='flex w-full gap-5 main ' id='result'>
-                <div className='sticky top-24 slidebar flex flex-col shadow-md border rounded-lg bg-white w-2/5 h-fit'>
-                  <div className='flex justify-between items-center gap-5 py-2 text-md font-bold pr-2 '>
-                    <p className='ml-4'>Bộ lọc tìm kiếm</p>
-                    <p
-                      className='flex text-red-500 cursor-pointer justify-center items-center gap-2 px-2 py-1 rounded-md hover:bg-secondary'
-                      onClick={handleClearFilters}
-                    >
-                      Bỏ lọc
-                      <Trash2 />
-                    </p>
-                  </div>
-                  <Arrange selectedValue={filterState.sortOption} onValueChange={handleSortOptionChange} />
-                  <BusFilter selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
-                  <TypeFilter selectedItems={filterState.seatAvailability} onItemsChange={handleSeatAvailabilityChange} />
-                </div>
-  
-                <div className='w-full flex flex-col'>
-                  <div className='flex'>
-                    
-                  <BadgeList items={filterItems} selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
-                  <BadgeList items={filterItems} selectedItems={filterState.seatAvailability} onItemsChange={handleSeatAvailabilityChange} />
-                  </div>
-                  {data?.Items.map((item, index) => <CardTrip key={index} data={item} />)}
-                </div>
-              </div>
-            </>
-          ) : (
-            <h1 className='mt-52 font-semibold text-center'>
-              {filterState !== initialState ? (
-                <>Không tìm thấy chuyến xe. TheBusJourney sẽ cập nhật ngay khi có thông tin xe hoạt động trên tuyến đường này.
-                  <p className='text-center'>Xin bạn vui lòng thay đổi tuyến đường tìm kiếm!</p>
-                </>
-              ) : (
-                'Không có kết quả phù hợp với tiêu chí lọc. Hãy thử chỉnh sửa hoặc xóa lọc để xem thêm kết quả!'
-              )}
+          <>
+            <h1 className='mt-56  mb-8 text-3xl font-bold text-center '>
+              {findCityNameByID(searchData.startLocation, dataCityFromTo?.FromCities || [])} -{' '}
+              {findCityNameByID(searchData.endLocation, dataCityFromTo?.ToCities || [])}
             </h1>
-          )
+            <div className='flex w-full gap-5 main ' id='result'>
+              <div className='sticky top-24 slidebar flex flex-col shadow-md border rounded-lg bg-white w-2/5 h-fit'>
+                <div className='flex justify-between items-center gap-5 py-2 text-md font-bold pr-2 '>
+                  <p className='ml-4'>Bộ lọc tìm kiếm</p>
+                  <p
+                    className='flex text-red-500 cursor-pointer justify-center items-center gap-2 px-2 py-1 rounded-md hover:bg-secondary'
+                    onClick={handleClearFilters}
+                  >
+                    Bỏ lọc
+                    <Trash2 />
+                  </p>
+                </div>
+                <Arrange selectedValue={filterState.sortOption} onValueChange={handleSortOptionChange} />
+                <BusFilter selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
+                <TypeFilter selectedItems={filterState.seatAvailability} onItemsChange={handleSeatAvailabilityChange} />
+              </div>
+
+              <div className='w-full flex flex-col'>
+                <div className='flex'>
+                  <BadgeList
+                    items={filterItems}
+                    selectedItems={filterState.sortCompany}
+                    onItemsChange={handleSortCompanyChange}
+                  />
+                  <BadgeList
+                    items={filterItems}
+                    selectedItems={filterState.seatAvailability}
+                    onItemsChange={handleSeatAvailabilityChange}
+                  />
+                </div>
+
+                {data && data.Items.length > 0 ? (
+                  data.Items.map((item, index) => <CardTrip key={index} data={item} />)
+                ) : (
+                  <h1 className='mt-52 font-semibold text-center'>
+                    <>
+                      Không tìm thấy chuyến xe.
+                      <p className='text-center'>Xin bạn vui lòng thay đổi tuyến đường tìm kiếm hoặc bỏ lọc!</p>
+                    </>
+                  </h1> // Replace with your default CardTrip component
+                )}
+                {/* {data?.Items.map((item, index) => <CardTrip key={index} data={item} />)} */}
+              </div>
+            </div>
+          </>
         )}
       </div>
       {showScrollButton && (
