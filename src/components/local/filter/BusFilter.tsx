@@ -16,11 +16,12 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { BusFilterSchema } from '@/lib/schemas/BusFilterSchema'
 import { cn } from '@/lib/utils'
 import { CheckIcon, ChevronsUpDown } from 'lucide-react'
-const languages = [
+import { useGetCompanies } from '@/apis/companyAPI'
+const companies = [
   { label: 'English', value: 'en' },
   { label: 'French', value: 'fr' },
-  { label: 'German', value: 'de' },
-  { label: 'Spanish', value: 'es' },
+  { label: 'German', value: 'ger' },
+  { label: 'Spanish', value: 'sp' },
   { label: 'Portuguese', value: 'pt' },
   { label: 'Russian', value: 'ru' },
   { label: 'Japanese', value: 'ja' },
@@ -34,29 +35,30 @@ interface BusFilterProps {
 }
 function BusFilter({ selectedItems, onItemsChange }: BusFilterProps) {
   const [showModal, setShowModal] = useState<Boolean>(false)
+  const { data: companies } = useGetCompanies()
+
   const form = useForm<z.infer<typeof BusFilterSchema>>({
     resolver: zodResolver(BusFilterSchema),
     defaultValues: {
-      language: selectedItems
+      company: selectedItems
     }
   })
   useEffect(() => {
-    form.setValue('language', selectedItems)
+    form.setValue('company', selectedItems)
   }, [selectedItems, form])
 
   function onSubmit(data: z.infer<typeof BusFilterSchema>) {
-    onItemsChange(data.language || [])
-
+    onItemsChange(data.company || [])
   }
 
   const toggleLanguage = (value: string) => {
-    const currentLanguages = form.getValues('language') || [] // Ensure it's an array
-    const newLanguages = currentLanguages.includes(value)
-      ? currentLanguages.filter((lang) => lang !== value)
-      : [...currentLanguages, value]
-    form.setValue('language', newLanguages)
+    const currentCompanies = form.getValues('company') || [] // Ensure it's an array
+    const newCompanies = currentCompanies.includes(value)
+      ? currentCompanies.filter((com) => com !== value)
+      : [...currentCompanies, value]
+    form.setValue('company', newCompanies)
 
-    onSubmit({ language: newLanguages })
+    onSubmit({ company: newCompanies })
   }
 
   return (
@@ -65,7 +67,7 @@ function BusFilter({ selectedItems, onItemsChange }: BusFilterProps) {
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <FormField
             control={form.control}
-            name='language'
+            name='company'
             render={({ field }) => (
               <FormItem className='flex flex-col'>
                 <FormControl>
@@ -91,20 +93,20 @@ function BusFilter({ selectedItems, onItemsChange }: BusFilterProps) {
                     <CommandList className='h-40 overflow-y-auto'>
                       {/* <PopoverClose className='w-full'> */}
                       <CommandGroup>
-                        {languages.map((language) => (
+                        {companies?.map((com) => (
                           <CommandItem
-                            value={language.label}
-                            key={language.value}
+                            value={com.Name}
+                            key={com.CompanyID}
                             onSelect={() => {
-                              toggleLanguage(language.value)
+                              toggleLanguage(com.CompanyID)
                             }}
                           >
-                            {language.label}
+                            {com.Name}
                             <CheckIcon
                               strokeWidth={3}
                               className={cn(
                                 'ml-auto h-4 w-4 text-primary ',
-                                field.value?.includes(language.value) ? 'opacity-100' : 'opacity-0'
+                                field.value?.includes(com.CompanyID) ? 'opacity-100' : 'opacity-0'
                               )}
                             />
                           </CommandItem>

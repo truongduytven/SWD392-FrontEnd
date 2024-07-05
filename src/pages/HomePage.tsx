@@ -1,4 +1,7 @@
 import Banner from '@/assets/anhdepvietnam.jpg'
+import Banner2 from '@/assets/banner2.jpg'
+import Banner3 from '@/assets/banner3.webp'
+import Banner4 from '@/assets/banner4.jpg'
 import {
   Carousel,
   CarouselContent,
@@ -6,6 +9,8 @@ import {
   CarouselNext,
   CarouselPrevious
 } from '@/components/global/atoms/carousel'
+import { Carousel as Car } from 'antd'
+import React from 'react'
 import { SearchForm } from '@/components/local/Search/SearchForm'
 import PopularTrip from '../components/local/Home/PopularTrip'
 import CriteriaTags from '@/components/local/Home/CriteriaTags'
@@ -16,12 +21,26 @@ function HomePage() {
   const navigate = useNavigate()
   const { data: popularTripData, isLoading } = useGetPopularTrip()
   console.log(popularTripData)
+  const contentStyle: React.CSSProperties = {
+    height: '160px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79'
+  }
+
   return (
     <div>
       <div className='h-[600px]'>
-        {/* <div className='fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'></div> */}
-        <img className='h-full w-screen' src={Banner} alt='banner' />
-        {/* <div className="absolute h-[640px] inset-0 bg-black opacity-40"></div> */}
+        <Car autoplay autoplaySpeed={2000} className='h-full w-screen'>
+          <img style={contentStyle} className='h-[650px] object-cover w-screen' src={Banner} alt='banner' />
+
+          <img style={contentStyle} className='h-[650px] object-cover w-screen' src={Banner2} alt='banner' />
+
+          <img style={contentStyle} className='h-[650px] object-cover w-screen' src={Banner3} alt='banner' />
+
+          <img style={contentStyle} className='h-[650px] object-cover w-screen' src={Banner4} alt='banner' />
+        </Car>
       </div>
       <div className='w-full flex justify-center absolute top-[300px]'>
         <SearchForm onsubmitSearch={() => navigate('/search')} />

@@ -14,18 +14,49 @@ export const useGetCitySearchForm = () => {
     })
   }
 
-export const useGetTripSearchForm = (searchData: SearchData) => {
+export const useGetTripSearchForm = (searchData: SearchData,filterState: { sortOption: string, sortCompany: string[], seatAvailability: string[]}) => {
   return useQuery<ITripSearchData>({
     queryKey: ["tripSearchForm", searchData],
     queryFn: async () => {
     const postData = {
-      startLocaion: searchData.startLocation,
-      endLocaion: searchData.endLocation,
-      startDate: formatDate(searchData.startDate, 'yyyy-MM-dd')
+      startLocation: searchData.startLocation,
+      endLocation: searchData.endLocation,
+      startDate: formatDate(searchData.startDate, 'yyyy-MM-dd'),
+      sortOption: filterState.sortOption,
+      sortCompany: filterState.sortCompany,
+      seatAvailability: filterState.seatAvailability
     }
     const pageNumber = 1
     const totalPages = 10
-    const { data } = await busAPI.get<ITripSearchData>(`/trip-management/managed-trips/from-city/${postData.startLocaion}/to-city/${postData.endLocaion}/start-time/${postData.startDate}/page-number/${pageNumber}/page-size/${totalPages}`)
+    // const { data } = await busAPI.get<ITripSearchData>(`/trip-management/managed-trips/from-city/${postData.startLocaion}/to-city/${postData.endLocaion}/start-time/${postData.startDate}/page-number/${pageNumber}/page-size/${totalPages}`, {
+    //   params: {
+    //     sortOption: postData.sortOption,
+    //     sortCompany: postData.sortCompany,
+    //     seatAvailability: postData.seatAvailability
+    //   }})
+      // Construct the URL manually with query parameters
+      const url = `/trip-management/managed-trips/from-city/${postData.startLocation}/to-city/${postData.endLocation}/start-time/${postData.startDate}/page-number/${pageNumber}/page-size/${totalPages}`
+      const queryParams = {
+        sortOption: postData.sortOption,
+        sortCompany: postData.sortCompany,
+        seatAvailability: postData.seatAvailability
+      }
+
+      // Convert arrays to repeated query parameters for sortCompany
+      const queryString = Object.entries(queryParams)
+        .map(([key, value]) => {
+          if (Array.isArray(value)) {
+            return value.map(v => `${key}=${encodeURIComponent(v)}`).join('&')
+          } else {
+            return `${key}=${encodeURIComponent(value)}`
+          }
+        })
+        .join('&')
+
+      // Append the query string to the URL
+      const finalUrl = queryString ? `${url}?${queryString}` : url
+
+      const { data } = await busAPI.get<ITripSearchData>(finalUrl)
     return data
     }
   })

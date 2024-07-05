@@ -25,7 +25,7 @@ function SignInSignUp() {
         </Link>
       </div>
       <div className={`container ${addclass}`} id='container'>
-        <div className='form-container  sign-up-container'>
+        <div className='form-container sign-up-container '>
           <FormSignUp reset={resetFormSignUp} />
         </div>
         <div className='form-container sign-in-container'>

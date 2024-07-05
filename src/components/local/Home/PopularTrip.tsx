@@ -13,16 +13,18 @@ interface PopularTripProps {
 
 
 function PopularTrip({ data }: PopularTripProps) {
+  console.log("dây nhan", data)
   const navigate = useNavigate()
   const { setSearchData } = useSearch()
   const handleClickPopular = () => {
     const searchData = {
-      startLocation: data.FromCityID,
-      endLocation: data.ToCityID,
+      startLocation: data.FromCityId,
+      endLocation: data.ToCityId,
       startDate: new Date(),
     }
     console.log('Click popular trip')
     setSearchData(searchData)
+    console.log("popular trip", searchData)
     navigate('/search')
   }
   return (

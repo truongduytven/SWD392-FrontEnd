@@ -12,12 +12,18 @@ import { Link, useNavigate } from 'react-router-dom'
 import busAPI from '@/lib/busAPI'
 import { toast } from 'sonner'
 import Loading from '@/components/local/login/Loading'
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google'
+import { Shell } from 'lucide-react'
+import googleIcon from '@/assets/google.svg'
+import { useAuth } from '@/auth/AuthProvider'
 
 type FormSignUpProps = {
   reset: boolean
 }
 function FormSignUp({ reset }: FormSignUpProps) {
   const [loading, setLoading] = useState(false)
+  const [isLoggingGoogle, setIsLoggingGoogle] = useState(false)
+const {loginWithGG ,loadingGG}= useAuth();
   const navigate = useNavigate()
   const formSignUp = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -29,17 +35,16 @@ function FormSignUp({ reset }: FormSignUpProps) {
       phoneNumber: '',
       password: '',
       confirmpassword: '',
-      companyID:"3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      companyID: '3fa85f64-5717-4562-b3fc-2c963f66afa6'
     }
-    }
-  )
+  })
   useEffect(() => {
     console.log('sign up xóa')
     formSignUp.reset()
   }, [reset])
 
   const onSubmitSignUp = async (data: any) => {
-    console.log("dang kí", data)
+    console.log('dang kí', data)
     try {
       setLoading(true)
       const response = await busAPI.post('/auth-management/managed-auths/sign-ups', data)
@@ -65,11 +70,24 @@ function FormSignUp({ reset }: FormSignUpProps) {
       // Handle error, e.g., display error message to user
     }
   }
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => loginWithGG(tokenResponse.access_token)
+  })
   return (
     <Form {...formSignUp}>
+      {/* <GoogleLogin
+        onSuccess={(credentialResponse) => {
+          console.log(credentialResponse)
+        }}
+        onError={() => {
+          console.log('Login Failed')
+        }}
+      /> */}
+
+      {/* <button onClick={() => login()}>Sign in with Google 🚀</button>; */}
       <form
         onSubmit={formSignUp.handleSubmit(onSubmitSignUp)}
-        className='flex items-center justify-start flex-col h-full gap-2 text-center shadow-xl mr-20 '
+        className='flex items-center justify-center flex-col h-full gap-2 text-center shadow-xl mr-20 '
       >
         <p className='font-medium text-2xl'>Tạo tài khoản</p>
         <p className='flex items-center text-muted-foreground'>
@@ -173,6 +191,19 @@ function FormSignUp({ reset }: FormSignUpProps) {
             )}
           />
         </div>
+        <div className='relative w-3/4'>
+          <div className='absolute inset-0 flex items-center'>
+            <span className='w-full border-t' />
+          </div>
+          <div className='relative flex justify-center text-xs uppercase'>
+            <span className='px-2 bg-background text-muted-foreground'>hoặc tiếp tục với</span>
+          </div>
+        </div>
+        <Button className='w-3/4' onClick={() => login()} variant='outline' type='button' disabled={isLoggingGoogle}>
+          <img className='mr-2 w-7 h-7' alt='google' src={googleIcon} />
+          Đăng nhập bằng google
+          {loadingGG && <Shell className='w-4 h-4 ml-1 animate-spin' />}
+        </Button>
 
         {/* <Link to ="/otp-verified" className='w-full'> */}
         <Button type='submit' className='w-3/4' disabled={loading}>

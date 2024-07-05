@@ -16,9 +16,9 @@ export interface ITripSearchForm {
 export interface ITripData {
     TripID: string,
     RouteID: string,
-    CompanyID: string,
     TemplateID:string,
     CompanyName: string,
+    CompanyID:string,
     ImageUrl: string,
     AverageRating: number,
     QuantityRating: number,
@@ -38,10 +38,10 @@ export interface ITripSearchData {
 }
 
 export type IPopularTrip = {
-    TripID: string,
-    FromCityID: string,
+    TripId: string,
+    FromCityId: string,
     FromCity: string,
-    ToCityID: string,
+    ToCityId: string,
     ToCity: string,
     PriceFrom: number,
     ImageUrl: string[],
