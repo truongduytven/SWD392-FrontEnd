@@ -12,6 +12,8 @@ import OOPS from '@/assets/oops.jpg'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/auth/AuthProvider'
 import wallet from '@/assets/wallet.png'
+import busAPI from '@/lib/busAPI'
+import axios from 'axios'
 
 function InfoPayment() {
   const navigate = useNavigate()
@@ -19,14 +21,14 @@ function InfoPayment() {
   const [errors, setErrors] = useState({ username: '', phoneNumber: '', email: '' })
   const [infoData, setInfoData] = useState<infoPaymentData>({ username: '', phoneNumber: '', email: '' })
   const [paymentMethod, setPaymentMethod] = useState('VNPay')
-  const { user } = useAuth()
+  const { user, token } = useAuth()
   
   useEffect(() => {
     if (user) {
       setInfoData({
-        username: user.fullName,
-        phoneNumber: user.phoneNumber,
-        email: user.email
+        username: user.FullName,
+        phoneNumber: user.PhoneNumber,
+        email: user.Email
       })
     }
   }, [user])
@@ -79,11 +81,11 @@ function InfoPayment() {
     return valid
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (validateFields()) {
       const DataBooking = {
         addOrUpdateBookingModel: {
-          userID: user?.userID,
+          userID: user?.UserID,
           tripID: invoiceData.tripID,
           isBalance: paymentMethod === 'VNPay' ? false : true,
           fullName: infoData.username,
@@ -98,15 +100,23 @@ function InfoPayment() {
             seatCode: ticket.seatCode,
             price: ticket.price,
             addOrUpdateServiceModels: ticket.services.map((service) => ({
-              serviceID: service.serviceID,
+              serviceID: service.ServiceID,
               stationID: service.station,
               quantity: service.quantity,
-              price: service.price,
+              price: service.Price,
             })),
           })),
         ],
       }
       console.log(DataBooking)
+      try {
+        const response = await busAPI.post('/booking-management/managed-bookings/vnpay-payment', DataBooking)
+        console.log(response)
+        const link = response.data.Result
+        window.location.href = link
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
   
