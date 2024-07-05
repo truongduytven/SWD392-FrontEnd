@@ -20,7 +20,7 @@ type FormLoginProps = {
   reset: boolean
 }
 function FormLogin({ reset }: FormLoginProps) {
-  const { login, loading } = useAuth()
+  const { login,loginWithGG,loadingGG, loading } = useAuth()
   const [isLoggingGoogle, setIsLoggingGoogle] = useState(false)
 
   const formLogin = useForm<z.infer<typeof loginSchema>>({
@@ -45,7 +45,7 @@ function FormLogin({ reset }: FormLoginProps) {
   }
  
   const loginGG = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse.access_token)
+    onSuccess: (tokenResponse) => loginWithGG(tokenResponse.access_token)
   })
   return (
     <Form {...formLogin}>
@@ -97,7 +97,7 @@ function FormLogin({ reset }: FormLoginProps) {
         <Button className='w-2/3' onClick={() => loginGG()} variant='outline' type='button' disabled={isLoggingGoogle}>
           <img className='mr-2 w-7 h-7' alt='google' src={googleIcon} />
           Đăng nhập bằng google
-          {isLoggingGoogle && <Shell className='w-4 h-4 ml-1 animate-spin' />}
+          {loadingGG && <Shell className='w-4 h-4 ml-1 animate-spin' />}
         </Button>
         <Button type='submit' disabled={loading} className='w-2/3'>
         {loading && <Loading />} Đăng nhập

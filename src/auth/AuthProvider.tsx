@@ -9,9 +9,11 @@ interface AuthContextType {
   token: string | null
   user: User | null
   login: (username: string, password: string) => Promise<void>
+  loginWithGG: (AccessToken: string) => Promise<void>
   logout: () => void
   errorMessage: string | null
   loading: boolean
+  loadingGG: boolean
 }
 
 // Define the shape of User
@@ -57,6 +59,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const [loadingGG, setLoadingGG] = useState<boolean>(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -172,19 +175,44 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setLoading(false)
     }
   }
+  const loginWithGG = async (accessToken: string) => {
+    console.log('token ơ gg ', accessToken)
+    setLoadingGG(true)
+    try {
+      setLoading(true)
+      const response = await busAPI.post('/auth-management/managed-auths/access-token-verification', accessToken)
+      const newToken = response.data.accessToken
+      console.log('token moi ne hehe', response.data)
+      setToken(newToken)
+      localStorage.setItem('token', newToken)
+      setErrorMessage(null)
+      toast.success('Đăng nhập thành công')
+      navigate(-1)
+      setLoadingGG(false)
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error)
+        toast.error('Lỗi đăng nhập')
+      setLoadingGG(false)
+
+      }
+    } finally {
+      setLoadingGG(false)
+
+    }
+  }
 
   const logout = () => {
-
     setToken(null)
     setUser(null)
     localStorage.removeItem('token')
-    toast.success("Đăng xuất tài khoản thành công")
+    toast.success('Đăng xuất tài khoản thành công')
     // Redirect to login page after logout
     navigate('/')
   }
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, errorMessage, loading }}>
+    <AuthContext.Provider value={{ token, user,loadingGG, loginWithGG, login, logout, errorMessage, loading }}>
       {children}
     </AuthContext.Provider>
   )

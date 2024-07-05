@@ -15,6 +15,7 @@ import Loading from '@/components/local/login/Loading'
 import { GoogleLogin, useGoogleLogin } from '@react-oauth/google'
 import { Shell } from 'lucide-react'
 import googleIcon from '@/assets/google.svg'
+import { useAuth } from '@/auth/AuthProvider'
 
 type FormSignUpProps = {
   reset: boolean
@@ -22,7 +23,7 @@ type FormSignUpProps = {
 function FormSignUp({ reset }: FormSignUpProps) {
   const [loading, setLoading] = useState(false)
   const [isLoggingGoogle, setIsLoggingGoogle] = useState(false)
-
+const {loginWithGG ,loadingGG}= useAuth();
   const navigate = useNavigate()
   const formSignUp = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -70,7 +71,7 @@ function FormSignUp({ reset }: FormSignUpProps) {
     }
   }
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse.access_token)
+    onSuccess: (tokenResponse) => loginWithGG(tokenResponse.access_token)
   })
   return (
     <Form {...formSignUp}>
@@ -201,7 +202,7 @@ function FormSignUp({ reset }: FormSignUpProps) {
         <Button className='w-3/4' onClick={() => login()} variant='outline' type='button' disabled={isLoggingGoogle}>
           <img className='mr-2 w-7 h-7' alt='google' src={googleIcon} />
           Đăng nhập bằng google
-          {isLoggingGoogle && <Shell className='w-4 h-4 ml-1 animate-spin' />}
+          {loadingGG && <Shell className='w-4 h-4 ml-1 animate-spin' />}
         </Button>
 
         {/* <Link to ="/otp-verified" className='w-full'> */}

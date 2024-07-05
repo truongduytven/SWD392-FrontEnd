@@ -74,7 +74,7 @@ function Header() {
                   />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-fit'>
-                  <DropdownMenuLabel className='py-0'>{data?.UserName}</DropdownMenuLabel>
+                  <DropdownMenuLabel className='py-0'> {data?.UserName || data?.FullName}</DropdownMenuLabel>
                   <DropdownMenuItem className='py-0 text-xs' disabled>
                     {data?.Email}
                   </DropdownMenuItem>
