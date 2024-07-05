@@ -12,16 +12,16 @@ import { ArrowBigUpDash, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 const items = [
   {
-    id: 'ghengoi',
-    label: 'Ghế ngồi'
+    id: 'HEAD',
+    label: 'Hàng đầu'
   },
   {
-    id: 'giuongnam',
-    label: 'Giường nằm'
+    id: 'MIDDLE',
+    label: 'Hàng giữa'
   },
   {
-    id: 'giuongnamdoi',
-    label: 'Giường nằm đôi'
+    id: 'BACK',
+    label: 'Hàng cuối'
   },
   { label: 'English', id: 'en' },
   { label: 'French', id: 'fr' },
@@ -49,7 +49,8 @@ function SearchPage() {
   console.log(data)
   const initialState = {
     sortOption: 'DEFAULT',
-    sortCompany: [] as string[]
+    sortCompany: [] as string[],
+    seatAvailability: [] as string[]
   }
 
   const [filterState, setFilterState] = useState(initialState)
@@ -65,6 +66,12 @@ function SearchPage() {
     setFilterState((prevState) => ({
       ...prevState,
       sortCompany: items
+    }))
+  }
+  const handleSeatAvailabilityChange = (items: string[]) => {
+    setFilterState((prevState) => ({
+      ...prevState,
+      seatAvailability: items
     }))
   }
   console.log('filter ne', filterState)
@@ -122,11 +129,15 @@ function SearchPage() {
                   </div>
                   <Arrange selectedValue={filterState.sortOption} onValueChange={handleSortOptionChange} />
                   <BusFilter selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
-                  <TypeFilter selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
+                  <TypeFilter selectedItems={filterState.seatAvailability} onItemsChange={handleSeatAvailabilityChange} />
                 </div>
   
                 <div className='w-full flex flex-col'>
+                  <div className='flex'>
+                    
                   <BadgeList items={items} selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
+                  <BadgeList items={items} selectedItems={filterState.seatAvailability} onItemsChange={handleSeatAvailabilityChange} />
+                  </div>
                   {data?.Items.map((item, index) => <CardTrip key={index} data={item} />)}
                 </div>
               </div>

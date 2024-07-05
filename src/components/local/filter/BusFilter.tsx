@@ -16,7 +16,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { BusFilterSchema } from '@/lib/schemas/BusFilterSchema'
 import { cn } from '@/lib/utils'
 import { CheckIcon, ChevronsUpDown } from 'lucide-react'
-const languages = [
+const companies = [
   { label: 'English', value: 'en' },
   { label: 'French', value: 'fr' },
   { label: 'German', value: 'ger' },
@@ -91,20 +91,20 @@ function BusFilter({ selectedItems, onItemsChange }: BusFilterProps) {
                     <CommandList className='h-40 overflow-y-auto'>
                       {/* <PopoverClose className='w-full'> */}
                       <CommandGroup>
-                        {languages.map((language) => (
+                        {companies.map((com) => (
                           <CommandItem
-                            value={language.label}
-                            key={language.value}
+                            value={com.label}
+                            key={com.value}
                             onSelect={() => {
-                              toggleLanguage(language.value)
+                              toggleLanguage(com.value)
                             }}
                           >
-                            {language.label}
+                            {com.label}
                             <CheckIcon
                               strokeWidth={3}
                               className={cn(
                                 'ml-auto h-4 w-4 text-primary ',
-                                field.value?.includes(language.value) ? 'opacity-100' : 'opacity-0'
+                                field.value?.includes(com.value) ? 'opacity-100' : 'opacity-0'
                               )}
                             />
                           </CommandItem>

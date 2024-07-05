@@ -17,16 +17,16 @@ import { ChevronsUpDown } from 'lucide-react'
 
 const items = [
   {
-    id: 'ghengoi',
-    label: 'Ghế ngồi'
+    id: 'HEAD',
+    label: 'Hàng đầu'
   },
   {
-    id: 'giuongnam',
-    label: 'Giường nằm'
+    id: 'MIDDLE',
+    label: 'Hàng giữa'
   },
   {
-    id: 'giuongnamdoi',
-    label: 'Giường nằm đôi'
+    id: 'BACK',
+    label: 'Hàng cuối'
   },
   
 ] as const
