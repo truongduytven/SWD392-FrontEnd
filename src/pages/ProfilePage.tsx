@@ -14,7 +14,7 @@ import Loading from '@/components/local/login/Loading'
 function ProfilePage() {
   const { user } = useAuth()
   const { data, isLoading, isError, refetch } = fetchUserDetail(user?.UserID || '')
-const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
   const [form] = Form.useForm()
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null)
@@ -41,8 +41,8 @@ const [loading, setLoading] = useState(false)
   }, [])
 
   const { getRootProps, getInputProps } = useDropzone({
-     onDrop,
-     accept: {
+    onDrop,
+    accept: {
       'image/*': []
     }
   })
@@ -67,15 +67,15 @@ const [loading, setLoading] = useState(false)
       const response = await updateUserProfile(user?.UserID || '', formData)
       setLoading(false)
       toast.success('Cập nhật profile thành công')
-      
+
       console.log('Profile updated successfully:', response)
       console.log('Profile updated successfully:', response.data)
       await refetch()
       setHasChanges(false)
       queryClient.invalidateQueries({ queryKey: ['userDetail', user?.UserID] })
-    } catch (error:any) {
+    } catch (error: any) {
       setLoading(false)
-      toast.error(error.response?.data?.result?.message || 'Mật khẩu cũ không chính xác!');
+      toast.error(error.response?.data?.result?.message || 'Mật khẩu cũ không chính xác!')
       console.error('Error updating profile:', error)
     }
   }
@@ -106,12 +106,11 @@ const [loading, setLoading] = useState(false)
   }
 
   const validatePhoneNumber = (_rule: RuleObject, value: any) => {
-    if (!value) {
-      return Promise.reject('Số điện thoại không được bỏ trống')
-    }
-    const phoneNumberRegex = /^0\d{9}$/
-    if (!phoneNumberRegex.test(value)) {
-      return Promise.reject('Số điện thoại phải có 10 chữ số và bắt đầu bằng 0')
+    if (value && value !== '') {
+      const phoneNumberRegex = /^0\d{9}$/
+      if (!phoneNumberRegex.test(value)) {
+        return Promise.reject('Số điện thoại phải có 10 chữ số và bắt đầu bằng 0')
+      }
     }
     return Promise.resolve()
   }
@@ -206,7 +205,7 @@ const [loading, setLoading] = useState(false)
                 <Form.Item
                   name='UserName'
                   label={<span className='font-medium'>Tên người dùng</span>}
-                  rules={[{ required: true, message: 'Tên người dùng không được bỏ trống' }]}
+                  rules={[{ required: false }]}
                 >
                   <Input placeholder='Tên người dùng' />
                 </Form.Item>
@@ -217,7 +216,11 @@ const [loading, setLoading] = useState(false)
                 >
                   <Input placeholder='Họ và tên' />
                 </Form.Item>
-                <Form.Item name='Address' label={<span className='font-medium'>Địa chỉ</span>}>
+                <Form.Item
+                  name='Address'
+                  label={<span className='font-medium'>Địa chỉ</span>}
+                  rules={[{ required: false }]}
+                >
                   <Input placeholder='Địa chỉ' />
                 </Form.Item>
                 <Form.Item className='hidden' name='avatar' label='Avatar' />
@@ -225,10 +228,7 @@ const [loading, setLoading] = useState(false)
                 <Form.Item
                   name='PhoneNumber'
                   label={<span className='font-medium'>PhoneNumber</span>}
-                  rules={[
-                    { required: true,message:"" },
-                    { validator: validatePhoneNumber }
-                  ]}
+                  rules={[{ required: false }, { validator: validatePhoneNumber }]}
                 >
                   <Input placeholder='Số điện thoại' />
                 </Form.Item>
@@ -236,9 +236,14 @@ const [loading, setLoading] = useState(false)
                   <Input className='cursor-not-allowed' disabled />
                 </Form.Item>
 
-                <Button type='link' className='mb-2 p-0 text-tertiary' onClick={handleTogglePasswordFields}>
+                {/* <Button type='link' className='mb-2 p-0 text-tertiary' onClick={handleTogglePasswordFields}>
                   {showPasswordFields ? 'Ẩn đổi mật khẩu' : 'Đổi mật khẩu'}
-                </Button>
+                </Button> */}
+                {data?.Password && ( // Check if data.Password has a value
+                  <Button type='link' className='mb-2 p-0 text-tertiary' onClick={handleTogglePasswordFields}>
+                    {showPasswordFields ? 'Ẩn đổi mật khẩu' : 'Đổi mật khẩu'}
+                  </Button>
+                )}
                 <Form.Item
                   name='Password'
                   label={<span className='font-medium'>Mật khẩu cũ</span>}
@@ -263,18 +268,21 @@ const [loading, setLoading] = useState(false)
                   <Input.Password placeholder='Xác nhận mật khẩu' />
                 </Form.Item>
                 <Form.Item className='mb-2 flex justify-center'>
-                  <Button type='dashed' htmlType='submit' className={`${loading ? 'bg-orange-500 text-white' : ''}`} disabled={!hasChanges}>
-                    {loading && <Loading/>}
+                  <Button
+                    type='dashed'
+                    htmlType='submit'
+                    className={`${loading ? 'bg-orange-500 text-white' : ''}`}
+                    disabled={!hasChanges}
+                  >
+                    {loading && <Loading />}
                     Cập nhật
                   </Button>
-                
                 </Form.Item>
               </div>
             </div>
           </Form>
         </ConfigProvider>
       </div>
-
     </div>
   )
 }
