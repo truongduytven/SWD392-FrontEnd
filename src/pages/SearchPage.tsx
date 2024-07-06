@@ -101,7 +101,6 @@ function SearchPage() {
   }, [])
 
   useEffect(() => {
-    // Only refetch data if filterState has changed
     refetch()
   }, [filterState, refetch])
 
@@ -110,9 +109,8 @@ function SearchPage() {
       return null
     }
 
-    const totalPages = data.TotalCount // Assuming TotalCount represents the total number of pages
+    const totalPages = data.TotalCount 
 
-    // Create an array of page numbers
     const pages = []
     for (let i = 1; i <= totalPages; i++) {
       pages.push(i)
@@ -175,13 +173,6 @@ function SearchPage() {
               />
             </div>
             {isFetching ? (
-              // <div className=''>
-              //   {/* <Loading /> */}
-              //   <CardTripSkeleton/>
-              //   <CardTripSkeleton/>
-              //   <CardTripSkeleton/>
-              //   {/* <p className='mt-3 animate-pulse'>Đang tìm kiếm chuyến xe, bạn vui lòng đợi chút xíu...</p> */}
-              // </div>
               <div className='flex flex-col gap-3'>
                   <CardTripSkeleton />
                   <CardTripSkeleton />
