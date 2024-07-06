@@ -45,7 +45,7 @@ function Header() {
                     Tra cứu vé
                   </NavigationMenuLink>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
+                {/* <NavigationMenuItem>
                   <NavigationMenuLink
                     href='/rating'
                     className='relative text-black font-medium hover:text-primary cursor-pointer transition-all ease-in-out 
@@ -54,7 +54,7 @@ function Header() {
                   >
                     Ưu đãi
                   </NavigationMenuLink>
-                </NavigationMenuItem>
+                </NavigationMenuItem> */}
               </NavigationMenuList>
             </NavigationMenu>
           </div>

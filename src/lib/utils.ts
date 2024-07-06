@@ -74,3 +74,23 @@ export function formatSeatCode(seatCode: string) {
   return seatCode;
 }
 
+export function isWithin12Hours(dateString: string, timeString: string): boolean {
+  // Combine the date and time strings into a single date-time string
+  const dateTimeString = `${dateString}T${timeString}:00`;
+  
+  // Convert the date-time string into a Date object
+  const givenDateTime = new Date(dateTimeString);
+  
+  // Get the current date-time
+  const now = new Date();
+  
+  // Calculate the difference in milliseconds
+  const diffInMs = Math.abs(givenDateTime.getTime() - now.getTime());
+  
+  // Convert the difference from milliseconds to hours
+  const diffInHours = diffInMs / (1000 * 60 * 60);
+  
+  // Check if the difference is less than 12 hours
+  return diffInHours < 12;
+}
+

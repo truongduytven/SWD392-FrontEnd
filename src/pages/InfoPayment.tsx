@@ -23,6 +23,7 @@ import {
   DialogTitle
 } from '@/components/global/atoms/dialog'
 import Loading from '@/components/global/molecules/Loading'
+import { toast } from 'sonner'
 
 function InfoPayment() {
   const navigate = useNavigate()
@@ -135,41 +136,47 @@ function InfoPayment() {
           console.log(error)
         }
       } else {
-        const DataBooking = {
-          addOrUpdateBookingModel: {
-            userID: user?.UserID,
-            tripID: invoiceData.tripID,
-            isBalance: paymentMethod === 'VNPay' ? false : true,
-            fullName: infoData.username,
-            phoneNumber: infoData.phoneNumber,
-            email: infoData.email,
-            quantity: invoiceData.tickets.length,
-            totalBill: invoiceData.totalPrice
-          },
-          addOrUpdateTicketModels: [
-            ...invoiceData.tickets.map((ticket) => ({
-              ticketType_TripID: ticket.ticketType_TripID,
-              seatCode: ticket.seatCode,
-              price: ticket.price,
-              addOrUpdateServiceModels: ticket.services.map((service) => ({
-                serviceID: service.ServiceID,
-                stationID: service.station,
-                quantity: service.quantity,
-                price: service.Price
-              }))
-            }))
-          ]
-        }
-        try {
-          const response = await busAPI.post('/booking-management/managed-bookings/balance-payment', DataBooking)
+        if(user!.Balance < invoiceData.totalPrice) {
           setIsLoading(false)
-          if (response.data.IsSuccess) {
-            navigate('/payment-success')
-          } else {
+          toast.error('Số dư không đủ để thanh toán')
+          return
+        } else {
+          const DataBooking = {
+            addOrUpdateBookingModel: {
+              userID: user?.UserID,
+              tripID: invoiceData.tripID,
+              isBalance: paymentMethod === 'VNPay' ? false : true,
+              fullName: infoData.username,
+              phoneNumber: infoData.phoneNumber,
+              email: infoData.email,
+              quantity: invoiceData.tickets.length,
+              totalBill: invoiceData.totalPrice
+            },
+            addOrUpdateTicketModels: [
+              ...invoiceData.tickets.map((ticket) => ({
+                ticketType_TripID: ticket.ticketType_TripID,
+                seatCode: ticket.seatCode,
+                price: ticket.price,
+                addOrUpdateServiceModels: ticket.services.map((service) => ({
+                  serviceID: service.ServiceID,
+                  stationID: service.station,
+                  quantity: service.quantity,
+                  price: service.Price
+                }))
+              }))
+            ]
+          }
+          try {
+            const response = await busAPI.post('/booking-management/managed-bookings/balance-payment', DataBooking)
+            setIsLoading(false)
+            if (response.data.IsSuccess) {
+              navigate('/payment-success')
+            } else {
+              navigate('/payment-fail')
+            }
+          } catch (error) {
             navigate('/payment-fail')
           }
-        } catch (error) {
-          navigate('/payment-fail')
         }
       }
     }
