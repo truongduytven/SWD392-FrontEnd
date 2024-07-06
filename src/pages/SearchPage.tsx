@@ -132,7 +132,17 @@ function SearchPage() {
       </div>
     )
   }
-
+  const handleFilterRemove = (type: string, id: string) => {
+    if (type === 'sortCompany') {
+      handleSortCompanyChange(filterState.sortCompany.filter((companyId) => companyId !== id))
+    } else if (type === 'seatAvailability') {
+      handleSeatAvailabilityChange(filterState.seatAvailability.filter((availabilityId) => availabilityId !== id))
+    }
+  }
+  const selectedFilters = [
+    ...filterState.sortCompany.map((id) => ({ type: 'sortCompany', id })),
+    ...filterState.seatAvailability.map((id) => ({ type: 'seatAvailability', id }))
+  ]
   return (
     <div className='w-screen flex justify-center items-center bg-secondary pb-12'>
       <div className='flex flex-col justify-center items-center w-2/3'>
@@ -161,16 +171,11 @@ function SearchPage() {
 
           <div className='w-full flex flex-col'>
             <div className='flex'>
-              <BadgeList
-                items={filterItems}
-                selectedItems={filterState.sortCompany}
-                onItemsChange={handleSortCompanyChange}
-              />
-              <BadgeList
-                items={filterItems}
-                selectedItems={filterState.seatAvailability}
-                onItemsChange={handleSeatAvailabilityChange}
-              />
+            <BadgeList
+              items={filterItems}
+              selectedFilters={selectedFilters}
+              onFilterRemove={handleFilterRemove}
+            />
             </div>
             {isFetching ? (
               <div className='flex flex-col gap-3'>
