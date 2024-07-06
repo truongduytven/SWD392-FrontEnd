@@ -13,16 +13,7 @@ const defaultInvoiceData: InvoiceData = {
   startTime: '06:00',
   endTime: '09:00',
   startDate: '2021-09-10',
-  tickets: [
-    // {
-    //   ticketType_TripID: '123',
-    //   seatCode: 'C30',
-    //   price: 190000,
-    //   services: [
-        
-    //   ],
-    // }
-  ],
+  tickets: [],
   totalPrice: 0,
 };
 
@@ -32,6 +23,7 @@ interface InvoiceContextType {
   updateTicketServices: (seatCode: string, updatedServices: Service[]) => void;
   updateUserIDTripID: (userID: string | undefined, tripID: string,routeID: string, companyID: string, endTime: string) => void;
   updateInvoiceData: (startLocation: string, endLocation: string, startTime: string, startDate: string , companyName: string) => void;
+  resetInvoiceData: () => void;
 }
 
 const InvoiceContext = createContext<InvoiceContextType | undefined>(undefined);
@@ -116,8 +108,26 @@ export const InvoiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }));
   };  
 
+  const resetInvoiceData = () => {
+    setInvoiceData({
+      companyID: '',
+      routeID: '',
+      userID: '',
+      tripID: '',
+      companyName: '',
+      isBalance: false,
+      startLocation: 'Bx.Miền Tây',
+      endLocation: 'Bến Tre - Trà Vinh',
+      startTime: '06:00',
+      endTime: '09:00',
+      startDate: '2021-09-10',
+      tickets: [],
+      totalPrice: 0,
+    });
+  }
+
   return (
-    <InvoiceContext.Provider value={{ invoiceData, updateTickets, updateTicketServices, updateInvoiceData, updateUserIDTripID }}>
+    <InvoiceContext.Provider value={{ invoiceData, updateTickets, updateTicketServices, updateInvoiceData, updateUserIDTripID, resetInvoiceData }}>
       {children}
     </InvoiceContext.Provider>
   );

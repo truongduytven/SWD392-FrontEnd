@@ -56,7 +56,8 @@ function HomePage() {
             <Loading />
           </div>
         ) : (
-          <Carousel
+          popularTripData && popularTripData.length > 0 ? (
+            <Carousel
             opts={{
               align: 'start'
             }}
@@ -78,6 +79,9 @@ function HomePage() {
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
+          ) : (
+            <div className='h-40 flex justify-center items-center text-gray-500 text-center mt-4'>Không có chuyến đi phổ biến nào</div>
+          )
         )}
       </div>
 

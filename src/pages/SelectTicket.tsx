@@ -10,7 +10,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 function SelectTicket() {
-  const { invoiceData, updateInvoiceData } = useInvoice()
+  const { invoiceData, updateInvoiceData, resetInvoiceData } = useInvoice()
   const { data, isLoading, isSuccess } = useGetTripData({ tripID: invoiceData.tripID })
   const navigate = useNavigate()
   useEffect(() => {
@@ -30,12 +30,17 @@ function SelectTicket() {
     navigate('/selectService')
   }
   console.log(invoiceData)
+
+  const handleClickReturn = () => {
+    resetInvoiceData()
+    navigate(-1)
+  }
   return (
     <Container>
       <div className='h-full flex flex-col mt-10 mb-12'>
         <div className='flex justify-start items-center'>
           <Button
-            onClick={() => navigate(-1)}
+            onClick={handleClickReturn}
             className='text-black bg-transparent hover:bg-transparent hover:underline hover:text-primary hover:font-bold'
           >
             <ArrowLeft className='scale-75' />
