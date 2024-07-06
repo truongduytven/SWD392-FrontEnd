@@ -17,6 +17,7 @@ import ProtectedRoute from './auth/ProtectedRoute'
 import PaymentStatus from './pages/PaymentStatus'
 import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailure from './pages/PaymentFailure'
+import ProtectUserRoute from './auth/ProtectUserRoute'
 function App() {
   return (
     <Routes>
@@ -24,9 +25,11 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/Loading' element={<Loading />} />
         <Route path='/search' element={<SearchPage />} />
-        <Route path='/selectTicket' element={<SelectTicket />} />
-        <Route path='/selectService' element={<SelectService />} />
-        <Route path='/infopayment' element={<InfoPayment />} />
+        <Route element={<ProtectUserRoute />}>
+          <Route path='/selectTicket' element={<SelectTicket />} />
+          <Route path='/selectService' element={<SelectService />} />
+          <Route path='/infopayment' element={<InfoPayment />} />
+        </Route>
         <Route path='/ticketInfo' element={<SearchTicket />} />
         <Route path='/payment-success/:id' element={<PaymentStatus />} />
         <Route path='/payment-success' element={<PaymentSuccess />} />

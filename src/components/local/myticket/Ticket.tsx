@@ -9,17 +9,19 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/global/atoms/dialog'
-import { calculateDuration } from '@/lib/utils'
-import { Sprout } from 'lucide-react'
+import { calculateDuration, isWithin12Hours } from '@/lib/utils'
+import { Sprout, SquareX } from 'lucide-react'
 import { useState } from 'react'
 import ModalDetail from './ModalDetail'
 import { MessageCircleHeart } from 'lucide-react'
 import RatingForm from '@/components/global/organisms/RatingForm'
+import { useCancelTicket, userAllTickets } from '@/apis/userAllTicket'
+import { toast } from 'sonner'
 interface TicketProps {
   date: string
-  ticketDetailID: string,
-  tripID:string,
-  userID:string,
+  ticketDetailID: string
+  tripID: string
+  userID: string
   companyName: string
   startTime: string
   endTime: string
@@ -28,8 +30,8 @@ interface TicketProps {
   seatCode: string
   priceTicket: number
   priceService: number
-  status: string,
-  isRated:boolean
+  status: string
+  isRated: boolean
 }
 
 function Ticket({
@@ -46,13 +48,27 @@ function Ticket({
   priceTicket,
   priceService,
   status,
-  isRated 
+  isRated
 }: TicketProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [showRatingForm, setShowRatingForm] = useState(false)
-  const [rated, setRated] = useState(isRated) 
+  const [rated, setRated] = useState(isRated)
+  const { mutateAsync } = useCancelTicket()
   const handleRatingSuccess = () => {
     setRated(true) // Update local state
+  }
+
+  const handleCancelTicket = async () => {
+    if (isWithin12Hours(date, startTime)) {
+      toast.error('Vé không thể hủy vì đã quá thời gian hủy vé')
+      return
+    }
+    try {
+      const message = await mutateAsync(ticketDetailID)
+      toast.success(message)
+    } catch (error) {
+      toast.error('Có lỗi xảy ra, vui lòng thử lại sau')
+    }
   }
 
   return (
@@ -140,11 +156,11 @@ function Ticket({
           >
             <Dialog>
               <DialogTrigger asChild>
-                  <div className='flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
-                    {' '}
-                    <Sprout />
-                    Xem chi tiết
-                  </div>
+                <div className='flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
+                  {' '}
+                  <Sprout />
+                  Xem chi tiết
+                </div>
               </DialogTrigger>
               {/* {status === 'ĐÃ SỬ DỤNG' && (
                 <div
@@ -155,15 +171,13 @@ function Ticket({
                   Đánh giá
                 </div>
               )} */}
-              {status === 'ĐÃ SỬ DỤNG' && (
-                rated 
-                ? (
+              {status === 'ĐÃ SỬ DỤNG' &&
+                (rated ? (
                   <div className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
                     <MessageCircleHeart />
                     Đã đánh giá
                   </div>
-                ) 
-                : (
+                ) : (
                   <div
                     onClick={() => setShowRatingForm(true)}
                     className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'
@@ -171,7 +185,35 @@ function Ticket({
                     <MessageCircleHeart />
                     Đánh giá
                   </div>
-                )
+                ))}
+              {status === 'CHƯA SỬ DỤNG' && (
+                <Dialog>
+                  <DialogTrigger>
+                    <div className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
+                      <SquareX />
+                      Hủy vé
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Bạn có chắc chắn sẽ hủy vé không ?</DialogTitle>
+                      <DialogDescription>
+                        Bạn có thể hủy vé thời gian xuất phát 12 tiếng. Sau thời gian trên, vé sẽ không thể hủy. Khi hủy
+                        bạn sẽ nhận lại được 70% giá trị vé của bạn vào trong ví cho những lần mua vé tiếp theo.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <DialogClose>
+                        <Button type='button' variant='outline'>
+                          Hủy
+                        </Button>
+                        <Button type='submit' onClick={handleCancelTicket}>
+                          Xác nhận
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               )}
               <DialogContent className='sm:max-w-md'>
                 <DialogHeader>
@@ -193,7 +235,14 @@ function Ticket({
           </div>
         )}
       </div>
-      {showRatingForm && <RatingForm userID = {userID} tripID={tripID} setShowRatingForm={setShowRatingForm} onRatingSuccess={handleRatingSuccess} />}
+      {showRatingForm && (
+        <RatingForm
+          userID={userID}
+          tripID={tripID}
+          setShowRatingForm={setShowRatingForm}
+          onRatingSuccess={handleRatingSuccess}
+        />
+      )}
     </div>
   )
 }

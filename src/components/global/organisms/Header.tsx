@@ -45,7 +45,16 @@ function Header() {
                     Tra cứu vé
                   </NavigationMenuLink>
                 </NavigationMenuItem>
-                
+                {/* <NavigationMenuItem>
+                  <NavigationMenuLink
+                    href='/rating'
+                    className='relative text-black font-medium hover:text-primary cursor-pointer transition-all ease-in-out 
+  before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-primary before:origin-center before:h-[2px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%]
+  after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-primary after:origin-center after:h-[2px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]'
+                  >
+                    Ưu đãi
+                  </NavigationMenuLink>
+                </NavigationMenuItem> */}
               </NavigationMenuList>
             </NavigationMenu>
           </div>
