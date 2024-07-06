@@ -7,7 +7,7 @@ import Arrange from '@/components/local/filter/Arrange'
 import BadgeList from '@/components/local/filter/BadgeListFilter'
 import BusFilter from '@/components/local/filter/BusFilter'
 import TypeFilter from '@/components/local/filter/TypeFilter'
-import { useSearch } from '@/contexts/SearchContext'
+import { SearchData, useSearch } from '@/contexts/SearchContext'
 import { findCityNameByID } from '@/lib/utils'
 import { ArrowBigUpDash, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
@@ -49,7 +49,8 @@ function SearchPage() {
     seatAvailability: [] as string[]
   }
   const [filterState, setFilterState] = useState(initialState)
-  const { data, isFetching, refetch } = useGetTripSearchForm(searchData, filterState)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const { data, isFetching, refetch } = useGetTripSearchForm(searchData, filterState, currentPage)
   console.log('data ở searchPage', data)
   const { data: dataCityFromTo } = useGetCitySearchForm()
   console.log(data)
@@ -59,6 +60,7 @@ function SearchPage() {
       ...prevState,
       sortOption: value
     }))
+    setCurrentPage(1) // Reset current page to 1
   }
 
   const handleSortCompanyChange = (items: string[]) => {
@@ -66,18 +68,25 @@ function SearchPage() {
       ...prevState,
       sortCompany: items
     }))
+    setCurrentPage(1) // Reset current page to 1
   }
   const handleSeatAvailabilityChange = (items: string[]) => {
     setFilterState((prevState) => ({
       ...prevState,
       seatAvailability: items
     }))
+    setCurrentPage(1) // Reset current page to 1
   }
   console.log('filter ne', filterState)
   const handleClearFilters = () => {
     setFilterState(initialState)
+    setCurrentPage(1) // Reset current page to 1
   }
-
+  const handleSearchSubmit = (values: SearchData) => {
+    setFilterState(initialState)
+    setCurrentPage(1)
+    refetch()
+  }
   const handleScrollToTop = (e: React.MouseEvent) => {
     e.preventDefault()
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -97,15 +106,13 @@ function SearchPage() {
   // if (isPending) return <Loading />
   useEffect(() => {
     // Only refetch data if filterState has changed
-    if (filterState !== initialState) {
       refetch()
-    }
   }, [filterState, refetch])
   return (
     <div className='w-screen flex justify-center items-center bg-secondary pb-12'>
       <div className='flex flex-col justify-center items-center w-2/3 '>
         <div className='w-full flex justify-center absolute top-[100px]'>
-          <SearchForm onsubmitSearch={() => {}} />
+          <SearchForm onsubmitSearch={handleSearchSubmit} />
         </div>
         {/* <h1 className='mt-52 mb-4 text-4xl font-bold'>{searchData.startLocation} - {searchData.endLocation}</h1> */}
         {isFetching ? (
@@ -165,6 +172,24 @@ function SearchPage() {
                   </> // Replace with your default CardTrip component
                 )}
                 {/* {data?.Items.map((item, index) => <CardTrip key={index} data={item} />)} */}
+                {data && (
+                  <div className='flex justify-center my-4'>
+                  <button
+                    className={`px-4 py-2 mr-2 rounded bg-primary text-white ${currentPage === 1 ? 'opacity-70 cursor-not-allowed' : '  hover:bg-primary-dark'}`}
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    className={`px-4 py-2 ml-2 rounded bg-primary text-white ${data?.TotalCount === currentPage ? 'opacity-70 cursor-not-allowed' : '  hover:bg-primary-dark'}`}
+                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                    disabled={data?.TotalCount === currentPage}
+                  >
+                    Next
+                  </button>
+                </div>
+                )}
               </div>
             </div>
           </>
