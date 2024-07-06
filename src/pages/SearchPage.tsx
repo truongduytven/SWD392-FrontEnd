@@ -108,6 +108,35 @@ function SearchPage() {
     // Only refetch data if filterState has changed
       refetch()
   }, [filterState, refetch])
+  const renderPagination = () => {
+    if (!data || data.TotalCount === 0) {
+      return null;
+    }
+  
+    const totalPages = data.TotalCount; // Assuming TotalCount represents the total number of pages
+  
+    // Create an array of page numbers
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(i);
+    }
+  
+    return (
+      <div className='flex justify-center my-4 space-x-2'>
+        {pages.map((page) => (
+          <button
+            key={page}
+            className={`px-4 py-2 rounded ${
+              currentPage === page ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'
+            }`}
+            onClick={() => setCurrentPage(page)}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
+    );
+  };
   return (
     <div className='w-screen flex justify-center items-center bg-secondary pb-12'>
       <div className='flex flex-col justify-center items-center w-2/3 '>
@@ -172,7 +201,7 @@ function SearchPage() {
                   </> // Replace with your default CardTrip component
                 )}
                 {/* {data?.Items.map((item, index) => <CardTrip key={index} data={item} />)} */}
-                {data && (
+                {/* {data && (
                   <div className='flex justify-center my-4'>
                   <button
                     className={`px-4 py-2 mr-2 rounded bg-primary text-white ${currentPage === 1 ? 'opacity-70 cursor-not-allowed' : '  hover:bg-primary-dark'}`}
@@ -189,7 +218,8 @@ function SearchPage() {
                     Next
                   </button>
                 </div>
-                )}
+                )} */}
+                 {renderPagination()}
               </div>
             </div>
           </>
