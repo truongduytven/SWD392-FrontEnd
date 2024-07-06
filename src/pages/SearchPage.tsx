@@ -1,17 +1,18 @@
-import { useGetCompanies } from '@/apis/companyAPI';
-import { useGetCitySearchForm, useGetTripSearchForm } from '@/apis/tripAPI';
-import Loading from '@/components/global/molecules/Loading';
-import CardTrip from '@/components/global/organisms/CardTrip';
-import { SearchForm } from '@/components/local/Search/SearchForm';
-import Arrange from '@/components/local/filter/Arrange';
-import BadgeList from '@/components/local/filter/BadgeListFilter';
-import BusFilter from '@/components/local/filter/BusFilter';
-import TypeFilter from '@/components/local/filter/TypeFilter';
-import { SearchData, useSearch } from '@/contexts/SearchContext';
-import { findCityNameByID } from '@/lib/utils';
-import { ArrowBigUpDash, Trash2 } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
-import noTripFound from"@/assets/error-page-unscreen.gif"
+import { useGetCompanies } from '@/apis/companyAPI'
+import { useGetCitySearchForm, useGetTripSearchForm } from '@/apis/tripAPI'
+import Loading from '@/components/global/molecules/Loading'
+import CardTrip from '@/components/global/organisms/CardTrip'
+import CardTripSkeleton from '@/components/global/organisms/CardTripSkeleton'
+import { SearchForm } from '@/components/local/Search/SearchForm'
+import Arrange from '@/components/local/filter/Arrange'
+import BadgeList from '@/components/local/filter/BadgeListFilter'
+import BusFilter from '@/components/local/filter/BusFilter'
+import TypeFilter from '@/components/local/filter/TypeFilter'
+import { SearchData, useSearch } from '@/contexts/SearchContext'
+import { findCityNameByID } from '@/lib/utils'
+import { ArrowBigUpDash, Trash2 } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import noTripFound from '@/assets/error-page-unscreen.gif'
 const staticItems = [
   { id: 'HÀNG ĐẦU', label: 'Hàng đầu' },
   { id: 'HÀNG GIỮA', label: 'Hàng giữa' },
@@ -22,99 +23,99 @@ const staticItems = [
   { label: 'Đánh giá giảm dần', id: 'TỔNG SỐ ĐÁNH GIÁ GIẢM DẦN' },
   { label: 'Giá tăng dần', id: 'GIÁ TĂNG DẦN' },
   { label: 'Giá giảm dần', id: 'GIÁ GIẢM DẦN' }
-] as const;
+] as const
 
 function SearchPage() {
-  const [showScrollButton, setShowScrollButton] = useState(false);
-  const { data: companies } = useGetCompanies();
+  const [showScrollButton, setShowScrollButton] = useState(false)
+  const { data: companies } = useGetCompanies()
   const companyItems = companies
     ? companies.map((company) => ({
         id: company.CompanyID,
         label: company.Name
       }))
-    : [];
+    : []
 
-  const filterItems: readonly { id: string; label: string }[] = [...staticItems, ...companyItems];
-  const { searchData } = useSearch();
+  const filterItems: readonly { id: string; label: string }[] = [...staticItems, ...companyItems]
+  const { searchData } = useSearch()
   const initialState = {
     sortOption: 'DEFAULT',
     sortCompany: [] as string[],
     seatAvailability: [] as string[]
-  };
-  const [filterState, setFilterState] = useState(initialState);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const { data, isFetching, refetch } = useGetTripSearchForm(searchData, filterState, currentPage);
-  const { data: dataCityFromTo } = useGetCitySearchForm();
+  }
+  const [filterState, setFilterState] = useState(initialState)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const { data, isFetching, refetch } = useGetTripSearchForm(searchData, filterState, currentPage)
+  const { data: dataCityFromTo } = useGetCitySearchForm()
 
   const handleSortOptionChange = (value: string) => {
     setFilterState((prevState) => ({
       ...prevState,
       sortOption: value
-    }));
-    setCurrentPage(1); // Reset current page to 1
-  };
+    }))
+    setCurrentPage(1) // Reset current page to 1
+  }
 
   const handleSortCompanyChange = (items: string[]) => {
     setFilterState((prevState) => ({
       ...prevState,
       sortCompany: items
-    }));
-    setCurrentPage(1); // Reset current page to 1
-  };
+    }))
+    setCurrentPage(1) // Reset current page to 1
+  }
 
   const handleSeatAvailabilityChange = (items: string[]) => {
     setFilterState((prevState) => ({
       ...prevState,
       seatAvailability: items
-    }));
-    setCurrentPage(1); // Reset current page to 1
-  };
+    }))
+    setCurrentPage(1) // Reset current page to 1
+  }
 
   const handleClearFilters = () => {
-    setFilterState(initialState);
-    setCurrentPage(1); // Reset current page to 1
-  };
+    setFilterState(initialState)
+    setCurrentPage(1) // Reset current page to 1
+  }
 
   const handleSearchSubmit = (values: SearchData) => {
-    setFilterState(initialState);
-    setCurrentPage(1);
-    refetch();
-  };
+    setFilterState(initialState)
+    setCurrentPage(1)
+    refetch()
+  }
 
   const handleScrollToTop = (e: React.MouseEvent) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    e.preventDefault()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
-        setShowScrollButton(true);
+        setShowScrollButton(true)
       } else {
-        setShowScrollButton(false);
+        setShowScrollButton(false)
       }
-    };
+    }
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     // Only refetch data if filterState has changed
-    refetch();
-  }, [filterState, refetch]);
+    refetch()
+  }, [filterState, refetch])
 
   const renderPagination = () => {
     if (!data || data.TotalCount === 0) {
-      return null;
+      return null
     }
 
-    const totalPages = data.TotalCount; // Assuming TotalCount represents the total number of pages
+    const totalPages = data.TotalCount // Assuming TotalCount represents the total number of pages
 
     // Create an array of page numbers
-    const pages = [];
+    const pages = []
     for (let i = 1; i <= totalPages; i++) {
-      pages.push(i);
+      pages.push(i)
     }
 
     return (
@@ -131,8 +132,8 @@ function SearchPage() {
           </button>
         ))}
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div className='w-screen flex justify-center items-center bg-secondary pb-12'>
@@ -162,13 +163,29 @@ function SearchPage() {
 
           <div className='w-full flex flex-col'>
             <div className='flex'>
-              <BadgeList items={filterItems} selectedItems={filterState.sortCompany} onItemsChange={handleSortCompanyChange} />
-              <BadgeList items={filterItems} selectedItems={filterState.seatAvailability} onItemsChange={handleSeatAvailabilityChange} />
+              <BadgeList
+                items={filterItems}
+                selectedItems={filterState.sortCompany}
+                onItemsChange={handleSortCompanyChange}
+              />
+              <BadgeList
+                items={filterItems}
+                selectedItems={filterState.seatAvailability}
+                onItemsChange={handleSeatAvailabilityChange}
+              />
             </div>
             {isFetching ? (
-              <div className='mt-40'>
-                <Loading />
-                <p className='mt-3 animate-pulse'>Đang tìm kiếm chuyến xe, bạn vui lòng đợi chút xíu...</p>
+              // <div className=''>
+              //   {/* <Loading /> */}
+              //   <CardTripSkeleton/>
+              //   <CardTripSkeleton/>
+              //   <CardTripSkeleton/>
+              //   {/* <p className='mt-3 animate-pulse'>Đang tìm kiếm chuyến xe, bạn vui lòng đợi chút xíu...</p> */}
+              // </div>
+              <div className='flex flex-col gap-3'>
+                  <CardTripSkeleton />
+                  <CardTripSkeleton />
+                  <CardTripSkeleton />
               </div>
             ) : (
               <>
@@ -201,7 +218,7 @@ function SearchPage() {
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default SearchPage;
+export default SearchPage
