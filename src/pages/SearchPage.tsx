@@ -13,6 +13,7 @@ import { findCityNameByID } from '@/lib/utils'
 import { ArrowBigUpDash, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import noTripFound from '@/assets/error-page-unscreen.gif'
+import { ConfigProvider, Pagination } from 'antd'
 const staticItems = [
   { id: 'HÀNG ĐẦU', label: 'Hàng đầu' },
   { id: 'HÀNG GIỮA', label: 'Hàng giữa' },
@@ -104,32 +105,63 @@ function SearchPage() {
     refetch()
   }, [filterState, refetch])
 
+  // const renderPagination = () => {
+  //   if (!data || data.TotalCount === 0) {
+  //     return null
+  //   }
+
+  //   const totalPages = data.TotalCount 
+
+  //   const pages = []
+  //   for (let i = 1; i <= totalPages; i++) {
+  //     pages.push(i)
+  //   }
+
+  //   return (
+  //     <div className='flex justify-center my-4 space-x-2'>
+  //       {pages.map((page) => (
+  //         <button
+  //           key={page}
+  //           className={`px-4 py-2 rounded ${
+  //             currentPage === page ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'
+  //           }`}
+  //           onClick={() => setCurrentPage(page)}
+  //         >
+  //           {page}
+  //         </button>
+  //       ))}
+  //     </div>
+  //   )
+  // }
   const renderPagination = () => {
     if (!data || data.TotalCount === 0) {
       return null
     }
 
-    const totalPages = data.TotalCount 
-
-    const pages = []
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(i)
-    }
+    const totalPages = data.TotalCount
 
     return (
-      <div className='flex justify-center my-4 space-x-2'>
-        {pages.map((page) => (
-          <button
-            key={page}
-            className={`px-4 py-2 rounded ${
-              currentPage === page ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'
-            }`}
-            onClick={() => setCurrentPage(page)}
-          >
-            {page}
-          </button>
-        ))}
-      </div>
+      <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: '#F97316'
+            },
+            components: {
+              Button: {
+                colorTextLightSolid: '#000000'
+              }
+            }
+          }}
+        >
+      <Pagination
+        current={currentPage}
+        total={totalPages}
+        onChange={(page) => setCurrentPage(page)}
+        showSizeChanger={false}
+        pageSize={1} // Assuming each page has 1 item for simplicity, adjust as needed
+        className='mx-auto mt-8'
+      />
+      </ConfigProvider>
     )
   }
   const handleFilterRemove = (type: string, id: string) => {
