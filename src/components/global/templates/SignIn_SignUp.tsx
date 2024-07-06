@@ -18,8 +18,8 @@ function SignInSignUp() {
 
   return (
     <div className='h-screen  flex justify-center items-center  '>
-      <div className='absolute top-10 left-10 hover:font-bold hover:underline hover:text-primary'>
-        <Link to='/' className='flex space-x-2'>
+      <div className='absolute top-10 z-[200] left-10 hover:font-bold hover:underline hover:text-primary'>
+        <Link to='/' className='flex space-x-2 '>
           <ArrowLeft className='scale-75' />
           Về trang chủ
         </Link>
@@ -31,7 +31,7 @@ function SignInSignUp() {
         <div className='form-container sign-in-container'>
           <FormLogin reset={resetFormLogin} />
         </div>
-        <div className='overlay-container  '>
+        <div className='overlay-container'>
           <div className='overlay group relative'>
             <div className='overlay-panel overlay-left '>
               <Link to='/login' className='flex justify-center items-center flex-col gap-16'>
