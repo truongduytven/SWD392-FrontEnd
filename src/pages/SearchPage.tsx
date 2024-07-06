@@ -153,15 +153,16 @@ function SearchPage() {
 
                 {data && data.Items.length > 0 ? (
                   data.Items.map((item, index) => <CardTrip key={index} data={item} />)
-                ) : (<>
-                  <img>
-                  </img>
-                  <h1 className='mt-40 font-semibold text-center'>
-                    <>
-                      Không tìm thấy chuyến xe.
-                      <p className='text-center'>Xin bạn vui lòng thay đổi tuyến đường tìm kiếm hoặc bỏ lọc!</p>
-                    </>
-                  </h1></> // Replace with your default CardTrip component
+                ) : (
+                  <>
+                    <img></img>
+                    <h1 className='mt-40 font-semibold text-center'>
+                      <>
+                        Không tìm thấy chuyến xe.
+                        <p className='text-center'>Xin bạn vui lòng thay đổi tuyến đường tìm kiếm hoặc bỏ lọc!</p>
+                      </>
+                    </h1>
+                  </> // Replace with your default CardTrip component
                 )}
                 {/* {data?.Items.map((item, index) => <CardTrip key={index} data={item} />)} */}
               </div>
@@ -169,14 +170,17 @@ function SearchPage() {
           </>
         )}
       </div>
+
       {showScrollButton && (
-        <a
-          href='#result'
-          onClick={handleScrollToTop}
-          className='sticky top-3/4 ml-10 bg-primary rounded-full text-white flex justify-center items-center p-2  mb-4 transition duration-300'
-        >
-          <ArrowBigUpDash size={30} fill='white' />
-        </a>
+        <div className='fixed bottom-0 mr-20 w-full md:bottom-6 md:right-12 md:w-auto z-50 animate-bounce'>
+          <a
+            href='#result'
+            onClick={handleScrollToTop}
+            className='sticky top-3/4 ml-10 bg-primary rounded-full text-white flex justify-center items-center p-2  mb-4 transition duration-300'
+          >
+            <ArrowBigUpDash size={30} fill='white' />
+          </a>
+        </div>
       )}
     </div>
   )
