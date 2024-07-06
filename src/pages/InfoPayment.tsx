@@ -87,7 +87,7 @@ function InfoPayment() {
       newErrors.email = 'Email không hợp lệ.'
       valid = false
     }
-
+    setIsLoading(false)
     setErrors(newErrors)
     return valid
   }
