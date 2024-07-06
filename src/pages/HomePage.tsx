@@ -80,6 +80,8 @@ function HomePage() {
           </Carousel>
         )}
       </div>
+
+    
     </div>
   )
 }
