@@ -15,8 +15,18 @@ import { useState } from 'react'
 import ModalDetail from './ModalDetail'
 import { MessageCircleHeart } from 'lucide-react'
 import RatingForm from '@/components/global/organisms/RatingForm'
-import { useCancelTicket, userAllTickets } from '@/apis/userAllTicket'
+import { useCancelTicket } from '@/apis/userAllTicket'
 import { toast } from 'sonner'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/global/atoms/alert-dialog'
 interface TicketProps {
   date: string
   ticketDetailID: string
@@ -50,6 +60,7 @@ function Ticket({
   status,
   isRated
 }: TicketProps) {
+  const [isOpenModal, setIsOpenModal] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [showRatingForm, setShowRatingForm] = useState(false)
   const [rated, setRated] = useState(isRated)
@@ -58,6 +69,10 @@ function Ticket({
     setRated(true) // Update local state
   }
 
+  const handleOpenCancel = () => {
+    setIsOpenModal(true)
+  } 
+
   const handleCancelTicket = async () => {
     if (isWithin12Hours(date, startTime)) {
       toast.error('Vé không thể hủy vì đã quá thời gian hủy vé')
@@ -65,6 +80,7 @@ function Ticket({
     }
     try {
       const message = await mutateAsync(ticketDetailID)
+      setIsOpenModal(false)
       toast.success(message)
     } catch (error) {
       toast.error('Có lỗi xảy ra, vui lòng thử lại sau')
@@ -187,33 +203,10 @@ function Ticket({
                   </div>
                 ))}
               {status === 'CHƯA SỬ DỤNG' && (
-                <Dialog>
-                  <DialogTrigger>
-                    <div className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
-                      <SquareX />
-                      Hủy vé
-                    </div>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Bạn có chắc chắn sẽ hủy vé không ?</DialogTitle>
-                      <DialogDescription>
-                        Bạn có thể hủy vé thời gian xuất phát 12 tiếng. Sau thời gian trên, vé sẽ không thể hủy. Khi hủy
-                        bạn sẽ nhận lại được 70% giá trị vé của bạn vào trong ví cho những lần mua vé tiếp theo.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                      <DialogClose>
-                        <Button type='button' variant='outline'>
-                          Hủy
-                        </Button>
-                        <Button type='submit' onClick={handleCancelTicket}>
-                          Xác nhận
-                        </Button>
-                      </DialogClose>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                <div onClick={handleOpenCancel} className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
+                  <SquareX />
+                  Hủy vé
+                </div>
               )}
               <DialogContent className='sm:max-w-md'>
                 <DialogHeader>
@@ -242,6 +235,24 @@ function Ticket({
           setShowRatingForm={setShowRatingForm}
           onRatingSuccess={handleRatingSuccess}
         />
+      )}
+      {isOpenModal && (
+        <AlertDialog open={isOpenModal} onOpenChange={setIsOpenModal}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Thông báo</AlertDialogTitle>
+              <AlertDialogDescription>Bạn có chắc muốn hủy vé này không?</AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel asChild>
+                <Button variant='outline'>Hủy</Button>
+              </AlertDialogCancel>
+              <AlertDialogAction asChild>
+                <Button onClick={handleCancelTicket}>Đồng ý</Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       )}
     </div>
   )

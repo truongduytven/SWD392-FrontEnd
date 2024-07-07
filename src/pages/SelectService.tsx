@@ -112,7 +112,7 @@ function SelectService() {
       <div className='w-full flex justify-center items-center mb-8'>
         <div className='flex flex-col items-center'>
           <img src={OOPS} className='w-[450px] h-[450px]' />
-          <div className='text-2xl font-medium'>Dường như bạn chưa chọn ghế</div>
+          <div className='text-2xl font-medium'>Có vẻ như bạn chưa chọn ghế</div>
           <p className='text-lg mt-4'>Vui lòng chọn chuyến trước khi muốn chọn dịch vụ</p>
 
           <Link to='/search' className='underline hover:text-primary font-medium text-xl mt-8'>
