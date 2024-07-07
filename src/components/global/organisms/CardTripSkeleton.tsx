@@ -2,7 +2,7 @@
 const CardTripSkeleton = () => (
     
   <div className='w-full animate-pulse mb-3 '>
-    <div className='flex bg-white h-48  p-3 gap-3 border border-gray-200 rounded-md'>
+    <div className='flex bg-white h-48 p-3 gap-3 border border-gray-200 rounded-md'>
       <div className='w-1/5 min-w-48 relative overflow-hidden bg-gray-200 rounded-sm'>
         <div className='w-full h-full rounded-sm'></div>
       </div>
