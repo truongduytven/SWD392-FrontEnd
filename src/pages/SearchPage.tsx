@@ -39,7 +39,7 @@ function SearchPage() {
   const filterItems: readonly { id: string; label: string }[] = [...staticItems, ...companyItems]
   const { searchData } = useSearch()
   const initialState = {
-    sortOption: 'DEFAULT',
+    sortOption: 'MẶC ĐỊNH',
     sortCompany: [] as string[],
     seatAvailability: [] as string[]
   }
