@@ -45,7 +45,7 @@ function SearchPage() {
   }
   const [filterState, setFilterState] = useState(initialState)
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const { data, isFetching, refetch } = useGetTripSearchForm(searchData, filterState, currentPage)
+  const { data, isFetching,isLoading, refetch } = useGetTripSearchForm(searchData, filterState, currentPage)
   const { data: dataCityFromTo } = useGetCitySearchForm()
 
   const handleSortOptionChange = (value: string) => {
@@ -209,7 +209,7 @@ function SearchPage() {
               onFilterRemove={handleFilterRemove}
             />
             </div>
-            {isFetching ? (
+            {isLoading ? (
               <div className='flex flex-col gap-3'>
                   <CardTripSkeleton />
                   <CardTripSkeleton />
