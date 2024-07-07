@@ -19,8 +19,6 @@ interface SearchFormProps {
 export function SearchForm({ onsubmitSearch }: SearchFormProps) {
   const { searchData, setSearchData } = useSearch()
   const { data, isPending } = useGetCitySearchForm()
-  console.log('object', data)
-  console.log(searchData)
 
   const form = useForm<z.infer<typeof SearchSchema>>({
     resolver: zodResolver(SearchSchema),
@@ -39,8 +37,6 @@ export function SearchForm({ onsubmitSearch }: SearchFormProps) {
       })
     }
   }, [searchData, data])
-
-  console.log(data)
   function onSubmit(values: z.infer<typeof SearchSchema>) {
     setSearchData(values)
     onsubmitSearch(values)
