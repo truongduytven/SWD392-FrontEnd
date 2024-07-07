@@ -1,22 +1,4 @@
-import { Button } from '@/components/global/atoms/button'
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/global/atoms/dialog'
-import { calculateDuration, isWithin12Hours } from '@/lib/utils'
-import { Sprout, SquareX } from 'lucide-react'
-import { useState } from 'react'
-import ModalDetail from './ModalDetail'
-import { MessageCircleHeart } from 'lucide-react'
-import RatingForm from '@/components/global/organisms/RatingForm'
 import { useCancelTicket } from '@/apis/userAllTicket'
-import { toast } from 'sonner'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,8 +7,15 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
+  AlertDialogTitle
 } from '@/components/global/atoms/alert-dialog'
+import { Button } from '@/components/global/atoms/button'
+import RatingForm from '@/components/global/organisms/RatingForm'
+import { calculateDuration, isWithin12Hours } from '@/lib/utils'
+import { MessageCircleHeart, Sprout, SquareX, X } from 'lucide-react'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import ModalDetail from './ModalDetail'
 interface TicketProps {
   date: string
   ticketDetailID: string
@@ -63,6 +52,7 @@ function Ticket({
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [showRatingForm, setShowRatingForm] = useState(false)
+  const [showDetailModal, setDetailModal] = useState(false)
   const [rated, setRated] = useState(isRated)
   const { mutateAsync } = useCancelTicket()
   const handleRatingSuccess = () => {
@@ -71,7 +61,7 @@ function Ticket({
 
   const handleOpenCancel = () => {
     setIsOpenModal(true)
-  } 
+  }
 
   const handleCancelTicket = async () => {
     if (isWithin12Hours(date, startTime)) {
@@ -170,15 +160,19 @@ function Ticket({
               isHovered ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <Dialog>
-              <DialogTrigger asChild>
-                <div className='flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
-                  {' '}
-                  <Sprout />
-                  Xem chi tiết
+            <div className='flex justify-center items-center gap-1 hover:font-bold transition-all duration-100' onClick={()=>setDetailModal(true)}>
+              {' '}
+              <Sprout />
+              Xem chi tiết
+            </div>
+
+            {status === 'ĐÃ SỬ DỤNG' &&
+              (rated ? (
+                <div className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
+                  <MessageCircleHeart />
+                  Đã đánh giá
                 </div>
-              </DialogTrigger>
-              {/* {status === 'ĐÃ SỬ DỤNG' && (
+              ) : (
                 <div
                   onClick={() => setShowRatingForm(true)}
                   className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'
@@ -186,48 +180,42 @@ function Ticket({
                   <MessageCircleHeart />
                   Đánh giá
                 </div>
-              )} */}
-              {status === 'ĐÃ SỬ DỤNG' &&
-                (rated ? (
-                  <div className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
-                    <MessageCircleHeart />
-                    Đã đánh giá
-                  </div>
-                ) : (
-                  <div
-                    onClick={() => setShowRatingForm(true)}
-                    className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'
-                  >
-                    <MessageCircleHeart />
-                    Đánh giá
-                  </div>
-                ))}
-              {status === 'CHƯA SỬ DỤNG' && (
-                <div onClick={handleOpenCancel} className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'>
-                  <SquareX />
-                  Hủy vé
-                </div>
-              )}
-              <DialogContent className='sm:max-w-md'>
-                <DialogHeader>
-                  <DialogTitle>Thông tin chi tiết vé</DialogTitle>
-                  <DialogDescription>Thông tin chi tiết bao gồm thông tin về vé và dịch vụ (nếu có).</DialogDescription>
-                </DialogHeader>
-                <div className='flex items-start justify-center space-x-2 h-[400px] overflow-y-scroll'>
-                  <ModalDetail ticketDetailID={ticketDetailID} />
-                </div>
-                <DialogFooter className='sm:justify-end'>
-                  <DialogClose asChild>
-                    <Button type='button' variant='outline'>
-                      Đóng
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+              ))}
+            {status === 'CHƯA SỬ DỤNG' && (
+              <div
+                onClick={handleOpenCancel}
+                className='ml-4 flex justify-center items-center gap-1 hover:font-bold transition-all duration-100'
+              >
+                <SquareX />
+                Hủy vé
+              </div>
+            )}
           </div>
         )}
       </div>
+      {showDetailModal && (
+        <div className='flex h-screen items-center justify-center py-40'>
+          <div className='fixed inset-0 z-[1000] flex flex-col justify-center items-center bg-black/80 '>
+            <div className='w-fit bg-background rounded-md p-6 drop-shadow-lg'>
+              <div className='absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground'>
+                <X className='h-4 w-4 cursor-pointer' onClick={() => setDetailModal(false)} />
+              </div>
+              <div>
+                <div className='text-lg font-bold'>Thông tin chi tiết vé</div>
+                <div>Thông tin chi tiết bao gồm thông tin về vé và dịch vụ (nếu có).</div>
+              </div>
+              <div className='flex items-start justify-center space-x-2 h-[400px] overflow-y-scroll'>
+                <ModalDetail ticketDetailID={ticketDetailID} />
+              </div>
+              <div className='flex mt-6 justify-end'>
+                <Button type='button' variant='outline' onClick={() => setDetailModal(false)}>
+                  Đóng
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {showRatingForm && (
         <RatingForm
           userID={userID}

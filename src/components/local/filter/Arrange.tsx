@@ -37,7 +37,7 @@ console.log("gia tri nhan duoc o sap xep:", selectedValue)
                   >
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='DEFAULT' />
+                        <RadioGroupItem value='MẶC ĐỊNH' />
                       </FormControl>
                       <FormLabel className='font-normal'  >Mặc định</FormLabel>
                     </FormItem>
