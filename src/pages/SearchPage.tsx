@@ -45,7 +45,7 @@ function SearchPage() {
   }
   const [filterState, setFilterState] = useState(initialState)
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const { data, isFetching,isLoading, refetch } = useGetTripSearchForm(searchData, filterState, currentPage)
+  const { data, isFetching, isLoading, refetch } = useGetTripSearchForm(searchData, filterState, currentPage)
   const { data: dataCityFromTo } = useGetCitySearchForm()
 
   const handleSortOptionChange = (value: string) => {
@@ -110,7 +110,7 @@ function SearchPage() {
   //     return null
   //   }
 
-  //   const totalPages = data.TotalCount 
+  //   const totalPages = data.TotalCount
 
   //   const pages = []
   //   for (let i = 1; i <= totalPages; i++) {
@@ -142,25 +142,25 @@ function SearchPage() {
 
     return (
       <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: '#F97316'
-            },
-            components: {
-              Button: {
-                colorTextLightSolid: '#000000'
-              }
+        theme={{
+          token: {
+            colorPrimary: '#F97316'
+          },
+          components: {
+            Button: {
+              colorTextLightSolid: '#000000'
             }
-          }}
-        >
-      <Pagination
-        current={currentPage}
-        total={totalPages}
-        onChange={(page) => setCurrentPage(page)}
-        showSizeChanger={false}
-        pageSize={1} // Assuming each page has 1 item for simplicity, adjust as needed
-        className='mx-auto mt-8'
-      />
+          }
+        }}
+      >
+        <Pagination
+          current={currentPage}
+          total={totalPages}
+          onChange={(page) => setCurrentPage(page)}
+          showSizeChanger={false}
+          pageSize={1} // Assuming each page has 1 item for simplicity, adjust as needed
+          className='mx-auto mt-8'
+        />
       </ConfigProvider>
     )
   }
@@ -203,17 +203,19 @@ function SearchPage() {
 
           <div className='w-full flex flex-col'>
             <div className='flex'>
-            <BadgeList
-              items={filterItems}
-              selectedFilters={selectedFilters}
-              onFilterRemove={handleFilterRemove}
-            />
+              <BadgeList items={filterItems} selectedFilters={selectedFilters} onFilterRemove={handleFilterRemove} />
             </div>
             {isLoading ? (
               <div className='flex flex-col gap-3'>
+                <div className=' animate-move-up'>
                   <CardTripSkeleton />
+                </div>
+                <div className=' animate-move-up'>
                   <CardTripSkeleton />
+                </div>
+                <div className=' animate-move-up'>
                   <CardTripSkeleton />
+                </div>
               </div>
             ) : (
               <>
