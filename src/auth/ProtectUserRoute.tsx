@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -12,7 +12,7 @@ const ProtectUserRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     // If token exists, navigate back to the previous page or to the home page as a fallback
     toast.error('Vui lòng đăng nhập để tiếp tục')
     return <Navigate to={'/login'} replace />
-  }
+  } 
   return <>{children}</>
 }
 

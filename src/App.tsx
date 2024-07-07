@@ -25,17 +25,16 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/Loading' element={<Loading />} />
         <Route path='/search' element={<SearchPage />} />
-        <Route element={<ProtectUserRoute />}>
-          <Route path='/selectTicket' element={<SelectTicket />} />
-          <Route path='/selectService' element={<SelectService />} />
-          <Route path='/infopayment' element={<InfoPayment />} />
-        </Route>
         <Route path='/ticketInfo' element={<SearchTicket />} />
         <Route path='/payment-success/:id' element={<PaymentStatus />} />
         <Route path='/payment-success' element={<PaymentSuccess />} />
         <Route path='/payment-fail' element={<PaymentFailure />} />
         <Route path='/profile' element={<ProfilePage />} />
         <Route path='/myticket/:id' element={<MyTicketPage />} />
+
+        <Route path='/selectTicket' element={<ProtectUserRoute><SelectTicket /></ProtectUserRoute>} />
+        <Route path='/selectService' element={<ProtectUserRoute><SelectService/></ProtectUserRoute>} />
+        <Route path='/infopayment' element={<ProtectUserRoute><InfoPayment /></ProtectUserRoute>} />
       </Route>
       <Route
         path='/login'

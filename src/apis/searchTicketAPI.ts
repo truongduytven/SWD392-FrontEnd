@@ -1,7 +1,6 @@
 import busAPI from '@/lib/busAPI';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { ISearchTicket } from '@/types/searchTicket';
-import { useAuth } from '@/auth/AuthProvider';
 
 interface SearchTicketForm {
   email: string;
