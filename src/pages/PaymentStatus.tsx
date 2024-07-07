@@ -26,8 +26,10 @@ function PaymentStatus() {
         } catch (error) {
           console.error('Error calling the success API:', error)
         }
-      } else if (responseCode === '01') {
+      } else if (responseCode === '24') {
         // Redirect to success-fail page
+        navigate('/infopayment') 
+      } else {
         navigate('/payment-fail')
       }
     }

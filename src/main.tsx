@@ -14,16 +14,16 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <GoogleOAuthProvider clientId='887412650578-vul7m42hbph5r7ubkqnl5kh335q35ka6.apps.googleusercontent.com'>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <SearchProvider>
-            <InvoiceProvider>
+        <InvoiceProvider>
+          <AuthProvider>
+            <SearchProvider>
               <Toaster richColors position='top-right' duration={1000} />
               <ErrorBoundary>
                 <App />
               </ErrorBoundary>
-            </InvoiceProvider>
-          </SearchProvider>
-        </AuthProvider>
+            </SearchProvider>
+          </AuthProvider>
+        </InvoiceProvider>
       </QueryClientProvider>
     </BrowserRouter>
   </GoogleOAuthProvider>

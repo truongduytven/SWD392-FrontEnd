@@ -24,7 +24,6 @@ import {
 } from '@/components/global/atoms/dialog'
 import Loading from '@/components/global/molecules/Loading'
 import { toast } from 'sonner'
-
 function InfoPayment() {
   const navigate = useNavigate()
   const { invoiceData } = useInvoice()
@@ -88,7 +87,6 @@ function InfoPayment() {
       newErrors.email = 'Email không hợp lệ.'
       valid = false
     }
-    setIsLoading(false)
     setErrors(newErrors)
     return valid
   }
@@ -128,8 +126,6 @@ function InfoPayment() {
         }
         try {
           const response = await busAPI.post('/booking-management/managed-bookings/vnpay-payment', DataBooking)
-          console.log(response)
-          setIsLoading(false)
           const link = response.data.Result
           window.location.href = link
         } catch (error) {
@@ -168,7 +164,6 @@ function InfoPayment() {
           }
           try {
             const response = await busAPI.post('/booking-management/managed-bookings/balance-payment', DataBooking)
-            setIsLoading(false)
             if (response.data.IsSuccess) {
               navigate('/payment-success')
             } else {
@@ -180,6 +175,7 @@ function InfoPayment() {
         }
       }
     }
+    setIsLoading(false)
   }
 
   const handleConfirmPayment = async (isConfirm: boolean) => {
@@ -399,10 +395,10 @@ function InfoPayment() {
         <div className='flex flex-col items-center'>
           <img src={OOPS} className='w-[450px] h-[450px]' />
           <div className='text-2xl font-medium'>Dường như bạn chưa chọn ghế</div>
-          <p className='text-lg mt-4'>Vui lòng chọn vé trước khi muốn điền thông tin thanh toán</p>
+          <p className='text-lg mt-4'>Vui lòng chọn chuyến trước khi muốn điền thông tin thanh toán</p>
 
-          <Link to='/selectTicket' className='underline hover:text-primary font-medium text-xl mt-8'>
-            Quay lại trang chọn vé
+          <Link to='/search' className='underline hover:text-primary font-medium text-xl mt-8'>
+            Quay lại trang chọn chuyến
           </Link>
         </div>
       </div>
