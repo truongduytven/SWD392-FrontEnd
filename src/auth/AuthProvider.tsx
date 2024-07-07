@@ -4,6 +4,7 @@ import { ReactNode, createContext, useContext, useEffect, useState } from 'react
 import { useNavigate } from 'react-router-dom'
 import busAPI from '@/lib/busAPI'
 import { toast } from 'sonner'
+import { useInvoice } from '@/contexts/InvoiceContext'
 // Define the shape of our AuthContext
 interface AuthContextType {
   token: string | null
@@ -56,6 +57,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(() => {
     return localStorage.getItem('token')
   })
+  const { resetInvoiceData } = useInvoice()
   const [user, setUser] = useState<User | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -206,6 +208,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setToken(null)
     setUser(null)
     localStorage.removeItem('token')
+    resetInvoiceData();
     toast.success('Đăng xuất tài khoản thành công')
     // Redirect to login page after logout
     navigate('/')

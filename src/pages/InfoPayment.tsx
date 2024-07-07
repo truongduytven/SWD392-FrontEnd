@@ -23,16 +23,17 @@ import {
   DialogTitle
 } from '@/components/global/atoms/dialog'
 import Loading from '@/components/global/molecules/Loading'
-
+import { toast } from 'sonner'
 function InfoPayment() {
   const navigate = useNavigate()
-  const { invoiceData } = useInvoice()
+  const { invoiceData, setInvoiceData } = useInvoice()
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState({ username: '', phoneNumber: '', email: '' })
   const [infoData, setInfoData] = useState<infoPaymentData>({ username: '', phoneNumber: '', email: '' })
   const [paymentMethod, setPaymentMethod] = useState('VNPay')
   const { user } = useAuth()
+
 
   useEffect(() => {
     if (user) {
@@ -43,6 +44,14 @@ function InfoPayment() {
       })
     }
   }, [user])
+
+  useEffect(() => {
+    const savedInvoiceData = localStorage.getItem('invoiceData');
+    if (savedInvoiceData) {
+      setInvoiceData(JSON.parse(savedInvoiceData));
+      localStorage.removeItem('invoiceData');
+    }
+  }, [setInvoiceData]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target
@@ -87,7 +96,6 @@ function InfoPayment() {
       newErrors.email = 'Email không hợp lệ.'
       valid = false
     }
-
     setErrors(newErrors)
     return valid
   }
@@ -127,52 +135,57 @@ function InfoPayment() {
         }
         try {
           const response = await busAPI.post('/booking-management/managed-bookings/vnpay-payment', DataBooking)
-          console.log(response)
-          setIsLoading(false)
           const link = response.data.Result
+          localStorage.setItem('invoiceData', JSON.stringify(invoiceData));
           window.location.href = link
         } catch (error) {
           console.log(error)
         }
       } else {
-        const DataBooking = {
-          addOrUpdateBookingModel: {
-            userID: user?.UserID,
-            tripID: invoiceData.tripID,
-            isBalance: paymentMethod === 'VNPay' ? false : true,
-            fullName: infoData.username,
-            phoneNumber: infoData.phoneNumber,
-            email: infoData.email,
-            quantity: invoiceData.tickets.length,
-            totalBill: invoiceData.totalPrice
-          },
-          addOrUpdateTicketModels: [
-            ...invoiceData.tickets.map((ticket) => ({
-              ticketType_TripID: ticket.ticketType_TripID,
-              seatCode: ticket.seatCode,
-              price: ticket.price,
-              addOrUpdateServiceModels: ticket.services.map((service) => ({
-                serviceID: service.ServiceID,
-                stationID: service.station,
-                quantity: service.quantity,
-                price: service.Price
-              }))
-            }))
-          ]
-        }
-        try {
-          const response = await busAPI.post('/booking-management/managed-bookings/balance-payment', DataBooking)
+        if(user!.Balance < invoiceData.totalPrice) {
           setIsLoading(false)
-          if (response.data.IsSuccess) {
-            navigate('/payment-success')
-          } else {
+          toast.error('Số dư không đủ để thanh toán')
+          return
+        } else {
+          const DataBooking = {
+            addOrUpdateBookingModel: {
+              userID: user?.UserID,
+              tripID: invoiceData.tripID,
+              isBalance: paymentMethod === 'VNPay' ? false : true,
+              fullName: infoData.username,
+              phoneNumber: infoData.phoneNumber,
+              email: infoData.email,
+              quantity: invoiceData.tickets.length,
+              totalBill: invoiceData.totalPrice
+            },
+            addOrUpdateTicketModels: [
+              ...invoiceData.tickets.map((ticket) => ({
+                ticketType_TripID: ticket.ticketType_TripID,
+                seatCode: ticket.seatCode,
+                price: ticket.price,
+                addOrUpdateServiceModels: ticket.services.map((service) => ({
+                  serviceID: service.ServiceID,
+                  stationID: service.station,
+                  quantity: service.quantity,
+                  price: service.Price
+                }))
+              }))
+            ]
+          }
+          try {
+            const response = await busAPI.post('/booking-management/managed-bookings/balance-payment', DataBooking)
+            if (response.data.IsSuccess) {
+              navigate('/payment-success')
+            } else {
+              navigate('/payment-fail')
+            }
+          } catch (error) {
             navigate('/payment-fail')
           }
-        } catch (error) {
-          navigate('/payment-fail')
         }
       }
     }
+    setIsLoading(false)
   }
 
   const handleConfirmPayment = async (isConfirm: boolean) => {
@@ -206,8 +219,8 @@ function InfoPayment() {
       console.log(DataBooking)
       try {
         const response = await busAPI.post('/booking-management/managed-bookings/vnpay-payment', DataBooking)
-        setIsLoading(false)
         const link = response.data.Result
+        localStorage.setItem('invoiceData', JSON.stringify(invoiceData));
         window.location.href = link
       } catch (error) {
         console.log(error)
@@ -246,6 +259,7 @@ function InfoPayment() {
         const response = await busAPI.post('/booking-management/managed-bookings/vnpay-payment', DataBooking)
         setIsLoading(false)
         const link = response.data.Result
+        localStorage.setItem('invoiceData', JSON.stringify(invoiceData));
         window.location.href = link
       } catch (error) {
         console.log(error)
@@ -259,7 +273,7 @@ function InfoPayment() {
   }
 
   return invoiceData.tickets.length > 0 ? (
-    isLoading ? (
+    isLoading && user ? (
       <div className='flex h-screen w-screen justify-center items-center'>
         <div className='flex flex-col space-y-3 items-center'>
           <Loading />
@@ -391,11 +405,11 @@ function InfoPayment() {
       <div className='w-full flex justify-center items-center mb-8'>
         <div className='flex flex-col items-center'>
           <img src={OOPS} className='w-[450px] h-[450px]' />
-          <div className='text-2xl font-medium'>Dường như bạn chưa chọn ghế</div>
-          <p className='text-lg mt-4'>Vui lòng chọn vé trước khi muốn điền thông tin thanh toán</p>
+          <div className='text-2xl font-medium'>Có vẻ như bạn chưa chọn ghế</div>
+          <p className='text-lg mt-4'>Vui lòng chọn chuyến trước khi muốn điền thông tin thanh toán</p>
 
-          <Link to='/selectTicket' className='underline hover:text-primary font-medium text-xl mt-8'>
-            Quay lại trang chọn vé
+          <Link to='/search' className='underline hover:text-primary font-medium text-xl mt-8'>
+            Quay lại trang chọn chuyến
           </Link>
         </div>
       </div>

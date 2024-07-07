@@ -7,7 +7,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Button, ConfigProvider, Form, Input } from 'antd'
 import { RuleObject } from 'antd/lib/form'
 import { Key, PiggyBank } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { toast } from 'sonner'
 import Loading from '@/components/local/login/Loading'
@@ -21,10 +21,15 @@ function ProfilePage() {
   const [file, setFile] = useState<File | null>(null)
   const [showPasswordFields, setShowPasswordFields] = useState(false)
   const queryClient = useQueryClient()
+
+  useEffect(() => {
+    refetch()
+  }, [user, queryClient])
+
   const onDrop = useCallback((acceptedFiles: Array<File>) => {
     const droppedFile = acceptedFiles[0]
     if (droppedFile && !droppedFile.type.startsWith('image/')) {
-      toast.error('Only image files are accepted!')
+      toast.error('Chỉ chấp nhận tệp tin hình ảnh!')
       return
     }
     setFile(droppedFile)
