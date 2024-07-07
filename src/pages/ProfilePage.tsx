@@ -184,24 +184,24 @@ function ProfilePage() {
                     <input {...getInputProps()} />
                     {!preview ? (
                       <Avatar className='h-full w-full' title='Change avatar'>
-                        <AvatarImage className='object-cover' src={user?.Avatar} alt='avatar' />
-                        <AvatarFallback>{user?.UserName}</AvatarFallback>
+                        <AvatarImage className='object-cover' src={data?.Avatar} alt='avatar' />
+                        <AvatarFallback>{data?.UserName}</AvatarFallback>
                       </Avatar>
                     ) : (
                       <Avatar className='h-full w-full' title='Change image'>
-                        <AvatarImage className='object-cover' src={preview as string} alt={user?.FullName} />
-                        <AvatarFallback>{user?.UserName}</AvatarFallback>
+                        <AvatarImage className='object-cover' src={preview as string} alt={data?.FullName} />
+                        <AvatarFallback>{data?.UserName}</AvatarFallback>
                       </Avatar>
                     )}
                   </div>
                 </div>
                 <div className='mt-16 flex flex-col items-center'>
-                  <h4 className='text-navy-700 text-xl font-bold dark:text-white'>{user?.UserName}</h4>
+                  <h4 className='text-navy-700 text-xl font-bold dark:text-white'>{data?.UserName}</h4>
                   <p className='flex items-center gap-2 text-base font-normal text-gray-600'>
                     <Key size={16} /> Khách hàng
                   </p>
                   <p className='flex items-center gap-2 text-lg text-primary font-medium text-gray-600'>
-                    <PiggyBank size={24} /> <span>{formatPrice(user?.Balance || 0)}</span>
+                    <PiggyBank size={24} /> <span>{formatPrice(data?.Balance || 0)}</span>
                   </p>
                 </div>
 

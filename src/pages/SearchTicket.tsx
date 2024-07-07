@@ -113,7 +113,7 @@ function SearchTicket() {
                   <p className='flex'>
                     <TriangleAlert className='text-red-600 mr-1' />
                     Vé của bạn không được tìm thấy trên hệ thống, vui lòng kiểm tra lại{' '}
-                    <span className='font-semibold text-red-600 mx-1'> số điện thoại </span> và
+                    <span className='font-semibold text-red-600 mx-1'> email </span> và
                     <span className='font-semibold text-red-600 mx-1'> mã số vé </span>
                   </p>
                 </div>
