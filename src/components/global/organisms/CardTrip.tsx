@@ -6,7 +6,7 @@ import { ITripData } from '@/types/tripInterface'
 import { useQuery } from '@tanstack/react-query'
 import { Star } from 'lucide-react'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Button } from '../atoms/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../atoms/tabs'
 import RatingDetailLayout from '../molecules/RatingDetailLayout'
@@ -19,6 +19,8 @@ interface ITripDataProps {
 }
 
 function CardTrip({ data }: ITripDataProps) {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const pageNumber = parseInt(searchParams.get('pageNumber') || '1')
   const [isDetailsPictureOpen, setIsDetailsPictureOpen] = useState(false)
   const [isDetailsUtility, setIsDetailsUtility] = useState(false)
   const [isDetailsRoute, setIsDetailsRoute] = useState(false)
@@ -26,7 +28,6 @@ function CardTrip({ data }: ITripDataProps) {
   const [selectedRatingValue, setSelectedRatingValue] = useState('0')
   const { user } = useAuth()
   const { updateUserIDTripID } = useInvoice()
-
   const navigate = useNavigate()
   const handleSubmit = () => {
     updateUserIDTripID(user?.UserID, data.TripID, data.RouteID, data.CompanyID, data.EndTime)
@@ -92,14 +93,14 @@ function CardTrip({ data }: ITripDataProps) {
   })
 
   const handleTriggerPictureClick = () => {
-    navigate(`/search?trip/trip-picture-detail=${data.TripID}`)
+    navigate(`/search?pageNumber=${pageNumber}?trip/trip-picture-detail=${data.TripID}`)
     setIsDetailsPictureOpen(!isDetailsPictureOpen)
     if (!isDetailsPictureOpen) {
       refetchPictureDetails()
     }
   }
   const handleTriggerUtilitiClick = () => {
-    navigate(`/search?utility/trip/${data.TripID}`)
+    navigate(`/search?pageNumber=${pageNumber}?utility/trip/${data.TripID}`)
 
     setIsDetailsUtility(!isDetailsUtility)
     if (!isDetailsUtility) {
@@ -107,7 +108,7 @@ function CardTrip({ data }: ITripDataProps) {
     }
   }
   const handleTriggerRouteClick = () => {
-    navigate(`/search?station/stations-from-trip=${data.TripID}`)
+    navigate(`/search?pageNumber=${pageNumber}?station/stations-from-trip=${data.TripID}`)
 
     setIsDetailsRoute(!isDetailsRoute)
     if (!isDetailsRoute) {
@@ -115,7 +116,7 @@ function CardTrip({ data }: ITripDataProps) {
     }
   }
   const handleTriggerRatingClick = () => {
-    navigate(`/search?rating/feedback-in-trip/${data.TripID}/0?pageNumber=1&pageSize=5`)
+    navigate(`/search?pageNumber=${pageNumber}?rating/feedback-in-trip/${data.TripID}/0?pageNumber=1&pageSize=5`)
 
     setIsDetailsRating(!isDetailsRating)
     if (!isDetailsRating) {
