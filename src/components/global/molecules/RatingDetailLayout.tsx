@@ -33,6 +33,7 @@ interface RatingTabProps {
 }
 function RatingDetailLayout({tripID, tripRatingDetails, isLoading, error, refetchRatingDetails,
   setSelectedRatingValue }: RatingTabProps) {
+  console.log("data ở rating",  tripRatingDetails)
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const [selectedValue, setSelectedValue] = useState<string>('0')

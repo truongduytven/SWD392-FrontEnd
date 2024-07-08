@@ -116,7 +116,7 @@ function CardTrip({ data }: ITripDataProps) {
     }
   }
   const handleTriggerRatingClick = () => {
-    navigate(`/search?pageNumber=${pageNumber}?rating/feedback-in-trip/${data.TripID}/0?pageNumber=1&pageSize=5`)
+    navigate(`/search?pageNumber=${pageNumber}?rating/feedback-in-trip/${data.TripID}/${selectedRatingValue}?pageNumber=1&pageSize=5`)
 
     setIsDetailsRating(!isDetailsRating)
     if (!isDetailsRating) {
