@@ -26,13 +26,14 @@ import Loading from '@/components/global/molecules/Loading'
 import { toast } from 'sonner'
 function InfoPayment() {
   const navigate = useNavigate()
-  const { invoiceData } = useInvoice()
+  const { invoiceData, setInvoiceData } = useInvoice()
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState({ username: '', phoneNumber: '', email: '' })
   const [infoData, setInfoData] = useState<infoPaymentData>({ username: '', phoneNumber: '', email: '' })
   const [paymentMethod, setPaymentMethod] = useState('VNPay')
   const { user } = useAuth()
+
 
   useEffect(() => {
     if (user) {
@@ -43,6 +44,14 @@ function InfoPayment() {
       })
     }
   }, [user])
+
+  useEffect(() => {
+    const savedInvoiceData = localStorage.getItem('invoiceData');
+    if (savedInvoiceData) {
+      setInvoiceData(JSON.parse(savedInvoiceData));
+      localStorage.removeItem('invoiceData');
+    }
+  }, [setInvoiceData]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target
@@ -127,6 +136,7 @@ function InfoPayment() {
         try {
           const response = await busAPI.post('/booking-management/managed-bookings/vnpay-payment', DataBooking)
           const link = response.data.Result
+          localStorage.setItem('invoiceData', JSON.stringify(invoiceData));
           window.location.href = link
         } catch (error) {
           console.log(error)
@@ -209,8 +219,8 @@ function InfoPayment() {
       console.log(DataBooking)
       try {
         const response = await busAPI.post('/booking-management/managed-bookings/vnpay-payment', DataBooking)
-        setIsLoading(false)
         const link = response.data.Result
+        localStorage.setItem('invoiceData', JSON.stringify(invoiceData));
         window.location.href = link
       } catch (error) {
         console.log(error)
@@ -249,6 +259,7 @@ function InfoPayment() {
         const response = await busAPI.post('/booking-management/managed-bookings/vnpay-payment', DataBooking)
         setIsLoading(false)
         const link = response.data.Result
+        localStorage.setItem('invoiceData', JSON.stringify(invoiceData));
         window.location.href = link
       } catch (error) {
         console.log(error)
@@ -262,7 +273,7 @@ function InfoPayment() {
   }
 
   return invoiceData.tickets.length > 0 ? (
-    isLoading ? (
+    isLoading && user ? (
       <div className='flex h-screen w-screen justify-center items-center'>
         <div className='flex flex-col space-y-3 items-center'>
           <Loading />
@@ -277,7 +288,7 @@ function InfoPayment() {
               <DialogTitle>Bạn có muốn thanh toán với số dư còn lại?</DialogTitle>
               <DialogDescription>
                 Bạn có muốn sử dụng số dư để thanh toán không ? Phần còn lại bạn sẽ thanh toán bằng VNPay. Số tiền bạn
-                sẽ thanh toán nếu như sử dụng số dư là {invoiceData.totalPrice} - {(user ? user.Balance : 0)} ={' '}
+                sẽ thanh toán nếu như sử dụng số dư là {formatPrice(invoiceData.totalPrice)} - {formatPrice((user ? user.Balance : 0) || 0)} ={' '}
                 {formatPrice(invoiceData.totalPrice - user!.Balance)}
               </DialogDescription>
             </DialogHeader>
@@ -394,7 +405,7 @@ function InfoPayment() {
       <div className='w-full flex justify-center items-center mb-8'>
         <div className='flex flex-col items-center'>
           <img src={OOPS} className='w-[450px] h-[450px]' />
-          <div className='text-2xl font-medium'>Dường như bạn chưa chọn ghế</div>
+          <div className='text-2xl font-medium'>Có vẻ như bạn chưa chọn ghế</div>
           <p className='text-lg mt-4'>Vui lòng chọn chuyến trước khi muốn điền thông tin thanh toán</p>
 
           <Link to='/search' className='underline hover:text-primary font-medium text-xl mt-8'>

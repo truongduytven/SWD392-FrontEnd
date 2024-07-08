@@ -200,3 +200,19 @@
  background: #C02031;
 }
 
+@keyframes moveUp {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-move-up {
+  animation: moveUp 1.5s ease-in-out infinite;
+}
+
+

@@ -3,7 +3,7 @@ import busAPI from '@/lib/busAPI';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-interface IUserDetail {
+export interface IUserDetail {
   UserID: string,
   UserName: string,
   Password: string,
@@ -32,7 +32,7 @@ export const fetchUserDetail = (userId: string) => {
         const { data } = await busAPI.get<IUserDetail>(`/user-management/managed-users/${userId}/details`);
         console.log("tui ne", data)
         return data;
-      }
+      },
     });
   };
   export const updateUserProfile = async (userId:string,formData: any) => {

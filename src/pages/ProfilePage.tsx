@@ -7,7 +7,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Button, ConfigProvider, Form, Input } from 'antd'
 import { RuleObject } from 'antd/lib/form'
 import { Key, PiggyBank } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { toast } from 'sonner'
 import Loading from '@/components/local/login/Loading'
@@ -21,10 +21,15 @@ function ProfilePage() {
   const [file, setFile] = useState<File | null>(null)
   const [showPasswordFields, setShowPasswordFields] = useState(false)
   const queryClient = useQueryClient()
+
+  useEffect(() => {
+    refetch()
+  }, [user, queryClient])
+
   const onDrop = useCallback((acceptedFiles: Array<File>) => {
     const droppedFile = acceptedFiles[0]
     if (droppedFile && !droppedFile.type.startsWith('image/')) {
-      toast.error('Only image files are accepted!')
+      toast.error('Chỉ chấp nhận tệp tin hình ảnh!')
       return
     }
     setFile(droppedFile)
@@ -62,7 +67,10 @@ function ProfilePage() {
     } else {
       formData.append('Avatar', '')
     }
-
+    // // Logging form data
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(`${key}: ${value}`)
+    // }
     try {
       const response = await updateUserProfile(user?.UserID || '', formData)
       setLoading(false)
@@ -181,24 +189,24 @@ function ProfilePage() {
                     <input {...getInputProps()} />
                     {!preview ? (
                       <Avatar className='h-full w-full' title='Change avatar'>
-                        <AvatarImage className='object-cover' src={user?.Avatar} alt='avatar' />
-                        <AvatarFallback>{user?.UserName}</AvatarFallback>
+                        <AvatarImage className='object-cover' src={data?.Avatar} alt='avatar' />
+                        <AvatarFallback>{data?.UserName}</AvatarFallback>
                       </Avatar>
                     ) : (
                       <Avatar className='h-full w-full' title='Change image'>
-                        <AvatarImage className='object-cover' src={preview as string} alt={user?.FullName} />
-                        <AvatarFallback>{user?.UserName}</AvatarFallback>
+                        <AvatarImage className='object-cover' src={preview as string} alt={data?.FullName} />
+                        <AvatarFallback>{data?.UserName}</AvatarFallback>
                       </Avatar>
                     )}
                   </div>
                 </div>
                 <div className='mt-16 flex flex-col items-center'>
-                  <h4 className='text-navy-700 text-xl font-bold dark:text-white'>{user?.UserName}</h4>
+                  <h4 className='text-navy-700 text-xl font-bold dark:text-white'>{data?.UserName}</h4>
                   <p className='flex items-center gap-2 text-base font-normal text-gray-600'>
                     <Key size={16} /> Khách hàng
                   </p>
                   <p className='flex items-center gap-2 text-lg text-primary font-medium text-gray-600'>
-                    <PiggyBank size={24} /> <span>{formatPrice(user?.Balance || 0)}</span>
+                    <PiggyBank size={24} /> <span>{formatPrice(data?.Balance || 0)}</span>
                   </p>
                 </div>
 
