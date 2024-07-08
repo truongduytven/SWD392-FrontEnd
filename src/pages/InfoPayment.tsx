@@ -289,7 +289,7 @@ function InfoPayment() {
               <DialogDescription>
                 Bạn có muốn sử dụng số dư để thanh toán không ? Phần còn lại bạn sẽ thanh toán bằng VNPay. Số tiền bạn
                 sẽ thanh toán nếu như sử dụng số dư là {formatPrice(invoiceData.totalPrice)} - {formatPrice((user ? user.Balance : 0) || 0)} ={' '}
-                {formatPrice(invoiceData.totalPrice - user!.Balance)}
+                {formatPrice(invoiceData.totalPrice - (user ? user.Balance : 0))}
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
