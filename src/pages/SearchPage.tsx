@@ -207,15 +207,9 @@ function SearchPage() {
             </div>
             {isLoading ? (
               <div className='flex flex-col gap-3'>
-                <div className=' animate-move-up'>
                   <CardTripSkeleton />
-                </div>
-                <div className=' animate-move-up'>
                   <CardTripSkeleton />
-                </div>
-                <div className=' animate-move-up'>
                   <CardTripSkeleton />
-                </div>
               </div>
             ) : (
               <>
