@@ -229,7 +229,7 @@ function Ticket({
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Thông báo</AlertDialogTitle>
-              <AlertDialogDescription>Bạn có chắc muốn hủy vé này không?</AlertDialogDescription>
+              <AlertDialogDescription>Bạn có chắc muốn hủy vé này không? Vé chỉ được hủy trước giờ xuất phát 12 tiếng. Khi hủy vé, bạn sẽ nhận được 70% giá trị của tiền vé.</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel asChild>

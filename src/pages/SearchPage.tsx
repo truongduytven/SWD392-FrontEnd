@@ -14,6 +14,7 @@ import { ArrowBigUpDash, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import noTripFound from '@/assets/error-page-unscreen.gif'
 import { ConfigProvider, Pagination } from 'antd'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 const staticItems = [
   { id: 'HÀNG ĐẦU', label: 'Hàng đầu' },
   { id: 'HÀNG GIỮA', label: 'Hàng giữa' },
@@ -38,13 +39,16 @@ function SearchPage() {
 
   const filterItems: readonly { id: string; label: string }[] = [...staticItems, ...companyItems]
   const { searchData } = useSearch()
+  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const initialPage = parseInt(searchParams.get('pageNumber') || '1')
   const initialState = {
     sortOption: 'MẶC ĐỊNH',
     sortCompany: [] as string[],
     seatAvailability: [] as string[]
   }
   const [filterState, setFilterState] = useState(initialState)
-  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [currentPage, setCurrentPage] = useState<number>(initialPage)
   const { data, isFetching, isLoading, refetch } = useGetTripSearchForm(searchData, filterState, currentPage)
   const { data: dataCityFromTo } = useGetCitySearchForm()
 
@@ -54,6 +58,7 @@ function SearchPage() {
       sortOption: value
     }))
     setCurrentPage(1) // Reset current page to 1
+    navigate(`/search?pageNumber=1`)
   }
 
   const handleSortCompanyChange = (items: string[]) => {
@@ -62,6 +67,7 @@ function SearchPage() {
       sortCompany: items
     }))
     setCurrentPage(1) // Reset current page to 1
+    navigate(`/search?pageNumber=1`)
   }
 
   const handleSeatAvailabilityChange = (items: string[]) => {
@@ -70,16 +76,19 @@ function SearchPage() {
       seatAvailability: items
     }))
     setCurrentPage(1) // Reset current page to 1
+    navigate(`/search?pageNumber=1`)
   }
 
   const handleClearFilters = () => {
     setFilterState(initialState)
     setCurrentPage(1) // Reset current page to 1
+    navigate(`/search?pageNumber=1`)
   }
 
   const handleSearchSubmit = (values: SearchData) => {
     setFilterState(initialState)
     setCurrentPage(1)
+    navigate(`/search?pageNumber=1`)
     refetch()
   }
 
@@ -156,7 +165,11 @@ function SearchPage() {
         <Pagination
           current={currentPage}
           total={totalPages}
-          onChange={(page) => setCurrentPage(page)}
+          // onChange={(page) => setCurrentPage(page)}
+          onChange={(page) => {
+            setCurrentPage(page)
+            navigate(`/search?pageNumber=${page}`)
+          }}
           showSizeChanger={false}
           pageSize={1} // Assuming each page has 1 item for simplicity, adjust as needed
           className='mx-auto mt-8'
@@ -207,9 +220,9 @@ function SearchPage() {
             </div>
             {isLoading ? (
               <div className='flex flex-col gap-3'>
-                  <CardTripSkeleton />
-                  <CardTripSkeleton />
-                  <CardTripSkeleton />
+                <CardTripSkeleton />
+                <CardTripSkeleton />
+                <CardTripSkeleton />
               </div>
             ) : (
               <>

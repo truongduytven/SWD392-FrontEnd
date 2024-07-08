@@ -43,7 +43,7 @@ function HomePage() {
         </Car>
       </div>
       <div className='w-full flex justify-center absolute top-[300px]'>
-        <SearchForm onsubmitSearch={() => navigate('/search')} />
+        <SearchForm onsubmitSearch={() => navigate('/search?pageNumber=1')} />
       </div>
       <div className='w-full flex flex-col mt-20 items-center space-y-14'>
         <div className='uppercase text-3xl font-bold text-primary'>Nền tảng kết nối người dùng và nhà xe</div>
