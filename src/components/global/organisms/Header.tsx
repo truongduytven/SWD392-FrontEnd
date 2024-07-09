@@ -64,7 +64,7 @@ function Header() {
             </Link>
           </div>
           <div className='flex-1 text-right'>
-            {/* {data ? (
+            {data ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className='float-right' asChild>
                   <img
@@ -107,8 +107,8 @@ function Header() {
                   <p className='relative z-10'> Đăng ký/Đăng nhập</p>
                 </button>
               </Link>
-            )} */}
-             {isLoading ? (
+            )}
+             {/* {isLoading ? (
               <div className='float-right ml-3 mb-3'>
               <img width={50} src='https://i.pinimg.com/originals/8a/a4/59/8aa4595fb24b6ed585dddac4622b2445.gif' alt='loading ava'/>
                 </div>
@@ -154,7 +154,7 @@ function Header() {
                   <p className='relative z-10'> Đăng ký/Đăng nhập</p>
                 </button>
               </Link>
-            )}
+            )} */}
           </div>
         </div>
       </Container>

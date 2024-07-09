@@ -33,6 +33,7 @@ export const fetchUserDetail = (userId: string) => {
         console.log("tui ne", data)
         return data;
       },
+      enabled: !!userId,
     });
   };
   export const updateUserProfile = async (userId:string,formData: any) => {
