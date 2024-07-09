@@ -17,6 +17,7 @@ import {
   DialogTrigger
 } from '@/components/global/atoms/dialog'
 import starFillIcon from '@/assets/star-fill.svg'
+import { Image } from 'antd'
 interface Feedback {
   UserName: string;
   Date: string;
@@ -135,7 +136,7 @@ function RatingDetail({ feedback }:RatingDetailProps) {
                               <Card className="shadow-none border-none flex justify-center items-center">
                                 <CardContent className="p-0 flex justify-center items-center">
                                   <img
-                                    className="object-contain h-full rounded-md cursor-pointer"
+                                    className="object-contain h-[400px] rounded-md cursor-pointer"
                                     src={img}
                                     alt="rating"
                                   />

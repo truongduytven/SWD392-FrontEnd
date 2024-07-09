@@ -64,7 +64,7 @@ function Header() {
             </Link>
           </div>
           <div className='flex-1 text-right'>
-            {data ? (
+            {/* {data ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className='float-right' asChild>
                   <img
@@ -95,6 +95,53 @@ function Header() {
 
                   <Link to='/'>
                     <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer' onClick={logout}>
+                      <LogOut className='w-5' />
+                      Đăng xuất
+                    </DropdownMenuItem>
+                  </Link>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to='/login'>
+                <button className='text-black rounded-md font-medium hover:before:bg-redborder-red-500 relative h-fit py-2 w-fit overflow-hidden bg-white px-3 transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-orange-500 before:transition-all before:duration-500 hover:text-white hover:before:left-0 hover:before:w-full'>
+                  <p className='relative z-10'> Đăng ký/Đăng nhập</p>
+                </button>
+              </Link>
+            )} */}
+             {isLoading ? (
+              <div className='float-right ml-3 mb-3'>
+              <img width={50} src='https://i.pinimg.com/originals/8a/a4/59/8aa4595fb24b6ed585dddac4622b2445.gif' alt='loading ava'/>
+                </div>
+            ) : data ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger className='float-right' asChild>
+                  <img
+                    className='h-10 w-10 cursor-pointer rounded-full object-cover border-2 border-primary hover:border-tertiary'
+                    src={data?.Avatar}
+                    alt='avatar'
+                  />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className='w-fit'>
+                  <DropdownMenuLabel className='py-0'>{data?.UserName || data?.FullName}</DropdownMenuLabel>
+                  <DropdownMenuItem className='py-0 text-xs' disabled>
+                    {data?.Email}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <Link to='/profile'>
+                    <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
+                      <BookUser className='w-5' />
+                      Hồ sơ người dùng
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link to={`/myticket/${data?.UserID}`}>
+                    <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
+                      <Ticket className='w-5' />
+                      Vé của tôi
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuSeparator />
+                  <Link to='/' onClick={logout}>
+                    <DropdownMenuItem className='flex justify-start items-center gap-2 cursor-pointer'>
                       <LogOut className='w-5' />
                       Đăng xuất
                     </DropdownMenuItem>

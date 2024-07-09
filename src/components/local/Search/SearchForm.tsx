@@ -40,6 +40,7 @@ export function SearchForm({ onsubmitSearch }: SearchFormProps) {
   function onSubmit(values: z.infer<typeof SearchSchema>) {
     setSearchData(values)
     onsubmitSearch(values)
+    
   }
   return (
     <div className='h-full py-5 rounded-lg bg-white w-2/3 drop-shadow-lg'>
