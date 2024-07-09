@@ -183,8 +183,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       setLoading(true)
       const response = await busAPI.post('/auth-management/managed-auths/access-token-verification', accessToken)
-      const newToken = response.data.accessToken
-      console.log('token moi ne hehe', response.data)
+      const newToken = response.data.token
       setToken(newToken)
       localStorage.setItem('token', newToken)
       setErrorMessage(null)
@@ -194,6 +193,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         console.log(error)
+        localStorage.removeItem('token')
+
         toast.error('Lỗi đăng nhập')
       setLoadingGG(false)
 

@@ -191,6 +191,12 @@ const {loginWithGG ,loadingGG}= useAuth();
             )}
           />
         </div>
+       
+
+        {/* <Link to ="/otp-verified" className='w-full'> */}
+        <Button type='submit' className='w-3/4' disabled={loading}>
+          {loading && <Loading />}Đăng kí
+        </Button>
         <div className='relative w-3/4'>
           <div className='absolute inset-0 flex items-center'>
             <span className='w-full border-t' />
@@ -203,11 +209,6 @@ const {loginWithGG ,loadingGG}= useAuth();
           <img className='mr-2 w-7 h-7' alt='google' src={googleIcon} />
           Đăng nhập bằng google
           {loadingGG && <Shell className='w-4 h-4 ml-1 animate-spin' />}
-        </Button>
-
-        {/* <Link to ="/otp-verified" className='w-full'> */}
-        <Button type='submit' className='w-3/4' disabled={loading}>
-          {loading && <Loading />}Đăng kí
         </Button>
         {/* </Link> */}
       </form>
