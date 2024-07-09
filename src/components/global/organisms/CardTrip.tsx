@@ -20,6 +20,7 @@ interface ITripDataProps {
 
 function CardTrip({ data }: ITripDataProps) {
   const [searchParams, setSearchParams] = useSearchParams()
+  
   const pageNumber = parseInt(searchParams.get('pageNumber') || '1')
   const [isDetailsPictureOpen, setIsDetailsPictureOpen] = useState(false)
   const [isDetailsUtility, setIsDetailsUtility] = useState(false)
@@ -91,7 +92,7 @@ function CardTrip({ data }: ITripDataProps) {
   } = useQuery({
     queryKey: ['tripRatingDetails', data.TemplateID, selectedRatingValue],
     queryFn: () => fetchTripRatingDetails(data.TemplateID, selectedRatingValue),
-    enabled: false
+    enabled: selectedRatingValue !== "0"
   })
 
   const handleTriggerPictureClick = () => {
@@ -127,6 +128,9 @@ function CardTrip({ data }: ITripDataProps) {
       refetchRatingDetails()
     }
   }
+  console.log("filter o cardtrip", selectedRatingValue)
+  console.log("rating cardtrip", tripRatingDetails)
+  
   return (
     <Accordion type='single' collapsible className='mb-3'>
       <AccordionItem value='item-1' className='w-full'>
