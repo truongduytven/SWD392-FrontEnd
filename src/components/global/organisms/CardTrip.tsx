@@ -42,13 +42,15 @@ function CardTrip({ data }: ITripDataProps) {
     const { data } = await busAPI.get(`/trip-management/managed-trips/${tripId}/utilities`)
     return data
   }
-  const fetchTripRouteDetails = async (tripId: string, comapnyId:string) => {
+  const fetchTripRouteDetails = async (tripId: string, comapnyId: string) => {
     const { data } = await busAPI.get(`/station-management/managed-stations/routes/${tripId}/companyID/${comapnyId}`)
     return data
   }
   const fetchTripRatingDetails = async (templateID: string, ratingValue: string) => {
-    console.log("template ne", templateID)
-    const { data } = await busAPI.get(`/feedback-management/managed-feedbacks/trips/${templateID}/rate-scales/${ratingValue}?pageNumber=1&pageSize=5`)
+    console.log('template ne', templateID)
+    const { data } = await busAPI.get(
+      `/feedback-management/managed-feedbacks/trips/${templateID}/rate-scales/${ratingValue}?pageNumber=1&pageSize=5`
+    )
     return data
   }
   const {
@@ -87,8 +89,8 @@ function CardTrip({ data }: ITripDataProps) {
     error: ratingDetailsError,
     refetch: refetchRatingDetails
   } = useQuery({
-    queryKey: ['tripRatingDetails', data.TemplateID,selectedRatingValue],
-    queryFn: () => fetchTripRatingDetails(data.TemplateID,selectedRatingValue),
+    queryKey: ['tripRatingDetails', data.TemplateID, selectedRatingValue],
+    queryFn: () => fetchTripRatingDetails(data.TemplateID, selectedRatingValue),
     enabled: false
   })
 
@@ -116,7 +118,9 @@ function CardTrip({ data }: ITripDataProps) {
     }
   }
   const handleTriggerRatingClick = () => {
-    navigate(`/search?pageNumber=${pageNumber}?rating/feedback-in-trip/${data.TripID}/${selectedRatingValue}?pageNumber=1&pageSize=5`)
+    navigate(
+      `/search?pageNumber=${pageNumber}?rating/feedback-in-trip/${data.TripID}/${selectedRatingValue}?pageNumber=1&pageSize=5`
+    )
 
     setIsDetailsRating(!isDetailsRating)
     if (!isDetailsRating) {
@@ -247,7 +251,7 @@ function CardTrip({ data }: ITripDataProps) {
 
             <TabsContent value='danhgia'>
               <RatingDetailLayout
-              tripID={data.TripID}
+                tripID={data.TripID}
                 tripRatingDetails={tripRatingDetails}
                 error={ratingDetailsError}
                 isLoading={ratingDetailsLoading}

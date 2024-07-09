@@ -86,7 +86,11 @@ function FormLogin({ reset }: FormLoginProps) {
             </FormItem>
           )}
         />
-         <div className='relative w-2/3'>
+        
+        <Button type='submit' disabled={loading} className='w-2/3'>
+        {loading && <Loading />} Đăng nhập
+        </Button>
+        <div className='relative w-2/3'>
           <div className='absolute inset-0 flex items-center'>
             <span className='w-full border-t' />
           </div>
@@ -98,9 +102,6 @@ function FormLogin({ reset }: FormLoginProps) {
           <img className='mr-2 w-7 h-7' alt='google' src={googleIcon} />
           Đăng nhập bằng google
           {loadingGG && <Shell className='w-4 h-4 ml-1 animate-spin' />}
-        </Button>
-        <Button type='submit' disabled={loading} className='w-2/3'>
-        {loading && <Loading />} Đăng nhập
         </Button>
       <div>
       </div>
