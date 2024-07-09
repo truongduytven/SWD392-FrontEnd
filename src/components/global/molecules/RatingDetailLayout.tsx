@@ -44,6 +44,8 @@ function RatingDetailLayout({tripID, tripRatingDetails, isLoading, error, refetc
     navigate(`/search?rating/feedback-in-trip/${tripID}/${value}?pageNumber=1&pageSize=5`)
     refetchRatingDetails();
   }
+   // Ensure TotalRating is a number
+   const totalRating = typeof tripRatingDetails?.TotalRating === 'number' ? tripRatingDetails.TotalRating : 0;
   return (
     <div>
     <div className='flex items-center justify-center p-4 mb-4 rounded-sm bg-muted'>
@@ -63,7 +65,8 @@ function RatingDetailLayout({tripID, tripRatingDetails, isLoading, error, refetc
               </clipPath>
             </defs>
             <rect className='w-full h-full fill-slate-300' clipPath='url(#stars)' />
-            <rect width={tripRatingDetails?.TotalRating * 20 + '%'} className='fill-[#eab308] h-full' clipPath='url(#stars)' />
+            {/* <rect width={tripRatingDetails?.TotalRating ||0 * 20 + '%'} className='fill-[#eab308] h-full' clipPath='url(#stars)' /> */}
+            <rect width={`${totalRating * 20}%`} className='fill-[#eab308] h-full' clipPath='url(#stars)' />
           </svg>
         </div>
       </div>
