@@ -22,6 +22,7 @@ function CardTrip({ data }: ITripDataProps) {
   const [searchParams, setSearchParams] = useSearchParams()
   
   const pageNumber = parseInt(searchParams.get('pageNumber') || '1')
+  const [pageNumberRating, setPageNumberRating] = useState<number>(1)
   const [isDetailsPictureOpen, setIsDetailsPictureOpen] = useState(false)
   const [isDetailsUtility, setIsDetailsUtility] = useState(false)
   const [isDetailsRoute, setIsDetailsRoute] = useState(false)
@@ -47,10 +48,10 @@ function CardTrip({ data }: ITripDataProps) {
     const { data } = await busAPI.get(`/station-management/managed-stations/routes/${tripId}/companyID/${comapnyId}`)
     return data
   }
-  const fetchTripRatingDetails = async (templateID: string, ratingValue: string) => {
+  const fetchTripRatingDetails = async (templateID: string, ratingValue: string, pageNumberRating:number) => {
     console.log('template ne', templateID)
     const { data } = await busAPI.get(
-      `/feedback-management/managed-feedbacks/trips/${templateID}/rate-scales/${ratingValue}?pageNumber=1&pageSize=5`
+      `/feedback-management/managed-feedbacks/trips/${templateID}/rate-scales/${ratingValue}?pageNumber=${pageNumberRating}&pageSize=5`
     )
     return data
   }
@@ -90,9 +91,9 @@ function CardTrip({ data }: ITripDataProps) {
     error: ratingDetailsError,
     refetch: refetchRatingDetails
   } = useQuery({
-    queryKey: ['tripRatingDetails', data.TemplateID, selectedRatingValue],
-    queryFn: () => fetchTripRatingDetails(data.TemplateID, selectedRatingValue),
-    enabled: selectedRatingValue !== "0"
+    queryKey: ['tripRatingDetails', data.TemplateID, selectedRatingValue, pageNumberRating],
+    queryFn: () => fetchTripRatingDetails(data.TemplateID, selectedRatingValue, pageNumberRating),
+    enabled: selectedRatingValue !== "0" || pageNumberRating!==1
   })
 
   const handleTriggerPictureClick = () => {
@@ -120,7 +121,7 @@ function CardTrip({ data }: ITripDataProps) {
   }
   const handleTriggerRatingClick = () => {
     navigate(
-      `/search?pageNumber=${pageNumber}?rating/feedback-in-trip/${data.TripID}/${selectedRatingValue}?pageNumber=1&pageSize=5`
+      `/search?pageNumber=${pageNumber}?rating/feedback-in-trip/${data.TripID}/${selectedRatingValue}?pageNumber=${pageNumberRating}&pageSize=5`
     )
 
     setIsDetailsRating(!isDetailsRating)
@@ -130,7 +131,12 @@ function CardTrip({ data }: ITripDataProps) {
   }
   console.log("filter o cardtrip", selectedRatingValue)
   console.log("rating cardtrip", tripRatingDetails)
-  
+  const handlePageChange = async () => {
+    console.log("phan trang")
+    await refetchRatingDetails();
+  };
+  console.log("number", pageNumberRating)
+
   return (
     <Accordion type='single' collapsible className='mb-3'>
       <AccordionItem value='item-1' className='w-full'>
@@ -261,6 +267,8 @@ function CardTrip({ data }: ITripDataProps) {
                 isLoading={ratingDetailsLoading}
                 refetchRatingDetails={refetchRatingDetails}
                 setSelectedRatingValue={setSelectedRatingValue}
+                page={pageNumberRating}
+                setPageNumberRating ={setPageNumberRating}
               />
             </TabsContent>
           </Tabs>

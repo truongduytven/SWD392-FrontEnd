@@ -22,14 +22,17 @@ interface Feedback {
 interface TripRatingDetails {
   Feedbacks: Feedback[]
   TotalRating: number
+  TotalPage: number
 }
 interface RatingTabProps {
   tripID: string
   tripRatingDetails: TripRatingDetails
   isLoading: boolean
   error: any
+  page: number
   refetchRatingDetails: (options?: { throwOnError: boolean }) => Promise<any>
   setSelectedRatingValue: React.Dispatch<React.SetStateAction<string>>
+  setPageNumberRating: React.Dispatch<React.SetStateAction<number>>
 }
 function RatingDetailLayout({
   tripID,
@@ -37,7 +40,9 @@ function RatingDetailLayout({
   isLoading,
   error,
   refetchRatingDetails,
-  setSelectedRatingValue
+  setSelectedRatingValue,
+  page,
+  setPageNumberRating
 }: RatingTabProps) {
   console.log('data ở rating', tripRatingDetails)
   const navigate = useNavigate()
@@ -56,6 +61,18 @@ function RatingDetailLayout({
   }
   // Ensure TotalRating is a number
   const totalRating = typeof tripRatingDetails?.TotalRating === 'number' ? tripRatingDetails.TotalRating : 0
+  const handlePreviousPage = async () => {
+    if (page > 1) {
+      setPageNumberRating((prev) => prev - 1)
+        
+      await refetchRatingDetails()
+    }
+  }
+
+  const handleNextPage = async () => {
+    setPageNumberRating((prev) => prev + 1)
+    await refetchRatingDetails()
+  }
   return (
     <div>
       <div className='flex items-center justify-center p-4 mb-4 rounded-sm bg-muted'>
@@ -102,6 +119,22 @@ function RatingDetailLayout({
           {tripRatingDetails.Feedbacks.map((feedback, index) => (
             <RatingDetail feedback={feedback} key={index} />
           ))}
+          <div className='flex gap-2'>
+            <Button
+              onClick={handlePreviousPage}
+              disabled={page === 1}
+              className='px-4 py-2 bg-gray-200 text-gray-500 hover:bg-gray-300'
+            >
+              Previous
+            </Button>
+            <Button
+              onClick={handleNextPage}
+              disabled={page === tripRatingDetails.TotalPage}
+              className='px-4 py-2 bg-gray-200 text-gray-500 hover:bg-gray-300'
+            >
+              Next
+            </Button>
+          </div>
         </div>
       ) : (
         <div className='text-center font-semibold mt-8'>Không có đánh giá cho chuyến xe này</div>
