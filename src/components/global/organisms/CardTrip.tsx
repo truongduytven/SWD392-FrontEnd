@@ -129,13 +129,7 @@ function CardTrip({ data }: ITripDataProps) {
       refetchRatingDetails()
     }
   }
-  console.log("filter o cardtrip", selectedRatingValue)
-  console.log("rating cardtrip", tripRatingDetails)
-  const handlePageChange = async () => {
-    console.log("phan trang")
-    await refetchRatingDetails();
-  };
-  console.log("number", pageNumberRating)
+ 
 
   return (
     <Accordion type='single' collapsible className='mb-3'>

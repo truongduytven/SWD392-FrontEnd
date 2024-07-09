@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Button } from '../atoms/button'
-import RatingDetail from './RatingDetail'
-import Loader from '@/components/local/TabCardTrip/Loader'
+import React, { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../atoms/button';
+import RatingDetail from './RatingDetail';
+import Loader from '@/components/local/TabCardTrip/Loader';
+import { ChevronsRight, ChevronsLeft } from 'lucide-react';
+import { Tooltip } from 'antd';
+
 const buttons = [
   { label: 'Tất cả', value: '0' },
   { label: '5 Sao', value: '5' },
@@ -10,30 +13,34 @@ const buttons = [
   { label: '3 Sao', value: '3' },
   { label: '2 Sao', value: '2' },
   { label: '1 Sao', value: '1' }
-] as const
+] as const;
+
 interface Feedback {
-  UserName: string
-  Date: string
-  Desciption: string
-  ImageUrl: string[]
-  Rating: number
-  Avt: string
+  UserName: string;
+  Date: string;
+  Desciption: string;
+  ImageUrl: string[];
+  Rating: number;
+  Avt: string;
 }
+
 interface TripRatingDetails {
-  Feedbacks: Feedback[]
-  TotalRating: number
-  TotalPage: number
+  Feedbacks: Feedback[];
+  TotalRating: number;
+  TotalPage: number;
 }
+
 interface RatingTabProps {
-  tripID: string
-  tripRatingDetails: TripRatingDetails
-  isLoading: boolean
-  error: any
-  page: number
-  refetchRatingDetails: (options?: { throwOnError: boolean }) => Promise<any>
-  setSelectedRatingValue: React.Dispatch<React.SetStateAction<string>>
-  setPageNumberRating: React.Dispatch<React.SetStateAction<number>>
+  tripID: string;
+  tripRatingDetails: TripRatingDetails;
+  isLoading: boolean;
+  error: any;
+  page: number;
+  refetchRatingDetails: (options?: { throwOnError: boolean }) => Promise<any>;
+  setSelectedRatingValue: React.Dispatch<React.SetStateAction<string>>;
+  setPageNumberRating: React.Dispatch<React.SetStateAction<number>>;
 }
+
 function RatingDetailLayout({
   tripID,
   tripRatingDetails,
@@ -44,45 +51,63 @@ function RatingDetailLayout({
   page,
   setPageNumberRating
 }: RatingTabProps) {
-  console.log('data ở rating', tripRatingDetails)
-  const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const [selectedValue, setSelectedValue] = useState<string>('0')
-  const [averageRatings, setAverageRatings] = useState<number>(5)
+  console.log('Data in rating', tripRatingDetails);
+  const navigate = useNavigate();
+  const [selectedValue, setSelectedValue] = useState<string>('0');
+  const ratingLayoutRef = useRef<HTMLDivElement>(null);
+  const myRef = useRef<HTMLDivElement>(null);
   const handleButtonClick = async (value: string) => {
-    setSelectedRatingValue((prev) => (prev = value))
-    setSelectedValue(value)
-    console.log('filter o rating', value)
+    setSelectedRatingValue(value);
+    setSelectedValue(value);
+    console.log('Filter in rating', value);
 
-    navigate(`/search?rating/feedback-in-trip/${tripID}/${value}?pageNumber=1&pageSize=5`)
-    await refetchRatingDetails()
+    navigate(
+      `/search?rating/feedback-in-trip/${tripID}/${value}?pageNumber=1&pageSize=5`
+    );
+    await refetchRatingDetails();
+    scrollToTop(); // Scroll to top when changing filters
+    console.log('Scroll to rating layout');
+  };
 
-    console.log('hehe')
-  }
-  // Ensure TotalRating is a number
-  const totalRating = typeof tripRatingDetails?.TotalRating === 'number' ? tripRatingDetails.TotalRating : 0
+  const scrollToTop = () => {
+    if (ratingLayoutRef.current) {
+      ratingLayoutRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const handlePreviousPage = async () => {
     if (page > 1) {
-      setPageNumberRating((prev) => prev - 1)
-        
-      await refetchRatingDetails()
+      setPageNumberRating((prev) => prev - 1);
+      await refetchRatingDetails();
+      scrollToTop(); // Scroll to top when navigating to previous page
+      console.log('Previous Page Clicked');
     }
-  }
+  };
 
   const handleNextPage = async () => {
-    setPageNumberRating((prev) => prev + 1)
-    await refetchRatingDetails()
-  }
+    if (page < tripRatingDetails.TotalPage) {
+      setPageNumberRating((prev) => prev + 1);
+      await refetchRatingDetails();
+      scrollToTop(); // Scroll to top when navigating to next page
+      console.log('Next Page Clicked');
+    }
+  };
+
   return (
-    <div>
+    <div  >
       <div className='flex items-center justify-center p-4 mb-4 rounded-sm bg-muted'>
         <div className='mx-10'>
-          <span className='mx-1 text-2xl font-medium'>{tripRatingDetails?.TotalRating?.toFixed(1) || 0}</span>
+          <span className='mx-1 text-2xl font-medium'>
+            {tripRatingDetails?.TotalRating?.toFixed(1) || 0}
+          </span>
           <span className='text-base font-medium'>/ 5</span>
           <div className='flex my-2'>
             <svg viewBox='0 0 1000 200' className='mb-0'>
               <defs>
-                <polygon id='star' points='100,0 131,66 200,76 150,128 162,200 100,166 38,200 50,128 0,76 69,66' />
+                <polygon
+                  id='star'
+                  points='100,0 131,66 200,76 150,128 162,200 100,166 38,200 50,128 0,76 69,66'
+                />
                 <clipPath id='stars'>
                   <use xlinkHref='#star' />
                   <use xlinkHref='#star' x='20%' />
@@ -91,13 +116,19 @@ function RatingDetailLayout({
                   <use xlinkHref='#star' x='80%' />
                 </clipPath>
               </defs>
-              <rect className='w-full h-full fill-slate-300' clipPath='url(#stars)' />
-              {/* <rect width={tripRatingDetails?.TotalRating ||0 * 20 + '%'} className='fill-[#eab308] h-full' clipPath='url(#stars)' /> */}
-              <rect width={`${totalRating * 20}%`} className='fill-[#eab308] h-full' clipPath='url(#stars)' />
+              <rect
+                className='w-full h-full fill-slate-300'
+                clipPath='url(#stars)'
+              />
+              <rect
+                width={`${tripRatingDetails?.TotalRating * 20 || 0}%`}
+                className='fill-[#eab308] h-full'
+                clipPath='url(#stars)'
+              />
             </svg>
           </div>
         </div>
-        <div className='flex gap-3'>
+        <div className='flex gap-3' >
           {buttons.map((button) => (
             <Button
               key={button.value}
@@ -113,34 +144,46 @@ function RatingDetailLayout({
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <div className='text-center font-semibold mt-8'>Đã xảy ra lỗi trong quá trình tải, vui lòng thử lại sau!</div>
+        <div className='text-center font-semibold mt-8'>
+          Đã xảy ra lỗi trong quá trình tải, vui lòng thử lại sau!
+        </div>
       ) : tripRatingDetails && tripRatingDetails.Feedbacks.length > 0 ? (
-        <div className='h-[400px] overflow-y-auto'>
+        <div className='h-[400px] overflow-y-auto' ref={ratingLayoutRef}>
           {tripRatingDetails.Feedbacks.map((feedback, index) => (
             <RatingDetail feedback={feedback} key={index} />
           ))}
-          <div className='flex gap-2'>
-            <Button
+          <div className='flex gap-2 justify-center'>
+            <div
+              className={`text-primary ${
+                page === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+              }`}
               onClick={handlePreviousPage}
-              disabled={page === 1}
-              className='px-4 py-2 bg-gray-200 text-gray-500 hover:bg-gray-300'
             >
-              Previous
-            </Button>
-            <Button
+              <Tooltip title='Trước' color='orange'>
+                <ChevronsLeft />
+              </Tooltip>
+            </div>
+            <div
+              className={`text-primary ${
+                page === tripRatingDetails.TotalPage
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'cursor-pointer'
+              }`}
               onClick={handleNextPage}
-              disabled={page === tripRatingDetails.TotalPage}
-              className='px-4 py-2 bg-gray-200 text-gray-500 hover:bg-gray-300'
             >
-              Next
-            </Button>
+              <Tooltip title='Tiếp' color='orange'>
+                <ChevronsRight />
+              </Tooltip>
+            </div>
           </div>
         </div>
       ) : (
-        <div className='text-center font-semibold mt-8'>Không có đánh giá cho chuyến xe này</div>
+        <div className='text-center font-semibold mt-8'>
+          Không có đánh giá cho chuyến xe này
+        </div>
       )}
     </div>
-  )
+  );
 }
 
-export default RatingDetailLayout
+export default RatingDetailLayout;
