@@ -10,8 +10,8 @@ import { useEffect, useState } from 'react'
 import LogoIcon from '@/assets/LogoMini.png'
 import { useAuth } from '@/auth/AuthProvider'
 import Loading from '@/components/local/login/Loading'
-import {auth, provider} from"../../../services/configFirebase"
-import {signInWithPopup} from "firebase/auth"
+import { auth, provider } from '../../../services/configFirebase'
+import { signInWithPopup } from 'firebase/auth'
 import { Shell } from 'lucide-react'
 import { useGoogleLogin } from '@react-oauth/google'
 import googleIcon from '@/assets/google.svg'
@@ -20,7 +20,7 @@ type FormLoginProps = {
   reset: boolean
 }
 function FormLogin({ reset }: FormLoginProps) {
-  const { login,loginWithGG,loadingGG, loading } = useAuth()
+  const { login, loginWithGG, loadingGG, loading } = useAuth()
   const [isLoggingGoogle, setIsLoggingGoogle] = useState(false)
 
   const formLogin = useForm<z.infer<typeof loginSchema>>({
@@ -43,13 +43,12 @@ function FormLogin({ reset }: FormLoginProps) {
       console.error('Login failed:', error)
     }
   }
- 
+
   const loginGG = useGoogleLogin({
     onSuccess: (tokenResponse) => loginWithGG(tokenResponse.access_token)
   })
   return (
     <Form {...formLogin}>
-     
       <form
         onSubmit={formLogin.handleSubmit(onSubmitLogin)}
         className='flex items-center px-10 justify-center gap-5 flex-col h-full text-center shadow-xl mr-20 '
@@ -86,9 +85,9 @@ function FormLogin({ reset }: FormLoginProps) {
             </FormItem>
           )}
         />
-        
+
         <Button type='submit' disabled={loading} className='w-2/3'>
-        {loading && <Loading />} Đăng nhập
+          {loading && <Loading />} Đăng nhập
         </Button>
         <div className='relative w-2/3'>
           <div className='absolute inset-0 flex items-center'>
@@ -103,8 +102,7 @@ function FormLogin({ reset }: FormLoginProps) {
           Đăng nhập bằng google
           {loadingGG && <Shell className='w-4 h-4 ml-1 animate-spin' />}
         </Button>
-      <div>
-      </div>
+        <div></div>
       </form>
     </Form>
   )
