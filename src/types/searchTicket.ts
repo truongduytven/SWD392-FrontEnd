@@ -2,6 +2,8 @@
  interface Station {
     ServiceName: string;
     Price: number;
+    Quantity:number,
+    StationName:string
   }
   
   interface Trip {

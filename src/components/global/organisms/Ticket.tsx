@@ -2,7 +2,9 @@ import { formatPrice } from "@/lib/utils"
 
 interface Station {
   ServiceName: string
-  Price: number
+  Price: number,
+  Quantity:number,
+  StationName:string
 }
 
 interface Trip {
@@ -55,7 +57,7 @@ const data = [
 ]
 function Ticket({ Price, Trip, TotalBill, QrCode, QrCodeImage }: TicketProps) {
   return (
-    <div className='flex flex-col items-center justify-center text-sm '>
+    <div className=' flex flex-col items-center justify-center text-sm '>
       <h1 className='text-3xl font-bold mb-4'>Tra cứu vé thành công</h1>
 
       <div className='flex bg-white shadow-lg rounded-lg border'>
@@ -70,16 +72,16 @@ function Ticket({ Price, Trip, TotalBill, QrCode, QrCodeImage }: TicketProps) {
             </div>
 
             {Price.Services.map((service, index) => (
-              <div className='flex justify-between text-md gap-2' key={index}>
-                <span className='text-gray-500 mt-6 whitespace-nowrap'>{`${service.ServiceName}`}</span>
-                <span className='font-bold text-orange-500 mt-6 whitespace-nowrap'>{`${formatPrice(service.Price)}`}</span>
-                <span className='italic font-semibold mt-6  whitespace-nowrap'>{`Trạm${index + 1}`}</span>
+              <div className='flex justify-between text-md gap-2  max-w-full overflow-hidden' key={index}>
+                <span className='text-gray-500 mt-6  whitespace-nowrap overflow-hidden text-ellipsis'>{`${service.ServiceName}`} <strong className="text-black">(x{service.Quantity})</strong></span>
+                <span className='font-bold text-orange-500 mt-6  whitespace-nowrap overflow-hidden text-ellipsis'>{`${formatPrice(service.Price)}`}</span>
+                <span className='italic font-semibold mt-6  whitespace-nowrap overflow-hidden text-ellipsis'>{service.StationName}</span>
               </div>
              
 
             ))}
           </div>
-          <div className='flex flex-col gap-2 items-center p-7 justify-between  text-center space-y-2'>
+          <div className='flex flex-col gap-2 items-center p-7 justify-between  text-center space-y-2 min-w-72'>
             <p className='border-t text-lg border-b border-gray-400 py-2 font-bold text-orange-500'>THE BUS JOURNEY</p>
             <h3 className='text-lg font-medium'>{Trip.UserName}</h3>
             <h4 className='text-md'>
