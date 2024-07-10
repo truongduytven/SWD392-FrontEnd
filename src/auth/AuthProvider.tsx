@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import busAPI from '@/lib/busAPI'
 import { toast } from 'sonner'
 import { useInvoice } from '@/contexts/InvoiceContext'
+import { set } from 'lodash'
 // Define the shape of our AuthContext
 interface AuthContextType {
   token: string | null
@@ -171,6 +172,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         console.log('check verified', error.response.data.verified)
         setErrorMessage(message)
       } else {
+        setLoading(false)
+        toast.error('Đăng nhập lỗi. Vui lòng thử lại')
         console.error('Login failed:', error)
       }
     } finally {
