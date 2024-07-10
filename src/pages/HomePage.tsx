@@ -30,7 +30,7 @@ function HomePage() {
   }
 
   return (
-    <div>
+    <div className='overflow-hidden'>
       <div className='h-[600px]'>
         <Car autoplay autoplaySpeed={2000} className='h-full w-screen'>
           <img style={contentStyle} className='h-[650px] object-cover w-screen' src={Banner} alt='banner' />

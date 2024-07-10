@@ -19,7 +19,7 @@ function ModalDetail({ ticketDetailID }: ModalDetailProps) {
     return <div>Đã xảy ra lỗi trong quá trình tải. Vui lòng thử lại sau</div>
   }
   return (
-    <div className='ribbondetail my-4 p-6 shadow-md rounded-md ring-1 ring-black ring-opacity-5 w-[350px]'>
+    <div className='ribbondetail my-4 p-6 shadow-md rounded-md ring-1 ring-black ring-opacity-5 w-fit'>
       <div className='flex justify-between items-center mb-4'>
         <h1 className='text-lg font-bold text-primary'>{data?.CompanyName}</h1>
         {/* <div className='text-lg font-bold'>{data?.qrCode}</div> */}
@@ -68,9 +68,27 @@ function ModalDetail({ ticketDetailID }: ModalDetailProps) {
         </div>
       </div>
       <hr className='my-3 border-t-2 border-orange-200' />
-      <div className='text-sm'>
+      <div className='text-sm '>
         <p className='font-semibold mb-1 text-primary'>Dịch vụ:</p>
-        <ul>
+        {data?.ServiceDetailList && data.ServiceDetailList.length > 0 ? (
+          <ul>
+            {data.ServiceDetailList.map((service, index) => (
+              <li key={index} className='flex justify-between gap-2 items-center'>
+                <span className='whitespace-nowrap'>
+                  {service.ServiceName} (x{service.Quantity})
+                </span>
+                <span className='font-medium'>{service.ServicePrice.toLocaleString()}đ</span>
+                <span className='whitespace-nowrap'>{service.ServiceInStation}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className='flex justify-between'>
+          <div className='font-medium'>Không có dịch vụ</div>
+          <div className='font-medium'>0đ</div>
+            </div>
+        )}
+        {/* <ul>
           {data?.ServiceDetailList.map((service, index) => (
             <li key={index} className='flex justify-between gap-2 items-center'>
               <span className='whitespace-nowrap'>
@@ -79,8 +97,8 @@ function ModalDetail({ ticketDetailID }: ModalDetailProps) {
               <span className='font-medium'>{service.ServicePrice.toLocaleString()}đ</span>
               <span className='whitespace-nowrap'>{service.ServiceInStation}</span>
             </li>
-          ))}
-        </ul>
+          )) }
+        </ul> */}
       </div>
       <div className='flex flex-col justify-center items-center mt-4'>
         <img src={data?.QrCodeImage} alt='QR Code' className='w-24 h-24' />
