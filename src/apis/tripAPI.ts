@@ -117,7 +117,7 @@ export const useGetPopularTrip = () => {
   return useQuery<IPopularTrip[]>({
     queryKey: ['popularTrip'],
     queryFn: async () => {
-      const { data } = await busAPI.get<IPopularTrip[]>(`/trip-management/manage-trips/populars`);
+      const { data } = await busAPI.get<IPopularTrip[]>(`/route-management/managed-routes/popular`);
       return data;
     }
   });
