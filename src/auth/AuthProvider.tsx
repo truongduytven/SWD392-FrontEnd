@@ -193,13 +193,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       toast.success('Đăng nhập thành công')
       navigate(-1)
       setLoadingGG(false)
+      setLoading(false)
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         console.log(error)
         localStorage.removeItem('token')
-
         toast.error('Lỗi đăng nhập')
-      setLoadingGG(false)
+        setLoadingGG(false)
 
       }
     } finally {
