@@ -1,8 +1,9 @@
 import React from 'react'
 import { Atom } from 'lucide-react';
 import Loader from './Loader';
+import { Utility } from '@/components/global/organisms/CardTrip';
 interface UtilityTabProps {
-    tripUtilityDetails:[]
+    tripUtilityDetails: Utility[] | undefined
     isLoading: boolean
     error: any
   }
@@ -33,10 +34,10 @@ function UtilitiesTab({ tripUtilityDetails, isLoading, error }: UtilityTabProps)
         <p className='text-center font-semibold mt-8'>Đã xảy ra lỗi trong quá trình tải, vui lòng thử lại sau!</p>
       ) : tripUtilityDetails && tripUtilityDetails.length > 0 ? (
         <div className='space-y-4 px-10 py-4 rounded-md bg-muted'>
-        {utily.map((ut, index) => (
+        {tripUtilityDetails.filter((utily) => utily.Status === "HOẠT ĐỘNG").map((ut, index) => (
           <div key={index} className='bg-white rounded-lg drop-shadow-md p-4'>
-            <h2 className='font-semibold text-primary flex justify-start items-center gap-2'><Atom width={24}/>{ut.name}</h2>
-            <p className='text-gray-700'>{ut.description}</p>
+            <h2 className='font-semibold text-primary flex justify-start items-center gap-2'><Atom width={24}/>{ut.Name}</h2>
+            <p className='text-gray-700'>{ut.Description}</p>
           </div>
         ))}
       </div>

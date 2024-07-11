@@ -17,6 +17,11 @@ import { useInvoice } from '@/contexts/InvoiceContext'
 interface ITripDataProps {
   data: ITripData
 }
+export type Utility = {
+  Name: string
+  Description: string
+  Status: string
+}
 
 function CardTrip({ data }: ITripDataProps) {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -41,7 +46,7 @@ function CardTrip({ data }: ITripDataProps) {
     return data
   }
   const fetchTripUtilitDetails = async (tripId: string) => {
-    const { data } = await busAPI.get(`/trip-management/managed-trips/${tripId}/utilities`)
+    const { data } = await busAPI.get<Utility[]>(`/trip-management/managed-trips/${tripId}/utilities`)
     return data
   }
   const fetchTripRouteDetails = async (tripId: string, comapnyId: string) => {
