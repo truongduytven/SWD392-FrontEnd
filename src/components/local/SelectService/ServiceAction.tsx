@@ -20,7 +20,7 @@ function ServiceAction({ onStationSelect, onKeyChange }: ServiceActionProps) {
   
   const searchInputRef = useRef<HTMLInputElement>(null)
   const { invoiceData } = useInvoice()
-  const { data } = useStationData({ routeID: invoiceData.routeID })
+  const { data } = useStationData({ routeID: invoiceData.routeID, companyID: invoiceData.companyID })
   const handleKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onKeyChange(event.target.value)
     if (searchInputRef.current) {

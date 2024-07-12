@@ -38,11 +38,11 @@ export interface ITripSearchData {
 }
 
 export type IPopularTrip = {
-    TripId: string,
-    FromCityId: string,
+    RouteID: string,
+    FromCityID: string,
     FromCity: string,
-    ToCityId: string,
+    ToCityID: string,
     ToCity: string,
-    PriceFrom: number,
+    TotalBooking: number,
     ImageUrl: string[],
 }

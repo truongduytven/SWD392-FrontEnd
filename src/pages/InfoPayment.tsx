@@ -34,7 +34,7 @@ function InfoPayment() {
   const [paymentMethod, setPaymentMethod] = useState('VNPay')
   const { user } = useAuth()
 
-
+  console.log(invoiceData)
   useEffect(() => {
     if (user) {
       setInfoData({
