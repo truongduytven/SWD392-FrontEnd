@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import busAPI from '@/lib/busAPI'
 import { toast } from 'sonner'
 import { useInvoice } from '@/contexts/InvoiceContext'
+import { set } from 'lodash'
 // Define the shape of our AuthContext
 interface AuthContextType {
   token: string | null
@@ -171,6 +172,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         console.log('check verified', error.response.data.verified)
         setErrorMessage(message)
       } else {
+        setLoading(false)
+        toast.error('Đăng nhập lỗi. Vui lòng thử lại')
         console.error('Login failed:', error)
       }
     } finally {
@@ -190,18 +193,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       toast.success('Đăng nhập thành công')
       navigate(-1)
       setLoadingGG(false)
+      setLoading(false)
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         console.log(error)
         localStorage.removeItem('token')
-
         toast.error('Lỗi đăng nhập')
-      setLoadingGG(false)
+        setLoadingGG(false)
 
       }
     } finally {
       setLoadingGG(false)
-
+      
     }
   }
 

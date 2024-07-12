@@ -7,7 +7,8 @@ import ChooseSeatCode from '@/components/local/SelectTicket/ChooseSeatCode'
 import InvoiceDetail from '@/components/local/SelectTicket/InvoiceDetail'
 import { useInvoice } from '@/contexts/InvoiceContext'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import OOPS from '@/assets/oops.jpg'
 
 function SelectTicket() {
   const { invoiceData, updateInvoiceData, resetInvoiceData } = useInvoice()
@@ -54,10 +55,11 @@ function SelectTicket() {
           <div className='flex justify-center items-center w-full h-fit'>
             <Loading />
           </div>
-        ) : (
+        ) : data ? (
           <div className='flex justify-evenly'>
-            <div className='border w-7/12 rounded-xl shadow-md'>{data ?
-            <ChooseSeatCode data={data} /> : <div className='flex justify-center mt-10 text-2xl'>Không có dữ liệu về vé của chuyến này</div>}</div>
+            <div className='border w-7/12 rounded-xl shadow-md'>
+              <ChooseSeatCode data={data} />
+            </div>
             <div className='flex flex-col space-y-10 w-4/12'>
               <InvoiceDetail />
               <div className='flex justify-end'>
@@ -70,6 +72,17 @@ function SelectTicket() {
                   <ArrowRight className='ml-1 scale-75' />
                 </Button>
               </div>
+            </div>
+          </div>
+        ) : (
+          <div className='w-full flex justify-center items-center mb-8'>
+            <div className='flex flex-col items-center'>
+              <img src={OOPS} className='w-[450px] h-[450px]' />
+              <div className='text-2xl font-medium'>Có vẻ như bạn chưa chọn ghế</div>
+              <p className='text-lg mt-4'>Vui lòng chọn chuyến trước khi muốn chọn dịch vụ</p>
+              <Link to='/search' className='underline hover:text-primary font-medium text-xl mt-8'>
+                Quay lại trang chọn chuyến
+              </Link>
             </div>
           </div>
         )}

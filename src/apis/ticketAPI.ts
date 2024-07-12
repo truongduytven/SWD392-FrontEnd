@@ -29,6 +29,7 @@ export const useStationData = ({ routeID, companyID }: getStationData) => {
       queryKey: ['StationData'], // Provide queryKey as an array
       queryFn: async () => {
         const { data } = await busAPI.get<IStations[]>(`/station-management/managed-stations/routes/${routeID}/companyID/${companyID}`);
+        console.log(routeID, companyID, data)
         return data;
       },
       enabled: !!routeID,
