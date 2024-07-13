@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '../atoms/button'
 import FormLogin from '../organisms/FormLogin'
 import FormSignUp from '../organisms/FormSignUp'
