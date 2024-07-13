@@ -94,3 +94,21 @@ export function isWithin12Hours(dateString: string, timeString: string): boolean
   return diffInHours < 12;
 }
 
+export function isExactly30MinutesBefore(startTime: string): boolean {
+  // Parse the startTime string
+  const [startHour, startMinute] = startTime.split(':').map(Number);
+
+  // Create a Date object for the current time
+  const now = new Date();
+
+  // Create a Date object for the startTime on the current day
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHour, startMinute);
+
+  // Calculate the time exactly 30 minutes before the start time
+  const time30MinutesBefore = new Date(start.getTime() - 30 * 60 * 1000);
+
+  // Compare the current time with the time exactly 30 minutes before start time
+  return now.getHours() === time30MinutesBefore.getHours() &&
+         now.getMinutes() === time30MinutesBefore.getMinutes();
+}// Will print true or false based on current time
+

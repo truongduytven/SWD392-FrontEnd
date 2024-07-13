@@ -78,7 +78,7 @@ function SelectService() {
                               </p>
                             </div>
                           </div>
-                          <div className='flex flex-col items-end space-y-2'>
+                          <div className='flex flex-col items-end space-y-2 pr-2'>
                             <span>
                               Số ghế: <span className='font-bold'>{ticket.seatCode}</span>
                             </span>

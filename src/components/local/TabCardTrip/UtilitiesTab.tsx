@@ -1,4 +1,3 @@
-import React from 'react'
 import { Atom } from 'lucide-react';
 import Loader from './Loader';
 import { Utility } from '@/components/global/organisms/CardTrip';
@@ -7,24 +6,24 @@ interface UtilityTabProps {
     isLoading: boolean
     error: any
   }
-const utily = [
-    {
-      name: 'Wi-Fi miễn phí',
-      status: 'ACTIVE',
-      description: 'Xe cung cấp dịch vụ Wi-Fi miễn phí để hành khách có thể sử dụng internet trong suốt chuyến đi'
-    },
-    {
-      name: 'Chăn',
-      status: 'ACTIVE',
-      description:
-        'Xe cung cấp chăn để hành khách có thể giữ ấm trong suốt hành trình, đặc biệt là vào ban đêm hoặc khi điều hòa nhiệt độ lạnh.'
-    },
-    {
-      name: 'Wi-Fi miễn phí',
-      status: 'ACTIVE',
-      description: 'Xe cung cấp dịch vụ Wi-Fi miễn phí để hành khách có thể sử dụng internet trong suốt chuyến đi'
-    }
-  ]
+// const utily = [
+//     {
+//       name: 'Wi-Fi miễn phí',
+//       status: 'ACTIVE',
+//       description: 'Xe cung cấp dịch vụ Wi-Fi miễn phí để hành khách có thể sử dụng internet trong suốt chuyến đi'
+//     },
+//     {
+//       name: 'Chăn',
+//       status: 'ACTIVE',
+//       description:
+//         'Xe cung cấp chăn để hành khách có thể giữ ấm trong suốt hành trình, đặc biệt là vào ban đêm hoặc khi điều hòa nhiệt độ lạnh.'
+//     },
+//     {
+//       name: 'Wi-Fi miễn phí',
+//       status: 'ACTIVE',
+//       description: 'Xe cung cấp dịch vụ Wi-Fi miễn phí để hành khách có thể sử dụng internet trong suốt chuyến đi'
+//     }
+//   ]
 function UtilitiesTab({ tripUtilityDetails, isLoading, error }: UtilityTabProps) {
   return (
     <div>

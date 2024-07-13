@@ -314,31 +314,31 @@ function InfoPayment() {
           <div className='flex justify-center space-x-10'>
             <div className='border w-4/12 h-fit rounded-xl shadow-md p-5 flex flex-col space-y-4'>
               <div className='grid w-full max-w-sm items-center gap-1.5'>
-                <Label htmlFor='name'>Tên người đi</Label>
+                <Label htmlFor='name'>Tên người đi<span className='text-red-500'>*</span></Label>
                 <Input
                   value={infoData.username}
                   onChange={handleChange}
                   type='text'
                   id='username'
-                  placeholder='Nhập tên người đi*'
+                  placeholder='Nhập tên người đi'
                   required
                 />
                 {errors.username && <span className='text-red-500 text-sm'>{errors.username}</span>}
               </div>
               <div className='grid w-full max-w-sm items-center gap-1.5'>
-                <Label htmlFor='phoneNumber'>Số điện thoại</Label>
+                <Label htmlFor='phoneNumber'>Số điện thoại<span className='text-red-500'>*</span></Label>
                 <Input
                   value={infoData.phoneNumber}
                   onChange={handleChange}
                   type='tel'
                   id='phoneNumber'
-                  placeholder='Nhập số điện thoại*'
+                  placeholder='Nhập số điện thoại'
                   required
                 />
                 {errors.phoneNumber && <span className='text-red-500 text-sm'>{errors.phoneNumber}</span>}
               </div>
               <div className='grid w-full max-w-sm items-center gap-1.5'>
-                <Label htmlFor='email'>Email</Label>
+                <Label htmlFor='email'>Email<span className='text-red-500'>*</span></Label>
                 <Input
                   value={infoData.email}
                   onChange={handleChange}
