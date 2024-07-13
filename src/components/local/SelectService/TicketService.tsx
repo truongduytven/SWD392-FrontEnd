@@ -127,7 +127,7 @@ function TicketService({ services, seatCode }: ticket) {
               </AlertDialogTitle>
             </AlertDialogHeader>
             <ServiceAction onKeyChange={handleKeyChange} onStationSelect={handleClickSelectService} />
-            {isServiceSelected && servicesData && servicesData?.length > 0 && (
+            {isServiceSelected && servicesData && servicesData?.length > 0 ? (
               <Tabs defaultValue={servicesData?.[0].ServiceTypeID} className='w-full mt-4'>
                 <TabsList>
                   {servicesData?.map((items, index) => (
@@ -147,6 +147,8 @@ function TicketService({ services, seatCode }: ticket) {
                   </TabsContent>
                 ))}
               </Tabs>
+            ) : (
+              <div className='text-center text-gray-500 mt-10'>Không có dịch vụ nào tại trạm này</div>
             )}
           </div>
           <div className='w-4/12 flex flex-col border-l-2 p-2'>

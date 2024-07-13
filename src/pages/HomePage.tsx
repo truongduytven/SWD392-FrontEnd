@@ -50,7 +50,7 @@ function HomePage() {
         <CriteriaTags />
       </div>
       <div className='w-full flex flex-col justify-center items-center mt-20 mb-10'>
-        <div className='uppercase text-3xl font-bold text-primary'>Chuyến đi phổ biến</div>
+        <div className='uppercase text-3xl font-bold text-primary'>Tuyến đường phổ biến</div>
         {isLoading ? (
           <div className='my-20'>
             <Loading />
@@ -61,7 +61,7 @@ function HomePage() {
             opts={{
               align: 'start'
             }}
-            className='w-full max-w-6xl'
+            className='w-full max-w-6xl mt-10'
           >
             <CarouselContent>
               {popularTripData &&
@@ -70,7 +70,7 @@ function HomePage() {
                     key={index}
                     className='md:basis-1/2 lg:basis-1/3 hover:scale-110 transform scale-100 transition duration-200'
                   >
-                    <div className='p-10'>
+                    <div className='p-5'>
                       <PopularTrip data={item} />
                     </div>
                   </CarouselItem>

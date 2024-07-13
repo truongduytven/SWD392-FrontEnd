@@ -1,7 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/global/atoms/accordion'
 import ImageTab from '@/components/local/TabCardTrip/ImageTab'
 import busAPI from '@/lib/busAPI'
-import { calculateDuration, formatPrice } from '@/lib/utils'
+import { calculateDuration, formatPrice, isExactly30MinutesBefore } from '@/lib/utils'
 import { ITripData } from '@/types/tripInterface'
 import { useQuery } from '@tanstack/react-query'
 import { Star } from 'lucide-react'
@@ -24,7 +24,7 @@ export type Utility = {
 }
 
 function CardTrip({ data }: ITripDataProps) {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   
   const pageNumber = parseInt(searchParams.get('pageNumber') || '1')
   const [pageNumberRating, setPageNumberRating] = useState<number>(1)
@@ -200,7 +200,7 @@ function CardTrip({ data }: ITripDataProps) {
               </div>
               <div className='flex flex-col justify-end items-center gap-3'>
                 <p>Còn trống {data.EmptySeat} chỗ</p>
-                <Button onClick={handleSubmit}>Chọn chuyến</Button>
+                <Button disabled={isExactly30MinutesBefore(data.StartTime)} onClick={handleSubmit}>Chọn chuyến</Button>
               </div>
             </div>
           </div>
