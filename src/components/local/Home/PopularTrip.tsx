@@ -68,7 +68,7 @@ function PopularTrip({ data }: PopularTripProps) {
             Chuyến đi từ <span className="font-bold">"{data.FromCity}"</span>
           </span>
           <span>
-            Đến <span className="font-semibold">{data.ToCity}</span>
+            Đến <span className="font-semibold">"{data.ToCity}"</span>
           </span>
           <span>
             Lượt đặt vé <span className="font-semibold">{data.TotalBooking}</span>

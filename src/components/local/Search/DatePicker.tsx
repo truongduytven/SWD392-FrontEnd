@@ -35,7 +35,7 @@ export function DatePicker({ initialDate, onChange }: DatePickerProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0'>
-        <Calendar mode='single' selected={date} onSelect={handleSelect} initialFocus  />
+        <Calendar fromDate={new Date()} mode='single' selected={date} onSelect={handleSelect} initialFocus  />
       </PopoverContent>
     </Popover>
   )
